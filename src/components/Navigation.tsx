@@ -61,7 +61,7 @@ export function Navigation() {
               </motion.div>
               <div className="hidden sm:block">
                 <span className="font-display font-bold text-lg block leading-tight">
-                  Le Compagnon <span className="text-destructive">.Virtuel</span>
+                  Le Compagnon <span className="text-destructive">Virtuel.</span>
                 </span>
                 <span className="text-xs text-muted-foreground">Agence Digitale</span>
               </div>
