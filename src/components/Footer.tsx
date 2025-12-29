@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Facebook } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const footerLinks = {
   services: [
@@ -27,116 +29,155 @@ const socialLinks = [
   { name: "LinkedIn", icon: Linkedin, href: "#" },
   { name: "Twitter", icon: Twitter, href: "#" },
   { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "Facebook", icon: Facebook, href: "#" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background/80">
-      <div className="container-wide section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-lg">
-                CV
-              </div>
-              <span className="font-display font-semibold text-lg text-background">
-                Le Compagnon Virtuel
-              </span>
-            </Link>
-            <p className="text-background/60 text-sm leading-relaxed mb-6">
-              Votre partenaire digital pour concevoir, automatiser et faire croître des écosystèmes digitaux performants.
-            </p>
-            <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  className="w-10 h-10 rounded-lg bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-                  aria-label={social.name}
-                >
-                  <social.icon size={18} />
-                </a>
-              ))}
+    <footer className="relative overflow-hidden">
+      {/* Newsletter Section */}
+      <div className="bg-card border-t border-border">
+        <div className="container-wide py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col lg:flex-row items-center justify-between gap-8 p-8 rounded-3xl bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border border-border/50"
+          >
+            <div className="text-center lg:text-left">
+              <h3 className="font-display font-bold text-2xl mb-2">Prêt à transformer votre digital ?</h3>
+              <p className="text-muted-foreground">Discutons de votre projet et trouvons la solution idéale.</p>
             </div>
-          </div>
+            <Button variant="hero" size="xl" asChild>
+              <Link to="/contact" className="group">
+                <Sparkles size={18} className="mr-2" />
+                Parlons de votre projet
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
+      </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="font-display font-semibold text-background mb-6">Services</h4>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-sm text-background/60 hover:text-primary transition-colors"
+      {/* Main Footer */}
+      <div className="bg-foreground text-background">
+        <div className="container-wide py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+            {/* Brand Column */}
+            <div className="lg:col-span-4">
+              <Link to="/" className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-xl shadow-glow">
+                  CV
+                </div>
+                <div>
+                  <span className="font-display font-bold text-lg text-background block">
+                    Le Compagnon Virtuel
+                  </span>
+                  <span className="text-xs text-background/50">Agence Digitale</span>
+                </div>
+              </Link>
+              <p className="text-background/60 text-sm leading-relaxed mb-6 max-w-xs">
+                Votre partenaire digital pour concevoir, automatiser et faire croître des écosystèmes digitaux performants.
+              </p>
+              <div className="flex gap-2">
+                {socialLinks.map((social) => (
+                  <motion.a
+                    key={social.name}
+                    href={social.href}
+                    className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                    aria-label={social.name}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+                    <social.icon size={18} />
+                  </motion.a>
+                ))}
+              </div>
+            </div>
 
-          {/* Company */}
-          <div>
-            <h4 className="font-display font-semibold text-background mb-6">Entreprise</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-sm text-background/60 hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Services */}
+            <div className="lg:col-span-2">
+              <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Services</h4>
+              <ul className="space-y-3">
+                {footerLinks.services.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.href}
+                      className="text-sm text-background/60 hover:text-primary transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="font-display font-semibold text-background mb-6">Contact</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Mail size={18} className="text-primary mt-0.5" />
-                <a href="mailto:contact@lecompagnonvirtuel.fr" className="text-sm text-background/60 hover:text-primary transition-colors">
-                  contact@lecompagnonvirtuel.fr
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone size={18} className="text-primary mt-0.5" />
-                <a href="tel:+33123456789" className="text-sm text-background/60 hover:text-primary transition-colors">
-                  +33 1 23 45 67 89
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-primary mt-0.5" />
-                <span className="text-sm text-background/60">
+            {/* Company */}
+            <div className="lg:col-span-2">
+              <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Entreprise</h4>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.href}
+                      className="text-sm text-background/60 hover:text-primary transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div className="lg:col-span-4">
+              <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Contact</h4>
+              <ul className="space-y-4">
+                <li>
+                  <a href="mailto:contact@lecompagnonvirtuel.fr" className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group">
+                    <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Mail size={16} className="text-primary" />
+                    </div>
+                    contact@lecompagnonvirtuel.fr
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+33123456789" className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group">
+                    <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Phone size={16} className="text-primary" />
+                    </div>
+                    +33 1 23 45 67 89
+                  </a>
+                </li>
+                <li className="flex items-center gap-3 text-sm text-background/60">
+                  <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center">
+                    <MapPin size={16} className="text-primary" />
+                  </div>
                   Paris, France
-                </span>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-background/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-background/40">
-            © {new Date().getFullYear()} Le Compagnon Virtuel. Tous droits réservés.
-          </p>
-          <div className="flex gap-6">
-            {footerLinks.legal.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className="text-sm text-background/40 hover:text-primary transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
+        <div className="border-t border-background/10">
+          <div className="container-wide py-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <p className="text-sm text-background/40">
+                © {new Date().getFullYear()} Le Compagnon Virtuel. Tous droits réservés.
+              </p>
+              <div className="flex gap-6">
+                {footerLinks.legal.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-sm text-background/40 hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
