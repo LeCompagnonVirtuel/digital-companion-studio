@@ -14,7 +14,7 @@ import {
   Bell
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/useAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/hooks/use-toast';
 
 interface AdminLayoutProps {
@@ -32,11 +32,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { logout } = useAdminAuth();
   const { toast } = useToast();
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSignOut = () => {
+    logout();
     toast({
       title: "Déconnexion réussie",
       description: "À bientôt !",
@@ -95,15 +95,13 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <div className="p-4 border-t border-border/50">
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-secondary/50">
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-primary font-semibold">
-                  {user?.email?.[0].toUpperCase() || 'A'}
-                </span>
+                <span className="text-primary font-semibold">A</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-foreground truncate">
-                  {user?.email || 'Admin'}
+                  Administrateur
                 </p>
-                <p className="text-xs text-muted-foreground">Administrateur</p>
+                <p className="text-xs text-muted-foreground">Accès complet</p>
               </div>
             </div>
 
