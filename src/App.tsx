@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
+import { Chatbot } from "@/components/Chatbot";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
@@ -23,6 +24,15 @@ import Settings from "./pages/admin/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Wrapper component to conditionally render chatbot
+function ChatbotWrapper() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/auth";
+  
+  if (isAdminRoute) return null;
+  return <Chatbot />;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -50,6 +60,7 @@ const App = () => (
             <Route path="/admin/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ChatbotWrapper />
         </BrowserRouter>
       </TooltipProvider>
     </AdminAuthProvider>
