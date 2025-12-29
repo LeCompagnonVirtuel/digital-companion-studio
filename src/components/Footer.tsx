@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Facebook, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import logoImage from "@/assets/logo.png";
 
 const footerLinks = {
@@ -26,13 +27,16 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { name: "LinkedIn", icon: Linkedin, href: "#" },
-  { name: "Twitter", icon: Twitter, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-];
-
 export function Footer() {
+  const { settings } = useSiteSettings();
+
+  const socialLinks = [
+    { name: "LinkedIn", icon: Linkedin, href: settings.social_links.linkedin || "#" },
+    { name: "Twitter", icon: Twitter, href: settings.social_links.twitter || "#" },
+    { name: "Instagram", icon: Instagram, href: settings.social_links.instagram || "#" },
+    { name: "Facebook", icon: Facebook, href: settings.social_links.facebook || "#" },
+  ].filter(link => link.href !== "#" || link.name === "LinkedIn" || link.name === "Twitter" || link.name === "Instagram");
+
   return (
     <footer className="relative overflow-hidden">
       {/* Newsletter Section */}
@@ -77,13 +81,15 @@ export function Footer() {
                 </div>
               </Link>
               <p className="text-background/60 text-sm leading-relaxed mb-6 max-w-xs">
-                Votre partenaire digital pour concevoir, automatiser et faire croître des écosystèmes digitaux performants.
+                {settings.site_description || "Votre partenaire digital pour concevoir, automatiser et faire croître des écosystèmes digitaux performants."}
               </p>
               <div className="flex gap-2">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.name}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                     aria-label={social.name}
                     whileHover={{ scale: 1.05 }}
@@ -134,27 +140,37 @@ export function Footer() {
               <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Contact</h4>
               <ul className="space-y-4">
                 <li>
-                  <a href="mailto:contact@lecompagnonvirtuel.fr" className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group">
+                  <a 
+                    href={`mailto:${settings.contact_email}`} 
+                    className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group"
+                  >
                     <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                       <Mail size={16} className="text-primary" />
                     </div>
-                    contact@lecompagnonvirtuel.fr
+                    {settings.contact_email}
                   </a>
                 </li>
-                <li>
-                  <a href="tel:+33123456789" className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group">
-                    <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Phone size={16} className="text-primary" />
+                {settings.business_info.phone && (
+                  <li>
+                    <a 
+                      href={`tel:${settings.business_info.phone.replace(/\s/g, '')}`} 
+                      className="flex items-center gap-3 text-sm text-background/60 hover:text-primary transition-colors group"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Phone size={16} className="text-primary" />
+                      </div>
+                      {settings.business_info.phone}
+                    </a>
+                  </li>
+                )}
+                {settings.business_info.address && (
+                  <li className="flex items-center gap-3 text-sm text-background/60">
+                    <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center">
+                      <MapPin size={16} className="text-primary" />
                     </div>
-                    +33 1 23 45 67 89
-                  </a>
-                </li>
-                <li className="flex items-center gap-3 text-sm text-background/60">
-                  <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center">
-                    <MapPin size={16} className="text-primary" />
-                  </div>
-                  Paris, France
-                </li>
+                    {settings.business_info.address}
+                  </li>
+                )}
               </ul>
             </div>
           </div>

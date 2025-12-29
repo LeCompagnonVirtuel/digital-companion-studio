@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
@@ -19,35 +20,9 @@ const contactSchema = z.object({
   message: z.string().trim().min(10, "Le message doit contenir au moins 10 caractères").max(2000),
 });
 
-const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email",
-    value: "contact@lecompagnonvirtuel.fr",
-    href: "mailto:contact@lecompagnonvirtuel.fr",
-  },
-  {
-    icon: Phone,
-    title: "Téléphone",
-    value: "+33 1 23 45 67 89",
-    href: "tel:+33123456789",
-  },
-  {
-    icon: MapPin,
-    title: "Adresse",
-    value: "Paris, France",
-    href: null,
-  },
-  {
-    icon: Clock,
-    title: "Horaires",
-    value: "Lun-Ven 9h-18h",
-    href: null,
-  },
-];
-
 const Contact = () => {
   const { toast } = useToast();
+  const { settings } = useSiteSettings();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
@@ -58,6 +33,33 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      title: "Email",
+      value: settings.contact_email,
+      href: `mailto:${settings.contact_email}`,
+    },
+    {
+      icon: Phone,
+      title: "Téléphone",
+      value: settings.business_info.phone || "+33 1 23 45 67 89",
+      href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : null,
+    },
+    {
+      icon: MapPin,
+      title: "Adresse",
+      value: settings.business_info.address || "Paris, France",
+      href: null,
+    },
+    {
+      icon: Clock,
+      title: "Horaires",
+      value: settings.business_info.hours || "Lun-Ven 9h-18h",
+      href: null,
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
