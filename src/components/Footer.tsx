@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assets/logo.png";
 
 const footerLinks = {
   services: [
@@ -65,8 +66,8 @@ export function Footer() {
             {/* Brand Column */}
             <div className="lg:col-span-4">
               <Link to="/" className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-xl shadow-glow">
-                  CV
+                <div className="w-12 h-12 rounded-xl overflow-hidden shadow-glow">
+                  <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <span className="font-display font-bold text-lg text-background block">
