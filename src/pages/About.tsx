@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
+import logoImage from "@/assets/logo.png";
 
 const values = [
   {
@@ -103,8 +104,8 @@ const About = () => {
                 <div className="aspect-square rounded-3xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 p-1">
                   <div className="w-full h-full rounded-[calc(1.5rem-4px)] bg-card flex items-center justify-center">
                     <div className="text-center p-8">
-                      <div className="w-32 h-32 rounded-3xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-5xl mx-auto mb-6 shadow-glow">
-                        CV
+                      <div className="w-32 h-32 rounded-3xl overflow-hidden mx-auto mb-6 shadow-glow">
+                        <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                       </div>
                       <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon Virtuel</h3>
                       <p className="text-muted-foreground">Depuis 2020</p>
