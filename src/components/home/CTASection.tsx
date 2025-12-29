@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle, Sparkles, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assets/logo.png";
 
 const benefits = [
   "Audit complet de votre présence digitale",
@@ -164,8 +165,8 @@ export function CTASection() {
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                       className="w-32 h-32 rounded-full border-2 border-dashed border-background/20"
                     />
-                    <div className="absolute w-20 h-20 rounded-2xl bg-background flex items-center justify-center shadow-elevated">
-                      <span className="font-display font-bold text-2xl gradient-text">CV</span>
+                    <div className="absolute w-20 h-20 rounded-2xl bg-background flex items-center justify-center shadow-elevated overflow-hidden">
+                      <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
