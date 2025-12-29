@@ -12,6 +12,10 @@ import Pricing from "./pages/Pricing";
 import Portfolio from "./pages/Portfolio";
 import Blog from "./pages/Blog";
 import Auth from "./pages/Auth";
+import Legal from "./pages/Legal";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Careers from "./pages/Careers";
 import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import Content from "./pages/admin/Content";
@@ -36,6 +40,10 @@ const App = () => (
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/legal" element={<Legal />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/careers" element={<Careers />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/leads" element={<Leads />} />
             <Route path="/admin/content" element={<Content />} />
