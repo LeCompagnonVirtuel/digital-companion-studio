@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assets/logo.png";
 
 const navLinks = [
   { name: "Accueil", href: "/" },
@@ -52,11 +53,11 @@ export function Navigation() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <motion.div 
-                className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-lg shadow-glow"
+                className="w-11 h-11 rounded-xl overflow-hidden shadow-glow"
                 whileHover={{ scale: 1.05, rotate: 3 }}
                 transition={{ duration: 0.2 }}
               >
-                CV
+                <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
               </motion.div>
               <div className="hidden sm:block">
                 <span className="font-display font-bold text-lg block leading-tight">
