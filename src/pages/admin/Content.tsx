@@ -3,10 +3,8 @@ import { motion } from 'framer-motion';
 import { 
   Save, 
   FileText, 
-  Image, 
   Layout,
   Star,
-  MessageSquare,
   RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -111,7 +109,7 @@ const Content = () => {
         .upsert(
           [{ 
             section, 
-            content: content as Record<string, unknown>,
+            content: JSON.parse(JSON.stringify(content)),
           }],
           { onConflict: 'section' }
         );
