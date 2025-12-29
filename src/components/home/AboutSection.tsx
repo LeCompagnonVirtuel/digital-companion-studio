@@ -137,7 +137,7 @@ export function AboutSection() {
                   >
                     <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                   </motion.div>
-                  <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon <span className="text-destructive">.Virtuel</span></h3>
+                  <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon <span className="text-destructive">Virtuel.</span></h3>
                   <p className="text-muted-foreground">Votre partenaire digital intelligent</p>
                   
                   {/* Floating Stats */}
