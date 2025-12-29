@@ -3,6 +3,10 @@ import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { StatsSection } from "@/components/home/StatsSection";
+import { TrustBadgesSection } from "@/components/home/TrustBadgesSection";
+import { ProcessSection } from "@/components/home/ProcessSection";
+import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { PricingSection } from "@/components/home/PricingSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { CTASection } from "@/components/home/CTASection";
@@ -13,8 +17,12 @@ const Index = () => {
       <Navigation />
       <main>
         <HeroSection />
+        <TrustBadgesSection />
         <StatsSection />
         <ServicesSection />
+        <ProcessSection />
+        <FeaturedProjectsSection />
+        <TestimonialsSection />
         <AboutSection />
         <PricingSection />
         <CTASection />
