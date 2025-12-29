@@ -6,6 +6,10 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 
+const AuthorName = () => (
+  <span>Équipe LCV<span className="text-destructive">.</span></span>
+);
+
 const blogPosts = [
   {
     slug: "tendances-marketing-digital-2024",
@@ -13,7 +17,6 @@ const blogPosts = [
     excerpt: "Découvrez les stratégies incontournables pour rester compétitif dans un paysage digital en constante évolution.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop",
     category: "Marketing",
-    author: "Équipe CV",
     date: "15 Mars 2024",
     readTime: "5 min",
   },
@@ -23,7 +26,6 @@ const blogPosts = [
     excerpt: "L'intelligence artificielle n'est plus réservée aux grandes entreprises. Voici comment en tirer parti.",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop",
     category: "Automatisation",
-    author: "Équipe CV",
     date: "10 Mars 2024",
     readTime: "7 min",
   },
@@ -33,7 +35,6 @@ const blogPosts = [
     excerpt: "Optimisez votre présence locale pour attirer des clients à proximité. Stratégies concrètes et actions immédiates.",
     image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop",
     category: "SEO",
-    author: "Équipe CV",
     date: "5 Mars 2024",
     readTime: "8 min",
   },
@@ -43,7 +44,6 @@ const blogPosts = [
     excerpt: "UX, copywriting, tunnel de vente : les leviers pour transformer vos visiteurs en clients fidèles.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
     category: "E-commerce",
-    author: "Équipe CV",
     date: "28 Février 2024",
     readTime: "6 min",
   },
@@ -53,7 +53,6 @@ const blogPosts = [
     excerpt: "De la stratégie de marque au design : comment se démarquer dans un marché saturé.",
     image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop",
     category: "Branding",
-    author: "Équipe CV",
     date: "20 Février 2024",
     readTime: "5 min",
   },
@@ -63,7 +62,6 @@ const blogPosts = [
     excerpt: "Disponibilité 24/7, réponses instantanées : comment un chatbot peut transformer l'expérience client.",
     image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=500&fit=crop",
     category: "Automatisation",
-    author: "Équipe CV",
     date: "15 Février 2024",
     readTime: "6 min",
   },
@@ -123,7 +121,7 @@ const Blog = () => {
                 <div className="flex items-center gap-6 text-background/60 text-sm">
                   <span className="flex items-center gap-2">
                     <User size={16} />
-                    {blogPosts[0].author}
+                    <AuthorName />
                   </span>
                   <span className="flex items-center gap-2">
                     <Calendar size={16} />

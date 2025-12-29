@@ -129,15 +129,15 @@ export function CTASection() {
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 4, repeat: Infinity }}
-                    className="absolute -top-8 right-0 p-4 rounded-xl bg-background/10 backdrop-blur-sm border border-background/20"
+                    className="absolute -top-4 -right-8 p-4 rounded-2xl bg-card/95 backdrop-blur-md border border-border shadow-elevated z-10"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold">
+                      <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold text-sm">
                         +200%
                       </div>
-                      <div className="text-background text-sm">
+                      <div className="text-foreground text-sm">
                         <div className="font-semibold">Conversion</div>
-                        <div className="text-background/60 text-xs">Moyenne clients</div>
+                        <div className="text-muted-foreground text-xs">Moyenne clients</div>
                       </div>
                     </div>
                   </motion.div>
@@ -145,15 +145,15 @@ export function CTASection() {
                   <motion.div
                     animate={{ y: [0, 10, 0] }}
                     transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                    className="absolute bottom-0 left-0 p-4 rounded-xl bg-background/10 backdrop-blur-sm border border-background/20"
+                    className="absolute -bottom-4 -left-8 p-4 rounded-2xl bg-card/95 backdrop-blur-md border border-border shadow-elevated z-10"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
+                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
                         24h
                       </div>
-                      <div className="text-background text-sm">
+                      <div className="text-foreground text-sm">
                         <div className="font-semibold">Réponse rapide</div>
-                        <div className="text-background/60 text-xs">Toujours disponible</div>
+                        <div className="text-muted-foreground text-xs">Toujours disponible</div>
                       </div>
                     </div>
                   </motion.div>
