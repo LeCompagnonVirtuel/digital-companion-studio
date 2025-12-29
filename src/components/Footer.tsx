@@ -71,7 +71,7 @@ export function Footer() {
                 </div>
                 <div>
                   <span className="font-display font-bold text-lg text-background block">
-                    Le Compagnon Virtuel
+                    Le Compagnon <span className="text-destructive">.Virtuel</span>
                   </span>
                   <span className="text-xs text-background/50">Agence Digitale</span>
                 </div>
@@ -165,7 +165,7 @@ export function Footer() {
           <div className="container-wide py-6">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-sm text-background/40">
-                © {new Date().getFullYear()} Le Compagnon Virtuel. Tous droits réservés.
+                © {new Date().getFullYear()} Le Compagnon <span className="text-destructive">.Virtuel</span> — Tous droits réservés.
               </p>
               <div className="flex gap-6">
                 {footerLinks.legal.map((link) => (

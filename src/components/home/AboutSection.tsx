@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Award, Zap, Heart, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@/assets/logo.png";
 
 const benefits = [
   "Expertise full-stack complète",
@@ -119,7 +120,7 @@ export function AboutSection() {
                 
                 <div className="text-center p-8 relative z-10">
                   <motion.div 
-                    className="w-28 h-28 rounded-3xl bg-primary flex items-center justify-center text-primary-foreground font-display font-bold text-4xl mx-auto mb-6"
+                    className="w-28 h-28 rounded-3xl overflow-hidden mx-auto mb-6"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     animate={{ 
                       boxShadow: [
@@ -134,9 +135,9 @@ export function AboutSection() {
                       rotate: { duration: 0.3 },
                     }}
                   >
-                    CV
+                    <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                   </motion.div>
-                  <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon Virtuel</h3>
+                  <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon <span className="text-destructive">.Virtuel</span></h3>
                   <p className="text-muted-foreground">Votre partenaire digital intelligent</p>
                   
                   {/* Floating Stats */}

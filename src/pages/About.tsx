@@ -107,7 +107,7 @@ const About = () => {
                       <div className="w-32 h-32 rounded-3xl overflow-hidden mx-auto mb-6 shadow-glow">
                         <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
                       </div>
-                      <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon Virtuel</h3>
+                      <h3 className="font-display font-bold text-2xl mb-2">Le Compagnon <span className="text-destructive">.Virtuel</span></h3>
                       <p className="text-muted-foreground">Depuis 2020</p>
                     </div>
                   </div>
