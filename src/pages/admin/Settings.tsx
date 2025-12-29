@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   User, 
   Bell, 
   Shield, 
-  Palette,
+  Globe,
+  Building2,
   Mail,
   Save,
-  Key
+  Key,
+  Phone,
+  MapPin,
+  Clock,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter,
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,113 +25,205 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { Skeleton } from '@/components/ui/skeleton';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
-import { useAuth } from '@/hooks/useAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { useAdminSettings } from '@/hooks/useAdminSettings';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const Settings = () => {
-  const { user } = useAuth();
   const { toast } = useToast();
+  const { settings, isLoading, isSaving, updateSetting, updateSettings } = useAdminSettings();
   
+  // Local state for form fields
+  const [siteName, setSiteName] = useState('');
+  const [siteDescription, setSiteDescription] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
   const [notifications, setNotifications] = useState({
     newLeads: true,
     weeklyReport: true,
     marketingEmails: false,
   });
-  
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: '',
+    instagram: '',
+    linkedin: '',
+    twitter: '',
+  });
+  const [businessInfo, setBusinessInfo] = useState({
+    phone: '',
+    address: '',
+    hours: '',
+  });
 
-  const handlePasswordChange = async () => {
-    if (newPassword !== confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Les mots de passe ne correspondent pas",
-      });
-      return;
+  // Sync local state with settings from database
+  useEffect(() => {
+    if (!isLoading) {
+      setSiteName(settings.site_name);
+      setSiteDescription(settings.site_description);
+      setContactEmail(settings.contact_email);
+      setNotifications(settings.notifications);
+      setSocialLinks(settings.social_links);
+      setBusinessInfo(settings.business_info);
     }
+  }, [settings, isLoading]);
 
-    if (newPassword.length < 6) {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Le mot de passe doit contenir au moins 6 caractères",
-      });
-      return;
-    }
-
-    setIsUpdating(true);
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Mot de passe mis à jour",
-        description: "Votre mot de passe a été modifié avec succès",
-      });
-      
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-    } catch (error) {
-      console.error('Error updating password:', error);
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de mettre à jour le mot de passe",
-      });
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const handleNotificationSave = () => {
-    toast({
-      title: "Préférences sauvegardées",
-      description: "Vos préférences de notification ont été mises à jour",
+  const handleSaveGeneral = async () => {
+    await updateSettings({
+      site_name: siteName,
+      site_description: siteDescription,
+      contact_email: contactEmail,
     });
   };
+
+  const handleSaveNotifications = async () => {
+    await updateSetting('notifications', notifications);
+  };
+
+  const handleSaveSocial = async () => {
+    await updateSetting('social_links', socialLinks);
+  };
+
+  const handleSaveBusiness = async () => {
+    await updateSetting('business_info', businessInfo);
+  };
+
+  if (isLoading) {
+    return (
+      <ProtectedRoute>
+        <AdminLayout>
+          <div className="space-y-6">
+            <div>
+              <Skeleton className="h-9 w-48 mb-2" />
+              <Skeleton className="h-5 w-72" />
+            </div>
+            <Skeleton className="h-12 w-full max-w-md" />
+            <Skeleton className="h-96 w-full" />
+          </div>
+        </AdminLayout>
+      </ProtectedRoute>
+    );
+  }
 
   return (
     <ProtectedRoute>
       <AdminLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div>
-            <h1 className="text-3xl font-display font-bold text-foreground">
-              Paramètres
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Gérez votre compte et vos préférences
-            </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-display font-bold text-foreground">
+                Paramètres
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Gérez les paramètres généraux du site
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {isSaving && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Sauvegarde...
+                </div>
+              )}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-sm">
+                <RefreshCw className="w-3 h-3" />
+                Sync temps réel
+              </div>
+            </div>
           </div>
 
-          <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-flex">
-              <TabsTrigger value="profile" className="gap-2">
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Profil</span>
+          <Tabs defaultValue="general" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:w-auto lg:inline-flex">
+              <TabsTrigger value="general" className="gap-2">
+                <Globe className="w-4 h-4" />
+                <span className="hidden sm:inline">Général</span>
+              </TabsTrigger>
+              <TabsTrigger value="business" className="gap-2">
+                <Building2 className="w-4 h-4" />
+                <span className="hidden sm:inline">Entreprise</span>
               </TabsTrigger>
               <TabsTrigger value="notifications" className="gap-2">
                 <Bell className="w-4 h-4" />
                 <span className="hidden sm:inline">Notifications</span>
               </TabsTrigger>
-              <TabsTrigger value="security" className="gap-2">
-                <Shield className="w-4 h-4" />
-                <span className="hidden sm:inline">Sécurité</span>
+              <TabsTrigger value="social" className="gap-2">
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline">Réseaux sociaux</span>
               </TabsTrigger>
             </TabsList>
 
-            {/* Profile Tab */}
-            <TabsContent value="profile">
+            {/* General Settings Tab */}
+            <TabsContent value="general">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-6"
+              >
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Globe className="w-5 h-5 text-primary" />
+                      Informations du site
+                    </CardTitle>
+                    <CardDescription>
+                      Configuration générale de votre site web
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="siteName">Nom du site</Label>
+                        <Input
+                          id="siteName"
+                          value={siteName}
+                          onChange={(e) => setSiteName(e.target.value)}
+                          placeholder="LCV Digital"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="contactEmail">Email de contact</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="contactEmail"
+                            type="email"
+                            value={contactEmail}
+                            onChange={(e) => setContactEmail(e.target.value)}
+                            placeholder="contact@example.com"
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="siteDescription">Description du site</Label>
+                      <Textarea
+                        id="siteDescription"
+                        value={siteDescription}
+                        onChange={(e) => setSiteDescription(e.target.value)}
+                        placeholder="Une courte description de votre entreprise..."
+                        rows={3}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Cette description est utilisée pour le SEO et les partages sur les réseaux sociaux
+                      </p>
+                    </div>
+
+                    <Button onClick={handleSaveGeneral} disabled={isSaving} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      Sauvegarder
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </TabsContent>
+
+            {/* Business Info Tab */}
+            <TabsContent value="business">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -129,45 +231,61 @@ const Settings = () => {
                 <Card className="border-border/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <User className="w-5 h-5 text-primary" />
-                      Informations du profil
+                      <Building2 className="w-5 h-5 text-primary" />
+                      Informations de l'entreprise
                     </CardTitle>
                     <CardDescription>
-                      Gérez vos informations personnelles
+                      Coordonnées et horaires d'ouverture
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span className="text-3xl text-primary font-semibold">
-                          {user?.email?.[0].toUpperCase() || 'A'}
-                        </span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Téléphone</Label>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="phone"
+                            value={businessInfo.phone}
+                            onChange={(e) => setBusinessInfo({ ...businessInfo, phone: e.target.value })}
+                            placeholder="+33 1 23 45 67 89"
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-foreground">
-                          {user?.email || 'Admin'}
-                        </p>
-                        <p className="text-sm text-muted-foreground">Administrateur</p>
+                      <div className="space-y-2">
+                        <Label htmlFor="hours">Horaires d'ouverture</Label>
+                        <div className="relative">
+                          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="hours"
+                            value={businessInfo.hours}
+                            onChange={(e) => setBusinessInfo({ ...businessInfo, hours: e.target.value })}
+                            placeholder="Lun-Ven 9h-18h"
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                          <Input
-                            id="email"
-                            value={user?.email || ''}
-                            disabled
-                            className="pl-10 bg-secondary/50"
-                          />
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          L'email ne peut pas être modifié
-                        </p>
+                    <div className="space-y-2">
+                      <Label htmlFor="address">Adresse</Label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                        <Textarea
+                          id="address"
+                          value={businessInfo.address}
+                          onChange={(e) => setBusinessInfo({ ...businessInfo, address: e.target.value })}
+                          placeholder="123 Rue Example, 75001 Paris"
+                          className="pl-10 min-h-[80px]"
+                        />
                       </div>
                     </div>
+
+                    <Button onClick={handleSaveBusiness} disabled={isSaving} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      Sauvegarder
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -191,12 +309,17 @@ const Settings = () => {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-                        <div>
-                          <p className="font-medium">Nouveaux leads</p>
-                          <p className="text-sm text-muted-foreground">
-                            Recevoir un email à chaque nouveau lead
-                          </p>
+                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50 border border-border/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <Mail className="w-5 h-5 text-primary" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Nouveaux leads</p>
+                            <p className="text-sm text-muted-foreground">
+                              Recevoir un email à chaque nouveau lead
+                            </p>
+                          </div>
                         </div>
                         <Switch
                           checked={notifications.newLeads}
@@ -206,12 +329,17 @@ const Settings = () => {
                         />
                       </div>
 
-                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-                        <div>
-                          <p className="font-medium">Rapport hebdomadaire</p>
-                          <p className="text-sm text-muted-foreground">
-                            Recevoir un résumé chaque lundi
-                          </p>
+                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50 border border-border/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <RefreshCw className="w-5 h-5 text-accent" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Rapport hebdomadaire</p>
+                            <p className="text-sm text-muted-foreground">
+                              Recevoir un résumé chaque lundi matin
+                            </p>
+                          </div>
                         </div>
                         <Switch
                           checked={notifications.weeklyReport}
@@ -221,12 +349,17 @@ const Settings = () => {
                         />
                       </div>
 
-                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50">
-                        <div>
-                          <p className="font-medium">Emails marketing</p>
-                          <p className="text-sm text-muted-foreground">
-                            Recevoir des conseils et actualités
-                          </p>
+                      <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/50 border border-border/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center">
+                            <Bell className="w-5 h-5 text-gold" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Emails marketing</p>
+                            <p className="text-sm text-muted-foreground">
+                              Recevoir des conseils et actualités
+                            </p>
+                          </div>
                         </div>
                         <Switch
                           checked={notifications.marketingEmails}
@@ -237,7 +370,7 @@ const Settings = () => {
                       </div>
                     </div>
 
-                    <Button onClick={handleNotificationSave} className="gap-2">
+                    <Button onClick={handleSaveNotifications} disabled={isSaving} className="gap-2">
                       <Save className="w-4 h-4" />
                       Sauvegarder
                     </Button>
@@ -246,8 +379,8 @@ const Settings = () => {
               </motion.div>
             </TabsContent>
 
-            {/* Security Tab */}
-            <TabsContent value="security">
+            {/* Social Links Tab */}
+            <TabsContent value="social">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -255,57 +388,73 @@ const Settings = () => {
                 <Card className="border-border/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Key className="w-5 h-5 text-primary" />
-                      Changer le mot de passe
+                      <User className="w-5 h-5 text-primary" />
+                      Réseaux sociaux
                     </CardTitle>
                     <CardDescription>
-                      Mettez à jour votre mot de passe pour sécuriser votre compte
+                      Configurez vos liens vers les réseaux sociaux
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <div className="space-y-4 max-w-md">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="currentPassword">Mot de passe actuel</Label>
-                        <Input
-                          id="currentPassword"
-                          type="password"
-                          value={currentPassword}
-                          onChange={(e) => setCurrentPassword(e.target.value)}
-                          placeholder="••••••••"
-                        />
+                        <Label htmlFor="facebook">Facebook</Label>
+                        <div className="relative">
+                          <Facebook className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="facebook"
+                            value={socialLinks.facebook}
+                            onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })}
+                            placeholder="https://facebook.com/votrepage"
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
-
                       <div className="space-y-2">
-                        <Label htmlFor="newPassword">Nouveau mot de passe</Label>
-                        <Input
-                          id="newPassword"
-                          type="password"
-                          value={newPassword}
-                          onChange={(e) => setNewPassword(e.target.value)}
-                          placeholder="••••••••"
-                        />
+                        <Label htmlFor="instagram">Instagram</Label>
+                        <div className="relative">
+                          <Instagram className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="instagram"
+                            value={socialLinks.instagram}
+                            onChange={(e) => setSocialLinks({ ...socialLinks, instagram: e.target.value })}
+                            placeholder="https://instagram.com/votrecompte"
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
-
                       <div className="space-y-2">
-                        <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-                        <Input
-                          id="confirmPassword"
-                          type="password"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          placeholder="••••••••"
-                        />
+                        <Label htmlFor="linkedin">LinkedIn</Label>
+                        <div className="relative">
+                          <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="linkedin"
+                            value={socialLinks.linkedin}
+                            onChange={(e) => setSocialLinks({ ...socialLinks, linkedin: e.target.value })}
+                            placeholder="https://linkedin.com/company/votre-entreprise"
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
-
-                      <Button 
-                        onClick={handlePasswordChange}
-                        disabled={isUpdating || !newPassword || !confirmPassword}
-                        className="gap-2"
-                      >
-                        <Save className="w-4 h-4" />
-                        {isUpdating ? 'Mise à jour...' : 'Mettre à jour'}
-                      </Button>
+                      <div className="space-y-2">
+                        <Label htmlFor="twitter">Twitter / X</Label>
+                        <div className="relative">
+                          <Twitter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                          <Input
+                            id="twitter"
+                            value={socialLinks.twitter}
+                            onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
+                            placeholder="https://twitter.com/votrecompte"
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
                     </div>
+
+                    <Button onClick={handleSaveSocial} disabled={isSaving} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      Sauvegarder
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>

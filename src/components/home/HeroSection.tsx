@@ -160,7 +160,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-muted-foreground mb-16"
+            className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-16"
           >
             {["Sans engagement", "Devis sous 24h", "Accompagnement personnalisé"].map((item, i) => (
               <motion.div
@@ -168,10 +168,10 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + i * 0.1 }}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-border/50"
               >
-                <CheckCircle size={16} className="text-accent" />
-                <span>{item}</span>
+                <CheckCircle size={16} className="text-accent shrink-0" />
+                <span className="text-sm font-medium text-foreground">{item}</span>
               </motion.div>
             ))}
           </motion.div>
