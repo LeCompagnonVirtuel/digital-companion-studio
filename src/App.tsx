@@ -22,6 +22,10 @@ import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import Content from "./pages/admin/Content";
 import Settings from "./pages/admin/Settings";
+import Users from "./pages/admin/Users";
+import Analytics from "./pages/admin/Analytics";
+import BlogAdmin from "./pages/admin/Blog";
+import SEO from "./pages/admin/SEO";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,6 +63,10 @@ const App = () => (
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/leads" element={<Leads />} />
             <Route path="/admin/content" element={<Content />} />
+            <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
+            <Route path="/admin/blog" element={<BlogAdmin />} />
+            <Route path="/admin/seo" element={<SEO />} />
             <Route path="/admin/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

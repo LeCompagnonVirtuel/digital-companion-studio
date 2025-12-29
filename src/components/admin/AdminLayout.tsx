@@ -11,7 +11,11 @@ import {
   X,
   ChevronRight,
   Shield,
-  Bell
+  Bell,
+  BarChart3,
+  BookOpen,
+  Search,
+  UserCog
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
@@ -25,6 +29,10 @@ const navItems = [
   { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
   { path: '/admin/leads', icon: Users, label: 'Leads' },
   { path: '/admin/content', icon: FileText, label: 'Contenu' },
+  { path: '/admin/blog', icon: BookOpen, label: 'Blog' },
+  { path: '/admin/users', icon: UserCog, label: 'Utilisateurs' },
+  { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
+  { path: '/admin/seo', icon: Search, label: 'SEO' },
   { path: '/admin/settings', icon: Settings, label: 'Paramètres' },
 ];
 
