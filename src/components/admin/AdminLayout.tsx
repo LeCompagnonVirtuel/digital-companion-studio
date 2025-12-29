@@ -15,7 +15,8 @@ import {
   BarChart3,
   BookOpen,
   Search,
-  UserCog
+  UserCog,
+  Image as ImageIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
@@ -30,6 +31,7 @@ const navItems = [
   { path: '/admin/leads', icon: Users, label: 'Leads' },
   { path: '/admin/content', icon: FileText, label: 'Contenu' },
   { path: '/admin/blog', icon: BookOpen, label: 'Blog' },
+  { path: '/admin/media', icon: ImageIcon, label: 'Médias' },
   { path: '/admin/users', icon: UserCog, label: 'Utilisateurs' },
   { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
   { path: '/admin/seo', icon: Search, label: 'SEO' },

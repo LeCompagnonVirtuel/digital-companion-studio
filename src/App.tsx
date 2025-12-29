@@ -26,6 +26,7 @@ import Users from "./pages/admin/Users";
 import Analytics from "./pages/admin/Analytics";
 import BlogAdmin from "./pages/admin/Blog";
 import SEO from "./pages/admin/SEO";
+import Media from "./pages/admin/Media";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -66,6 +67,7 @@ const App = () => (
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/analytics" element={<Analytics />} />
             <Route path="/admin/blog" element={<BlogAdmin />} />
+            <Route path="/admin/media" element={<Media />} />
             <Route path="/admin/seo" element={<SEO />} />
             <Route path="/admin/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
