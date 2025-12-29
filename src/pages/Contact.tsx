@@ -7,6 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères").max(100),
+  email: z.string().trim().email("Adresse email invalide").max(255),
+  phone: z.string().max(20).optional(),
+  company: z.string().max(100).optional(),
+  subject: z.string().trim().min(3, "Le sujet doit contenir au moins 3 caractères").max(200),
+  message: z.string().trim().min(10, "Le message doit contenir au moins 10 caractères").max(2000),
+});
 
 const contactInfo = [
   {
@@ -38,6 +49,7 @@ const contactInfo = [
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -49,25 +61,66 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    
+    // Validate form data
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      toast({
+        variant: "destructive",
+        title: "Erreur de validation",
+        description: "Veuillez vérifier les champs du formulaire",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "Message envoyé !",
-      description: "Nous vous répondrons dans les 24 heures.",
-    });
-    
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      subject: "",
-      message: "",
-    });
-    setIsSubmitting(false);
+    try {
+      const { error } = await supabase.from("leads").insert([
+        {
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone?.trim() || null,
+          company: formData.company?.trim() || null,
+          message: `[${formData.subject}] ${formData.message}`.trim(),
+          source: "contact_form",
+          status: "new",
+        },
+      ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Message envoyé !",
+        description: "Nous vous répondrons dans les 24 heures.",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -181,7 +234,9 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="Jean Dupont"
                         required
+                        className={errors.name ? "border-destructive" : ""}
                       />
+                      {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium mb-2">
@@ -195,7 +250,9 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="jean@exemple.fr"
                         required
+                        className={errors.email ? "border-destructive" : ""}
                       />
+                      {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                     </div>
                     <div>
                       <label htmlFor="phone" className="block text-sm font-medium mb-2">
@@ -235,7 +292,9 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Ex: Demande de devis pour un site e-commerce"
                       required
+                      className={errors.subject ? "border-destructive" : ""}
                     />
+                    {errors.subject && <p className="text-sm text-destructive mt-1">{errors.subject}</p>}
                   </div>
 
                   <div className="mb-6">
@@ -250,7 +309,9 @@ const Contact = () => {
                       placeholder="Décrivez votre projet, vos besoins et vos objectifs..."
                       rows={6}
                       required
+                      className={errors.message ? "border-destructive" : ""}
                     />
+                    {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
                   </div>
 
                   <Button type="submit" variant="hero" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
