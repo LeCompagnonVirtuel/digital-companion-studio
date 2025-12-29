@@ -1,25 +1,20 @@
 import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  requireAdmin?: boolean;
 }
 
-const ProtectedRoute = ({ children, requireAdmin = true }: ProtectedRouteProps) => {
-  const { user, isAdmin, isLoading } = useAuth();
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { isAuthenticated, isLoading } = useAdminAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        navigate('/auth');
-      } else if (requireAdmin && !isAdmin) {
-        navigate('/');
-      }
+    if (!isLoading && !isAuthenticated) {
+      navigate('/auth');
     }
-  }, [user, isAdmin, isLoading, navigate, requireAdmin]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   if (isLoading) {
     return (
@@ -32,7 +27,7 @@ const ProtectedRoute = ({ children, requireAdmin = true }: ProtectedRouteProps) 
     );
   }
 
-  if (!user || (requireAdmin && !isAdmin)) {
+  if (!isAuthenticated) {
     return null;
   }
 
