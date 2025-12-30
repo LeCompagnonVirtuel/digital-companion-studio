@@ -94,10 +94,10 @@ export function Navigation() {
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
               <Button variant="heroGhost" size="sm" asChild>
-                <Link to="/contact">Audit gratuit</Link>
+                <Link to="/audit-gratuit">Audit gratuit</Link>
               </Button>
               <Button variant="hero" size="sm" asChild>
-                <Link to="/contact" className="group">
+                <Link to="/demarrer-projet" className="group">
                   Démarrer un projet
                   <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
@@ -190,10 +190,10 @@ export function Navigation() {
                   transition={{ delay: 0.3 }}
                 >
                   <Button variant="heroOutline" size="lg" asChild className="w-full">
-                    <Link to="/contact">Audit gratuit</Link>
+                    <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
                   <Button variant="hero" size="lg" asChild className="w-full">
-                    <Link to="/contact">Démarrer un projet</Link>
+                    <Link to="/demarrer-projet">Démarrer un projet</Link>
                   </Button>
                 </motion.div>
               </div>

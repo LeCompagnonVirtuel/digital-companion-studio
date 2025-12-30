@@ -94,7 +94,7 @@ export function CTASection() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button variant="hero" size="xl" asChild className="shadow-glow">
-                      <Link to="/contact" className="group">
+                      <Link to="/demarrer-audit" className="group">
                         Demander un audit gratuit
                         <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                       </Link>
@@ -107,7 +107,7 @@ export function CTASection() {
                       asChild
                       className="border-background/20 text-background hover:bg-background/10"
                     >
-                      <Link to="/contact">
+                      <Link to="/parlons-projet">
                         <MessageCircle size={20} className="mr-2" />
                         Nous contacter
                       </Link>

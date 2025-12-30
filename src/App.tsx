@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
@@ -19,6 +20,10 @@ import Legal from "./pages/Legal";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Careers from "./pages/Careers";
+import StartProject from "./pages/StartProject";
+import FreeAudit from "./pages/FreeAudit";
+import StartAudit from "./pages/StartAudit";
+import TalkProject from "./pages/TalkProject";
 import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import Content from "./pages/admin/Content";
@@ -32,7 +37,6 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Wrapper component to conditionally render chatbot
 function ChatbotWrapper() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/auth";
@@ -48,6 +52,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<Services />} />
@@ -63,6 +68,10 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/demarrer-projet" element={<StartProject />} />
+            <Route path="/audit-gratuit" element={<FreeAudit />} />
+            <Route path="/demarrer-audit" element={<StartAudit />} />
+            <Route path="/parlons-projet" element={<TalkProject />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/leads" element={<Leads />} />
             <Route path="/admin/content" element={<Content />} />
