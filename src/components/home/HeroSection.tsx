@@ -142,13 +142,13 @@ export function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
             <Button variant="hero" size="xl" asChild>
-              <Link to="/contact" className="group">
+              <Link to="/demarrer-projet" className="group">
                 Démarrer mon projet
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/contact" className="group">
+              <Link to="/audit-gratuit" className="group">
                 <Play size={16} className="mr-1" />
                 Audit gratuit
               </Link>
