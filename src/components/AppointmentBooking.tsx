@@ -56,6 +56,7 @@ export function AppointmentBooking({
 
     try {
       const appointmentDate = format(date, "EEEE d MMMM yyyy", { locale: fr });
+      const isoDate = format(date, "yyyy-MM-dd");
       const message = `
 [PRISE DE RENDEZ-VOUS]
 Date: ${appointmentDate}
@@ -65,6 +66,7 @@ Durée: 30 minutes
 Source: ${source}
       `.trim();
 
+      // Save to database
       const { error } = await supabase.from("leads").insert([
         {
           name: formData.name.trim(),
@@ -78,10 +80,30 @@ Source: ${source}
 
       if (error) throw error;
 
+      // Send email notification via edge function
+      try {
+        const { error: notifError } = await supabase.functions.invoke("send-appointment-notification", {
+          body: {
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            phone: formData.phone?.trim() || null,
+            date: appointmentDate,
+            time: selectedTime,
+            source: source,
+          },
+        });
+
+        if (notifError) {
+          console.error("Notification error:", notifError);
+        }
+      } catch (notifErr) {
+        console.error("Failed to send notification:", notifErr);
+      }
+
       setIsBooked(true);
       toast({
         title: "Rendez-vous confirmé !",
-        description: `Votre rendez-vous est prévu le ${appointmentDate} à ${selectedTime}.`,
+        description: `Votre rendez-vous est prévu le ${appointmentDate} à ${selectedTime}. Vous recevrez un email de confirmation.`,
       });
     } catch (error) {
       console.error("Error booking appointment:", error);
