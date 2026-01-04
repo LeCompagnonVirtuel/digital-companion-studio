@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { AppointmentBooking } from "@/components/AppointmentBooking";
 
 const talkSchema = z.object({
   name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères").max(100),
@@ -377,6 +378,15 @@ ${formData.message}
                     )}
                   </Button>
                 </form>
+
+                {/* Appointment Booking */}
+                <div className="mt-8">
+                  <AppointmentBooking 
+                    source="talk_project"
+                    title="Planifier un appel"
+                    description="Réservez directement un créneau de 30 min pour échanger sur votre projet."
+                  />
+                </div>
               </motion.div>
             </div>
           </div>
