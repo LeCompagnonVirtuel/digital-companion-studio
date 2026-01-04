@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { AppointmentBooking } from "@/components/AppointmentBooking";
 import { z } from "zod";
 
 const auditSchema = z.object({
@@ -353,6 +354,15 @@ ${formData.challenges || "Non précisé"}
                     )}
                   </Button>
                 </form>
+
+                {/* Appointment Booking */}
+                <div className="mt-8">
+                  <AppointmentBooking 
+                    source="audit"
+                    title="Préférez-vous un appel ?"
+                    description="Réservez un créneau de 30 min pour discuter de votre audit avec un expert."
+                  />
+                </div>
               </motion.div>
             </div>
           </div>
