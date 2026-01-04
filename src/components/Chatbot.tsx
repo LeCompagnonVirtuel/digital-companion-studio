@@ -9,7 +9,7 @@ type Message = {
   content: string;
 };
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chatbot`;
+const CHAT_URL = "https://ewygzjviarsspoytdgrr.supabase.co/functions/v1/chatbot";
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +55,7 @@ export function Chatbot() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eWd6anZpYXJzc3BveXRkZ3JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY5NTc0NjIsImV4cCI6MjA4MjUzMzQ2Mn0.9Xi81ufR9vJOqSYyjIm8P0jM24EpWTNkeT4OrZpPP2U`,
         },
         body: JSON.stringify({ messages: newMessages }),
       });
