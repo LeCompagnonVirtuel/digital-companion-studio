@@ -16,11 +16,22 @@ export function HeroSection() {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      {/* Panorama Background */}
+      <div className="absolute inset-0 -z-20">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background" />
+      </div>
+      
       {/* Premium Animated Background */}
       <motion.div className="absolute inset-0 -z-10" style={{ y }}>
         {/* Base Gradient */}
-        <div className="absolute inset-0 bg-mesh" />
+        <div className="absolute inset-0 bg-mesh opacity-50" />
         
         {/* Animated Orbs */}
         <motion.div 
@@ -91,14 +102,14 @@ export function HeroSection() {
         ))}
       </div>
 
-      <motion.div className="container-wide py-32 pt-40" style={{ opacity, scale }}>
+      <motion.div className="container-wide py-20 pt-28" style={{ opacity, scale }}>
         <div className="max-w-5xl mx-auto text-center">
           {/* Premium Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/8 border border-primary/15 mb-10"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 mb-6 backdrop-blur-sm"
           >
             <motion.div
               animate={{ rotate: [0, 15, -15, 0] }}
@@ -118,7 +129,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-8 tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] mb-6 tracking-tight"
           >
             <span className="block">Votre partenaire digital</span>
             <span className="gradient-text mt-2 block">intelligent</span>
@@ -129,7 +140,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed"
+            className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed"
           >
             Nous concevons, automatisons et faisons croître des écosystèmes digitaux performants pour les entreprises ambitieuses.
           </motion.p>
@@ -139,7 +150,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
           >
             <Button variant="hero" size="xl" asChild>
               <Link to="/demarrer-projet" className="group">
@@ -160,7 +171,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-16"
+            className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10"
           >
             {["Sans engagement", "Devis sous 24h", "Accompagnement personnalisé"].map((item, i) => (
               <motion.div
@@ -181,7 +192,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
+            className="grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto"
           >
             {[
               { icon: Zap, value: "24h", label: "Réponse garantie", color: "text-primary" },
@@ -194,13 +205,13 @@ export function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + i * 0.1 }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="group p-5 rounded-2xl bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/20 hover:shadow-card transition-all duration-300"
+                className="group p-3 sm:p-4 rounded-xl bg-card/70 backdrop-blur-sm border border-border/50 hover:border-primary/20 hover:shadow-card transition-all duration-300"
               >
-                <div className={`w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                  <stat.icon size={20} className={stat.color} />
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon size={16} className={`sm:w-5 sm:h-5 ${stat.color}`} />
                 </div>
-                <div className="font-display font-bold text-2xl mb-1">{stat.value}</div>
-                <div className="text-xs text-muted-foreground">{stat.label}</div>
+                <div className="font-display font-bold text-xl sm:text-2xl mb-0.5">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
