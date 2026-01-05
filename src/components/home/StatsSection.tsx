@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Rocket, Users, TrendingUp, Clock } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 
@@ -33,6 +33,21 @@ const stats = [
   },
 ];
 
+const panoramaSlides = [
+  {
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+    gradient: "from-primary/20 via-primary/10 to-accent/15",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+    gradient: "from-accent/20 via-primary/15 to-primary/10",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+    gradient: "from-primary/15 via-accent/20 to-primary/10",
+  },
+];
+
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -60,31 +75,57 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl gradient-text tabular-nums leading-none">
+    <span ref={ref} className="font-display font-bold text-2xl xs:text-3xl sm:text-4xl md:text-5xl gradient-text tabular-nums leading-none">
       {count}{suffix}
     </span>
   );
 }
 
 export function StatsSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % panoramaSlides.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative overflow-hidden">
-      {/* Panorama Background */}
+      {/* Animated Panorama Slides */}
       <div className="absolute inset-0 -z-10">
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: `
-              linear-gradient(180deg, 
-                hsl(var(--background)) 0%, 
-                hsl(var(--primary) / 0.03) 10%,
-                hsl(var(--primary) / 0.08) 50%,
-                hsl(var(--primary) / 0.03) 90%,
-                hsl(var(--background)) 100%
-              )
-            `
-          }}
-        />
+        <AnimatePresence mode="wait">
+          {panoramaSlides.map((slide, index) => (
+            index === currentSlide && (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                {/* Background Image with Ken Burns effect */}
+                <motion.div
+                  animate={{ scale: [1, 1.08, 1] }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `url(${slide.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                {/* Dark overlay for readability */}
+                <div className="absolute inset-0 bg-background/85" />
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} opacity-60`} />
+              </motion.div>
+            )
+          ))}
+        </AnimatePresence>
+        
         {/* Mesh gradient overlay */}
         <div 
           className="absolute inset-0 opacity-50"
@@ -96,6 +137,7 @@ export function StatsSection() {
             `
           }}
         />
+        
         {/* Animated floating orbs */}
         <motion.div
           animate={{ 
@@ -104,7 +146,7 @@ export function StatsSection() {
             scale: [1, 1.1, 1]
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 rounded-full blur-3xl"
           style={{ background: "hsl(var(--primary) / 0.1)" }}
         />
         <motion.div
@@ -114,34 +156,50 @@ export function StatsSection() {
             scale: [1, 1.2, 1]
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-40 sm:w-60 md:w-80 h-40 sm:h-60 md:h-80 rounded-full blur-3xl"
           style={{ background: "hsl(var(--accent) / 0.08)" }}
         />
       </div>
       
-      {/* Decorative Lines */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent" />
-        <div className="absolute top-0 left-2/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent hidden lg:block" />
-        <div className="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-border/50 to-transparent" />
+      {/* Decorative Lines - hidden on small screens */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
+        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent" />
+        <div className="absolute top-0 left-2/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent hidden lg:block" />
+        <div className="absolute top-0 left-3/4 w-px h-full bg-gradient-to-b from-transparent via-border/30 to-transparent" />
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {panoramaSlides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
+              index === currentSlide 
+                ? "bg-primary w-6 sm:w-8" 
+                : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+            }`}
+            aria-label={`Slide ${index + 1}`}
+          />
+        ))}
       </div>
       
-      <div className="container-wide relative py-20 sm:py-28 md:py-36 lg:py-44">
+      <div className="container-wide relative py-12 sm:py-16 md:py-24 lg:py-32">
         {/* Section Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <span className="badge-premium mb-4">Nos résultats</span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold">
+          <span className="badge-premium mb-3 sm:mb-4 text-xs sm:text-sm">Nos résultats</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-display font-bold px-4">
             Des chiffres qui <span className="gradient-text">parlent</span>
           </h2>
         </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-6 xl:gap-12">
+        {/* Stats Grid - Improved responsive layout */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-2 sm:px-0">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -149,19 +207,19 @@ export function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center group"
+              className="text-center group p-3 sm:p-4 md:p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-500"
             >
               <motion.div 
-                className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-2xl bg-card border border-border flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:border-primary/30 group-hover:shadow-glow transition-all duration-500"
+                className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:border-primary/40 group-hover:shadow-glow transition-all duration-500"
                 whileHover={{ scale: 1.05, rotate: 3 }}
               >
-                <stat.icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+                <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-primary" />
               </motion.div>
-              <div className="mb-2 sm:mb-3">
+              <div className="mb-1 sm:mb-2">
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
               </div>
-              <div className="font-medium text-foreground text-sm sm:text-base md:text-lg mb-1">{stat.label}</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">{stat.description}</div>
+              <div className="font-medium text-foreground text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1">{stat.label}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground">{stat.description}</div>
             </motion.div>
           ))}
         </div>
