@@ -339,12 +339,12 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Service Icons Carousel */}
+      {/* Service Icons - Vertical on side */}
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 1 }}
-        className="absolute bottom-28 sm:bottom-32 left-1/2 -translate-x-1/2 flex gap-3 sm:gap-4"
+        className="absolute right-4 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 sm:gap-3 z-10"
       >
         {heroSlides.map((slide, index) => {
           const Icon = slide.icon;
