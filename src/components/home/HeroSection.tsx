@@ -14,6 +14,7 @@ const heroSlides = [
     headline: "Votre partenaire digital",
     highlight: "intelligent",
     description: "Nous concevons, automatisons et faisons croître des écosystèmes digitaux performants pour les entreprises ambitieuses.",
+    link: "/services/developpement-web",
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const heroSlides = [
     headline: "Automatisez vos",
     highlight: "processus",
     description: "Intégrez l'intelligence artificielle et l'automatisation pour optimiser vos opérations et gagner en productivité.",
+    link: "/services/automatisation-ia",
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const heroSlides = [
     headline: "Accélérez votre",
     highlight: "croissance",
     description: "Stratégies de marketing digital sur-mesure pour attirer, convertir et fidéliser vos clients idéaux.",
+    link: "/services/marketing-digital",
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const heroSlides = [
     headline: "Des interfaces qui",
     highlight: "convertissent",
     description: "Design moderne et expérience utilisateur optimisée pour maximiser l'engagement et les conversions.",
+    link: "/services/design-branding",
   },
   {
     id: 5,
@@ -50,6 +54,7 @@ const heroSlides = [
     headline: "Applications mobiles",
     highlight: "performantes",
     description: "Développement d'applications iOS et Android natives ou hybrides pour toucher vos utilisateurs où qu'ils soient.",
+    link: "/services/applications-mobiles",
   },
 ];
 
@@ -349,20 +354,25 @@ export function HeroSection() {
         {heroSlides.map((slide, index) => {
           const Icon = slide.icon;
           return (
-            <motion.button
+            <Link
               key={slide.id}
-              onClick={() => setCurrentSlide(index)}
-              className={`p-2 sm:p-2.5 rounded-xl border backdrop-blur-sm transition-all duration-300 ${
-                index === currentSlide 
-                  ? "bg-primary/20 border-primary/40 scale-110" 
-                  : "bg-card/50 border-border/50 hover:border-primary/30 hover:bg-card/80"
-              }`}
-              whileHover={{ scale: index === currentSlide ? 1.1 : 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label={slide.badge}
+              to={slide.link}
+              onMouseEnter={() => setCurrentSlide(index)}
+              className="block"
             >
-              <Icon size={16} className={`sm:w-5 sm:h-5 ${index === currentSlide ? "text-primary" : "text-muted-foreground"}`} />
-            </motion.button>
+              <motion.div
+                className={`p-2 sm:p-2.5 rounded-xl border backdrop-blur-sm transition-all duration-300 ${
+                  index === currentSlide 
+                    ? "bg-primary/20 border-primary/40 scale-110" 
+                    : "bg-card/50 border-border/50 hover:border-primary/30 hover:bg-card/80"
+                }`}
+                whileHover={{ scale: index === currentSlide ? 1.1 : 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label={slide.badge}
+              >
+                <Icon size={16} className={`sm:w-5 sm:h-5 ${index === currentSlide ? "text-primary" : "text-muted-foreground"}`} />
+              </motion.div>
+            </Link>
           );
         })}
       </motion.div>
