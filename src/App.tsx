@@ -8,6 +8,11 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
+import DeveloppementWeb from "./pages/services/DeveloppementWeb";
+import AutomatisationIA from "./pages/services/AutomatisationIA";
+import MarketingDigital from "./pages/services/MarketingDigital";
+import DesignBranding from "./pages/services/DesignBranding";
+import ApplicationsMobiles from "./pages/services/ApplicationsMobiles";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
@@ -56,6 +61,11 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/developpement-web" element={<DeveloppementWeb />} />
+            <Route path="/services/automatisation-ia" element={<AutomatisationIA />} />
+            <Route path="/services/marketing-digital" element={<MarketingDigital />} />
+            <Route path="/services/design-branding" element={<DesignBranding />} />
+            <Route path="/services/applications-mobiles" element={<ApplicationsMobiles />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/pricing" element={<Pricing />} />
