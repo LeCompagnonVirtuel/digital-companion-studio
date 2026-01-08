@@ -1,23 +1,22 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
-  TrendingUp, 
-  Mail, 
-  Search, 
-  BarChart3, 
+  Palette, 
+  Camera, 
+  Video, 
+  PenTool, 
+  Image, 
+  FileText, 
   ArrowRight, 
   Check, 
   Clock,
-  FileText,
-  Phone,
+  Mail,
   MessageCircle,
   MapPin,
-  Zap,
-  PenTool,
-  Users,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  Play,
+  Mic
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +24,163 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
+    icon: Image,
+    title: "Visuels Réseaux Sociaux",
+    description: "Posts, stories, carrousels et bannières optimisés pour chaque plateforme.",
+    features: ["Posts Instagram/Facebook", "Stories animées", "Carrousels", "Bannières LinkedIn"],
   },
   {
-    icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
-  },
-  {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
+    icon: Video,
+    title: "Vidéos & Reels",
+    description: "Contenus vidéo courts et impactants qui captent l'attention.",
+    features: ["Reels/TikTok", "Vidéos promo", "Animations", "Montage professionnel"],
   },
   {
     icon: PenTool,
     title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    description: "Textes persuasifs qui convertissent et engagent votre audience.",
+    features: ["Légendes posts", "Articles blog", "Scripts vidéo", "Newsletters"],
   },
   {
-    icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    icon: Camera,
+    title: "Photographie",
+    description: "Séances photo professionnelles pour vos produits et équipes.",
+    features: ["Photos produits", "Portraits corporate", "Événements", "Retouches pro"],
   },
   {
-    icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    icon: Mic,
+    title: "Contenu Audio",
+    description: "Podcasts, voix off et contenus audio de qualité.",
+    features: ["Podcasts", "Voix off", "Jingles", "Audio branding"],
+  },
+  {
+    icon: FileText,
+    title: "Documents Marketing",
+    description: "Présentations, brochures et supports commerciaux professionnels.",
+    features: ["Présentations", "Brochures", "Catalogues", "Infographies"],
   },
 ];
 
+const contentTypes = [
+  { type: "Visuels statiques", examples: "Posts, bannières, affiches" },
+  { type: "Contenus animés", examples: "Stories, GIFs, animations" },
+  { type: "Vidéos courtes", examples: "Reels, TikTok, Shorts" },
+  { type: "Vidéos longues", examples: "Tutoriels, interviews, promos" },
+  { type: "Textes", examples: "Articles, newsletters, scripts" },
+  { type: "Audio", examples: "Podcasts, voix off, jingles" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Vous manquez de visuels professionnels pour vos réseaux",
+  "Votre contenu n'attire pas l'attention de votre audience",
+  "Vous n'avez pas les compétences ou outils pour créer du contenu",
+  "Votre image de marque manque de cohérence visuelle",
+  "Vous n'avez pas le temps de produire du contenu régulièrement",
+  "Vos vidéos ne sont pas assez engageantes",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Contenu professionnel",
+    description: "Des créations de qualité studio sans les coûts",
   },
   {
-    title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
+    title: "Cohérence visuelle",
+    description: "Une identité de marque forte et reconnaissable",
   },
   {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
+    title: "Engagement accru",
+    description: "Des contenus qui génèrent likes, partages et commentaires",
   },
   {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    title: "Gain de temps",
+    description: "Concentrez-vous sur votre métier, on gère la création",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
-    duration: "2-3 jours"
+    title: "Brief Créatif", 
+    description: "Compréhension de vos besoins, objectifs et identité de marque",
+    duration: "1-2 jours"
   },
   { 
     step: "02", 
-    title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
-    duration: "3-5 jours"
+    title: "Conception", 
+    description: "Création des maquettes et propositions créatives",
+    duration: "2-5 jours"
   },
   { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
-    duration: "Continu"
+    title: "Production", 
+    description: "Réalisation des contenus avec retouches et optimisations",
+    duration: "3-7 jours"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Livraison", 
+    description: "Livraison des fichiers dans tous les formats nécessaires",
+    duration: "1 jour"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
-  "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "Fichiers sources éditables (si applicable)",
+  "Exports optimisés pour chaque plateforme",
+  "Variations de formats (story, feed, etc.)",
+  "Guide d'utilisation des contenus",
+  "Banque d'assets réutilisables",
+  "Révisions incluses selon le pack",
+  "Stockage cloud partagé",
+  "Support pour les modifications mineures",
 ];
 
 const pricing = [
   {
     name: "Starter",
-    price: "150 000",
+    price: "75 000",
     period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    description: "Pour un flux de contenu basique",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
-      "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
+      "8 visuels statiques/mois",
+      "2 stories animées/mois",
+      "Légendes rédigées",
+      "2 révisions par contenu",
+      "Livraison 5 jours ouvrés",
     ],
     popular: false,
   },
   {
     name: "Pro",
-    price: "350 000",
+    price: "175 000",
     period: "/mois",
-    description: "Pour une croissance accélérée",
+    description: "Pour une présence visuelle forte",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "16 visuels statiques/mois",
+      "8 stories animées/mois",
+      "4 Reels/mois",
+      "Copywriting complet",
+      "3 révisions par contenu",
+      "Livraison 3 jours ouvrés",
+      "Calendrier de contenu",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
+    price: "350 000",
     period: "/mois",
-    description: "Pour dominer votre marché",
+    description: "Pour dominer avec du contenu premium",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "30+ visuels/mois",
+      "Stories quotidiennes",
+      "8+ Reels/TikTok/mois",
+      "Vidéos longues (jusqu'à 3min)",
+      "Copywriting illimité",
+      "Révisions illimitées",
+      "Livraison 24-48h",
+      "Directeur artistique dédié",
     ],
     popular: false,
   },
@@ -180,19 +188,19 @@ const pricing = [
 
 const useCases = [
   {
+    title: "Marque Cosmétique",
+    description: "Création de contenu lifestyle qui a augmenté l'engagement de 250%",
+    result: "+250% engagement",
+  },
+  {
+    title: "Restaurant Lounge",
+    description: "Photos et vidéos food qui ont boosté les réservations",
+    result: "+80% réservations",
+  },
+  {
     title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
-  },
-  {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
-  },
-  {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    description: "Contenus explicatifs qui ont simplifié un produit complexe",
+    result: "+45% conversions",
   },
 ];
 
@@ -206,7 +214,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const CreationContenu = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +223,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-purple-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,28 +236,36 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <Palette size={16} />
+                  Création de Contenus
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Des contenus qui{" "}
+                  <span className="text-primary">captent</span>{" "}
+                  l'attention
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Visuels, vidéos et textes professionnels qui font briller votre marque. 
+                  Contenus optimisés pour engager votre audience et convertir.
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mb-8">
                   <Button size="lg" asChild>
                     <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                      Créer mon contenu
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
-                    <Link to="/audit-gratuit">Audit gratuit</Link>
+                    <Link to="/contact">Voir nos créations</Link>
                   </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  {contentTypes.slice(0, 4).map((ct) => (
+                    <span key={ct.type} className="px-3 py-1.5 rounded-full bg-muted text-xs font-medium">
+                      {ct.type}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
               
@@ -260,29 +276,42 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
+                  <div className="relative bg-card border border-border rounded-3xl p-6 h-full">
+                    <div className="grid grid-cols-2 gap-4 h-full">
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 }}
+                        className="rounded-xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center"
+                      >
+                        <Image size={40} className="text-primary" />
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center"
+                      >
+                        <Video size={40} className="text-primary" />
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center"
+                      >
+                        <PenTool size={40} className="text-primary" />
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.7 }}
+                        className="rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/20 flex items-center justify-center relative"
+                      >
+                        <Play size={40} className="text-primary" />
+                      </motion.div>
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
-                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -290,8 +319,29 @@ const MarketingDigital = () => {
           </div>
         </section>
 
+        {/* Types de contenu */}
+        <section className="py-12 border-y border-border bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-center gap-6">
+              {contentTypes.map((ct, i) => (
+                <motion.div
+                  key={ct.type}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="text-center"
+                >
+                  <div className="text-sm font-semibold mb-1">{ct.type}</div>
+                  <div className="text-xs text-muted-foreground">{ct.examples}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Problèmes */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -300,11 +350,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces défis vous parlent ?
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
-              </p>
             </motion.div>
 
             <motion.div
@@ -331,7 +378,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Bénéfices */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -342,9 +389,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous obtiendrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -369,7 +413,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Services */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -378,11 +422,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Nos services de création
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -418,7 +459,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Process */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -427,11 +468,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Notre méthodologie
+                Notre processus créatif
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -460,7 +498,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Livrables */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -471,9 +509,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -500,7 +535,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Cas d'usage */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -511,9 +546,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Exemples de réussites
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -539,7 +571,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Pricing */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -550,9 +582,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Nos tarifs
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des forfaits adaptés à votre budget et vos objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -609,19 +638,19 @@ const MarketingDigital = () => {
         </section>
 
         {/* CTA Contact */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-purple-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à créer du contenu qui marque les esprits ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Discutons de vos besoins en contenu et créons ensemble des visuels qui convertissent.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -632,7 +661,7 @@ const MarketingDigital = () => {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/audit-gratuit">Audit gratuit</Link>
+                  <Link to="/contact">Voir nos créations</Link>
                 </Button>
               </div>
 
@@ -667,4 +696,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default CreationContenu;

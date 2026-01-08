@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
-  TrendingUp, 
-  Mail, 
   Search, 
+  ClipboardCheck, 
+  Target, 
+  Lightbulb, 
   BarChart3, 
+  FileSearch, 
   ArrowRight, 
   Check, 
   Clock,
   FileText,
-  Phone,
+  Mail,
   MessageCircle,
   MapPin,
-  Zap,
-  PenTool,
-  Users,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +25,159 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
+    icon: FileSearch,
+    title: "Audit Site Web",
+    description: "Analyse complète de votre site : performance, UX, contenu et technique.",
+    features: ["Vitesse chargement", "Expérience utilisateur", "Qualité contenu", "Architecture technique"],
   },
   {
     icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
-  },
-  {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
-  },
-  {
-    icon: PenTool,
-    title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    title: "Audit SEO",
+    description: "Évaluation de votre visibilité sur les moteurs de recherche.",
+    features: ["Mots-clés", "Backlinks", "Contenu SEO", "Concurrence"],
   },
   {
     icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    title: "Audit Réseaux Sociaux",
+    description: "Analyse de votre présence et performance sur les réseaux sociaux.",
+    features: ["Profils sociaux", "Engagement", "Croissance", "Benchmark"],
   },
   {
-    icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    icon: Target,
+    title: "Audit Stratégique",
+    description: "Évaluation globale de votre stratégie digitale et positionnement.",
+    features: ["Positionnement", "Cibles", "Canaux", "Objectifs"],
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Audit Conversion",
+    description: "Analyse du parcours client et identification des freins à la conversion.",
+    features: ["Tunnel de vente", "Points de friction", "CTA", "A/B testing"],
+  },
+  {
+    icon: Lightbulb,
+    title: "Recommandations",
+    description: "Plan d'action concret et priorisé pour améliorer vos performances.",
+    features: ["Actions prioritaires", "Planning", "Budget estimé", "ROI attendu"],
   },
 ];
 
+const auditTypes = [
+  { type: "Audit Express", duration: "3 jours", scope: "1 canal" },
+  { type: "Audit Standard", duration: "1 semaine", scope: "Multi-canal" },
+  { type: "Audit Complet", duration: "2 semaines", scope: "360° digital" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Vous ne savez pas ce qui ne fonctionne pas dans votre stratégie",
+  "Votre site génère du trafic mais pas de conversions",
+  "Vous investissez sans mesurer le retour",
+  "Vos concurrents vous dépassent en ligne",
+  "Vous ne savez pas par où commencer",
+  "Votre budget marketing semble gaspillé",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Vision claire",
+    description: "Comprenez exactement où vous en êtes",
   },
   {
-    title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
+    title: "Priorités définies",
+    description: "Savez quoi faire en premier",
   },
   {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
+    title: "Budget optimisé",
+    description: "Investissez au bon endroit",
   },
   {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    title: "Résultats mesurables",
+    description: "Des KPIs pour suivre vos progrès",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
-    duration: "2-3 jours"
+    title: "Collecte", 
+    description: "Récupération des accès, données et informations sur votre activité",
+    duration: "1 jour"
   },
   { 
     step: "02", 
-    title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
-    duration: "3-5 jours"
+    title: "Analyse", 
+    description: "Audit approfondi de tous les éléments définis dans le scope",
+    duration: "2-7 jours"
   },
   { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
-    duration: "Continu"
+    title: "Synthèse", 
+    description: "Compilation des résultats et élaboration des recommandations",
+    duration: "1-2 jours"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Restitution", 
+    description: "Présentation du rapport et discussion du plan d'action",
+    duration: "1-2h"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
-  "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "Rapport d'audit complet (PDF 30-50 pages)",
+  "Scorecard digitale avec notes par domaine",
+  "Liste des problèmes identifiés par priorité",
+  "Recommandations actionnables",
+  "Plan d'action priorisé sur 90 jours",
+  "Estimation budgétaire par action",
+  "Présentation de restitution",
+  "Session Q&A de 1h incluse",
 ];
 
 const pricing = [
   {
-    name: "Starter",
-    price: "150 000",
-    period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    name: "Express",
+    price: "75 000",
+    period: " FCFA",
+    description: "Audit rapide d'un seul canal",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
-      "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
+      "1 canal au choix (site, SEO ou réseaux)",
+      "Analyse en 3 jours",
+      "Rapport synthétique (10-15 pages)",
+      "5 recommandations clés",
+      "Appel de restitution 30min",
     ],
     popular: false,
   },
   {
-    name: "Pro",
-    price: "350 000",
-    period: "/mois",
-    description: "Pour une croissance accélérée",
+    name: "Standard",
+    price: "175 000",
+    period: " FCFA",
+    description: "Audit multi-canal approfondi",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "Site web + SEO + Réseaux sociaux",
+      "Analyse concurrentielle incluse",
+      "Rapport détaillé (30-40 pages)",
+      "15+ recommandations priorisées",
+      "Plan d'action 90 jours",
+      "Appel de restitution 1h",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
-    period: "/mois",
-    description: "Pour dominer votre marché",
+    price: "350 000",
+    period: " FCFA",
+    description: "Audit 360° + stratégie complète",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "Tous canaux digitaux",
+      "Audit technique approfondi",
+      "Analyse concurrence détaillée",
+      "Étude de marché digital",
+      "Rapport complet (50+ pages)",
+      "Feuille de route stratégique 1 an",
+      "2 sessions de restitution",
+      "Support post-audit 1 mois",
     ],
     popular: false,
   },
@@ -180,19 +185,19 @@ const pricing = [
 
 const useCases = [
   {
-    title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
+    title: "PME Industrielle",
+    description: "Audit complet qui a révélé un site non-indexé - correction = +300% trafic",
+    result: "+300% trafic",
   },
   {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
+    title: "E-commerce",
+    description: "Identification d'un tunnel de conversion défaillant - optimisation = +85% ventes",
+    result: "+85% ventes",
   },
   {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    title: "Startup",
+    description: "Audit stratégique qui a réorienté le positionnement et doublé les leads",
+    result: "x2 leads",
   },
 ];
 
@@ -206,7 +211,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const AuditDigital = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +220,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,28 +233,37 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <Search size={16} />
+                  Audit Digital & Stratégie
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Découvrez ce qui{" "}
+                  <span className="text-primary">freine</span>{" "}
+                  votre croissance digitale
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Audit complet de votre présence en ligne avec des recommandations concrètes. 
+                  Identifiez les problèmes, priorisez les actions, maximisez votre ROI.
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mb-8">
                   <Button size="lg" asChild>
-                    <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                    <Link to="/audit-gratuit">
+                      Demander un audit
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
-                    <Link to="/audit-gratuit">Audit gratuit</Link>
+                    <Link to="/contact">En savoir plus</Link>
                   </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-4">
+                  {auditTypes.map((at) => (
+                    <div key={at.type} className="flex flex-col px-4 py-2 rounded-xl bg-muted text-center">
+                      <span className="font-medium text-sm">{at.type}</span>
+                      <span className="text-xs text-muted-foreground">{at.duration}</span>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
               
@@ -260,29 +274,56 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-amber-500/20 rounded-3xl blur-2xl" />
+                  <div className="relative bg-card border border-border rounded-3xl p-6 h-full">
+                    <div className="space-y-4">
+                      <div className="text-lg font-semibold mb-4">Score Digital</div>
+                      
+                      {[
+                        { label: "Site Web", score: 45, status: "warning" },
+                        { label: "SEO", score: 32, status: "error" },
+                        { label: "Réseaux sociaux", score: 68, status: "ok" },
+                        { label: "Conversion", score: 28, status: "error" },
+                      ].map((item, i) => (
+                        <motion.div
+                          key={item.label}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + i * 0.1 }}
+                          className="flex items-center gap-3"
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                            item.status === 'error' ? 'bg-destructive/10' : 
+                            item.status === 'warning' ? 'bg-yellow-500/10' : 'bg-green-500/10'
+                          }`}>
+                            {item.status === 'error' ? (
+                              <AlertTriangle size={16} className="text-destructive" />
+                            ) : item.status === 'warning' ? (
+                              <AlertTriangle size={16} className="text-yellow-500" />
+                            ) : (
+                              <CheckCircle size={16} className="text-green-500" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>{item.label}</span>
+                              <span className="font-semibold">{item.score}/100</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <motion.div
+                                className={`h-full rounded-full ${
+                                  item.status === 'error' ? 'bg-destructive' : 
+                                  item.status === 'warning' ? 'bg-yellow-500' : 'bg-green-500'
+                                }`}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${item.score}%` }}
+                                transition={{ delay: 0.8 + i * 0.1, duration: 0.5 }}
+                              />
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
-                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -300,11 +341,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces situations vous parlent ?
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
-              </p>
             </motion.div>
 
             <motion.div
@@ -321,7 +359,7 @@ const MarketingDigital = () => {
                   className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border"
                 >
                   <div className="w-6 h-6 rounded-full bg-destructive/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-destructive text-sm">✕</span>
+                    <span className="text-destructive text-sm">?</span>
                   </div>
                   <p className="text-sm">{problem}</p>
                 </motion.div>
@@ -340,11 +378,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Ce que vous obtiendrez
+                Ce que l'audit vous apportera
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -378,11 +413,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Ce que nous analysons
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -429,9 +461,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Notre méthodologie
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -471,9 +500,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -509,11 +535,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Exemples de réussites
+                Résultats post-audit
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -550,9 +573,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Nos tarifs
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des forfaits adaptés à votre budget et vos objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -576,7 +596,7 @@ const MarketingDigital = () => {
                   <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
                   <div className="mb-6">
                     <span className="text-3xl font-display font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground"> FCFA{plan.period}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
                   </div>
                   <ul className="space-y-3 mb-6">
                     {plan.features.map((feature) => (
@@ -591,7 +611,7 @@ const MarketingDigital = () => {
                     variant={plan.popular ? "default" : "outline"}
                     asChild
                   >
-                    <Link to="/demarrer-projet">Choisir ce plan</Link>
+                    <Link to="/audit-gratuit">Demander un audit</Link>
                   </Button>
                 </motion.div>
               ))}
@@ -603,7 +623,7 @@ const MarketingDigital = () => {
               viewport={{ once: true }}
               className="text-center text-sm text-muted-foreground mt-8"
             >
-              Besoin d'un devis personnalisé ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
+              Audit gratuit disponible pour les nouveaux clients ! <Link to="/audit-gratuit" className="text-primary hover:underline">Demander maintenant</Link>
             </motion.p>
           </div>
         </section>
@@ -615,24 +635,24 @@ const MarketingDigital = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-orange-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à découvrir votre potentiel digital ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Demandez votre audit et obtenez une vision claire de vos forces et axes d'amélioration.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button size="lg" asChild>
-                  <Link to="/demarrer-projet">
-                    Démarrer mon projet
+                  <Link to="/audit-gratuit">
+                    Demander un audit gratuit
                     <ArrowRight size={18} className="ml-2" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/audit-gratuit">Audit gratuit</Link>
+                  <Link to="/contact">Discuter de mes besoins</Link>
                 </Button>
               </div>
 
@@ -667,4 +687,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default AuditDigital;

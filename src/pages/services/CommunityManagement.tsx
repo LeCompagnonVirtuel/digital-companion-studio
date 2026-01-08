@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
+  Users, 
+  MessageCircle, 
+  Heart, 
   TrendingUp, 
-  Mail, 
-  Search, 
+  Calendar, 
   BarChart3, 
   ArrowRight, 
   Check, 
   Clock,
   FileText,
-  Phone,
-  MessageCircle,
+  Mail,
   MapPin,
-  Zap,
-  PenTool,
-  Users,
-  Sparkles
+  Sparkles,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Share2
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +25,161 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
+    icon: Calendar,
+    title: "Stratégie Éditoriale",
+    description: "Planification et création de contenu aligné sur vos objectifs business.",
+    features: ["Calendrier éditorial", "Ligne éditoriale", "Thématiques clés", "Planning publications"],
   },
   {
-    icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
+    icon: Heart,
+    title: "Animation Communauté",
+    description: "Engagement actif avec votre audience pour créer une communauté fidèle.",
+    features: ["Réponses commentaires", "Messages privés", "Engagement proactif", "Gestion crises"],
   },
   {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
-  },
-  {
-    icon: PenTool,
-    title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    icon: Share2,
+    title: "Création de Contenu",
+    description: "Visuels et textes captivants adaptés à chaque plateforme.",
+    features: ["Posts visuels", "Stories", "Reels/TikTok", "Carrousels"],
   },
   {
     icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    title: "Reporting & Analytics",
+    description: "Suivi des performances et optimisation continue de votre stratégie.",
+    features: ["KPIs clés", "Rapports mensuels", "Analyse concurrence", "Recommandations"],
   },
   {
     icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    title: "Croissance Organique",
+    description: "Stratégies pour augmenter naturellement votre audience.",
+    features: ["Hashtags optimisés", "Collaborations", "Tendances", "Viralité"],
+  },
+  {
+    icon: MessageCircle,
+    title: "Modération",
+    description: "Gestion des commentaires et protection de votre image de marque.",
+    features: ["Filtrage spam", "Gestion négativité", "FAQ automatisée", "Veille réputation"],
   },
 ];
 
+const platforms = [
+  { name: "Instagram", icon: Instagram, color: "text-pink-500" },
+  { name: "Facebook", icon: Facebook, color: "text-blue-600" },
+  { name: "LinkedIn", icon: Linkedin, color: "text-blue-700" },
+  { name: "TikTok", icon: Share2, color: "text-foreground" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Vous n'avez pas le temps de gérer vos réseaux sociaux",
+  "Votre engagement est faible malgré vos efforts",
+  "Vous ne savez pas quoi publier ni quand",
+  "Vous perdez des opportunités de vente via les réseaux",
+  "Votre image de marque n'est pas cohérente",
+  "Vous ne répondez pas assez vite aux messages",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Présence constante",
+    description: "Publications régulières qui maintiennent l'engagement",
   },
   {
-    title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
+    title: "Communauté engagée",
+    description: "Des followers qui interagissent et deviennent clients",
   },
   {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
+    title: "Image professionnelle",
+    description: "Une marque cohérente et mémorable",
   },
   {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    title: "Gain de temps",
+    description: "Concentrez-vous sur votre cœur de métier",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
+    title: "Audit & Brief", 
+    description: "Analyse de votre présence actuelle et définition de vos objectifs",
     duration: "2-3 jours"
   },
   { 
     step: "02", 
     title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
+    description: "Création du calendrier éditorial et de la ligne graphique",
     duration: "3-5 jours"
   },
   { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
+    title: "Production", 
+    description: "Création des contenus et programmation des publications",
     duration: "Continu"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Animation", 
+    description: "Gestion quotidienne, engagement et modération",
+    duration: "Quotidien"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
   "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "12-30 publications/mois selon le pack",
+  "Visuels et textes optimisés",
+  "Stories et contenus éphémères",
+  "Rapport de performance mensuel",
+  "Veille concurrentielle",
+  "Gestion des messages et commentaires",
+  "Recommandations stratégiques",
 ];
 
 const pricing = [
   {
     name: "Starter",
-    price: "150 000",
+    price: "100 000",
     period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    description: "Pour maintenir une présence de base",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
+      "1 réseau social géré",
+      "8 publications/mois",
+      "Création visuels basiques",
+      "Réponses commentaires (J+1)",
       "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
     ],
     popular: false,
   },
   {
     name: "Pro",
-    price: "350 000",
+    price: "200 000",
     period: "/mois",
-    description: "Pour une croissance accélérée",
+    description: "Pour une présence active et engageante",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "2 réseaux sociaux gérés",
+      "16 publications/mois",
+      "Visuels professionnels",
+      "Stories hebdomadaires",
+      "Réponses commentaires/DM (même jour)",
+      "Rapport mensuel détaillé",
+      "1 session stratégie/mois",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
+    price: "400 000",
     period: "/mois",
-    description: "Pour dominer votre marché",
+    description: "Pour dominer vos réseaux sociaux",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "Tous réseaux sociaux gérés",
+      "30+ publications/mois",
+      "Visuels premium + Reels/TikTok",
+      "Stories quotidiennes",
+      "Réponses en temps réel",
+      "Gestion de crise",
+      "Collaborations influenceurs",
+      "Consulting stratégique illimité",
     ],
     popular: false,
   },
@@ -180,19 +187,19 @@ const pricing = [
 
 const useCases = [
   {
-    title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
+    title: "Restaurant Abidjan",
+    description: "Gestion Instagram qui a augmenté les réservations de 60% en 3 mois",
+    result: "+60% réservations",
   },
   {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
+    title: "Boutique Mode",
+    description: "Stratégie multi-plateforme qui a doublé les ventes via réseaux sociaux",
+    result: "x2 ventes sociales",
   },
   {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    title: "Coach Business",
+    description: "Personal branding LinkedIn qui a généré 50+ leads qualifiés/mois",
+    result: "50+ leads/mois",
   },
 ];
 
@@ -206,7 +213,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const CommunityManagement = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +222,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-pink-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,28 +235,39 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <Users size={16} />
+                  Community Management
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Animez vos{" "}
+                  <span className="text-primary">réseaux sociaux</span>{" "}
+                  avec impact
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Créez une communauté engagée qui devient vos meilleurs ambassadeurs. 
+                  Nous gérons vos réseaux pour vous pendant que vous développez votre business.
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mb-8">
                   <Button size="lg" asChild>
                     <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                      Développer ma communauté
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
                     <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-muted-foreground">Plateformes gérées :</span>
+                  <div className="flex items-center gap-3">
+                    {platforms.map((platform) => (
+                      <div key={platform.name} className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center">
+                        <platform.icon size={16} className={platform.color} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
               
@@ -260,29 +278,46 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-3xl blur-2xl" />
                   <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                    <div className="grid grid-cols-2 gap-4 w-full">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="p-4 rounded-xl bg-muted/50 text-center"
+                      >
+                        <div className="text-2xl font-bold text-primary">+340%</div>
+                        <div className="text-xs text-muted-foreground">Engagement</div>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="p-4 rounded-xl bg-muted/50 text-center"
+                      >
+                        <div className="text-2xl font-bold text-primary">15K</div>
+                        <div className="text-xs text-muted-foreground">Followers gagnés</div>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7 }}
+                        className="p-4 rounded-xl bg-muted/50 text-center"
+                      >
+                        <div className="text-2xl font-bold text-primary">98%</div>
+                        <div className="text-xs text-muted-foreground">Taux réponse</div>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="p-4 rounded-xl bg-muted/50 text-center"
+                      >
+                        <div className="text-2xl font-bold text-primary">x3</div>
+                        <div className="text-xs text-muted-foreground">Conversions</div>
+                      </motion.div>
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
-                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -300,10 +335,10 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces défis vous parlent ?
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
+                La gestion des réseaux sociaux est chronophage. Nous prenons le relais.
               </p>
             </motion.div>
 
@@ -342,9 +377,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous obtiendrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -378,11 +410,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Nos services Community Management
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -429,9 +458,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Notre méthodologie
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -471,9 +497,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -511,9 +534,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Exemples de réussites
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -615,13 +635,13 @@ const MarketingDigital = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-pink-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à développer votre communauté ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Discutons de votre stratégie réseaux sociaux et créons ensemble une communauté engagée.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -667,4 +687,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default CommunityManagement;

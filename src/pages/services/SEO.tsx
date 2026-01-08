@@ -1,23 +1,21 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
-  TrendingUp, 
-  Mail, 
   Search, 
+  TrendingUp, 
+  Globe, 
+  FileText, 
+  Link2, 
   BarChart3, 
   ArrowRight, 
   Check, 
   Clock,
-  FileText,
-  Phone,
+  Mail,
   MessageCircle,
   MapPin,
-  Zap,
-  PenTool,
-  Users,
-  Sparkles
+  Sparkles,
+  Target,
+  Zap
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +23,164 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
-  },
-  {
     icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
+    title: "Audit SEO Technique",
+    description: "Analyse complète des aspects techniques qui impactent votre référencement.",
+    features: ["Vitesse de chargement", "Architecture site", "Indexation", "Mobile-first"],
   },
   {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
+    icon: FileText,
+    title: "Optimisation Contenu",
+    description: "Amélioration de vos contenus pour les moteurs de recherche.",
+    features: ["Recherche mots-clés", "Optimisation on-page", "Méta descriptions", "Structure Hn"],
   },
   {
-    icon: PenTool,
-    title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    icon: Link2,
+    title: "Netlinking",
+    description: "Acquisition de liens de qualité pour renforcer votre autorité.",
+    features: ["Backlinks qualifiés", "Guest posting", "Digital PR", "Désaveu liens toxiques"],
+  },
+  {
+    icon: Globe,
+    title: "SEO Local",
+    description: "Optimisation pour apparaître dans les recherches locales.",
+    features: ["Google My Business", "Citations locales", "Avis clients", "Géolocalisation"],
   },
   {
     icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    title: "Suivi & Reporting",
+    description: "Monitoring continu de vos positions et performances.",
+    features: ["Suivi positions", "Rapports mensuels", "Analyse trafic", "ROI tracking"],
   },
   {
-    icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    icon: Zap,
+    title: "SEO E-commerce",
+    description: "Optimisation spécifique pour les boutiques en ligne.",
+    features: ["Fiches produits", "Catégories", "Schema markup", "Rich snippets"],
   },
 ];
 
+const stats = [
+  { value: "93%", label: "du trafic web vient de Google" },
+  { value: "75%", label: "ne vont jamais au-delà de la page 1" },
+  { value: "x5", label: "ROI moyen du SEO vs publicité" },
+  { value: "14.6%", label: "taux de conversion SEO vs 1.7% publicité" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Votre site n'apparaît pas sur Google",
+  "Vos concurrents sont mieux positionnés que vous",
+  "Vous dépendez trop de la publicité payante",
+  "Votre trafic organique stagne ou diminue",
+  "Vous ne savez pas quels mots-clés cibler",
+  "Votre site est lent et mal optimisé",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Trafic gratuit",
+    description: "Des visiteurs qualifiés sans payer de publicité",
+  },
+  {
+    title: "Crédibilité",
+    description: "Être en 1ère page renforce votre autorité",
+  },
+  {
+    title: "ROI durable",
+    description: "Investissement rentable sur le long terme",
   },
   {
     title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
-  },
-  {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
-  },
-  {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    description: "Attirez des prospects qui cherchent vos services",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
-    duration: "2-3 jours"
+    title: "Audit Complet", 
+    description: "Analyse technique, contenu et backlinks de votre site",
+    duration: "1 semaine"
   },
   { 
     step: "02", 
     title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
+    description: "Définition des mots-clés prioritaires et plan d'action",
     duration: "3-5 jours"
   },
   { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
-    duration: "Continu"
+    title: "Optimisation", 
+    description: "Corrections techniques et optimisation des contenus",
+    duration: "2-4 semaines"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Croissance", 
+    description: "Création de contenu et acquisition de liens en continu",
+    duration: "Continu"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
-  "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "Audit SEO complet (technique + contenu)",
+  "Recherche de mots-clés approfondie",
+  "Plan d'optimisation priorisé",
+  "Corrections techniques",
+  "Optimisation de pages existantes",
+  "Création de nouveaux contenus SEO",
+  "Rapport de positions mensuel",
+  "Recommandations évolutives",
 ];
 
 const pricing = [
   {
     name: "Starter",
-    price: "150 000",
+    price: "125 000",
     period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    description: "Pour démarrer votre SEO",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
-      "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
+      "Audit SEO initial",
+      "5 mots-clés ciblés",
+      "Optimisation on-page basique",
+      "1 article SEO/mois",
+      "Rapport mensuel",
+      "Support email",
     ],
     popular: false,
   },
   {
     name: "Pro",
-    price: "350 000",
+    price: "275 000",
     period: "/mois",
-    description: "Pour une croissance accélérée",
+    description: "Pour une croissance soutenue",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "Audit SEO complet",
+      "15 mots-clés ciblés",
+      "Optimisation technique complète",
+      "3 articles SEO/mois",
+      "Acquisition 5 backlinks/mois",
+      "SEO local inclus",
+      "Rapport bi-mensuel",
+      "Support prioritaire",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
+    price: "500 000",
     period: "/mois",
     description: "Pour dominer votre marché",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "Audit SEO avancé",
+      "30+ mots-clés ciblés",
+      "Optimisation technique avancée",
+      "6+ articles SEO/mois",
+      "Acquisition 15+ backlinks/mois",
+      "SEO local multi-zones",
+      "Stratégie contenu complète",
+      "Reporting temps réel",
+      "Consultant SEO dédié",
     ],
     popular: false,
   },
@@ -180,19 +188,19 @@ const pricing = [
 
 const useCases = [
   {
-    title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
+    title: "Cabinet Avocat",
+    description: "De la page 5 à la position 1 sur 'avocat Abidjan' en 6 mois",
+    result: "Position #1",
   },
   {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
+    title: "E-commerce Beauté",
+    description: "Trafic organique multiplié par 4 en 1 an, +200% ventes",
+    result: "x4 trafic",
   },
   {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    title: "Agence Immobilière",
+    description: "Première page pour 25 requêtes locales stratégiques",
+    result: "25 mots-clés top 10",
   },
 ];
 
@@ -206,7 +214,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const SEO = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +223,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-blue-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,27 +236,27 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <Search size={16} />
+                  SEO & Visibilité
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Atteignez la{" "}
+                  <span className="text-primary">première page</span>{" "}
+                  de Google
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Stratégies SEO complètes pour augmenter votre visibilité, attirer du trafic qualifié 
+                  et générer des leads sans dépendre de la publicité.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Button size="lg" asChild>
                     <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                      Améliorer mon SEO
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
-                    <Link to="/audit-gratuit">Audit gratuit</Link>
+                    <Link to="/audit-gratuit">Audit SEO gratuit</Link>
                   </Button>
                 </div>
               </motion.div>
@@ -260,28 +268,58 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl blur-2xl" />
+                  <div className="relative bg-card border border-border rounded-3xl p-6 h-full">
+                    {/* Mockup résultats Google */}
+                    <div className="bg-muted/50 rounded-xl p-4 mb-4">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                          <Search size={16} className="text-primary" />
+                        </div>
+                        <div className="flex-1 h-8 bg-muted rounded-full px-4 flex items-center text-sm text-muted-foreground">
+                          votre entreprise abidjan
+                        </div>
+                      </div>
+                      
+                      {[
+                        { pos: "1", you: true },
+                        { pos: "2", you: false },
+                        { pos: "3", you: false },
+                      ].map((result, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 + i * 0.1 }}
+                          className={`p-3 rounded-lg mb-2 ${result.you ? 'bg-primary/10 border border-primary/30' : 'bg-background'}`}
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`text-xs font-bold ${result.you ? 'text-primary' : 'text-muted-foreground'}`}>
+                              #{result.pos}
+                            </span>
+                            {result.you && (
+                              <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
+                                Vous
+                              </span>
+                            )}
+                          </div>
+                          <div className="h-2 bg-muted rounded w-3/4 mb-1"></div>
+                          <div className="h-2 bg-muted rounded w-1/2"></div>
+                        </motion.div>
+                      ))}
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                    
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 }}
+                      className="flex items-center justify-between p-3 bg-green-500/10 rounded-xl"
                     >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
+                      <div className="text-sm">
+                        <span className="text-muted-foreground">Position moyenne</span>
+                        <div className="font-bold text-green-600">#1.2</div>
+                      </div>
+                      <TrendingUp className="text-green-500" size={24} />
                     </motion.div>
                   </div>
                 </div>
@@ -290,8 +328,29 @@ const MarketingDigital = () => {
           </div>
         </section>
 
+        {/* Stats */}
+        <section className="py-12 border-y border-border bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="text-3xl sm:text-4xl font-display font-bold text-primary mb-2">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Problèmes */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -300,11 +359,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces problèmes vous concernent ?
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
-              </p>
             </motion.div>
 
             <motion.div
@@ -331,7 +387,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Bénéfices */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -340,11 +396,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Ce que vous obtiendrez
+                Les bénéfices du SEO
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -369,7 +422,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Services */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -378,11 +431,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Nos services SEO
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -418,7 +468,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Process */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -427,11 +477,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Notre méthodologie
+                Notre approche SEO
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -460,7 +507,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Livrables */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -471,9 +518,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -500,7 +544,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Cas d'usage */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -509,11 +553,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Exemples de réussites
+                Résultats clients
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -539,7 +580,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Pricing */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -548,11 +589,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos tarifs
+                Nos tarifs SEO
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des forfaits adaptés à votre budget et vos objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -603,36 +641,36 @@ const MarketingDigital = () => {
               viewport={{ once: true }}
               className="text-center text-sm text-muted-foreground mt-8"
             >
-              Besoin d'un devis personnalisé ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
+              Audit SEO gratuit disponible ! <Link to="/audit-gratuit" className="text-primary hover:underline">Demander maintenant</Link>
             </motion.p>
           </div>
         </section>
 
         {/* CTA Contact */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-blue-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à conquérir la première page ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Discutons de votre visibilité et créons ensemble une stratégie SEO gagnante.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button size="lg" asChild>
-                  <Link to="/demarrer-projet">
-                    Démarrer mon projet
+                  <Link to="/audit-gratuit">
+                    Audit SEO gratuit
                     <ArrowRight size={18} className="ml-2" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/audit-gratuit">Audit gratuit</Link>
+                  <Link to="/demarrer-projet">Démarrer mon SEO</Link>
                 </Button>
               </div>
 
@@ -667,4 +705,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default SEO;

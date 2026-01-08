@@ -13,6 +13,12 @@ import AutomatisationIA from "./pages/services/AutomatisationIA";
 import MarketingDigital from "./pages/services/MarketingDigital";
 import DesignBranding from "./pages/services/DesignBranding";
 import ApplicationsMobiles from "./pages/services/ApplicationsMobiles";
+import CommunityManagement from "./pages/services/CommunityManagement";
+import CreationContenu from "./pages/services/CreationContenu";
+import GadgetsNumeriques from "./pages/services/GadgetsNumeriques";
+import Ecommerce from "./pages/services/Ecommerce";
+import AuditDigital from "./pages/services/AuditDigital";
+import SEO from "./pages/services/SEO";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
@@ -66,6 +72,12 @@ const App = () => (
             <Route path="/services/marketing-digital" element={<MarketingDigital />} />
             <Route path="/services/design-branding" element={<DesignBranding />} />
             <Route path="/services/applications-mobiles" element={<ApplicationsMobiles />} />
+            <Route path="/services/community-management" element={<CommunityManagement />} />
+            <Route path="/services/creation-contenu" element={<CreationContenu />} />
+            <Route path="/services/gadgets-numeriques" element={<GadgetsNumeriques />} />
+            <Route path="/services/ecommerce" element={<Ecommerce />} />
+            <Route path="/services/audit-digital" element={<AuditDigital />} />
+            <Route path="/services/seo" element={<SEO />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/pricing" element={<Pricing />} />
