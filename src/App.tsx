@@ -18,7 +18,7 @@ import CreationContenu from "./pages/services/CreationContenu";
 import GadgetsNumeriques from "./pages/services/GadgetsNumeriques";
 import Ecommerce from "./pages/services/Ecommerce";
 import AuditDigital from "./pages/services/AuditDigital";
-import SEO from "./pages/services/SEO";
+import SEOService from "./pages/services/SEO";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
@@ -77,7 +77,7 @@ const App = () => (
             <Route path="/services/gadgets-numeriques" element={<GadgetsNumeriques />} />
             <Route path="/services/ecommerce" element={<Ecommerce />} />
             <Route path="/services/audit-digital" element={<AuditDigital />} />
-            <Route path="/services/seo" element={<SEO />} />
+            <Route path="/services/seo" element={<SEOService />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/pricing" element={<Pricing />} />
