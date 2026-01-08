@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
-  TrendingUp, 
-  Mail, 
-  Search, 
-  BarChart3, 
+  Smartphone, 
+  Calculator, 
+  FileSpreadsheet, 
+  QrCode, 
+  Link2, 
+  CreditCard, 
   ArrowRight, 
   Check, 
   Clock,
   FileText,
-  Phone,
+  Mail,
   MessageCircle,
   MapPin,
+  Sparkles,
+  TrendingUp,
   Zap,
-  PenTool,
-  Users,
-  Sparkles
+  BarChart
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +25,163 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
+    icon: Calculator,
+    title: "Calculateurs Personnalisés",
+    description: "Outils de calcul interactifs pour estimer prix, ROI ou toute métrique.",
+    features: ["Calculateur de devis", "Simulateur ROI", "Estimateur prix", "Outil diagnostic"],
   },
   {
-    icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
+    icon: QrCode,
+    title: "QR Codes Dynamiques",
+    description: "QR codes trackables et modifiables pour vos campagnes marketing.",
+    features: ["QR code personnalisé", "Tracking analytics", "Modification contenu", "Multi-usages"],
   },
   {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
+    icon: FileSpreadsheet,
+    title: "Formulaires Intelligents",
+    description: "Formulaires avancés avec logique conditionnelle et intégrations.",
+    features: ["Logique conditionnelle", "Calculs automatiques", "Intégrations CRM", "Exports données"],
   },
   {
-    icon: PenTool,
-    title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    icon: Link2,
+    title: "Pages de Liens",
+    description: "Pages de liens personnalisées style Linktree avec votre branding.",
+    features: ["Design personnalisé", "Analytics intégrés", "Liens illimités", "Domaine personnalisé"],
   },
   {
-    icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    icon: CreditCard,
+    title: "Cartes de Visite Digitales",
+    description: "Cartes de visite NFC et QR avec toutes vos informations.",
+    features: ["Design premium", "NFC compatible", "Mise à jour facile", "Analytics contacts"],
   },
   {
-    icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    icon: BarChart,
+    title: "Dashboards Interactifs",
+    description: "Tableaux de bord visuels pour présenter vos données.",
+    features: ["Graphiques animés", "Données temps réel", "Export PDF", "Partage sécurisé"],
   },
 ];
 
+const gadgetTypes = [
+  { type: "Calculateurs", use: "Devis, ROI, simulations" },
+  { type: "QR Codes", use: "Marketing, événements" },
+  { type: "Formulaires", use: "Leads, inscriptions" },
+  { type: "Pages liens", use: "Bio réseaux sociaux" },
+  { type: "Cartes digitales", use: "Networking, contacts" },
+  { type: "Widgets", use: "Intégration sites web" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Vous passez trop de temps à faire des devis manuellement",
+  "Vos formulaires ne sont pas assez interactifs",
+  "Vous n'avez pas d'outils pour capturer des leads",
+  "Vos cartes de visite finissent à la poubelle",
+  "Vous ne pouvez pas tracker vos QR codes",
+  "Vos processus clients ne sont pas automatisés",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Automatisation",
+    description: "Gagnez des heures sur les tâches répétitives",
   },
   {
-    title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
+    title: "Professionnalisme",
+    description: "Impressionnez avec des outils modernes",
   },
   {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
+    title: "Conversion",
+    description: "Transformez plus de visiteurs en leads",
   },
   {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    title: "Tracking",
+    description: "Mesurez tout et optimisez en continu",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
-    duration: "2-3 jours"
+    title: "Définition", 
+    description: "Compréhension de votre besoin et objectifs du gadget",
+    duration: "1-2 jours"
   },
   { 
     step: "02", 
-    title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
-    duration: "3-5 jours"
+    title: "Conception", 
+    description: "Design et prototypage de l'outil",
+    duration: "2-3 jours"
   },
   { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
-    duration: "Continu"
+    title: "Développement", 
+    description: "Création et intégrations nécessaires",
+    duration: "3-7 jours"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Livraison", 
+    description: "Tests, formation et mise en production",
+    duration: "1-2 jours"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
-  "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "Gadget fonctionnel et testé",
+  "Documentation d'utilisation",
+  "Intégrations configurées",
+  "Formation à l'utilisation",
+  "Support technique 30 jours",
+  "Modifications mineures incluses",
+  "Analytics et tracking",
+  "Hébergement 1 an inclus",
 ];
 
 const pricing = [
   {
     name: "Starter",
-    price: "150 000",
-    period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    price: "50 000",
+    period: " FCFA",
+    description: "Un gadget simple et efficace",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
-      "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
+      "1 gadget au choix",
+      "Design personnalisé basique",
+      "Intégration simple",
+      "Analytics basiques",
+      "Support email 15 jours",
     ],
     popular: false,
   },
   {
     name: "Pro",
-    price: "350 000",
-    period: "/mois",
-    description: "Pour une croissance accélérée",
+    price: "125 000",
+    period: " FCFA",
+    description: "Solution complète et personnalisée",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "1 gadget avancé",
+      "Design sur-mesure",
+      "Intégrations multiples (CRM, email)",
+      "Analytics avancés",
+      "Logique conditionnelle",
+      "Support 30 jours",
+      "2 révisions incluses",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
-    period: "/mois",
-    description: "Pour dominer votre marché",
+    price: "250 000",
+    period: " FCFA",
+    description: "Pack complet multi-gadgets",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "3 gadgets au choix",
+      "Design premium unifié",
+      "Toutes intégrations",
+      "Dashboard analytics centralisé",
+      "Automatisations avancées",
+      "Support prioritaire 60 jours",
+      "Révisions illimitées",
+      "Formation équipe",
     ],
     popular: false,
   },
@@ -180,19 +189,19 @@ const pricing = [
 
 const useCases = [
   {
-    title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
+    title: "Agence Immobilière",
+    description: "Calculateur de prêt qui a généré 150+ leads qualifiés en 1 mois",
+    result: "150+ leads/mois",
   },
   {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
+    title: "Coach Business",
+    description: "Formulaire diagnostic qui qualifie automatiquement les prospects",
+    result: "+70% conversion",
   },
   {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    title: "Restaurant",
+    description: "QR codes dynamiques pour menus qui se mettent à jour en temps réel",
+    result: "-80% d'impressions",
   },
 ];
 
@@ -206,7 +215,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const GadgetsNumeriques = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +224,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-cyan-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,28 +237,36 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <Zap size={16} />
+                  Gadgets Numériques
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Des outils digitaux qui{" "}
+                  <span className="text-primary">automatisent</span>{" "}
+                  votre business
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Calculateurs, formulaires intelligents, QR codes, cartes de visite digitales... 
+                  Des micro-outils puissants pour gagner du temps et impressionner vos clients.
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mb-8">
                   <Button size="lg" asChild>
                     <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                      Créer mon gadget
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
-                    <Link to="/audit-gratuit">Audit gratuit</Link>
+                    <Link to="/contact">Voir des exemples</Link>
                   </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  {gadgetTypes.slice(0, 4).map((gt) => (
+                    <span key={gt.type} className="px-3 py-1.5 rounded-full bg-muted text-xs font-medium">
+                      {gt.type}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
               
@@ -260,29 +277,21 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-2xl" />
                   <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                    <div className="grid grid-cols-3 gap-4 w-full">
+                      {[Calculator, QrCode, FileSpreadsheet, Link2, CreditCard, BarChart].map((Icon, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.4 + i * 0.1 }}
+                          className="aspect-square rounded-xl bg-muted/50 flex items-center justify-center hover:bg-primary/10 transition-colors cursor-pointer"
+                        >
+                          <Icon size={24} className="text-primary" />
+                        </motion.div>
+                      ))}
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
-                    </motion.div>
                   </div>
                 </div>
               </motion.div>
@@ -290,8 +299,29 @@ const MarketingDigital = () => {
           </div>
         </section>
 
+        {/* Types de gadgets */}
+        <section className="py-12 border-y border-border bg-muted/30">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-center gap-6">
+              {gadgetTypes.map((gt, i) => (
+                <motion.div
+                  key={gt.type}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="text-center"
+                >
+                  <div className="text-sm font-semibold mb-1">{gt.type}</div>
+                  <div className="text-xs text-muted-foreground">{gt.use}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Problèmes */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -300,11 +330,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces situations vous parlent ?
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
-              </p>
             </motion.div>
 
             <motion.div
@@ -331,7 +358,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Bénéfices */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -342,9 +369,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous obtiendrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -369,7 +393,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Services */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -378,11 +402,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Nos gadgets numériques
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -418,7 +439,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Process */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -427,11 +448,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Notre méthodologie
+                Notre processus
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -460,7 +478,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Livrables */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -471,9 +489,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -500,7 +515,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Cas d'usage */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -511,9 +526,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Exemples de réussites
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -539,7 +551,7 @@ const MarketingDigital = () => {
         </section>
 
         {/* Pricing */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -550,9 +562,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Nos tarifs
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des forfaits adaptés à votre budget et vos objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -576,7 +585,7 @@ const MarketingDigital = () => {
                   <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
                   <div className="mb-6">
                     <span className="text-3xl font-display font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground"> FCFA{plan.period}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
                   </div>
                   <ul className="space-y-3 mb-6">
                     {plan.features.map((feature) => (
@@ -603,36 +612,36 @@ const MarketingDigital = () => {
               viewport={{ once: true }}
               className="text-center text-sm text-muted-foreground mt-8"
             >
-              Besoin d'un devis personnalisé ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
+              Besoin d'un gadget sur-mesure ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
             </motion.p>
           </div>
         </section>
 
         {/* CTA Contact */}
-        <section className="py-20">
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-cyan-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à automatiser avec un gadget sur-mesure ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Discutons de votre besoin et créons l'outil digital parfait pour votre business.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button size="lg" asChild>
                   <Link to="/demarrer-projet">
-                    Démarrer mon projet
+                    Créer mon gadget
                     <ArrowRight size={18} className="ml-2" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/audit-gratuit">Audit gratuit</Link>
+                  <Link to="/contact">Discuter de mon projet</Link>
                 </Button>
               </div>
 
@@ -667,4 +676,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default GadgetsNumeriques;

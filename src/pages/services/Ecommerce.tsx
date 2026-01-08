@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  Megaphone, 
-  Target, 
-  TrendingUp, 
-  Mail, 
-  Search, 
+  ShoppingCart, 
+  CreditCard, 
+  Package, 
+  Truck, 
   BarChart3, 
+  Shield, 
   ArrowRight, 
   Check, 
   Clock,
   FileText,
-  Phone,
+  Mail,
   MessageCircle,
   MapPin,
-  Zap,
-  PenTool,
-  Users,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  Smartphone,
+  Globe
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -25,154 +25,164 @@ import { Button } from "@/components/ui/button";
 
 const services = [
   {
-    icon: Target,
-    title: "Génération de Leads",
-    description: "Stratégies d'acquisition de prospects qualifiés via tous les canaux digitaux.",
-    features: ["Lead magnets", "Landing pages", "Publicités ciblées", "Qualification automatique"],
+    icon: ShoppingCart,
+    title: "Boutique en Ligne",
+    description: "Sites e-commerce complets avec catalogue produits et gestion commandes.",
+    features: ["Catalogue produits", "Panier d'achat", "Gestion stocks", "Multi-devises"],
   },
   {
-    icon: Search,
-    title: "SEO & Référencement",
-    description: "Optimisation pour les moteurs de recherche et stratégies de visibilité long terme.",
-    features: ["Audit technique", "Optimisation on-page", "Netlinking", "Suivi positions"],
+    icon: CreditCard,
+    title: "Paiements Intégrés",
+    description: "Solutions de paiement adaptées au marché africain et international.",
+    features: ["Mobile Money", "Carte bancaire", "PayPal", "Paiement à la livraison"],
   },
   {
-    icon: Mail,
-    title: "Email Marketing",
-    description: "Campagnes email performantes, séquences automatisées et newsletters engageantes.",
-    features: ["Séquences nurturing", "Newsletters", "A/B testing", "Segmentation"],
+    icon: Truck,
+    title: "Gestion Livraison",
+    description: "Système complet de gestion des expéditions et suivi colis.",
+    features: ["Calcul frais livraison", "Suivi temps réel", "Multi-transporteurs", "Zones personnalisées"],
   },
   {
-    icon: PenTool,
-    title: "Copywriting",
-    description: "Textes persuasifs qui convertissent : pages de vente, emails, publicités.",
-    features: ["Pages de vente", "Scripts vidéo", "Publicités", "Storytelling"],
+    icon: Package,
+    title: "Gestion Stocks",
+    description: "Outils de gestion d'inventaire pour éviter les ruptures.",
+    features: ["Alertes stock bas", "Multi-entrepôts", "Variations produits", "Import/export CSV"],
   },
   {
     icon: BarChart3,
-    title: "Publicité Digitale",
-    description: "Campagnes publicitaires optimisées sur Google, Meta, LinkedIn et TikTok.",
-    features: ["Google Ads", "Meta Ads", "LinkedIn Ads", "Retargeting"],
+    title: "Analytics E-commerce",
+    description: "Tableaux de bord pour suivre ventes, conversions et comportements.",
+    features: ["Dashboard ventes", "Rapports automatiques", "Tunnel conversion", "Comportement clients"],
   },
   {
-    icon: Users,
-    title: "Stratégie Marketing",
-    description: "Plans marketing complets adaptés à vos objectifs et votre marché.",
-    features: ["Analyse marché", "Positionnement", "Plan d'action", "KPIs"],
+    icon: Shield,
+    title: "Sécurité & Fiabilité",
+    description: "Protection des données clients et transactions sécurisées.",
+    features: ["Certificat SSL", "Conformité RGPD", "Sauvegardes auto", "Protection anti-fraude"],
   },
 ];
 
+const platforms = [
+  { name: "WooCommerce", description: "WordPress" },
+  { name: "Shopify", description: "SaaS" },
+  { name: "Sur-mesure", description: "React/Node" },
+  { name: "PrestaShop", description: "Open-source" },
+];
+
 const problems = [
-  "Vous n'arrivez pas à attirer de nouveaux clients en ligne",
-  "Votre site web génère peu ou pas de trafic",
-  "Vos publicités ne donnent pas de résultats",
-  "Vous ne savez pas comment communiquer efficacement",
-  "Vos concurrents sont plus visibles que vous",
-  "Votre budget marketing est gaspillé sans retour",
+  "Vous vendez uniquement en physique et perdez des ventes en ligne",
+  "Votre boutique actuelle ne convertit pas assez",
+  "Vous n'avez pas de système de paiement mobile money",
+  "La gestion des stocks et commandes est chaotique",
+  "Votre site n'est pas adapté au mobile",
+  "Vous n'avez pas de visibilité sur vos performances",
 ];
 
 const benefits = [
   {
-    title: "Visibilité accrue",
-    description: "Soyez trouvé par vos clients potentiels au bon moment",
+    title: "Vendez 24h/24",
+    description: "Votre boutique ne ferme jamais",
   },
   {
-    title: "Leads qualifiés",
-    description: "Attirez des prospects vraiment intéressés par vos services",
+    title: "Paiements simplifiés",
+    description: "Mobile Money, cartes et plus encore",
   },
   {
-    title: "ROI mesurable",
-    description: "Chaque franc investi est tracké et optimisé",
+    title: "Gestion centralisée",
+    description: "Stocks, commandes, clients en un seul endroit",
   },
   {
-    title: "Croissance durable",
-    description: "Construisez une présence en ligne qui génère des résultats long terme",
+    title: "Croissance mesurable",
+    description: "Analytics pour optimiser vos ventes",
   },
 ];
 
 const process = [
   { 
     step: "01", 
-    title: "Audit & Analyse", 
-    description: "Analyse complète de votre présence digitale actuelle, de votre marché et de vos concurrents",
-    duration: "2-3 jours"
-  },
-  { 
-    step: "02", 
-    title: "Stratégie", 
-    description: "Élaboration d'un plan d'action personnalisé avec objectifs SMART et KPIs",
+    title: "Analyse & Stratégie", 
+    description: "Étude de votre marché, produits et objectifs commerciaux",
     duration: "3-5 jours"
   },
   { 
+    step: "02", 
+    title: "Design & UX", 
+    description: "Conception de l'expérience d'achat optimale",
+    duration: "5-7 jours"
+  },
+  { 
     step: "03", 
-    title: "Exécution", 
-    description: "Mise en œuvre des actions marketing : campagnes, contenus, optimisations",
-    duration: "Continu"
+    title: "Développement", 
+    description: "Construction de la boutique avec toutes les fonctionnalités",
+    duration: "2-4 semaines"
   },
   { 
     step: "04", 
-    title: "Optimisation", 
-    description: "Analyse des résultats, tests A/B et amélioration continue des performances",
-    duration: "Mensuel"
+    title: "Lancement", 
+    description: "Tests, formation et mise en ligne de votre boutique",
+    duration: "3-5 jours"
   },
 ];
 
 const deliverables = [
-  "Audit marketing complet (rapport PDF détaillé)",
-  "Stratégie marketing documentée",
-  "Calendrier éditorial mensuel",
-  "Campagnes publicitaires configurées",
-  "Rapports de performance hebdomadaires",
-  "Recommandations d'optimisation",
-  "Accès aux tableaux de bord analytics",
-  "Sessions de consulting stratégique",
+  "Boutique e-commerce complète et fonctionnelle",
+  "Intégration paiements (Mobile Money, CB)",
+  "Système de gestion des commandes",
+  "Gestion des stocks intégrée",
+  "Design responsive (mobile, tablette, desktop)",
+  "Formation à l'administration",
+  "Documentation technique",
+  "Support technique 3 mois",
 ];
 
 const pricing = [
   {
     name: "Starter",
-    price: "150 000",
-    period: "/mois",
-    description: "Pour démarrer votre présence digitale",
+    price: "350 000",
+    period: " FCFA",
+    description: "Pour débuter dans le e-commerce",
     features: [
-      "Audit initial de votre présence en ligne",
-      "1 canal marketing (SEO ou Réseaux sociaux)",
-      "4 publications/mois",
-      "Rapport mensuel simplifié",
-      "1 session consulting/mois (30min)",
+      "Jusqu'à 50 produits",
+      "Design template personnalisé",
+      "Paiement Mobile Money + CB",
+      "Gestion commandes basique",
+      "Responsive mobile",
+      "Formation 2h",
+      "Support 1 mois",
     ],
     popular: false,
   },
   {
     name: "Pro",
-    price: "350 000",
-    period: "/mois",
-    description: "Pour une croissance accélérée",
+    price: "750 000",
+    period: " FCFA",
+    description: "Pour une boutique professionnelle",
     features: [
-      "Audit complet multi-canal",
-      "3 canaux marketing intégrés",
-      "12 publications/mois",
-      "Gestion campagnes publicitaires",
-      "Rapports hebdomadaires détaillés",
-      "2 sessions consulting/mois (1h)",
-      "Optimisation continue",
+      "Jusqu'à 500 produits",
+      "Design sur-mesure",
+      "Multi-moyens de paiement",
+      "Gestion stocks avancée",
+      "Calcul livraison automatique",
+      "Analytics intégrés",
+      "Formation équipe (4h)",
+      "Support 3 mois",
     ],
     popular: true,
   },
   {
     name: "Premium",
-    price: "650 000",
-    period: "/mois",
-    description: "Pour dominer votre marché",
+    price: "1 500 000",
+    period: " FCFA",
+    description: "Solution e-commerce complète",
     features: [
-      "Stratégie marketing 360° complète",
-      "Tous canaux marketing",
-      "25+ publications/mois",
-      "Gestion publicitaire avancée (budget illimité)",
-      "Email marketing & automation",
-      "Rapports en temps réel",
-      "Consulting illimité",
-      "Équipe dédiée",
+      "Produits illimités",
+      "Design premium sur-mesure",
+      "Marketplace multi-vendeurs possible",
+      "Intégrations ERP/CRM",
+      "Multi-langues / multi-devises",
+      "App mobile en option",
+      "Formation complète",
+      "Support prioritaire 6 mois",
     ],
     popular: false,
   },
@@ -180,19 +190,19 @@ const pricing = [
 
 const useCases = [
   {
-    title: "Startup Tech",
-    description: "Lancement d'une campagne de génération de leads qui a généré 200+ prospects qualifiés en 2 mois",
-    result: "+340% de trafic",
+    title: "Boutique Mode Abidjan",
+    description: "E-commerce avec paiement Wave/Orange Money qui a généré 500+ ventes en 3 mois",
+    result: "500+ ventes",
   },
   {
-    title: "E-commerce Mode",
-    description: "Optimisation SEO et publicités Meta qui ont triplé les ventes en ligne",
-    result: "x3 ventes en 3 mois",
+    title: "Épicerie Fine",
+    description: "Click & Collect + livraison qui a doublé le chiffre d'affaires",
+    result: "x2 CA en 6 mois",
   },
   {
-    title: "Cabinet Conseil",
-    description: "Stratégie LinkedIn et contenu expert qui a positionné le cabinet comme leader",
-    result: "+45% nouveaux clients",
+    title: "Artisan Bijoux",
+    description: "Boutique internationale avec livraison monde entier",
+    result: "30% ventes export",
   },
 ];
 
@@ -206,7 +216,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
-const MarketingDigital = () => {
+const Ecommerce = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -215,7 +225,7 @@ const MarketingDigital = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
+            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-green-500/10 blur-3xl -z-10"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
@@ -228,28 +238,37 @@ const MarketingDigital = () => {
                 transition={{ duration: 0.6 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-                  <Megaphone size={16} />
-                  Marketing Digital
+                  <ShoppingCart size={16} />
+                  E-commerce
                 </span>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
-                  Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
-                  digitale
+                  Vendez en ligne avec une{" "}
+                  <span className="text-primary">boutique</span>{" "}
+                  qui convertit
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
-                  Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
+                  Boutiques e-commerce optimisées pour le marché africain. 
+                  Paiement Mobile Money intégré, gestion stocks, livraison - tout en un.
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 mb-8">
                   <Button size="lg" asChild>
                     <Link to="/demarrer-projet">
-                      Booster ma visibilité
+                      Lancer ma boutique
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
                     <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-4">
+                  {platforms.map((p) => (
+                    <div key={p.name} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-xs">
+                      <span className="font-medium">{p.name}</span>
+                      <span className="text-muted-foreground">({p.description})</span>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
               
@@ -260,28 +279,33 @@ const MarketingDigital = () => {
                 className="relative hidden lg:block"
               >
                 <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl blur-2xl" />
+                  <div className="relative bg-card border border-border rounded-3xl p-6 h-full">
+                    {/* Mockup boutique */}
+                    <div className="bg-muted/50 rounded-xl p-4 mb-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-3 h-3 rounded-full bg-destructive"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                      <div className="h-2 w-1/2 bg-muted rounded mb-3"></div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[1, 2, 3].map((i) => (
+                          <div key={i} className="aspect-square bg-muted rounded-lg"></div>
+                        ))}
+                      </div>
                     </div>
-                    <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 }}
+                      className="flex items-center justify-between p-3 bg-primary/10 rounded-xl"
                     >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
-                        <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
-                          fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="3"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 2, delay: 0.5 }}
-                        />
-                      </svg>
+                      <div>
+                        <div className="text-xs text-muted-foreground">Ventes aujourd'hui</div>
+                        <div className="text-lg font-bold text-primary">125 000 FCFA</div>
+                      </div>
+                      <TrendingUp className="text-primary" size={24} />
                     </motion.div>
                   </div>
                 </div>
@@ -300,11 +324,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Vous vous reconnaissez ?
+                Ces défis vous concernent ?
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Ces défis sont courants, mais nous avons les solutions pour les surmonter.
-              </p>
             </motion.div>
 
             <motion.div
@@ -342,9 +363,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous obtiendrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des résultats concrets et mesurables pour votre entreprise.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -378,11 +396,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos expertises marketing
+                Fonctionnalités e-commerce
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche 360° pour maximiser votre présence en ligne.
-              </p>
             </motion.div>
 
             <motion.div
@@ -427,11 +442,8 @@ const MarketingDigital = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Notre méthodologie
+                Notre processus
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Une approche structurée pour des résultats mesurables.
-              </p>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -471,9 +483,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Ce que vous recevrez
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des livrables concrets et actionnables.
-              </p>
             </motion.div>
 
             <motion.div
@@ -511,9 +520,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Exemples de réussites
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Découvrez comment nous avons aidé nos clients à atteindre leurs objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -550,9 +556,6 @@ const MarketingDigital = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
                 Nos tarifs
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des forfaits adaptés à votre budget et vos objectifs.
-              </p>
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -576,7 +579,7 @@ const MarketingDigital = () => {
                   <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
                   <div className="mb-6">
                     <span className="text-3xl font-display font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground"> FCFA{plan.period}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
                   </div>
                   <ul className="space-y-3 mb-6">
                     {plan.features.map((feature) => (
@@ -603,7 +606,7 @@ const MarketingDigital = () => {
               viewport={{ once: true }}
               className="text-center text-sm text-muted-foreground mt-8"
             >
-              Besoin d'un devis personnalisé ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
+              Besoin d'une solution sur-mesure ? <Link to="/contact" className="text-primary hover:underline">Contactez-nous</Link>
             </motion.p>
           </div>
         </section>
@@ -615,19 +618,19 @@ const MarketingDigital = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border"
+              className="max-w-4xl mx-auto text-center p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-green-500/10 border border-border"
             >
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Prêt à booster votre marketing ?
+                Prêt à lancer votre boutique en ligne ?
               </h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Discutons de vos objectifs et créons ensemble une stratégie qui vous démarque.
+                Discutons de votre projet e-commerce et créons ensemble une boutique qui vend.
               </p>
 
               <div className="flex flex-wrap justify-center gap-4 mb-8">
                 <Button size="lg" asChild>
                   <Link to="/demarrer-projet">
-                    Démarrer mon projet
+                    Lancer ma boutique
                     <ArrowRight size={18} className="ml-2" />
                   </Link>
                 </Button>
@@ -667,4 +670,4 @@ const MarketingDigital = () => {
   );
 };
 
-export default MarketingDigital;
+export default Ecommerce;
