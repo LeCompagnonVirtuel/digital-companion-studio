@@ -139,7 +139,7 @@ const pricing = [
   {
     name: "Starter",
     price: "100 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour maintenir une présence de base",
     features: [
       "1 réseau social géré",
@@ -153,7 +153,7 @@ const pricing = [
   {
     name: "Pro",
     price: "200 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour une présence active et engageante",
     features: [
       "2 réseaux sociaux gérés",
@@ -169,7 +169,7 @@ const pricing = [
   {
     name: "Premium",
     price: "400 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour dominer vos réseaux sociaux",
     features: [
       "Tous réseaux sociaux gérés",

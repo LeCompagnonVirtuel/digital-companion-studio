@@ -10,7 +10,8 @@ const pricingPlans = [
   {
     name: "Starter",
     tagline: "Exister et être crédible",
-    price: "990",
+    price: "150 000",
+    currency: "FCFA",
     description: "Idéal pour lancer votre présence digitale avec les bases essentielles.",
     features: [
       "Site vitrine responsive (5 pages)",
@@ -31,7 +32,8 @@ const pricingPlans = [
   {
     name: "Croissance",
     tagline: "Attirer et convertir",
-    price: "2 490",
+    price: "350 000",
+    currency: "FCFA",
     description: "Pour les entreprises prêtes à accélérer leur acquisition de clients.",
     features: [
       "Tout du pack Starter",
@@ -52,7 +54,8 @@ const pricingPlans = [
   {
     name: "Scale",
     tagline: "Performer et automatiser",
-    price: "4 990",
+    price: "750 000",
+    currency: "FCFA",
     description: "Automatisation avancée et IA pour maximiser votre ROI.",
     features: [
       "Tout du pack Croissance",
@@ -150,9 +153,9 @@ const Pricing = () => {
 
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-display font-bold">{plan.price}€</span>
-                      <span className={`text-sm ${plan.popular ? "text-background/60" : "text-muted-foreground"}`}>
-                        /projet
+                      <span className="text-4xl font-display font-bold">{plan.price}</span>
+                      <span className={`text-sm font-medium ${plan.popular ? "text-background/80" : "text-foreground"}`}>
+                        FCFA
                       </span>
                     </div>
                     <p className={`text-sm mt-2 ${plan.popular ? "text-background/70" : "text-muted-foreground"}`}>

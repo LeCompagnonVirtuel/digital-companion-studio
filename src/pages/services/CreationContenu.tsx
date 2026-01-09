@@ -140,7 +140,7 @@ const pricing = [
   {
     name: "Starter",
     price: "75 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour un flux de contenu basique",
     features: [
       "8 visuels statiques/mois",
@@ -154,7 +154,7 @@ const pricing = [
   {
     name: "Pro",
     price: "175 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour une présence visuelle forte",
     features: [
       "16 visuels statiques/mois",
@@ -170,7 +170,7 @@ const pricing = [
   {
     name: "Premium",
     price: "350 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour dominer avec du contenu premium",
     features: [
       "30+ visuels/mois",

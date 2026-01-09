@@ -44,19 +44,19 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Téléphone",
-      value: settings.business_info.phone || "+33 1 23 45 67 89",
-      href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : null,
+      value: settings.business_info.phone || "+225 07 06 69 30 38",
+      href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : "tel:+22507066930 38",
     },
     {
       icon: MapPin,
       title: "Adresse",
-      value: settings.business_info.address || "Paris, France",
+      value: settings.business_info.address || "Côte d'Ivoire",
       href: null,
     },
     {
       icon: Clock,
       title: "Horaires",
-      value: settings.business_info.hours || "Lun-Ven 9h-18h",
+      value: settings.business_info.hours || "Lun-Ven 8h-18h",
       href: null,
     },
   ];

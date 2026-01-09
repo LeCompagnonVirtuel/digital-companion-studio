@@ -20,8 +20,8 @@ export interface SiteSettings {
 
 const defaultSettings: SiteSettings = {
   site_name: 'Le Compagnon Virtuel',
-  site_description: 'Agence digitale full-stack',
-  contact_email: 'contact@lecompagnonvirtuel.fr',
+  site_description: 'Votre partenaire digital pour concevoir, automatiser et faire croître des écosystèmes digitaux performants.',
+  contact_email: 'lecompagnonvirtuel@gmail.com',
   social_links: {
     facebook: '',
     instagram: '',
@@ -29,9 +29,9 @@ const defaultSettings: SiteSettings = {
     twitter: '',
   },
   business_info: {
-    phone: '+33 1 23 45 67 89',
-    address: 'Paris, France',
-    hours: 'Lun-Ven 9h-18h',
+    phone: '+225 07 06 69 30 38',
+    address: 'Côte d\'Ivoire',
+    hours: 'Lun-Ven 8h-18h',
   },
 };
 
