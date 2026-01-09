@@ -23,6 +23,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
 import Portfolio from "./pages/Portfolio";
+import PortfolioProject from "./pages/PortfolioProject";
 import ProjectDetail from "./pages/ProjectDetail";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
@@ -43,6 +44,7 @@ import Users from "./pages/admin/Users";
 import Analytics from "./pages/admin/Analytics";
 import BlogAdmin from "./pages/admin/Blog";
 import SEO from "./pages/admin/SEO";
+import AdminPortfolio from "./pages/admin/Portfolio";
 import Media from "./pages/admin/Media";
 import NotFound from "./pages/NotFound";
 
@@ -82,7 +84,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/portfolio/:slug" element={<ProjectDetail />} />
+            <Route path="/portfolio/:slug" element={<PortfolioProject />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/auth" element={<Auth />} />
@@ -100,6 +102,7 @@ const App = () => (
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/analytics" element={<Analytics />} />
             <Route path="/admin/blog" element={<BlogAdmin />} />
+            <Route path="/admin/portfolio" element={<AdminPortfolio />} />
             <Route path="/admin/media" element={<Media />} />
             <Route path="/admin/seo" element={<SEO />} />
             <Route path="/admin/settings" element={<Settings />} />
