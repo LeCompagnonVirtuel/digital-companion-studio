@@ -132,7 +132,7 @@ const pricing = [
   {
     name: "Starter",
     price: "150 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour démarrer votre présence digitale",
     features: [
       "Audit initial de votre présence en ligne",
@@ -146,7 +146,7 @@ const pricing = [
   {
     name: "Pro",
     price: "350 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour une croissance accélérée",
     features: [
       "Audit complet multi-canal",
@@ -162,7 +162,7 @@ const pricing = [
   {
     name: "Premium",
     price: "650 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour dominer votre marché",
     features: [
       "Stratégie marketing 360° complète",

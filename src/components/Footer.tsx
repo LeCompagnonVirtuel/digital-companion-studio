@@ -7,17 +7,17 @@ import logoImage from "@/assets/logo.png";
 
 const footerLinks = {
   services: [
-    { name: "Marketing Digital", href: "/services#marketing" },
-    { name: "Création de Contenu", href: "/services#content" },
-    { name: "Automatisation IA", href: "/services#automation" },
-    { name: "Développement Web", href: "/services#web" },
-    { name: "E-commerce", href: "/services#ecommerce" },
+    { name: "Marketing Digital", href: "/services/marketing-digital" },
+    { name: "Développement Web", href: "/services/developpement-web" },
+    { name: "E-commerce", href: "/services/ecommerce" },
+    { name: "Automatisation IA", href: "/services/automatisation-ia" },
+    { name: "SEO & Visibilité", href: "/services/seo" },
   ],
   company: [
     { name: "À propos", href: "/about" },
     { name: "Portfolio", href: "/portfolio" },
     { name: "Blog", href: "/blog" },
-    { name: "Carrières", href: "/careers" },
+    { name: "Tarifs", href: "/pricing" },
     { name: "Contact", href: "/contact" },
   ],
   legal: [

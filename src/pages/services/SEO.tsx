@@ -137,7 +137,7 @@ const pricing = [
   {
     name: "Starter",
     price: "125 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour démarrer votre SEO",
     features: [
       "Audit SEO initial",
@@ -152,7 +152,7 @@ const pricing = [
   {
     name: "Pro",
     price: "275 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour une croissance soutenue",
     features: [
       "Audit SEO complet",
@@ -169,7 +169,7 @@ const pricing = [
   {
     name: "Premium",
     price: "500 000",
-    period: "/mois",
+    period: " FCFA/mois",
     description: "Pour dominer votre marché",
     features: [
       "Audit SEO avancé",
