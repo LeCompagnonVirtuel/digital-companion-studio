@@ -56,7 +56,53 @@ export function usePortfolioProjects(adminMode = false) {
 
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]);
+
+    // Subscribe to realtime updates for immediate sync
+    const channel = supabase
+      .channel('portfolio-projects-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'portfolio_projects',
+        },
+        (payload) => {
+          console.log('Portfolio project changed:', payload);
+          
+          if (payload.eventType === 'INSERT') {
+            const newProject = payload.new as PortfolioProject;
+            if (adminMode || newProject.status === 'published') {
+              setProjects((prev) => [...prev, newProject].sort((a, b) => a.display_order - b.display_order));
+            }
+          } else if (payload.eventType === 'UPDATE') {
+            const updatedProject = payload.new as PortfolioProject;
+            setProjects((prev) => {
+              if (!adminMode && updatedProject.status !== 'published') {
+                // Remove from list if unpublished in public mode
+                return prev.filter((p) => p.id !== updatedProject.id);
+              }
+              const exists = prev.find((p) => p.id === updatedProject.id);
+              if (exists) {
+                return prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
+                  .sort((a, b) => a.display_order - b.display_order);
+              } else if (adminMode || updatedProject.status === 'published') {
+                return [...prev, updatedProject].sort((a, b) => a.display_order - b.display_order);
+              }
+              return prev;
+            });
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = (payload.old as { id: string }).id;
+            setProjects((prev) => prev.filter((p) => p.id !== deletedId));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchProjects, adminMode]);
 
   const createProject = async (project: PortfolioProjectInsert) => {
     try {

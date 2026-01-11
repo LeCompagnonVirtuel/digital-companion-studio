@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import DeveloppementWeb from "./pages/services/DeveloppementWeb";
@@ -57,14 +56,6 @@ function ChatbotWrapper() {
   
   if (isAdminRoute) return null;
   return <Chatbot />;
-}
-
-function WhatsAppWrapper() {
-  const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/auth";
-  
-  if (isAdminRoute) return null;
-  return <WhatsAppButton />;
 }
 
 const App = () => (
@@ -118,7 +109,6 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ChatbotWrapper />
-          <WhatsAppWrapper />
         </BrowserRouter>
       </TooltipProvider>
     </AdminAuthProvider>
