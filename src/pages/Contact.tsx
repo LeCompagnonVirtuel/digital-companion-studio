@@ -43,9 +43,9 @@ const Contact = () => {
     },
     {
       icon: Phone,
-      title: "Téléphone",
-      value: settings.business_info.phone || "+225 07 06 69 30 38",
-      href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : "tel:+22507066930 38",
+      title: "Téléphone / WhatsApp",
+      value: settings.business_info.phone || "+225 0504292778",
+      href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : "tel:+2250504292778",
     },
     {
       icon: MapPin,
