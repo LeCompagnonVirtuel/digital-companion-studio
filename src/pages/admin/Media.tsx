@@ -95,6 +95,39 @@ const Media = () => {
 
   useEffect(() => {
     fetchFiles();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel('media-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'media',
+        },
+        (payload) => {
+          console.log('Media changed:', payload);
+          
+          if (payload.eventType === 'INSERT') {
+            const newFile = payload.new as MediaFile & { file_path: string };
+            const url = supabase.storage.from('media').getPublicUrl(newFile.file_path).data.publicUrl;
+            setFiles((prev) => [{ ...newFile, url }, ...prev]);
+          } else if (payload.eventType === 'UPDATE') {
+            const updatedFile = payload.new as MediaFile & { file_path: string };
+            const url = supabase.storage.from('media').getPublicUrl(updatedFile.file_path).data.publicUrl;
+            setFiles((prev) => prev.map((f) => (f.id === updatedFile.id ? { ...updatedFile, url } : f)));
+          } else if (payload.eventType === 'DELETE') {
+            const deletedId = (payload.old as { id: string }).id;
+            setFiles((prev) => prev.filter((f) => f.id !== deletedId));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchFiles]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
