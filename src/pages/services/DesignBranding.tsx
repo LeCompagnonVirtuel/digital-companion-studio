@@ -60,6 +60,57 @@ const principles = [
   { icon: Smartphone, title: "Adaptabilité", description: "Des designs qui fonctionnent partout" },
 ];
 
+const pricing = [
+  {
+    name: "Logo",
+    price: "75 000",
+    period: " FCFA",
+    description: "L'essentiel pour démarrer",
+    features: [
+      "3 propositions de logo",
+      "2 révisions incluses",
+      "Fichiers HD (PNG, JPG, SVG)",
+      "Guide d'utilisation basique",
+      "Livraison 5-7 jours",
+    ],
+    popular: false,
+  },
+  {
+    name: "Identité Complète",
+    price: "200 000",
+    period: " FCFA",
+    description: "Identité visuelle professionnelle",
+    features: [
+      "Logo + variantes",
+      "Palette de couleurs",
+      "Typographies",
+      "Éléments graphiques",
+      "Charte graphique PDF",
+      "Templates réseaux sociaux",
+      "Révisions illimitées",
+      "Livraison 10-14 jours",
+    ],
+    popular: true,
+  },
+  {
+    name: "Brand Book",
+    price: "350 000",
+    period: " FCFA",
+    description: "Stratégie de marque complète",
+    features: [
+      "Tout du pack Identité",
+      "Audit de marque",
+      "Positionnement stratégique",
+      "Ton de voix & messaging",
+      "Brand book complet (30+ pages)",
+      "Kit de communication",
+      "Accompagnement 1 mois",
+      "Livraison 3-4 semaines",
+    ],
+    popular: false,
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -286,6 +337,70 @@ const DesignBranding = () => {
                 </Link>
               </Button>
             </motion.div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section className="section-padding">
+          <div className="container-wide">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
+                Nos tarifs design
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Des formules adaptées à vos besoins et votre budget.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {pricing.map((plan, i) => (
+                <motion.div
+                  key={plan.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`relative p-6 rounded-2xl bg-card border ${
+                    plan.popular ? "border-gold shadow-lg" : "border-border"
+                  }`}
+                >
+                  {plan.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gold text-gold-foreground text-xs font-medium">
+                      Populaire
+                    </span>
+                  )}
+                  <h3 className="font-display font-semibold text-xl mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
+                  <ul className="space-y-3 mb-6">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2 text-sm">
+                        <Check size={16} className="text-gold shrink-0 mt-0.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    variant={plan.popular ? "hero" : "outline"} 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link to="/demarrer-projet">
+                      Démarrer
+                      <ArrowRight size={16} className="ml-2" />
+                    </Link>
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
