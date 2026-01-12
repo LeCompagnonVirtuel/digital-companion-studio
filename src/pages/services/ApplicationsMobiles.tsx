@@ -60,6 +60,59 @@ const stats = [
   { value: "99.9%", label: "Uptime" },
 ];
 
+const pricing = [
+  {
+    name: "PWA",
+    price: "250 000",
+    period: " FCFA",
+    description: "Application web progressive",
+    features: [
+      "Application installable",
+      "Mode hors-ligne",
+      "Notifications push",
+      "Design responsive",
+      "Pas de frais stores",
+      "Mises à jour instantanées",
+      "Support 30 jours",
+    ],
+    popular: false,
+  },
+  {
+    name: "App Hybride",
+    price: "500 000",
+    period: " FCFA",
+    description: "iOS & Android avec une codebase",
+    features: [
+      "Application iOS + Android",
+      "React Native / Flutter",
+      "UI/UX premium",
+      "Push notifications",
+      "Publication sur stores",
+      "Analytics intégrés",
+      "Support 60 jours",
+      "2 mises à jour incluses",
+    ],
+    popular: true,
+  },
+  {
+    name: "App Native",
+    price: "À partir de 800 000",
+    period: " FCFA",
+    description: "Performance maximale",
+    features: [
+      "Swift (iOS) ou Kotlin (Android)",
+      "Performance native optimale",
+      "Accès hardware complet",
+      "Fonctionnalités avancées",
+      "Backend sur-mesure",
+      "Publication stores incluse",
+      "Maintenance 6 mois",
+      "Support prioritaire",
+    ],
+    popular: false,
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -270,6 +323,70 @@ const ApplicationsMobiles = () => {
                   </div>
                   <h3 className="font-display font-semibold mb-2">{feature.title}</h3>
                   <p className="text-sm text-muted-foreground">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section className="section-padding">
+          <div className="container-wide">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
+                Nos tarifs applications
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Des solutions mobiles pour tous les budgets.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {pricing.map((plan, i) => (
+                <motion.div
+                  key={plan.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`relative p-6 rounded-2xl bg-card border ${
+                    plan.popular ? "border-accent shadow-lg" : "border-border"
+                  }`}
+                >
+                  {plan.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-medium">
+                      Populaire
+                    </span>
+                  )}
+                  <h3 className="font-display font-semibold text-xl mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
+                  <ul className="space-y-3 mb-6">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2 text-sm">
+                        <Check size={16} className="text-accent shrink-0 mt-0.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    variant={plan.popular ? "hero" : "outline"} 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link to="/demarrer-projet">
+                      Créer mon app
+                      <ArrowRight size={16} className="ml-2" />
+                    </Link>
+                  </Button>
                 </motion.div>
               ))}
             </div>

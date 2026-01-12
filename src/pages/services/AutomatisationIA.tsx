@@ -60,6 +60,57 @@ const stats = [
   { value: "-60%", label: "Coûts support" },
 ];
 
+const pricing = [
+  {
+    name: "Chatbot",
+    price: "200 000",
+    period: " FCFA",
+    description: "Assistant virtuel intelligent",
+    features: [
+      "Chatbot IA personnalisé",
+      "Intégration site web",
+      "Réponses automatiques FAQ",
+      "Qualification des leads",
+      "Dashboard analytics",
+      "Support 30 jours",
+    ],
+    popular: false,
+  },
+  {
+    name: "Automatisation",
+    price: "350 000",
+    period: " FCFA",
+    description: "Workflows automatisés complets",
+    features: [
+      "Analyse de vos processus",
+      "3 workflows automatisés",
+      "Intégrations outils (CRM, email, etc.)",
+      "Chatbot IA inclus",
+      "Formation équipe",
+      "Monitoring & alertes",
+      "Support 60 jours",
+    ],
+    popular: true,
+  },
+  {
+    name: "IA Avancée",
+    price: "À partir de 600 000",
+    period: " FCFA",
+    description: "Solutions IA sur-mesure",
+    features: [
+      "Audit IA complet",
+      "Workflows illimités",
+      "IA générative personnalisée",
+      "Agents IA autonomes",
+      "Intégrations avancées",
+      "API personnalisées",
+      "Accompagnement 3 mois",
+      "Support prioritaire",
+    ],
+    popular: false,
+  },
+];
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -254,6 +305,70 @@ const AutomatisationIA = () => {
                   </div>
                   <h3 className="font-display font-semibold mb-2">{useCase.title}</h3>
                   <p className="text-sm text-muted-foreground">{useCase.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section className="section-padding">
+          <div className="container-wide">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
+                Nos tarifs automatisation
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Des solutions pour tous les budgets et tous les besoins.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {pricing.map((plan, i) => (
+                <motion.div
+                  key={plan.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`relative p-6 rounded-2xl bg-card border ${
+                    plan.popular ? "border-accent shadow-lg" : "border-border"
+                  }`}
+                >
+                  {plan.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent text-accent-foreground text-xs font-medium">
+                      Recommandé
+                    </span>
+                  )}
+                  <h3 className="font-display font-semibold text-xl mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
+                  <ul className="space-y-3 mb-6">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2 text-sm">
+                        <Check size={16} className="text-accent shrink-0 mt-0.5" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    variant={plan.popular ? "hero" : "outline"} 
+                    className="w-full" 
+                    asChild
+                  >
+                    <Link to="/demarrer-projet">
+                      Automatiser
+                      <ArrowRight size={16} className="ml-2" />
+                    </Link>
+                  </Button>
                 </motion.div>
               ))}
             </div>
