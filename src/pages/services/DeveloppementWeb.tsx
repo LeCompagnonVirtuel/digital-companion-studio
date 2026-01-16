@@ -18,6 +18,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
+import { ServicePricingSection } from "@/components/services/ServicePricingSection";
 
 const services = [
   {
@@ -316,68 +317,13 @@ const DeveloppementWeb = () => {
         </section>
 
         {/* Pricing */}
-        <section className="section-padding">
-          <div className="container-wide">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">
-                Nos tarifs
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Des solutions adaptées à chaque budget et chaque ambition.
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {pricing.map((plan, i) => (
-                <motion.div
-                  key={plan.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`relative p-6 rounded-2xl bg-card border ${
-                    plan.popular ? "border-primary shadow-lg" : "border-border"
-                  }`}
-                >
-                  {plan.popular && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">
-                      Recommandé
-                    </span>
-                  )}
-                  <h3 className="font-display font-semibold text-xl mb-2">{plan.name}</h3>
-                  <div className="mb-4">
-                    <span className="text-3xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-6">{plan.description}</p>
-                  <ul className="space-y-3 mb-6">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-sm">
-                        <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button 
-                    variant={plan.popular ? "hero" : "outline"} 
-                    className="w-full" 
-                    asChild
-                  >
-                    <Link to="/demarrer-projet">
-                      Démarrer
-                      <ArrowRight size={16} className="ml-2" />
-                    </Link>
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ServicePricingSection 
+          service="developpement-web"
+          plans={pricing.map((plan, i) => ({
+            ...plan,
+            planId: i === 0 ? "starter" : i === 1 ? "pro" : "premium"
+          }))}
+        />
 
         <CTASection />
       </main>

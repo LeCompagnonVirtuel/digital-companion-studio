@@ -364,8 +364,8 @@ const AutomatisationIA = () => {
                     className="w-full" 
                     asChild
                   >
-                    <Link to="/demarrer-projet">
-                      Automatiser
+                    <Link to={`/demarrer-projet?service=automatisation-ia&plan=${i === 0 ? "starter" : i === 1 ? "pro" : "premium"}`}>
+                      Choisir ce plan
                       <ArrowRight size={16} className="ml-2" />
                     </Link>
                   </Button>

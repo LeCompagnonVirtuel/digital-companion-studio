@@ -382,8 +382,8 @@ const ApplicationsMobiles = () => {
                     className="w-full" 
                     asChild
                   >
-                    <Link to="/demarrer-projet">
-                      Créer mon app
+                    <Link to={`/demarrer-projet?service=applications-mobiles&plan=${i === 0 ? "starter" : i === 1 ? "pro" : "premium"}`}>
+                      Choisir ce plan
                       <ArrowRight size={16} className="ml-2" />
                     </Link>
                   </Button>
