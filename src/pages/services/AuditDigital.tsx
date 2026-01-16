@@ -611,7 +611,7 @@ const AuditDigital = () => {
                     variant={plan.popular ? "default" : "outline"}
                     asChild
                   >
-                    <Link to="/audit-gratuit">Demander un audit</Link>
+                    <Link to={`/demarrer-projet?service=audit-digital&plan=${i === 0 ? "starter" : i === 1 ? "pro" : "premium"}`}>Choisir ce plan</Link>
                   </Button>
                 </motion.div>
               ))}
@@ -658,13 +658,13 @@ const AuditDigital = () => {
 
               <div className="flex flex-wrap justify-center gap-6 text-sm">
                 <a 
-                  href="https://wa.me/2250706693038" 
+                  href="https://wa.me/2250504292778" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                 >
                   <MessageCircle size={16} />
-                  +225 07 06 69 30 38
+                  +225 05 04 29 27 78
                 </a>
                 <a 
                   href="mailto:lecompagnonvirtuel@gmail.com"

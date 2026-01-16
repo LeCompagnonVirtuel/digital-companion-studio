@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Send, Mail, Phone, MapPin, Clock, CheckCircle2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -20,19 +21,42 @@ const contactSchema = z.object({
   message: z.string().trim().min(10, "Le message doit contenir au moins 10 caractères").max(2000),
 });
 
+const packInfo: Record<string, { name: string; price: string }> = {
+  starter: { name: "Pack Starter", price: "150 000 FCFA" },
+  croissance: { name: "Pack Croissance", price: "350 000 FCFA" },
+  scale: { name: "Pack Scale", price: "750 000 FCFA" },
+};
+
 const Contact = () => {
   const { toast } = useToast();
   const { settings } = useSiteSettings();
+  const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  const selectedPack = searchParams.get("pack");
+  const packDetails = selectedPack ? packInfo[selectedPack] : null;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    subject: "",
-    message: "",
+    subject: packDetails ? `Demande pour ${packDetails.name}` : "",
+    message: packDetails 
+      ? `Bonjour,\n\nJe suis intéressé(e) par le ${packDetails.name} (${packDetails.price}).\n\nMerci de me recontacter pour en discuter.`
+      : "",
   });
+
+  useEffect(() => {
+    if (packDetails) {
+      setFormData(prev => ({
+        ...prev,
+        subject: `Demande pour ${packDetails.name}`,
+        message: `Bonjour,\n\nJe suis intéressé(e) par le ${packDetails.name} (${packDetails.price}).\n\nMerci de me recontacter pour en discuter.`,
+      }));
+    }
+  }, [selectedPack]);
 
   const contactInfo = [
     {

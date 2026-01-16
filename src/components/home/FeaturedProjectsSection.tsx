@@ -81,7 +81,7 @@ export function FeaturedProjectsSection() {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               className="group relative"
             >
-              <div className="relative h-full rounded-2xl bg-background border border-border overflow-hidden hover:border-primary/30 hover:shadow-elevated transition-all duration-500">
+              <Link to="/portfolio" className="relative h-full rounded-2xl bg-background border border-border overflow-hidden hover:border-primary/30 hover:shadow-elevated transition-all duration-500 block">
                 {/* Project Image Placeholder */}
                 <div className={`aspect-[4/3] bg-gradient-to-br ${project.color} relative overflow-hidden`}>
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -92,10 +92,10 @@ export function FeaturedProjectsSection() {
                   
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" className="gap-2">
+                    <span className="text-primary-foreground font-medium flex items-center gap-2">
                       <ExternalLink size={16} />
                       Voir le projet
-                    </Button>
+                    </span>
                   </div>
                 </div>
 
@@ -117,7 +117,7 @@ export function FeaturedProjectsSection() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>

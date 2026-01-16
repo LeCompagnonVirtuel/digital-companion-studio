@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle, Rocket, Clock, Shield, Sparkles, Users, Zap } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
@@ -25,18 +26,24 @@ const projectTypes = [
   { value: "site-vitrine", label: "Site vitrine" },
   { value: "e-commerce", label: "E-commerce" },
   { value: "application-web", label: "Application web" },
+  { value: "application-mobile", label: "Application mobile" },
   { value: "refonte", label: "Refonte de site" },
   { value: "marketing-digital", label: "Marketing digital" },
+  { value: "seo", label: "SEO & Référencement" },
+  { value: "design-branding", label: "Design & Branding" },
+  { value: "community-management", label: "Community Management" },
+  { value: "creation-contenu", label: "Création de contenu" },
   { value: "automatisation", label: "Automatisation / IA" },
+  { value: "audit", label: "Audit digital" },
   { value: "autre", label: "Autre" },
 ];
 
 const budgets = [
-  { value: "moins-1000", label: "Moins de 1 000€" },
-  { value: "1000-3000", label: "1 000€ - 3 000€" },
-  { value: "3000-5000", label: "3 000€ - 5 000€" },
-  { value: "5000-10000", label: "5 000€ - 10 000€" },
-  { value: "plus-10000", label: "Plus de 10 000€" },
+  { value: "moins-100k", label: "Moins de 100 000 FCFA" },
+  { value: "100k-250k", label: "100 000 - 250 000 FCFA" },
+  { value: "250k-500k", label: "250 000 - 500 000 FCFA" },
+  { value: "500k-1m", label: "500 000 - 1 000 000 FCFA" },
+  { value: "plus-1m", label: "Plus de 1 000 000 FCFA" },
   { value: "a-definir", label: "À définir ensemble" },
 ];
 
@@ -46,6 +53,31 @@ const timelines = [
   { value: "2-3-mois", label: "2-3 mois" },
   { value: "flexible", label: "Flexible" },
 ];
+
+const serviceToProjectType: Record<string, string> = {
+  "developpement-web": "site-vitrine",
+  "applications-mobiles": "application-mobile",
+  "e-commerce": "e-commerce",
+  "ecommerce": "e-commerce",
+  "marketing-digital": "marketing-digital",
+  "seo": "seo",
+  "design-branding": "design-branding",
+  "community-management": "community-management",
+  "creation-contenu": "creation-contenu",
+  "automatisation-ia": "automatisation",
+  "audit-digital": "audit",
+  "gadgets-numeriques": "autre",
+};
+
+const planToBudget: Record<string, string> = {
+  "starter": "100k-250k",
+  "essentiel": "100k-250k",
+  "pro": "250k-500k",
+  "croissance": "250k-500k",
+  "premium": "500k-1m",
+  "scale": "500k-1m",
+  "entreprise": "plus-1m",
+};
 
 const processSteps = [
   {
@@ -72,18 +104,64 @@ const processSteps = [
 
 const StartProject = () => {
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const serviceParam = searchParams.get("service");
+  const planParam = searchParams.get("plan");
+
+  const getInitialProjectType = () => {
+    if (serviceParam && serviceToProjectType[serviceParam]) {
+      return serviceToProjectType[serviceParam];
+    }
+    return "";
+  };
+
+  const getInitialBudget = () => {
+    if (planParam && planToBudget[planParam.toLowerCase()]) {
+      return planToBudget[planParam.toLowerCase()];
+    }
+    return "";
+  };
+
+  const getInitialDescription = () => {
+    const parts: string[] = [];
+    if (serviceParam) {
+      const serviceLabel = projectTypes.find(t => t.value === serviceToProjectType[serviceParam])?.label;
+      if (serviceLabel) {
+        parts.push(`Je suis intéressé(e) par le service : ${serviceLabel}`);
+      }
+    }
+    if (planParam) {
+      parts.push(`Pack choisi : ${planParam.charAt(0).toUpperCase() + planParam.slice(1)}`);
+    }
+    if (parts.length > 0) {
+      parts.push("\n\nMerci de me recontacter pour en discuter.");
+      return parts.join("\n");
+    }
+    return "";
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    projectType: "",
-    budget: "",
+    projectType: getInitialProjectType(),
+    budget: getInitialBudget(),
     timeline: "",
-    description: "",
+    description: getInitialDescription(),
   });
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      projectType: getInitialProjectType(),
+      budget: getInitialBudget(),
+      description: prev.description || getInitialDescription(),
+    }));
+  }, [serviceParam, planParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
