@@ -3,11 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
+import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
 import logoImage from "@/assets/logo.png";
 
 const navLinks = [
   { name: "Accueil", href: "/" },
-  { name: "Services", href: "/services" },
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
   { name: "À propos", href: "/about" },
@@ -69,7 +70,30 @@ export function Navigation() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) => (
+              {/* Accueil */}
+              <Link
+                to="/"
+                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === "/"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Accueil
+                {location.pathname === "/" && (
+                  <motion.div
+                    layoutId="activeNavHome"
+                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </Link>
+
+              {/* Services Mega Menu */}
+              <ServicesDropdown isActive={location.pathname.startsWith("/services")} />
+
+              {/* Other links */}
+              {navLinks.filter(link => link.name !== "Accueil").map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -82,7 +106,7 @@ export function Navigation() {
                   {link.name}
                   {location.pathname === link.href && (
                     <motion.div
-                      layoutId="activeNav"
+                      layoutId={`activeNav-${link.name}`}
                       className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
@@ -163,12 +187,40 @@ export function Navigation() {
             >
               <div className="glass-strong rounded-2xl p-6 shadow-premium">
                 <nav className="flex flex-col gap-1">
-                  {navLinks.map((link, index) => (
+                  {/* Accueil */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0 }}
+                  >
+                    <Link
+                      to="/"
+                      className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
+                        location.pathname === "/"
+                          ? "text-primary bg-primary/10"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      }`}
+                    >
+                      Accueil
+                    </Link>
+                  </motion.div>
+
+                  {/* Services Accordion */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 }}
+                  >
+                    <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
+                  </motion.div>
+
+                  {/* Other links */}
+                  {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
                     <motion.div
                       key={link.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      transition={{ delay: (index + 2) * 0.05 }}
                     >
                       <Link
                         to={link.href}
