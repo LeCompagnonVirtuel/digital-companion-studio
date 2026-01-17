@@ -125,6 +125,140 @@ export type Database = {
         }
         Relationships: []
       }
+      cart_items: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity?: number | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      digital_products: {
+        Row: {
+          badge: string | null
+          benefits: string[] | null
+          category: string
+          content_details: string[] | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          display_order: number | null
+          download_url: string | null
+          featured_image: string | null
+          file_format: string | null
+          file_size: string | null
+          id: string
+          images: string[] | null
+          is_bestseller: boolean | null
+          is_featured: boolean | null
+          is_limited_offer: boolean | null
+          is_new: boolean | null
+          limited_offer_end: string | null
+          original_price: number | null
+          preview_url: string | null
+          price: number
+          problem_solved: string | null
+          product_type: string
+          sales_count: number | null
+          short_description: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          views_count: number | null
+        }
+        Insert: {
+          badge?: string | null
+          benefits?: string[] | null
+          category?: string
+          content_details?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          display_order?: number | null
+          download_url?: string | null
+          featured_image?: string | null
+          file_format?: string | null
+          file_size?: string | null
+          id?: string
+          images?: string[] | null
+          is_bestseller?: boolean | null
+          is_featured?: boolean | null
+          is_limited_offer?: boolean | null
+          is_new?: boolean | null
+          limited_offer_end?: string | null
+          original_price?: number | null
+          preview_url?: string | null
+          price?: number
+          problem_solved?: string | null
+          product_type?: string
+          sales_count?: number | null
+          short_description?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Update: {
+          badge?: string | null
+          benefits?: string[] | null
+          category?: string
+          content_details?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          display_order?: number | null
+          download_url?: string | null
+          featured_image?: string | null
+          file_format?: string | null
+          file_size?: string | null
+          id?: string
+          images?: string[] | null
+          is_bestseller?: boolean | null
+          is_featured?: boolean | null
+          is_limited_offer?: boolean | null
+          is_new?: boolean | null
+          limited_offer_end?: string | null
+          original_price?: number | null
+          preview_url?: string | null
+          price?: number
+          problem_solved?: string | null
+          product_type?: string
+          sales_count?: number | null
+          short_description?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           company: string | null
@@ -233,6 +367,74 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          access_token: string | null
+          created_at: string
+          currency: string | null
+          customer_email: string
+          customer_name: string | null
+          download_count: number | null
+          download_link: string | null
+          id: string
+          notes: string | null
+          order_number: string
+          payment_id: string | null
+          payment_method: string | null
+          price: number
+          product_id: string
+          product_title: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string
+          currency?: string | null
+          customer_email: string
+          customer_name?: string | null
+          download_count?: number | null
+          download_link?: string | null
+          id?: string
+          notes?: string | null
+          order_number: string
+          payment_id?: string | null
+          payment_method?: string | null
+          price: number
+          product_id: string
+          product_title: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string
+          currency?: string | null
+          customer_email?: string
+          customer_name?: string | null
+          download_count?: number | null
+          download_link?: string | null
+          id?: string
+          notes?: string | null
+          order_number?: string
+          payment_id?: string | null
+          payment_method?: string | null
+          price?: number
+          product_id?: string
+          product_title?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portfolio_projects: {
         Row: {
           client: string | null
@@ -314,6 +516,50 @@ export type Database = {
         }
         Relationships: []
       }
+      product_testimonials: {
+        Row: {
+          author_avatar: string | null
+          author_name: string
+          author_title: string | null
+          content: string
+          created_at: string
+          id: string
+          is_featured: boolean | null
+          product_id: string
+          rating: number | null
+        }
+        Insert: {
+          author_avatar?: string | null
+          author_name: string
+          author_title?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          is_featured?: boolean | null
+          product_id: string
+          rating?: number | null
+        }
+        Update: {
+          author_avatar?: string | null
+          author_name?: string
+          author_title?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_featured?: boolean | null
+          product_id?: string
+          rating?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_testimonials_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -341,6 +587,42 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      shop_customers: {
+        Row: {
+          created_at: string
+          email: string
+          first_order_at: string | null
+          id: string
+          last_order_at: string | null
+          name: string | null
+          total_orders: number | null
+          total_spent: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_order_at?: string | null
+          id?: string
+          last_order_at?: string | null
+          name?: string | null
+          total_orders?: number | null
+          total_spent?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_order_at?: string | null
+          id?: string
+          last_order_at?: string | null
+          name?: string | null
+          total_orders?: number | null
+          total_spent?: number | null
+          updated_at?: string
         }
         Relationships: []
       }
