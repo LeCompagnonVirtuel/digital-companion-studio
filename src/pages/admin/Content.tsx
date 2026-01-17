@@ -70,6 +70,27 @@ const Content = () => {
 
   useEffect(() => {
     fetchContent();
+
+    // Subscribe to realtime content updates
+    const channel = supabase
+      .channel('site-content-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'site_content',
+        },
+        (payload) => {
+          console.log('Real-time content update:', payload);
+          fetchContent();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchContent = async () => {

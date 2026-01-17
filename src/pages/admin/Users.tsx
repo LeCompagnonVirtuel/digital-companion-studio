@@ -63,6 +63,44 @@ const Users = () => {
 
   useEffect(() => {
     fetchUsers();
+
+    // Subscribe to realtime user updates
+    const profilesChannel = supabase
+      .channel('profiles-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'profiles',
+        },
+        () => {
+          console.log('Real-time profiles update');
+          fetchUsers();
+        }
+      )
+      .subscribe();
+
+    const rolesChannel = supabase
+      .channel('user-roles-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'user_roles',
+        },
+        () => {
+          console.log('Real-time roles update');
+          fetchUsers();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(profilesChannel);
+      supabase.removeChannel(rolesChannel);
+    };
   }, []);
 
   const fetchUsers = async () => {

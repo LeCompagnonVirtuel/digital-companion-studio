@@ -85,6 +85,30 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchCart();
+
+    // Subscribe to realtime updates for cart synchronization across tabs
+    const sessionId = getSessionId();
+    const channel = supabase
+      .channel(`cart-${sessionId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'cart_items',
+          filter: `session_id=eq.${sessionId}`,
+        },
+        (payload) => {
+          console.log('Real-time cart update:', payload);
+          // Refetch cart to get updated product data
+          fetchCart();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchCart]);
 
   const addItem = async (product: DigitalProduct) => {
