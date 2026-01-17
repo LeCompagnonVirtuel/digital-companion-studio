@@ -120,9 +120,8 @@ export function SmartSlideIn() {
 
   const handleCTA = () => {
     if (config.link === '#chatbot') {
-      // Trigger chatbot
-      const chatButton = document.querySelector('[data-chatbot-trigger]') as HTMLButtonElement;
-      chatButton?.click();
+      // Dispatch custom event to open chatbot
+      window.dispatchEvent(new CustomEvent('open-chatbot'));
     } else if (config.isExternal) {
       // Open external link in new tab
       window.open(config.link, '_blank', 'noopener,noreferrer');
