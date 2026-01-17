@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export interface DigitalProduct {
   id: string;
@@ -49,6 +49,61 @@ export interface ProductTestimonial {
   created_at: string;
 }
 
+// Global subscription manager to avoid duplicate channels
+let globalProductsChannel: ReturnType<typeof supabase.channel> | null = null;
+let channelSubscribers = 0;
+
+const setupGlobalProductsChannel = (queryClient: ReturnType<typeof useQueryClient>) => {
+  if (globalProductsChannel) {
+    channelSubscribers++;
+    return;
+  }
+
+  globalProductsChannel = supabase
+    .channel('global_products_realtime')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'digital_products',
+      },
+      (payload) => {
+        console.log('🔄 Real-time product update:', payload.eventType, payload);
+        // Invalidate all product-related queries
+        queryClient.invalidateQueries({ queryKey: ["digital-products"] });
+        queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
+        queryClient.invalidateQueries({ queryKey: ["digital-product"] });
+      }
+    )
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'product_testimonials',
+      },
+      (payload) => {
+        console.log('🔄 Real-time testimonial update:', payload.eventType);
+        queryClient.invalidateQueries({ queryKey: ["product-testimonials"] });
+      }
+    )
+    .subscribe((status) => {
+      console.log('📡 Products realtime channel status:', status);
+    });
+
+  channelSubscribers = 1;
+};
+
+const cleanupGlobalProductsChannel = () => {
+  channelSubscribers--;
+  if (channelSubscribers <= 0 && globalProductsChannel) {
+    supabase.removeChannel(globalProductsChannel);
+    globalProductsChannel = null;
+    channelSubscribers = 0;
+  }
+};
+
 // Hook with real-time updates for public products
 export const useDigitalProducts = (options?: { 
   category?: string; 
@@ -56,30 +111,20 @@ export const useDigitalProducts = (options?: {
   limit?: number;
 }) => {
   const queryClient = useQueryClient();
+  const isSubscribed = useRef(false);
 
-  // Set up real-time subscription
+  // Set up global real-time subscription
   useEffect(() => {
-    const channel = supabase
-      .channel('digital_products_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'digital_products',
-        },
-        (payload) => {
-          console.log('Real-time product update:', payload);
-          // Invalidate all product queries to trigger refetch
-          queryClient.invalidateQueries({ queryKey: ["digital-products"] });
-          queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
-          queryClient.invalidateQueries({ queryKey: ["digital-product"] });
-        }
-      )
-      .subscribe();
+    if (!isSubscribed.current) {
+      setupGlobalProductsChannel(queryClient);
+      isSubscribed.current = true;
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (isSubscribed.current) {
+        cleanupGlobalProductsChannel();
+        isSubscribed.current = false;
+      }
     };
   }, [queryClient]);
 
@@ -109,10 +154,30 @@ export const useDigitalProducts = (options?: {
       if (error) throw error;
       return data as DigitalProduct[];
     },
+    staleTime: 0, // Always consider data stale to ensure freshness
+    refetchOnWindowFocus: true,
   });
 };
 
 export const useDigitalProduct = (slug: string) => {
+  const queryClient = useQueryClient();
+  const isSubscribed = useRef(false);
+
+  // Set up global real-time subscription
+  useEffect(() => {
+    if (!isSubscribed.current) {
+      setupGlobalProductsChannel(queryClient);
+      isSubscribed.current = true;
+    }
+
+    return () => {
+      if (isSubscribed.current) {
+        cleanupGlobalProductsChannel();
+        isSubscribed.current = false;
+      }
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ["digital-product", slug],
     queryFn: async () => {
@@ -127,10 +192,29 @@ export const useDigitalProduct = (slug: string) => {
       return data as DigitalProduct;
     },
     enabled: !!slug,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 };
 
 export const useProductTestimonials = (productId: string) => {
+  const queryClient = useQueryClient();
+  const isSubscribed = useRef(false);
+
+  useEffect(() => {
+    if (!isSubscribed.current) {
+      setupGlobalProductsChannel(queryClient);
+      isSubscribed.current = true;
+    }
+
+    return () => {
+      if (isSubscribed.current) {
+        cleanupGlobalProductsChannel();
+        isSubscribed.current = false;
+      }
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ["product-testimonials", productId],
     queryFn: async () => {
@@ -144,34 +228,27 @@ export const useProductTestimonials = (productId: string) => {
       return data as ProductTestimonial[];
     },
     enabled: !!productId,
+    staleTime: 0,
   });
 };
 
 // Admin hooks with real-time updates
 export const useAdminDigitalProducts = () => {
   const queryClient = useQueryClient();
+  const isSubscribed = useRef(false);
 
-  // Set up real-time subscription for admin
+  // Set up global real-time subscription for admin
   useEffect(() => {
-    const channel = supabase
-      .channel('admin_products_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'digital_products',
-        },
-        (payload) => {
-          console.log('Real-time admin product update:', payload);
-          queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
-          queryClient.invalidateQueries({ queryKey: ["digital-products"] });
-        }
-      )
-      .subscribe();
+    if (!isSubscribed.current) {
+      setupGlobalProductsChannel(queryClient);
+      isSubscribed.current = true;
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (isSubscribed.current) {
+        cleanupGlobalProductsChannel();
+        isSubscribed.current = false;
+      }
     };
   }, [queryClient]);
 
@@ -186,6 +263,8 @@ export const useAdminDigitalProducts = () => {
       if (error) throw error;
       return data as DigitalProduct[];
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 };
 
@@ -205,11 +284,12 @@ export const useCreateProduct = () => {
       return data;
     },
     onSuccess: () => {
+      // Immediately invalidate all product queries
       queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
       queryClient.invalidateQueries({ queryKey: ["digital-products"] });
       toast({
         title: "Produit créé",
-        description: "Le produit a été créé avec succès.",
+        description: "Le produit a été créé avec succès et est maintenant visible sur le site.",
       });
     },
     onError: (error) => {
@@ -239,13 +319,15 @@ export const useUpdateProduct = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Immediately invalidate all product queries
       queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
       queryClient.invalidateQueries({ queryKey: ["digital-products"] });
+      queryClient.invalidateQueries({ queryKey: ["digital-product", data.slug] });
       queryClient.invalidateQueries({ queryKey: ["digital-product"] });
       toast({
         title: "Produit mis à jour",
-        description: "Le produit a été mis à jour avec succès.",
+        description: "Les modifications sont maintenant visibles sur le site.",
       });
     },
     onError: (error) => {
@@ -273,11 +355,13 @@ export const useDeleteProduct = () => {
       if (error) throw error;
     },
     onSuccess: () => {
+      // Immediately invalidate all product queries
       queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
       queryClient.invalidateQueries({ queryKey: ["digital-products"] });
+      queryClient.invalidateQueries({ queryKey: ["digital-product"] });
       toast({
         title: "Produit supprimé",
-        description: "Le produit a été supprimé avec succès.",
+        description: "Le produit a été retiré du site.",
       });
     },
     onError: (error) => {

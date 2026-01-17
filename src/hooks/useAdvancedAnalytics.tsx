@@ -44,7 +44,8 @@ export const useAdvancedAnalytics = (days: number = 30) => {
   useEffect(() => {
     const ordersChannel = supabase
       .channel('analytics-orders')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, (payload) => {
+        console.log('📊 Analytics: Order update', payload.eventType);
         queryClient.invalidateQueries({ queryKey: ["advanced-analytics"] });
       })
       .subscribe();
@@ -58,7 +59,16 @@ export const useAdvancedAnalytics = (days: number = 30) => {
 
     const customersChannel = supabase
       .channel('analytics-customers')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'shop_customers' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'shop_customers' }, (payload) => {
+        console.log('📊 Analytics: Customer update', payload.eventType);
+        queryClient.invalidateQueries({ queryKey: ["advanced-analytics"] });
+      })
+      .subscribe();
+
+    const productsChannel = supabase
+      .channel('analytics-products')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'digital_products' }, (payload) => {
+        console.log('📊 Analytics: Product update', payload.eventType);
         queryClient.invalidateQueries({ queryKey: ["advanced-analytics"] });
       })
       .subscribe();
@@ -67,6 +77,7 @@ export const useAdvancedAnalytics = (days: number = 30) => {
       supabase.removeChannel(ordersChannel);
       supabase.removeChannel(eventsChannel);
       supabase.removeChannel(customersChannel);
+      supabase.removeChannel(productsChannel);
     };
   }, [queryClient]);
 
