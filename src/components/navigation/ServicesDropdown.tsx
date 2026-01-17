@@ -177,26 +177,44 @@ export function ServicesDropdown({ isActive, className }: ServicesDropdownProps)
                               <Link
                                 to={service.href}
                                 onClick={handleLinkClick}
-                                className="group flex items-start gap-3 p-2.5 rounded-xl transition-all duration-150 hover:bg-secondary/80 focus:bg-secondary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                                className="group relative flex items-start gap-3 p-2.5 rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-secondary/90 hover:to-secondary/50 focus:bg-secondary/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 overflow-hidden"
                               >
+                                {/* Highlight glow effect on hover */}
+                                <div 
+                                  className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                                  style={{
+                                    background: `radial-gradient(ellipse at left center, hsl(var(--${category.name === 'Marketing' ? 'accent' : category.name === 'Développement' ? 'primary' : category.name === 'Création' ? 'destructive' : 'gold'}) / 0.08), transparent 70%)`,
+                                  }}
+                                />
+                                
+                                {/* Left accent bar on hover */}
+                                <div 
+                                  className={`absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 group-hover:h-8 ${category.color.replace('text-', 'bg-')} transition-all duration-200 rounded-full`}
+                                />
+                                
                                 {/* Icon */}
                                 <div 
-                                  className={`flex-shrink-0 p-2 rounded-lg ${category.bgColor} ${category.hoverBg} transition-all duration-150`}
+                                  className={`relative flex-shrink-0 p-2 rounded-lg ${category.bgColor} ${category.hoverBg} transition-all duration-200 group-hover:shadow-sm`}
                                 >
                                   <service.icon 
                                     size={16} 
-                                    className={`${category.color} transition-transform duration-150 group-hover:scale-110`} 
+                                    className={`${category.color} transition-all duration-200 group-hover:scale-110`} 
                                   />
                                 </div>
                                 
                                 {/* Text Content */}
-                                <div className="flex-1 min-w-0 pt-0.5">
-                                  <span className="text-sm font-medium text-foreground block leading-tight group-hover:text-primary transition-colors duration-150">
+                                <div className="relative flex-1 min-w-0 pt-0.5">
+                                  <span className="text-sm font-medium text-foreground block leading-tight group-hover:text-primary transition-colors duration-200 group-hover:translate-x-0.5">
                                     {service.name}
                                   </span>
-                                  <span className="text-xs text-muted-foreground mt-0.5 block">
+                                  <span className="text-xs text-muted-foreground mt-0.5 block group-hover:text-muted-foreground/80 transition-colors duration-200">
                                     {service.description}
                                   </span>
+                                </div>
+                                
+                                {/* Arrow indicator on hover */}
+                                <div className="relative flex-shrink-0 self-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                                  <span className={`text-xs ${category.color}`}>→</span>
                                 </div>
                               </Link>
                             </li>
