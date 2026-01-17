@@ -4,9 +4,9 @@ import {
   Image as ImageIcon, 
   Search,
   Check,
-  X,
   Loader2,
-  Upload
+  Upload,
+  Trash2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -74,6 +74,29 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
     }
   }, [open, fetchFiles]);
 
+  // Real-time subscription for media changes
+  useEffect(() => {
+    const channel = supabase
+      .channel('media_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'media',
+        },
+        () => {
+          console.log('Real-time media update');
+          fetchFiles();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchFiles]);
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFiles = e.target.files;
     if (!uploadFiles || uploadFiles.length === 0) return;
@@ -83,8 +106,22 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
     try {
       for (const file of Array.from(uploadFiles)) {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
-        if (!allowedTypes.includes(file.type)) continue;
-        if (file.size > 5 * 1024 * 1024) continue;
+        if (!allowedTypes.includes(file.type)) {
+          toast({
+            title: "Type non supporté",
+            description: `Le fichier ${file.name} n'est pas une image supportée.`,
+            variant: "destructive",
+          });
+          continue;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          toast({
+            title: "Fichier trop volumineux",
+            description: `Le fichier ${file.name} dépasse la limite de 10 MB.`,
+            variant: "destructive",
+          });
+          continue;
+        }
 
         const ext = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
@@ -110,20 +147,55 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
 
       toast({
         title: "Upload réussi",
-        description: "Les fichiers ont été téléchargés.",
+        description: "Les fichiers ont été téléchargés avec succès.",
       });
 
       fetchFiles();
     } catch (error) {
       console.error('Error uploading:', error);
       toast({
-        title: "Erreur",
-        description: "Erreur lors de l'upload.",
+        title: "Erreur d'upload",
+        description: "Une erreur est survenue lors de l'upload.",
         variant: "destructive",
       });
     } finally {
       setIsUploading(false);
       e.target.value = '';
+    }
+  };
+
+  const handleDelete = async (file: MediaFile, e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    try {
+      // Delete from storage
+      const { error: storageError } = await supabase.storage
+        .from('media')
+        .remove([file.file_path]);
+
+      if (storageError) throw storageError;
+
+      // Delete from database
+      const { error: dbError } = await supabase
+        .from('media')
+        .delete()
+        .eq('id', file.id);
+
+      if (dbError) throw dbError;
+
+      toast({
+        title: "Image supprimée",
+        description: "L'image a été supprimée avec succès.",
+      });
+
+      fetchFiles();
+    } catch (error) {
+      console.error('Error deleting:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer l'image.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -145,7 +217,6 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
   const handleConfirm = () => {
     const selectedFiles = files.filter(f => selectedIds.has(f.id));
     if (selectedFiles.length > 0) {
-      // For now, just return the first selected URL
       onSelect(selectedFiles[0].url, selectedFiles[0].alt_text || undefined);
     }
     onOpenChange(false);
@@ -154,6 +225,12 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
   const filteredFiles = files.filter(file => 
     file.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -190,7 +267,7 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
               ) : (
                 <Upload className="w-4 h-4 mr-2" />
               )}
-              Upload
+              {isUploading ? 'Upload...' : 'Upload'}
             </Button>
           </div>
         </div>
@@ -203,7 +280,8 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
           ) : filteredFiles.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <ImageIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>Aucune image trouvée</p>
+              <p className="font-medium mb-1">Aucune image trouvée</p>
+              <p className="text-sm">Uploadez votre première image pour commencer</p>
             </div>
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 p-1">
@@ -217,7 +295,7 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.02 }}
                       onClick={() => toggleSelection(file)}
-                      className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
+                      className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer border-2 transition-all group ${
                         isSelected 
                           ? 'border-primary ring-2 ring-primary/20' 
                           : 'border-transparent hover:border-primary/30'
@@ -229,6 +307,21 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
+                      
+                      {/* Hover overlay with info */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
+                        <p className="text-white text-xs truncate">{file.name}</p>
+                        <p className="text-white/70 text-xs">{formatFileSize(file.file_size)}</p>
+                      </div>
+
+                      {/* Delete button */}
+                      <button
+                        onClick={(e) => handleDelete(file, e)}
+                        className="absolute top-1 right-1 w-6 h-6 rounded-full bg-destructive text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+
                       {isSelected && (
                         <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
@@ -244,21 +337,22 @@ export const MediaSelector = ({ open, onOpenChange, onSelect, multiple = false }
           )}
         </div>
 
-        {multiple && selectedIds.size > 0 && (
-          <div className="flex items-center justify-between pt-4 border-t">
-            <p className="text-sm text-muted-foreground">
-              {selectedIds.size} image{selectedIds.size > 1 ? 's' : ''} sélectionnée{selectedIds.size > 1 ? 's' : ''}
-            </p>
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-4 border-t">
+          <p className="text-sm text-muted-foreground">
+            {filteredFiles.length} image{filteredFiles.length > 1 ? 's' : ''}
+          </p>
+          {multiple && selectedIds.size > 0 && (
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => setSelectedIds(new Set())}>
                 Désélectionner
               </Button>
               <Button onClick={handleConfirm}>
-                Confirmer
+                Confirmer ({selectedIds.size})
               </Button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
