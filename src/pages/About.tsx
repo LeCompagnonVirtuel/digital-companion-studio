@@ -67,13 +67,20 @@ const timeline = [
     title: "Accélération",
     description: "Lancement de notre plateforme SaaS, expansion dans 5 nouveaux pays africains et +200 projets livrés.",
     icon: "🎯",
-    status: "current" as const,
+    status: "completed" as const,
   },
   {
     year: "2026",
     title: "Leadership",
     description: "Positionnement comme leader du digital en Afrique francophone, academy de formation et écosystème complet.",
     icon: "👑",
+    status: "current" as const,
+  },
+  {
+    year: "2027",
+    title: "Expansion Mondiale",
+    description: "Déploiement international, partenariats stratégiques globaux et impact sur +10 pays africains.",
+    icon: "🌐",
     status: "vision" as const,
   },
 ];
