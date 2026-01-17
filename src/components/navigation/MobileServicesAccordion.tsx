@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import {
@@ -64,62 +64,117 @@ interface MobileServicesAccordionProps {
 
 export function MobileServicesAccordion({ isActive }: MobileServicesAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const toggleAccordion = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const isServiceActive = (href: string) => location.pathname === href;
 
   return (
-    <div>
+    <div className="w-full">
+      {/* Accordion Trigger */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
+        onClick={toggleAccordion}
+        className={`flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 touch-manipulation ${
           isActive
             ? "text-primary bg-primary/10"
-            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+            : "text-muted-foreground hover:text-foreground hover:bg-secondary active:bg-secondary"
         }`}
+        aria-expanded={isOpen}
+        aria-controls="mobile-services-menu"
       >
-        Services
+        <span>Services</span>
         <ChevronDown
-          size={18}
-          className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          size={20}
+          className={`flex-shrink-0 transition-transform duration-200 ease-out ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
-      <AnimatePresence>
+      {/* Accordion Content */}
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
+            id="mobile-services-menu"
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            animate={{ 
+              height: "auto", 
+              opacity: 1,
+              transition: {
+                height: { duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] },
+                opacity: { duration: 0.2, delay: 0.05 }
+              }
+            }}
+            exit={{ 
+              height: 0, 
+              opacity: 0,
+              transition: {
+                height: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] },
+                opacity: { duration: 0.1 }
+              }
+            }}
             className="overflow-hidden"
           >
-            <div className="pl-4 pt-2 space-y-4">
-              {serviceCategories.map((category) => (
-                <div key={category.name}>
+            <div className="pt-2 pb-1">
+              {/* Categories */}
+              {serviceCategories.map((category, categoryIndex) => (
+                <motion.div 
+                  key={category.name}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    x: 0,
+                    transition: { delay: categoryIndex * 0.04, duration: 0.2 }
+                  }}
+                  className="mb-4 last:mb-2"
+                >
+                  {/* Category Header */}
                   <h4 className={`text-xs font-semibold uppercase tracking-wider mb-2 px-4 ${category.color}`}>
                     {category.name}
                   </h4>
-                  <ul className="space-y-1">
+                  
+                  {/* Services List */}
+                  <ul className="space-y-0.5">
                     {category.services.map((service) => (
                       <li key={service.href}>
                         <Link
                           to={service.href}
-                          className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                          className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-150 touch-manipulation ${
+                            isServiceActive(service.href)
+                              ? "text-foreground bg-secondary font-medium"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary/70 active:bg-secondary"
+                          }`}
                         >
-                          <div className={`p-1.5 rounded-lg ${category.bgColor}`}>
-                            <service.icon size={14} className={category.color} />
+                          {/* Icon */}
+                          <div className={`flex-shrink-0 p-2 rounded-lg ${category.bgColor}`}>
+                            <service.icon 
+                              size={16} 
+                              className={category.color} 
+                            />
                           </div>
-                          {service.name}
+                          
+                          {/* Service Name */}
+                          <span className="flex-1">{service.name}</span>
+                          
+                          {/* Active Indicator */}
+                          {isServiceActive(service.href) && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                          )}
                         </Link>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               ))}
 
+              {/* View All Link */}
               <Link
                 to="/services"
-                className="block px-4 py-2.5 text-sm font-medium text-primary"
+                className="flex items-center justify-between px-4 py-3 mt-2 rounded-xl text-sm font-medium text-primary hover:bg-primary/5 active:bg-primary/10 transition-colors touch-manipulation"
               >
-                Voir tous les services →
+                <span>Voir tous les services</span>
+                <span className="text-lg">→</span>
               </Link>
             </div>
           </motion.div>
