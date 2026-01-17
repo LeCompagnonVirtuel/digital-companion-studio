@@ -247,6 +247,16 @@ export function Chatbot() {
     ? "fixed inset-4 md:inset-8 z-50"
     : "fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-6rem)]";
 
+  // Listen for external trigger to open chatbot
+  useEffect(() => {
+    const handleOpenChatbot = () => {
+      setIsOpen(true);
+    };
+    
+    window.addEventListener('open-chatbot', handleOpenChatbot);
+    return () => window.removeEventListener('open-chatbot', handleOpenChatbot);
+  }, []);
+
   return (
     <>
       {/* Floating Chat Button */}
@@ -254,6 +264,7 @@ export function Chatbot() {
         {!isOpen && (
           <motion.button
             onClick={() => setIsOpen(true)}
+            data-chatbot-trigger
             className="fixed bottom-6 right-6 z-50 group"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
