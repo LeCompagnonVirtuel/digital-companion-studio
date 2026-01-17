@@ -13,7 +13,11 @@ import {
   Rocket,
   Search,
   BarChart3,
-  Activity
+  Activity,
+  ShoppingBag,
+  DollarSign,
+  Package,
+  CreditCard
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,6 +25,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import { supabase } from '@/integrations/supabase/client';
 import { useAnalytics } from '@/hooks/useAnalytics';
+import { useAdminOrders, Order } from '@/hooks/useOrders';
 import { 
   LineChart, 
   Line, 
@@ -30,7 +35,9 @@ import {
   Tooltip, 
   ResponsiveContainer,
   BarChart,
-  Bar
+  Bar,
+  AreaChart,
+  Area
 } from 'recharts';
 
 interface DashboardStats {
@@ -63,6 +70,7 @@ const Dashboard = () => {
   const [recentLeads, setRecentLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { analytics, isLoading: analyticsLoading } = useAnalytics();
+  const { data: orders, isLoading: ordersLoading } = useAdminOrders();
 
   useEffect(() => {
     fetchDashboardData();
@@ -117,6 +125,53 @@ const Dashboard = () => {
     }
   };
 
+  // Sales statistics
+  const salesStats = {
+    totalOrders: orders?.length || 0,
+    paidOrders: orders?.filter((o) => o.status === 'paid').length || 0,
+    pendingOrders: orders?.filter((o) => o.status === 'pending').length || 0,
+    totalRevenue: orders?.filter((o) => o.status === 'paid').reduce((sum, o) => sum + o.price, 0) || 0,
+    todayRevenue: orders?.filter((o) => {
+      const today = new Date().toDateString();
+      return o.status === 'paid' && new Date(o.created_at).toDateString() === today;
+    }).reduce((sum, o) => sum + o.price, 0) || 0,
+  };
+
+  // Revenue chart data (last 7 days)
+  const revenueChartData = (() => {
+    if (!orders) return [];
+    
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      const dayRevenue = orders
+        .filter((o) => o.status === 'paid' && o.created_at.startsWith(dateStr))
+        .reduce((sum, o) => sum + o.price, 0);
+      
+      const dayOrders = orders
+        .filter((o) => o.created_at.startsWith(dateStr))
+        .length;
+      
+      last7Days.push({
+        date: dateStr,
+        revenue: dayRevenue,
+        orders: dayOrders,
+      });
+    }
+    return last7Days;
+  })();
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XOF',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
   const statCards = [
     {
       title: 'Vues aujourd\'hui',
@@ -128,22 +183,22 @@ const Dashboard = () => {
       description: 'Pages vues',
     },
     {
-      title: 'Total Leads',
-      value: stats.totalLeads,
-      icon: Users,
-      trend: '+8%',
-      trendUp: true,
-      color: 'primary',
-      description: 'Tous les leads',
+      title: 'Revenus boutique',
+      value: formatPrice(salesStats.totalRevenue),
+      icon: DollarSign,
+      trend: salesStats.totalRevenue > 0 ? '+' + salesStats.paidOrders : '0',
+      trendUp: salesStats.totalRevenue > 0,
+      color: 'green',
+      description: 'Total des ventes',
     },
     {
-      title: 'Nouveaux Leads',
-      value: stats.newLeads,
-      icon: Mail,
-      trend: '+15%',
-      trendUp: true,
-      color: 'green',
-      description: 'Non traités',
+      title: 'Commandes',
+      value: salesStats.totalOrders,
+      icon: ShoppingBag,
+      trend: `${salesStats.pendingOrders} en attente`,
+      trendUp: salesStats.paidOrders > salesStats.pendingOrders,
+      color: 'primary',
+      description: `${salesStats.paidOrders} payées`,
     },
     {
       title: 'Taux conversion',
@@ -157,9 +212,9 @@ const Dashboard = () => {
   ];
 
   const quickStats = [
-    { label: 'Audits demandés', value: stats.auditRequests, icon: Search, color: 'purple' },
-    { label: 'Projets démarrés', value: stats.projectsStarted, icon: Rocket, color: 'orange' },
-    { label: 'Sessions ce mois', value: analytics.totalSessions, icon: Activity, color: 'cyan' },
+    { label: 'Revenus aujourd\'hui', value: formatPrice(salesStats.todayRevenue), icon: CreditCard, color: 'green' },
+    { label: 'Total Leads', value: stats.totalLeads, icon: Users, color: 'primary' },
+    { label: 'Nouveaux Leads', value: stats.newLeads, icon: Mail, color: 'purple' },
     { label: 'Formulaires soumis', value: analytics.totalFormSubmits, icon: FileText, color: 'pink' },
   ];
 
@@ -440,6 +495,149 @@ const Dashboard = () => {
                           fill="hsl(var(--primary))" 
                           radius={[0, 4, 4, 0]}
                           name="Vues"
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Sales Charts Row */}
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Revenue Chart */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.65 }}
+            >
+              <Card className="border-border/50">
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                  <CardTitle className="text-lg font-display flex items-center gap-2">
+                    <DollarSign className="w-5 h-5 text-green-500" />
+                    Revenus (7 derniers jours)
+                  </CardTitle>
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/admin/orders">Voir les commandes</Link>
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  {ordersLoading ? (
+                    <div className="h-[200px] flex items-center justify-center">
+                      <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
+                    </div>
+                  ) : revenueChartData.every(d => d.revenue === 0) ? (
+                    <div className="h-[200px] flex flex-col items-center justify-center text-muted-foreground">
+                      <DollarSign className="w-10 h-10 mb-2 opacity-30" />
+                      <p className="text-sm">Aucune vente pour le moment</p>
+                      <Button variant="link" size="sm" asChild>
+                        <Link to="/admin/shop">Ajouter des produits</Link>
+                      </Button>
+                    </div>
+                  ) : (
+                    <ResponsiveContainer width="100%" height={200}>
+                      <AreaChart data={revenueChartData}>
+                        <defs>
+                          <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(142, 76%, 36%)" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="hsl(142, 76%, 36%)" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis 
+                          dataKey="date" 
+                          stroke="hsl(var(--muted-foreground))"
+                          fontSize={12}
+                          tickFormatter={(value) => new Date(value).toLocaleDateString('fr-FR', { weekday: 'short' })}
+                        />
+                        <YAxis 
+                          stroke="hsl(var(--muted-foreground))"
+                          fontSize={12}
+                          tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                        />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                          }}
+                          labelFormatter={(value) => new Date(value).toLocaleDateString('fr-FR', { 
+                            weekday: 'long', 
+                            day: 'numeric', 
+                            month: 'long' 
+                          })}
+                          formatter={(value: number) => [formatPrice(value), 'Revenus']}
+                        />
+                        <Area 
+                          type="monotone" 
+                          dataKey="revenue" 
+                          stroke="hsl(142, 76%, 36%)" 
+                          strokeWidth={2}
+                          fill="url(#revenueGradient)"
+                          name="Revenus"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Orders Chart */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+            >
+              <Card className="border-border/50">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg font-display flex items-center gap-2">
+                    <ShoppingBag className="w-5 h-5 text-primary" />
+                    Commandes (7 derniers jours)
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {ordersLoading ? (
+                    <div className="h-[200px] flex items-center justify-center">
+                      <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
+                    </div>
+                  ) : revenueChartData.every(d => d.orders === 0) ? (
+                    <div className="h-[200px] flex flex-col items-center justify-center text-muted-foreground">
+                      <ShoppingBag className="w-10 h-10 mb-2 opacity-30" />
+                      <p className="text-sm">Aucune commande pour le moment</p>
+                    </div>
+                  ) : (
+                    <ResponsiveContainer width="100%" height={200}>
+                      <BarChart data={revenueChartData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis 
+                          dataKey="date" 
+                          stroke="hsl(var(--muted-foreground))"
+                          fontSize={12}
+                          tickFormatter={(value) => new Date(value).toLocaleDateString('fr-FR', { weekday: 'short' })}
+                        />
+                        <YAxis 
+                          stroke="hsl(var(--muted-foreground))"
+                          fontSize={12}
+                        />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                          }}
+                          labelFormatter={(value) => new Date(value).toLocaleDateString('fr-FR', { 
+                            weekday: 'long', 
+                            day: 'numeric', 
+                            month: 'long' 
+                          })}
+                        />
+                        <Bar 
+                          dataKey="orders" 
+                          fill="hsl(var(--primary))" 
+                          radius={[4, 4, 0, 0]}
+                          name="Commandes"
                         />
                       </BarChart>
                     </ResponsiveContainer>

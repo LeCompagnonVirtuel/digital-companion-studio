@@ -169,17 +169,25 @@ const Shop = () => {
               <Sparkles className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
               <h3 className="font-semibold text-lg mb-2">Aucun produit trouvé</h3>
               <p className="text-muted-foreground mb-4">
-                Essayez de modifier vos filtres ou votre recherche
+                {searchQuery || selectedCategory 
+                  ? "Essayez de modifier vos filtres ou votre recherche"
+                  : "La boutique sera bientôt disponible avec des produits digitaux exclusifs !"}
               </p>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSelectedCategory(null);
-                  setSearchQuery("");
-                }}
-              >
-                Réinitialiser les filtres
-              </Button>
+              {(searchQuery || selectedCategory) ? (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedCategory(null);
+                    setSearchQuery("");
+                  }}
+                >
+                  Réinitialiser les filtres
+                </Button>
+              ) : (
+                <Button asChild>
+                  <a href="/">Retour à l'accueil</a>
+                </Button>
+              )}
             </motion.div>
           )}
         </div>
