@@ -237,47 +237,29 @@ export function Navigation() {
                       <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
                     </motion.div>
 
-                    {/* Boutique Link - Highlighted */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 }}
-                    >
-                      <Link
-                        to="/boutique"
-                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                          location.pathname.startsWith("/boutique")
-                            ? "text-primary bg-primary/10"
-                            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                        }`}
-                      >
-                        <ShoppingBag size={18} />
-                        Boutique
-                        {itemCount > 0 && (
-                          <span className="ml-auto px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
-                            {itemCount}
-                          </span>
-                        )}
-                      </Link>
-                    </motion.div>
-
                     {/* Other links */}
                     {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
                       <motion.div
                         key={link.name}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (index + 3) * 0.05 }}
+                        transition={{ delay: (index + 2) * 0.05 }}
                       >
                         <Link
                           to={link.href}
-                          className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                            location.pathname === link.href
+                          className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
+                            location.pathname === link.href || (link.href !== "/" && location.pathname.startsWith(link.href))
                               ? "text-primary bg-primary/10"
                               : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                           }`}
                         >
+                          {link.icon && <ShoppingBag size={18} />}
                           {link.name}
+                          {link.icon && itemCount > 0 && (
+                            <span className="ml-auto px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
+                              {itemCount}
+                            </span>
+                          )}
                         </Link>
                       </motion.div>
                     ))}
