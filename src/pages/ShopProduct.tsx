@@ -23,6 +23,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDigitalProduct, useProductTestimonials } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
+import { useCurrency } from "@/hooks/useCurrency";
 import { FeaturedProducts } from "@/components/shop/FeaturedProducts";
 import { TrustSection } from "@/components/shop/TrustSection";
 
@@ -31,6 +32,8 @@ const ShopProduct = () => {
   const { data: product, isLoading } = useDigitalProduct(slug || "");
   const { data: testimonials } = useProductTestimonials(product?.id || "");
   const { addItem, isInCart } = useCart();
+  const { formatPrice } = useCurrency();
+
 
   const inCart = product ? isInCart(product.id) : false;
   const hasDiscount = product?.original_price && product.original_price > product.price;
@@ -219,16 +222,16 @@ const ShopProduct = () => {
             {/* Price */}
             <div className="flex items-baseline gap-4 py-4">
               <span className="text-4xl font-bold text-foreground">
-                {product.price.toFixed(2)}€
+                {formatPrice(product.price)}
               </span>
               {hasDiscount && (
                 <span className="text-xl text-muted-foreground line-through">
-                  {product.original_price?.toFixed(2)}€
+                  {formatPrice(product.original_price!)}
                 </span>
               )}
               {hasDiscount && (
                 <Badge className="bg-rose-500/10 text-rose-600 border-rose-500/20">
-                  Économisez {(product.original_price! - product.price).toFixed(2)}€
+                  Économisez {formatPrice(product.original_price! - product.price)}
                 </Badge>
               )}
             </div>

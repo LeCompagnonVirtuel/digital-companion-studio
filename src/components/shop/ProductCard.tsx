@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DigitalProduct } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
+import { useCurrency } from "@/hooks/useCurrency";
 
 interface ProductCardProps {
   product: DigitalProduct;
@@ -36,6 +37,7 @@ const badgeConfig: Record<string, { icon: React.ElementType; className: string; 
 
 export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const { addItem, isInCart } = useCart();
+  const { formatPrice } = useCurrency();
   const inCart = isInCart(product.id);
 
   const getBadge = () => {
@@ -162,12 +164,12 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           {/* Price */}
           <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-foreground">
-                {product.price.toFixed(2)}€
+              <span className="text-xl font-bold text-foreground">
+                {formatPrice(product.price)}
               </span>
               {hasDiscount && (
                 <span className="text-sm text-muted-foreground line-through">
-                  {product.original_price?.toFixed(2)}€
+                  {formatPrice(product.original_price!)}
                 </span>
               )}
             </div>

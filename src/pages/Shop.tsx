@@ -11,6 +11,7 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { TrustSection } from "@/components/shop/TrustSection";
 import { CartDrawer } from "@/components/shop/CartDrawer";
+import { CurrencySelector } from "@/components/shop/CurrencySelector";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 
@@ -95,6 +96,8 @@ const Shop = () => {
 
             {/* Filters & View */}
             <div className="flex items-center gap-4">
+              <CurrencySelector />
+              
               <ProductFilters
                 categories={categories}
                 selectedCategory={selectedCategory}

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/hooks/useCart";
+import { useCurrency } from "@/hooks/useCurrency";
 import { Badge } from "@/components/ui/badge";
 
 interface CartDrawerProps {
@@ -13,6 +14,7 @@ interface CartDrawerProps {
 
 export const CartDrawer = ({ children }: CartDrawerProps) => {
   const { items, removeItem, total, itemCount, isLoading } = useCart();
+  const { formatPrice } = useCurrency();
 
   return (
     <Sheet>
@@ -93,7 +95,7 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                       {item.product.category}
                     </p>
                     <p className="font-semibold mt-2">
-                      {item.product.price.toFixed(2)}€
+                      {formatPrice(item.product.price)}
                     </p>
                   </div>
 
@@ -120,7 +122,7 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
               {/* Total */}
               <div className="flex items-center justify-between text-lg font-semibold">
                 <span>Total</span>
-                <span>{total.toFixed(2)}€</span>
+                <span>{formatPrice(total)}</span>
               </div>
 
               {/* Checkout Button */}
