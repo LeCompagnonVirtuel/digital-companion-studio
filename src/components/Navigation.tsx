@@ -183,60 +183,72 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-4 top-[88px] z-50 lg:hidden"
+              className="fixed inset-x-4 top-[88px] bottom-4 z-50 lg:hidden flex flex-col"
             >
-              <div className="glass-strong rounded-2xl p-6 shadow-premium">
-                <nav className="flex flex-col gap-1">
-                  {/* Accueil */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0 }}
-                  >
-                    <Link
-                      to="/"
-                      className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                        location.pathname === "/"
-                          ? "text-primary bg-primary/10"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                      }`}
-                    >
-                      Accueil
-                    </Link>
-                  </motion.div>
-
-                  {/* Services Accordion */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 }}
-                  >
-                    <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
-                  </motion.div>
-
-                  {/* Other links */}
-                  {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
+              <div className="glass-strong rounded-2xl shadow-premium flex flex-col max-h-full overflow-hidden">
+                {/* Scrollable Content Area */}
+                <div 
+                  className="flex-1 overflow-y-auto overscroll-contain p-6 pb-0"
+                  style={{
+                    WebkitOverflowScrolling: 'touch',
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'hsl(var(--muted-foreground) / 0.3) transparent',
+                  }}
+                >
+                  <nav className="flex flex-col gap-1">
+                    {/* Accueil */}
                     <motion.div
-                      key={link.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: (index + 2) * 0.05 }}
+                      transition={{ delay: 0 }}
                     >
                       <Link
-                        to={link.href}
+                        to="/"
                         className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                          location.pathname === link.href
+                          location.pathname === "/"
                             ? "text-primary bg-primary/10"
                             : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                         }`}
                       >
-                        {link.name}
+                        Accueil
                       </Link>
                     </motion.div>
-                  ))}
-                </nav>
+
+                    {/* Services Accordion */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 }}
+                    >
+                      <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
+                    </motion.div>
+
+                    {/* Other links */}
+                    {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
+                      <motion.div
+                        key={link.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (index + 2) * 0.05 }}
+                      >
+                        <Link
+                          to={link.href}
+                          className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
+                            location.pathname === link.href
+                              ? "text-primary bg-primary/10"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                          }`}
+                        >
+                          {link.name}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </nav>
+                </div>
+                
+                {/* Fixed CTA Buttons at Bottom */}
                 <motion.div 
-                  className="mt-6 pt-6 border-t border-border flex flex-col gap-3"
+                  className="flex-shrink-0 p-6 pt-4 border-t border-border bg-background/80 backdrop-blur-sm flex flex-col gap-3"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
