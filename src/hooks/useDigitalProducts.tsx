@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export interface DigitalProduct {
   id: string;
@@ -48,11 +49,40 @@ export interface ProductTestimonial {
   created_at: string;
 }
 
+// Hook with real-time updates for public products
 export const useDigitalProducts = (options?: { 
   category?: string; 
   featured?: boolean;
   limit?: number;
 }) => {
+  const queryClient = useQueryClient();
+
+  // Set up real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('digital_products_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'digital_products',
+        },
+        (payload) => {
+          console.log('Real-time product update:', payload);
+          // Invalidate all product queries to trigger refetch
+          queryClient.invalidateQueries({ queryKey: ["digital-products"] });
+          queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
+          queryClient.invalidateQueries({ queryKey: ["digital-product"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ["digital-products", options],
     queryFn: async () => {
@@ -117,8 +147,34 @@ export const useProductTestimonials = (productId: string) => {
   });
 };
 
-// Admin hooks
+// Admin hooks with real-time updates
 export const useAdminDigitalProducts = () => {
+  const queryClient = useQueryClient();
+
+  // Set up real-time subscription for admin
+  useEffect(() => {
+    const channel = supabase
+      .channel('admin_products_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'digital_products',
+        },
+        (payload) => {
+          console.log('Real-time admin product update:', payload);
+          queryClient.invalidateQueries({ queryKey: ["admin-digital-products"] });
+          queryClient.invalidateQueries({ queryKey: ["digital-products"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ["admin-digital-products"],
     queryFn: async () => {

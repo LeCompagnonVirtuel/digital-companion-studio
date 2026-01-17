@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export interface Order {
   id: string;
@@ -22,7 +23,33 @@ export interface Order {
   updated_at: string;
 }
 
+// Admin hook with real-time updates
 export const useAdminOrders = () => {
+  const queryClient = useQueryClient();
+
+  // Set up real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('orders_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'orders',
+        },
+        (payload) => {
+          console.log('Real-time order update:', payload);
+          queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [queryClient]);
+
   return useQuery({
     queryKey: ["admin-orders"],
     queryFn: async () => {
@@ -54,7 +81,7 @@ export const useCreateOrder = () => {
       order_number?: string;
     }) => {
       // Generate order number if not provided
-      const orderNumber = order.order_number || `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
+      const orderNumber = order.order_number || `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
       
       const { data, error } = await supabase
         .from("orders")
@@ -113,6 +140,37 @@ export const useUpdateOrder = () => {
         variant: "destructive",
       });
       console.error("Update order error:", error);
+    },
+  });
+};
+
+export const useDeleteOrder = () => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("orders")
+        .delete()
+        .eq("id", id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+      toast({
+        title: "Commande supprimée",
+        description: "La commande a été supprimée avec succès.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer la commande.",
+        variant: "destructive",
+      });
+      console.error("Delete order error:", error);
     },
   });
 };
