@@ -32,49 +32,49 @@ const timeline = [
     title: "Création",
     description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité en Afrique.",
     icon: "🚀",
-    highlight: false,
+    status: "completed" as const,
   },
   {
     year: "2021",
     title: "Croissance",
     description: "50 premiers projets livrés, expansion de l'équipe et diversification des services offerts.",
     icon: "📈",
-    highlight: false,
+    status: "completed" as const,
   },
   {
     year: "2022",
     title: "Innovation",
     description: "Lancement de notre offre automatisation et IA pour accompagner la transformation digitale des entreprises.",
     icon: "💡",
-    highlight: false,
+    status: "completed" as const,
   },
   {
     year: "2023",
     title: "Expansion",
     description: "100+ clients accompagnés, développement de notre méthodologie agile unique et ouverture à l'international.",
     icon: "🌍",
-    highlight: false,
+    status: "completed" as const,
   },
   {
     year: "2024",
     title: "Excellence",
     description: "150+ projets livrés, 100% satisfaction client, certifications et partenariats stratégiques.",
     icon: "⭐",
-    highlight: false,
+    status: "completed" as const,
   },
   {
     year: "2025",
     title: "Accélération",
     description: "Lancement de notre plateforme SaaS, expansion dans 5 nouveaux pays africains et +200 projets livrés.",
     icon: "🎯",
-    highlight: true,
+    status: "current" as const,
   },
   {
     year: "2026",
     title: "Leadership",
     description: "Positionnement comme leader du digital en Afrique francophone, academy de formation et écosystème complet.",
     icon: "👑",
-    highlight: true,
+    status: "vision" as const,
   },
 ];
 
@@ -222,9 +222,11 @@ const About = () => {
                 >
                   {/* Dot with icon */}
                   <div className={`absolute left-8 lg:left-1/2 -translate-x-1/2 lg:-translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center text-xl z-10 transition-all duration-300 ${
-                    item.highlight 
-                      ? "bg-gradient-to-br from-primary to-accent shadow-glow" 
-                      : "bg-card border-2 border-primary"
+                    item.status === "current" 
+                      ? "bg-gradient-to-br from-primary to-accent shadow-glow animate-pulse" 
+                      : item.status === "vision"
+                      ? "bg-gradient-to-br from-accent/80 to-primary/80 border-2 border-dashed border-white/30"
+                      : "bg-card border-2 border-primary/50"
                   }`}>
                     <span>{item.icon}</span>
                   </div>
@@ -236,25 +238,45 @@ const About = () => {
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className={`p-6 rounded-2xl transition-all duration-300 ${
-                      item.highlight 
-                        ? "bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/30 shadow-elevated" 
+                      item.status === "current" 
+                        ? "bg-gradient-to-br from-primary/15 to-accent/10 border-2 border-primary/40 shadow-elevated" 
+                        : item.status === "vision"
+                        ? "bg-gradient-to-br from-accent/10 to-primary/5 border border-dashed border-accent/40"
                         : "bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30"
                     }`}>
-                      <div className={`flex items-center gap-3 mb-3 ${index % 2 === 0 ? "lg:justify-end" : ""}`}>
+                      <div className={`flex items-center gap-3 mb-3 flex-wrap ${index % 2 === 0 ? "lg:justify-end" : ""}`}>
                         <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${
-                          item.highlight 
+                          item.status === "current" 
                             ? "bg-primary text-primary-foreground" 
-                            : "bg-primary/10 text-primary"
+                            : item.status === "vision"
+                            ? "bg-accent/20 text-accent-foreground border border-accent/30"
+                            : "bg-muted text-muted-foreground"
                         }`}>
                           {item.year}
                         </span>
-                        {item.highlight && (
-                          <span className="px-2 py-1 rounded text-xs font-medium bg-accent/20 text-accent-foreground">
+                        {item.status === "completed" && (
+                          <span className="px-2 py-1 rounded text-xs font-medium bg-green-500/10 text-green-600 border border-green-500/20 flex items-center gap-1">
+                            <CheckCircle2 size={12} />
+                            Terminé
+                          </span>
+                        )}
+                        {item.status === "current" && (
+                          <span className="px-2 py-1 rounded text-xs font-medium bg-primary/20 text-primary border border-primary/30 flex items-center gap-1">
+                            <Rocket size={12} />
                             En cours
                           </span>
                         )}
+                        {item.status === "vision" && (
+                          <span className="px-2 py-1 rounded text-xs font-medium bg-accent/20 text-accent-foreground border border-accent/30 flex items-center gap-1">
+                            <Award size={12} />
+                            Vision
+                          </span>
+                        )}
                       </div>
-                      <h3 className={`font-display font-bold text-xl mb-2 ${item.highlight ? "gradient-text" : ""}`}>
+                      <h3 className={`font-display font-bold text-xl mb-2 ${
+                        item.status === "current" ? "gradient-text" : 
+                        item.status === "vision" ? "text-accent-foreground" : ""
+                      }`}>
                         {item.title}
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">{item.description}</p>
