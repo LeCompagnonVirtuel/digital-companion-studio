@@ -23,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCart } from "@/hooks/useCart";
+import { useCurrency } from "@/hooks/useCurrency";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -30,6 +31,7 @@ import { supabase } from "@/integrations/supabase/client";
 const ShopCheckout = () => {
   const navigate = useNavigate();
   const { items, removeItem, total, clearCart, itemCount } = useCart();
+  const { formatPrice } = useCurrency();
   const createOrder = useCreateOrder();
   const { toast } = useToast();
 
@@ -326,7 +328,7 @@ const ShopCheckout = () => {
                   ) : (
                     <>
                       <Lock className="w-5 h-5" />
-                      Payer {total.toFixed(2)}€ via Money Fusion
+                      Payer {formatPrice(total)} via Money Fusion
                     </>
                   )}
                 </Button>
@@ -377,7 +379,7 @@ const ShopCheckout = () => {
                           {item.product.title}
                         </h4>
                         <p className="text-sm text-muted-foreground">
-                          {item.product.price.toFixed(2)}€
+                          {formatPrice(item.product.price)}
                         </p>
                       </div>
                       <Button
@@ -398,7 +400,7 @@ const ShopCheckout = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Sous-total</span>
-                    <span>{total.toFixed(2)}€</span>
+                    <span>{formatPrice(total)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">TVA</span>
@@ -410,7 +412,7 @@ const ShopCheckout = () => {
 
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span>{total.toFixed(2)}€</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
 
                 {/* Trust Badges */}

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/hooks/useAdminAuth";
 import { CartProvider } from "@/hooks/useCart";
+import { CurrencyProvider } from "@/hooks/useCurrency";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -72,10 +73,11 @@ function ChatbotWrapper() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AdminAuthProvider>
-      <CartProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
+      <CurrencyProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
           <BrowserRouter>
             <RetentionProvider>
               <ScrollToTop />
@@ -135,8 +137,9 @@ const App = () => (
               <ChatbotWrapper />
             </RetentionProvider>
           </BrowserRouter>
-        </TooltipProvider>
-      </CartProvider>
+          </TooltipProvider>
+        </CartProvider>
+      </CurrencyProvider>
     </AdminAuthProvider>
   </QueryClientProvider>
 );
