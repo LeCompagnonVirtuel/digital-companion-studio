@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   MessageCircle, 
@@ -19,8 +19,26 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import ReactMarkdown from "react-markdown";
 
+// Simple markdown parser - no external dependency
+const parseMarkdown = (text: string): string => {
+  return text
+    // Bold
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Bullet lists
+    .replace(/^[•\-]\s+(.*)$/gm, '<li>$1</li>')
+    // Numbered lists
+    .replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>')
+    // Line breaks
+    .replace(/\n/g, '<br/>')
+    // Wrap consecutive <li> in <ul>
+    .replace(/(<li>.*?<\/li>)(<br\/>)?/g, '$1')
+    .replace(/(<li>.*?<\/li>)+/g, '<ul class="list-disc pl-4 my-1 space-y-0.5">$&</ul>')
+    // Clean up extra br after ul
+    .replace(/<\/ul><br\/>/g, '</ul>');
+};
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -387,9 +405,10 @@ export function Chatbot() {
                         }`}
                       >
                         {message.role === "assistant" ? (
-                          <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0.5">
-                            <ReactMarkdown>{message.content}</ReactMarkdown>
-                          </div>
+                          <div 
+                            className="prose prose-sm dark:prose-invert max-w-none [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:my-1 [&_li]:my-0.5"
+                            dangerouslySetInnerHTML={{ __html: parseMarkdown(message.content) }}
+                          />
                         ) : (
                           <p className="whitespace-pre-wrap">{message.content}</p>
                         )}
