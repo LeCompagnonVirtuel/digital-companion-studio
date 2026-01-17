@@ -176,45 +176,78 @@ export type Database = {
           created_at: string
           description: string | null
           display_order: number | null
+          duration: string | null
           featured_image: string | null
           id: string
           images: string[] | null
+          objectives: string | null
+          problem: string | null
+          project_url: string | null
+          results: string | null
           service_category: string
+          services_provided: string[] | null
           short_description: string | null
           slug: string
+          solution: string | null
           status: string
+          technologies: string[] | null
+          testimonial: string | null
+          testimonial_author: string | null
           title: string
           updated_at: string
+          year: string | null
         }
         Insert: {
           client?: string | null
           created_at?: string
           description?: string | null
           display_order?: number | null
+          duration?: string | null
           featured_image?: string | null
           id?: string
           images?: string[] | null
+          objectives?: string | null
+          problem?: string | null
+          project_url?: string | null
+          results?: string | null
           service_category?: string
+          services_provided?: string[] | null
           short_description?: string | null
           slug: string
+          solution?: string | null
           status?: string
+          technologies?: string[] | null
+          testimonial?: string | null
+          testimonial_author?: string | null
           title: string
           updated_at?: string
+          year?: string | null
         }
         Update: {
           client?: string | null
           created_at?: string
           description?: string | null
           display_order?: number | null
+          duration?: string | null
           featured_image?: string | null
           id?: string
           images?: string[] | null
+          objectives?: string | null
+          problem?: string | null
+          project_url?: string | null
+          results?: string | null
           service_category?: string
+          services_provided?: string[] | null
           short_description?: string | null
           slug?: string
+          solution?: string | null
           status?: string
+          technologies?: string[] | null
+          testimonial?: string | null
+          testimonial_author?: string | null
           title?: string
           updated_at?: string
+          year?: string | null
         }
         Relationships: []
       }

@@ -16,6 +16,18 @@ export interface PortfolioProject {
   display_order: number;
   created_at: string;
   updated_at: string;
+  // New enhanced fields
+  objectives: string | null;
+  problem: string | null;
+  solution: string | null;
+  results: string | null;
+  technologies: string[] | null;
+  services_provided: string[] | null;
+  project_url: string | null;
+  testimonial: string | null;
+  testimonial_author: string | null;
+  duration: string | null;
+  year: string | null;
 }
 
 export type PortfolioProjectInsert = Omit<PortfolioProject, 'id' | 'created_at' | 'updated_at'>;
@@ -73,7 +85,7 @@ export function usePortfolioProjects(adminMode = false) {
           if (payload.eventType === 'INSERT') {
             const newProject = payload.new as PortfolioProject;
             if (adminMode || newProject.status === 'published') {
-              setProjects((prev) => [...prev, newProject].sort((a, b) => a.display_order - b.display_order));
+              setProjects((prev) => [...prev, newProject].sort((a, b) => (a.display_order || 0) - (b.display_order || 0)));
             }
           } else if (payload.eventType === 'UPDATE') {
             const updatedProject = payload.new as PortfolioProject;
@@ -85,9 +97,9 @@ export function usePortfolioProjects(adminMode = false) {
               const exists = prev.find((p) => p.id === updatedProject.id);
               if (exists) {
                 return prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
-                  .sort((a, b) => a.display_order - b.display_order);
+                  .sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
               } else if (adminMode || updatedProject.status === 'published') {
-                return [...prev, updatedProject].sort((a, b) => a.display_order - b.display_order);
+                return [...prev, updatedProject].sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
               }
               return prev;
             });

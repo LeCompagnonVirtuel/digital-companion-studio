@@ -68,7 +68,7 @@ const AdminPortfolio = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   
-  const [formData, setFormData] = useState<PortfolioProjectInsert>({
+  const [formData, setFormData] = useState({
     title: '',
     slug: '',
     description: '',
@@ -76,9 +76,20 @@ const AdminPortfolio = () => {
     client: '',
     service_category: 'developpement-web',
     featured_image: '',
-    images: [],
-    status: 'draft',
+    images: [] as string[],
+    status: 'draft' as 'draft' | 'published',
     display_order: 0,
+    objectives: '',
+    problem: '',
+    solution: '',
+    results: '',
+    technologies: [] as string[],
+    services_provided: [] as string[],
+    project_url: '',
+    testimonial: '',
+    testimonial_author: '',
+    duration: '',
+    year: '',
   });
 
   const resetForm = () => {
@@ -93,6 +104,17 @@ const AdminPortfolio = () => {
       images: [],
       status: 'draft',
       display_order: projects.length,
+      objectives: '',
+      problem: '',
+      solution: '',
+      results: '',
+      technologies: [],
+      services_provided: [],
+      project_url: '',
+      testimonial: '',
+      testimonial_author: '',
+      duration: '',
+      year: '',
     });
     setSelectedProject(null);
   };
@@ -114,7 +136,18 @@ const AdminPortfolio = () => {
       featured_image: project.featured_image || '',
       images: project.images || [],
       status: project.status,
-      display_order: project.display_order,
+      display_order: project.display_order || 0,
+      objectives: project.objectives || '',
+      problem: project.problem || '',
+      solution: project.solution || '',
+      results: project.results || '',
+      technologies: project.technologies || [],
+      services_provided: project.services_provided || [],
+      project_url: project.project_url || '',
+      testimonial: project.testimonial || '',
+      testimonial_author: project.testimonial_author || '',
+      duration: project.duration || '',
+      year: project.year || '',
     });
     setIsDialogOpen(true);
   };
