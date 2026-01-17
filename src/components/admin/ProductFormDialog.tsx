@@ -81,7 +81,7 @@ export const ProductFormDialog = ({
     content_details: [] as string[],
     price: 0,
     original_price: null as number | null,
-    currency: "EUR",
+    currency: "XOF",
     category: "other",
     product_type: "digital",
     featured_image: "",
@@ -117,7 +117,7 @@ export const ProductFormDialog = ({
         content_details: product.content_details || [],
         price: product.price || 0,
         original_price: product.original_price,
-        currency: product.currency || "EUR",
+        currency: product.currency || "XOF",
         category: product.category || "other",
         product_type: product.product_type || "digital",
         featured_image: product.featured_image || "",
@@ -146,7 +146,7 @@ export const ProductFormDialog = ({
         content_details: [],
         price: 0,
         original_price: null,
-        currency: "EUR",
+        currency: "XOF",
         category: "other",
         product_type: "digital",
         featured_image: "",
@@ -615,11 +615,11 @@ export const ProductFormDialog = ({
               <TabsContent value="pricing" className="space-y-6 mt-0">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="price">Prix actuel (€) *</Label>
+                    <Label htmlFor="price">Prix actuel (F CFA) *</Label>
                     <Input
                       id="price"
                       type="number"
-                      step="0.01"
+                      step="1"
                       min="0"
                       value={formData.price}
                       onChange={(e) =>
@@ -628,11 +628,11 @@ export const ProductFormDialog = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="original_price">Prix original (€)</Label>
+                    <Label htmlFor="original_price">Prix original (F CFA)</Label>
                     <Input
                       id="original_price"
                       type="number"
-                      step="0.01"
+                      step="1"
                       min="0"
                       value={formData.original_price || ""}
                       onChange={(e) =>
