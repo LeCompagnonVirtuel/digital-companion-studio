@@ -74,6 +74,35 @@ const Leads = () => {
 
   useEffect(() => {
     fetchLeads();
+
+    // Subscribe to realtime leads updates
+    const channel = supabase
+      .channel('leads-admin-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'leads',
+        },
+        (payload) => {
+          console.log('Real-time leads update:', payload);
+          if (payload.eventType === 'INSERT') {
+            setLeads((prev) => [payload.new as Lead, ...prev]);
+          } else if (payload.eventType === 'UPDATE') {
+            setLeads((prev) => prev.map((lead) => 
+              lead.id === (payload.new as Lead).id ? payload.new as Lead : lead
+            ));
+          } else if (payload.eventType === 'DELETE') {
+            setLeads((prev) => prev.filter((lead) => lead.id !== (payload.old as { id: string }).id));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   useEffect(() => {

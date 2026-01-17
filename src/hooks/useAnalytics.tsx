@@ -97,6 +97,27 @@ export const useAnalytics = () => {
 
   useEffect(() => {
     fetchAnalytics();
+
+    // Subscribe to realtime analytics updates
+    const channel = supabase
+      .channel('analytics-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'analytics_events',
+        },
+        () => {
+          // Refetch analytics on new events
+          fetchAnalytics();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchAnalytics]);
 
   return { analytics, isLoading, refetch: fetchAnalytics };
