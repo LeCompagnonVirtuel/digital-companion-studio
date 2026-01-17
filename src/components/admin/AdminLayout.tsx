@@ -81,10 +81,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <div className="min-h-screen bg-secondary/30">
       {/* Sidebar Desktop */}
-      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 xl:w-72 lg:flex-col z-30">
-        <div className="flex flex-col flex-1 bg-card border-r border-border/50">
-          {/* Logo */}
-          <div className="flex items-center gap-3 px-4 xl:px-6 py-5 border-b border-border/50">
+      <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 xl:w-72 lg:flex-col z-50">
+        <div className="flex flex-col h-full bg-card border-r border-border/50">
+          {/* Logo - Fixed header */}
+          <div className="flex-shrink-0 flex items-center gap-3 px-4 xl:px-6 py-5 border-b border-border/50 bg-card">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
               <Shield className="w-5 h-5 text-white" />
             </div>
@@ -94,8 +94,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             </div>
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 px-3 xl:px-4 py-4 space-y-1 overflow-y-auto">
+          {/* Navigation - Scrollable with custom scrollbar */}
+          <nav className="flex-1 px-3 xl:px-4 py-4 space-y-1 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent hover:scrollbar-thumb-primary/30">
             {navItems.map((item) => {
               const active = isActive(item.path, item.exact);
               return (
@@ -118,8 +118,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             })}
           </nav>
 
-          {/* User Info */}
-          <div className="p-3 xl:p-4 border-t border-border/50">
+          {/* User Info - Fixed footer */}
+          <div className="flex-shrink-0 p-3 xl:p-4 border-t border-border/50 bg-card">
             <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-secondary/50">
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                 <span className="text-primary font-semibold text-sm">A</span>
@@ -145,8 +145,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         </div>
       </aside>
 
-      {/* Top Bar */}
-      <div className="sticky top-0 z-40 flex items-center justify-between px-4 py-3 lg:py-4 bg-card/95 backdrop-blur-lg border-b border-border/50 lg:pl-[17rem] xl:pl-[19rem]">
+      {/* Top Bar - Positioned after sidebar */}
+      <div className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 lg:py-4 bg-card/95 backdrop-blur-lg border-b border-border/50 lg:ml-64 xl:ml-72">
         {/* Mobile: Logo */}
         <div className="flex items-center gap-3 lg:hidden">
           <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
@@ -155,7 +155,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <span className="font-display font-bold text-sm">Admin</span>
         </div>
 
-        {/* Desktop: Page title or breadcrumb placeholder */}
+        {/* Desktop: Sync status */}
         <div className="hidden lg:flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
             Synchronisation temps réel active
@@ -271,7 +271,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="lg:pl-64 xl:pl-72">
+      <main className="lg:ml-64 xl:ml-72">
         <div className="p-4 lg:p-6 xl:p-8 max-w-7xl mx-auto">
           {children}
         </div>
