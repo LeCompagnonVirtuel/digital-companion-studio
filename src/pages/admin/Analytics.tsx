@@ -1,22 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   BarChart3, 
   TrendingUp, 
+  TrendingDown,
   Users, 
   Eye,
-  Clock,
-  MousePointer,
-  Globe,
-  Smartphone,
-  Monitor,
+  ShoppingCart,
+  CreditCard,
+  DollarSign,
+  Package,
+  Crown,
+  UserPlus,
+  RefreshCw,
   Calendar,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Target,
+  Percent,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Progress } from '@/components/ui/progress';
 import {
   Select,
   SelectContent,
@@ -24,276 +31,518 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+  Legend,
+} from 'recharts';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
-import { supabase } from '@/integrations/supabase/client';
+import { useAdvancedAnalytics } from '@/hooks/useAdvancedAnalytics';
 
-interface AnalyticsStat {
-  label: string;
-  value: string;
-  change: number;
-  icon: React.ElementType;
-  color: string;
-}
+const COLORS = ['hsl(var(--primary))', 'hsl(var(--accent))', '#10b981', '#f59e0b', '#ef4444'];
 
 const Analytics = () => {
-  const [period, setPeriod] = useState('7d');
-  const [isLoading, setIsLoading] = useState(false);
+  const [period, setPeriod] = useState<string>('30');
+  const { data: analytics, isLoading, refetch } = useAdvancedAnalytics(parseInt(period));
 
-  // Simulated analytics data - in production, this would come from a real analytics service
-  const stats: AnalyticsStat[] = [
-    { 
-      label: 'Visiteurs uniques', 
-      value: '2,847', 
-      change: 12.5, 
-      icon: Users,
-      color: 'text-blue-500'
-    },
-    { 
-      label: 'Pages vues', 
-      value: '8,432', 
-      change: 8.3, 
-      icon: Eye,
-      color: 'text-green-500'
-    },
-    { 
-      label: 'Durée moyenne', 
-      value: '3:24', 
-      change: -2.1, 
-      icon: Clock,
-      color: 'text-amber-500'
-    },
-    { 
-      label: 'Taux de rebond', 
-      value: '42.3%', 
-      change: -5.8, 
-      icon: MousePointer,
-      color: 'text-purple-500'
-    },
-  ];
+  const formatPrice = (value: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XOF',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
 
-  const topPages = [
-    { path: '/', name: 'Accueil', views: 3245, change: 15.2 },
-    { path: '/services', name: 'Services', views: 1856, change: 8.4 },
-    { path: '/portfolio', name: 'Portfolio', views: 1432, change: 22.1 },
-    { path: '/contact', name: 'Contact', views: 987, change: 5.6 },
-    { path: '/pricing', name: 'Tarifs', views: 654, change: -3.2 },
-  ];
+  const formatPercent = (value: number) => {
+    return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+  };
 
-  const trafficSources = [
-    { source: 'Recherche organique', value: 45, color: 'bg-green-500' },
-    { source: 'Direct', value: 28, color: 'bg-blue-500' },
-    { source: 'Réseaux sociaux', value: 18, color: 'bg-purple-500' },
-    { source: 'Référent', value: 9, color: 'bg-amber-500' },
-  ];
+  // Conversion funnel data
+  const funnelData = analytics ? [
+    { name: 'Visiteurs', value: analytics.conversionMetrics.totalVisitors, fill: COLORS[0] },
+    { name: 'Ajouts panier', value: analytics.conversionMetrics.cartAdds, fill: COLORS[1] },
+    { name: 'Checkouts', value: analytics.conversionMetrics.checkoutStarts, fill: COLORS[2] },
+    { name: 'Achats', value: analytics.conversionMetrics.purchases, fill: COLORS[3] },
+  ] : [];
 
-  const deviceStats = [
-    { device: 'Desktop', icon: Monitor, percentage: 58, sessions: 1651 },
-    { device: 'Mobile', icon: Smartphone, percentage: 38, sessions: 1082 },
-    { device: 'Tablet', icon: Monitor, percentage: 4, sessions: 114 },
-  ];
+  // Customer distribution
+  const customerDistribution = analytics ? [
+    { name: 'Nouveaux', value: analytics.customerTrends.newCustomers, color: '#8b5cf6' },
+    { name: 'Récurrents', value: analytics.customerTrends.returningCustomers, color: '#10b981' },
+    { name: 'VIP', value: analytics.customerTrends.vipCustomers, color: '#f59e0b' },
+  ] : [];
 
   return (
     <ProtectedRoute>
       <AdminLayout>
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-2xl lg:text-3xl font-display font-bold">
-                Statistiques
+                Analytics Avancé
               </h1>
               <p className="text-muted-foreground mt-1">
-                Analysez les performances de votre site
+                Tableau de bord complet avec métriques en temps réel
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Button variant="outline" size="icon" onClick={() => refetch()}>
+                <RefreshCw className="w-4 h-4" />
+              </Button>
               <Select value={period} onValueChange={setPeriod}>
-                <SelectTrigger className="w-[140px]">
+                <SelectTrigger className="w-[160px]">
                   <Calendar className="w-4 h-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="24h">24 heures</SelectItem>
-                  <SelectItem value="7d">7 jours</SelectItem>
-                  <SelectItem value="30d">30 jours</SelectItem>
-                  <SelectItem value="90d">90 jours</SelectItem>
+                  <SelectItem value="7">7 derniers jours</SelectItem>
+                  <SelectItem value="30">30 derniers jours</SelectItem>
+                  <SelectItem value="90">90 derniers jours</SelectItem>
+                  <SelectItem value="365">12 derniers mois</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {/* Main Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Card className="hover:border-primary/30 transition-all">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground">{stat.label}</p>
-                        <p className="text-2xl font-bold mt-1">{stat.value}</p>
-                        <div className={`flex items-center gap-1 mt-2 text-sm ${
-                          stat.change >= 0 ? 'text-green-500' : 'text-red-500'
-                        }`}>
-                          {stat.change >= 0 ? (
-                            <ArrowUpRight className="w-4 h-4" />
-                          ) : (
-                            <ArrowDownRight className="w-4 h-4" />
-                          )}
-                          {Math.abs(stat.change)}%
+          {isLoading ? (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <Skeleton key={i} className="h-32" />
+                ))}
+              </div>
+              <Skeleton className="h-80" />
+            </div>
+          ) : analytics ? (
+            <>
+              {/* KPI Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                  <Card className="relative overflow-hidden">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Revenus</p>
+                          <p className="text-2xl font-bold mt-1">
+                            {formatPrice(analytics.summary.totalRevenue)}
+                          </p>
+                          <div className={`flex items-center gap-1 mt-2 text-sm ${
+                            analytics.summary.revenueChange >= 0 ? 'text-emerald-500' : 'text-red-500'
+                          }`}>
+                            {analytics.summary.revenueChange >= 0 ? (
+                              <ArrowUpRight className="w-4 h-4" />
+                            ) : (
+                              <ArrowDownRight className="w-4 h-4" />
+                            )}
+                            {formatPercent(analytics.summary.revenueChange)}
+                          </div>
+                        </div>
+                        <div className="p-3 rounded-xl bg-emerald-500/10">
+                          <DollarSign className="w-6 h-6 text-emerald-500" />
                         </div>
                       </div>
-                      <div className={`p-3 rounded-xl bg-secondary ${stat.color}`}>
-                        <stat.icon className="w-5 h-5" />
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500/20">
+                        <div className="h-full bg-emerald-500 w-3/4" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                  <Card className="relative overflow-hidden">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Commandes</p>
+                          <p className="text-2xl font-bold mt-1">{analytics.summary.totalOrders}</p>
+                          <div className={`flex items-center gap-1 mt-2 text-sm ${
+                            analytics.summary.ordersChange >= 0 ? 'text-emerald-500' : 'text-red-500'
+                          }`}>
+                            {analytics.summary.ordersChange >= 0 ? (
+                              <ArrowUpRight className="w-4 h-4" />
+                            ) : (
+                              <ArrowDownRight className="w-4 h-4" />
+                            )}
+                            {formatPercent(analytics.summary.ordersChange)}
+                          </div>
+                        </div>
+                        <div className="p-3 rounded-xl bg-blue-500/10">
+                          <Package className="w-6 h-6 text-blue-500" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Panier moyen</p>
+                          <p className="text-2xl font-bold mt-1">
+                            {formatPrice(analytics.summary.avgOrderValue)}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Par commande
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-xl bg-purple-500/10">
+                          <ShoppingCart className="w-6 h-6 text-purple-500" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Clients</p>
+                          <p className="text-2xl font-bold mt-1">{analytics.summary.totalCustomers}</p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            +{analytics.customerTrends.newCustomers} nouveaux
+                          </p>
+                        </div>
+                        <div className="p-3 rounded-xl bg-amber-500/10">
+                          <Users className="w-6 h-6 text-amber-500" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </div>
+
+              {/* Revenue Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="w-5 h-5 text-primary" />
+                    Évolution des revenus
+                  </CardTitle>
+                  <CardDescription>
+                    Revenus et commandes sur la période sélectionnée
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={analytics.revenueByDay}>
+                        <defs>
+                          <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                        <XAxis 
+                          dataKey="date" 
+                          tick={{ fontSize: 12 }}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <YAxis 
+                          tick={{ fontSize: 12 }}
+                          tickLine={false}
+                          axisLine={false}
+                          tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                        />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                          }}
+                          formatter={(value: number) => [formatPrice(value), 'Revenus']}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="revenue"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2}
+                          fill="url(#revenueGradient)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid lg:grid-cols-2 gap-6">
+                {/* Conversion Funnel */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Target className="w-5 h-5 text-primary" />
+                      Entonnoir de conversion
+                    </CardTitle>
+                    <CardDescription>
+                      Du visiteur à l'achat
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {funnelData.map((step, index) => {
+                        const prevValue = index > 0 ? funnelData[index - 1].value : step.value;
+                        const conversionRate = prevValue > 0 ? (step.value / prevValue) * 100 : 0;
+                        const overallRate = funnelData[0].value > 0 ? (step.value / funnelData[0].value) * 100 : 0;
+                        
+                        return (
+                          <motion.div
+                            key={step.name}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="space-y-2"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium">{step.name}</span>
+                                <Badge variant="secondary">{step.value}</Badge>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                {index > 0 && (
+                                  <span className="text-muted-foreground">
+                                    {conversionRate.toFixed(1)}% conversion
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="h-8 bg-secondary rounded-lg overflow-hidden relative">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${overallRate}%` }}
+                                transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
+                                className="h-full rounded-lg"
+                                style={{ backgroundColor: step.fill }}
+                              />
+                              <span className="absolute inset-0 flex items-center justify-center text-sm font-medium">
+                                {overallRate.toFixed(1)}%
+                              </span>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-6 p-4 rounded-lg bg-secondary/50">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Taux de conversion global</span>
+                        <span className="text-2xl font-bold text-primary">
+                          {analytics.conversionMetrics.totalVisitors > 0
+                            ? ((analytics.conversionMetrics.purchases / analytics.conversionMetrics.totalVisitors) * 100).toFixed(2)
+                            : 0}%
+                        </span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              </motion.div>
-            ))}
-          </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Top Pages */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Eye className="w-5 h-5 text-primary" />
-                  Pages les plus visitées
-                </CardTitle>
-                <CardDescription>
-                  Top 5 des pages par nombre de vues
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {topPages.map((page, index) => (
-                    <motion.div
-                      key={page.path}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-3 rounded-lg hover:bg-secondary/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-medium flex items-center justify-center">
-                          {index + 1}
-                        </span>
-                        <div>
-                          <p className="font-medium">{page.name}</p>
-                          <p className="text-xs text-muted-foreground">{page.path}</p>
+                {/* Customer Segments */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="w-5 h-5 text-primary" />
+                      Segmentation clients
+                    </CardTitle>
+                    <CardDescription>
+                      Répartition de votre base client
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-center h-48">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={customerDistribution}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {customerDistribution.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-4 mt-4">
+                      {customerDistribution.map((segment) => (
+                        <div key={segment.name} className="text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <div 
+                              className="w-3 h-3 rounded-full" 
+                              style={{ backgroundColor: segment.color }}
+                            />
+                            <span className="text-sm text-muted-foreground">{segment.name}</span>
+                          </div>
+                          <p className="text-xl font-bold mt-1">{segment.value}</p>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">{page.views.toLocaleString()}</p>
-                        <p className={`text-xs ${page.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                          {page.change >= 0 ? '+' : ''}{page.change}%
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                      ))}
+                    </div>
 
-            {/* Traffic Sources */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-primary" />
-                  Sources de trafic
-                </CardTitle>
-                <CardDescription>
-                  D'où viennent vos visiteurs
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {trafficSources.map((source, index) => (
-                    <motion.div
-                      key={source.source}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="space-y-2"
-                    >
-                      <div className="flex items-center justify-between text-sm">
-                        <span>{source.source}</span>
-                        <span className="font-medium">{source.value}%</span>
+                    <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t">
+                      <div className="text-center p-3 rounded-lg bg-secondary/50">
+                        <p className="text-xs text-muted-foreground">Panier moyen</p>
+                        <p className="text-lg font-bold">{formatPrice(analytics.customerTrends.avgOrderValue)}</p>
                       </div>
-                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${source.value}%` }}
-                          transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
-                          className={`h-full ${source.color} rounded-full`}
+                      <div className="text-center p-3 rounded-lg bg-secondary/50">
+                        <p className="text-xs text-muted-foreground">Valeur vie client</p>
+                        <p className="text-lg font-bold">{formatPrice(analytics.customerTrends.customerLifetimeValue)}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Product Performance */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 text-primary" />
+                    Performance des produits
+                  </CardTitle>
+                  <CardDescription>
+                    Vos produits les plus performants
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {analytics.productPerformance.length > 0 ? (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Produit</TableHead>
+                          <TableHead className="text-right">Vues</TableHead>
+                          <TableHead className="text-right">Ventes</TableHead>
+                          <TableHead className="text-right">Revenus</TableHead>
+                          <TableHead className="text-right">Conversion</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {analytics.productPerformance.slice(0, 5).map((product, index) => (
+                          <motion.tr
+                            key={product.id}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                          >
+                            <TableCell>
+                              <div className="flex items-center gap-3">
+                                <Badge variant="outline" className="w-6 h-6 flex items-center justify-center p-0">
+                                  {index + 1}
+                                </Badge>
+                                <span className="font-medium line-clamp-1">{product.title}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex items-center justify-end gap-1">
+                                <Eye className="w-4 h-4 text-muted-foreground" />
+                                {product.views}
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Badge variant="secondary">{product.sales}</Badge>
+                            </TableCell>
+                            <TableCell className="text-right font-medium">
+                              {formatPrice(product.revenue)}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <Progress value={product.conversionRate} className="w-16 h-2" />
+                                <span className="text-sm text-muted-foreground w-12">
+                                  {product.conversionRate.toFixed(1)}%
+                                </span>
+                              </div>
+                            </TableCell>
+                          </motion.tr>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Package className="w-10 h-10 mx-auto mb-2 opacity-50" />
+                      <p>Aucune donnée de produit disponible</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Orders by Day Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Package className="w-5 h-5 text-primary" />
+                    Volume de commandes
+                  </CardTitle>
+                  <CardDescription>
+                    Nombre de commandes par jour
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={analytics.revenueByDay}>
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                        <XAxis 
+                          dataKey="date" 
+                          tick={{ fontSize: 12 }}
+                          tickLine={false}
+                          axisLine={false}
                         />
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Devices */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Monitor className="w-5 h-5 text-primary" />
-                Appareils utilisés
-              </CardTitle>
-              <CardDescription>
-                Répartition des sessions par type d'appareil
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid sm:grid-cols-3 gap-6">
-                {deviceStats.map((device, index) => (
-                  <motion.div
-                    key={device.device}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="text-center p-6 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors"
-                  >
-                    <device.icon className="w-8 h-8 mx-auto text-primary mb-3" />
-                    <p className="text-3xl font-bold">{device.percentage}%</p>
-                    <p className="text-sm text-muted-foreground mt-1">{device.device}</p>
-                    <Badge variant="secondary" className="mt-2">
-                      {device.sessions.toLocaleString()} sessions
-                    </Badge>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Integration Notice */}
-          <Card className="border-primary/30 bg-primary/5">
-            <CardContent className="pt-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-primary/10">
-                  <BarChart3 className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Connecter Google Analytics</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Pour des statistiques plus détaillées et en temps réel, connectez votre compte Google Analytics 4.
-                  </p>
-                  <Button variant="outline" size="sm" className="mt-3">
-                    Configurer l'intégration
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                        <YAxis 
+                          tick={{ fontSize: 12 }}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                          }}
+                        />
+                        <Bar 
+                          dataKey="orders" 
+                          fill="hsl(var(--primary))" 
+                          radius={[4, 4, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : null}
         </div>
       </AdminLayout>
     </ProtectedRoute>
