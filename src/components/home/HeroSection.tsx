@@ -332,21 +332,6 @@ export function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-        {heroSlides.map((slide, index) => (
-          <button
-            key={slide.id}
-            onClick={() => setCurrentSlide(index)}
-            className={`h-2 rounded-full transition-all duration-500 ${
-              index === currentSlide 
-                ? "bg-primary w-8" 
-                : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2"
-            }`}
-            aria-label={`Slide ${index + 1}: ${slide.badge}`}
-          />
-        ))}
-      </div>
 
       {/* Service Icons - Vertical on side */}
       <motion.div 
