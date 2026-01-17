@@ -211,77 +211,170 @@ const MarketingDigital = () => {
     <div className="min-h-screen">
       <Navigation />
       <main>
-        {/* Hero */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
+        {/* Hero Premium */}
+        <section className="pt-32 pb-24 relative overflow-hidden">
+          {/* Background premium */}
+          <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
+          <div className="absolute inset-0 -z-10 opacity-30" style={{ background: "var(--gradient-mesh)" }} />
+          
+          {/* Animated orbs */}
           <motion.div 
-            className="absolute top-1/4 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            className="absolute top-1/4 right-[10%] w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl -z-10"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2], x: [0, -30, 0] }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-1/3 left-[5%] w-[400px] h-[400px] rounded-full bg-accent/10 blur-3xl -z-10"
+            animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity }}
           />
           
-          <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="container-wide">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.7 }}
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+                <motion.span 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6 shadow-sm"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
                   <Megaphone size={16} />
-                  Marketing Digital
-                </span>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+                  Marketing Digital Premium
+                </motion.span>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-[1.1]">
                   Accélérez votre{" "}
-                  <span className="text-primary">croissance</span>{" "}
+                  <span className="gradient-text">croissance</span>{" "}
                   digitale
                 </h1>
-                <p className="text-lg text-muted-foreground mb-8 max-w-xl">
+                <p className="text-lg lg:text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
                   Stratégies marketing sur-mesure pour attirer, convertir et fidéliser vos clients idéaux. 
                   Du SEO aux publicités, nous maximisons votre ROI avec des résultats mesurables.
                 </p>
+                
+                {/* Stats rapides */}
+                <div className="flex flex-wrap gap-6 mb-8">
+                  {[
+                    { value: "+340%", label: "Trafic moyen" },
+                    { value: "x3", label: "Conversions" },
+                    { value: "95%", label: "Clients satisfaits" },
+                  ].map((stat, i) => (
+                    <motion.div 
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 + i * 0.1 }}
+                      className="text-center"
+                    >
+                      <div className="text-2xl font-display font-bold gradient-text">{stat.value}</div>
+                      <div className="text-xs text-muted-foreground">{stat.label}</div>
+                    </motion.div>
+                  ))}
+                </div>
+                
                 <div className="flex flex-wrap gap-4">
-                  <Button size="lg" asChild>
+                  <Button variant="hero" size="lg" className="shadow-premium" asChild>
                     <Link to="/demarrer-projet">
                       Booster ma visibilité
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild>
+                  <Button variant="outline" size="lg" className="backdrop-blur-sm" asChild>
                     <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
                 </div>
               </motion.div>
               
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                initial={{ opacity: 0, scale: 0.9, rotateY: 10 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
                 className="relative hidden lg:block"
               >
-                <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex flex-col items-center justify-center">
-                    <div className="w-24 h-24 mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                      <TrendingUp size={48} className="text-primary" />
-                    </div>
+                <div className="relative aspect-square max-w-lg mx-auto">
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 rounded-3xl blur-3xl" />
+                  
+                  {/* Card with analytics mockup */}
+                  <div className="relative bg-card/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-full flex flex-col items-center justify-center shadow-premium">
                     <motion.div 
-                      className="w-full h-24 relative"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                      className="w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center shadow-glow"
+                      animate={{ rotate: [0, -5, 5, 0] }}
+                      transition={{ duration: 6, repeat: Infinity }}
                     >
-                      <svg viewBox="0 0 200 60" className="w-full h-full">
+                      <TrendingUp size={40} className="text-primary-foreground" />
+                    </motion.div>
+                    
+                    {/* Growth chart */}
+                    <div className="w-full h-32 relative px-4">
+                      <svg viewBox="0 0 200 70" className="w-full h-full">
+                        {/* Grid lines */}
+                        <motion.line x1="0" y1="60" x2="200" y2="60" stroke="hsl(var(--border))" strokeWidth="1" />
+                        <motion.line x1="0" y1="40" x2="200" y2="40" stroke="hsl(var(--border))" strokeWidth="0.5" strokeDasharray="4" />
+                        <motion.line x1="0" y1="20" x2="200" y2="20" stroke="hsl(var(--border))" strokeWidth="0.5" strokeDasharray="4" />
+                        
+                        {/* Area fill */}
                         <motion.path
-                          d="M 0 50 Q 50 40 100 25 T 200 10"
+                          d="M 0 60 L 0 55 Q 30 50 60 45 T 100 30 T 150 20 T 200 5 L 200 60 Z"
+                          fill="url(#areaGradient)"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 0.3 }}
+                          transition={{ duration: 1, delay: 0.8 }}
+                        />
+                        
+                        {/* Main line */}
+                        <motion.path
+                          d="M 0 55 Q 30 50 60 45 T 100 30 T 150 20 T 200 5"
                           fill="none"
                           stroke="hsl(var(--primary))"
                           strokeWidth="3"
+                          strokeLinecap="round"
                           initial={{ pathLength: 0 }}
                           animate={{ pathLength: 1 }}
                           transition={{ duration: 2, delay: 0.5 }}
                         />
+                        
+                        {/* Data points */}
+                        {[{ x: 0, y: 55 }, { x: 60, y: 45 }, { x: 100, y: 30 }, { x: 150, y: 20 }, { x: 200, y: 5 }].map((point, i) => (
+                          <motion.circle
+                            key={i}
+                            cx={point.x}
+                            cy={point.y}
+                            r="4"
+                            fill="hsl(var(--primary))"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.8 + i * 0.2 }}
+                          />
+                        ))}
+                        
+                        <defs>
+                          <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                          </linearGradient>
+                        </defs>
                       </svg>
+                    </div>
+                    
+                    {/* Metrics badges */}
+                    <motion.div 
+                      className="absolute -top-4 -right-4 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/30 text-green-600 text-xs font-medium flex items-center gap-1"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    >
+                      <TrendingUp size={12} />
+                      +127% ce mois
+                    </motion.div>
+                    <motion.div 
+                      className="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-medium"
+                      animate={{ y: [0, 5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    >
+                      ROI positif garanti
                     </motion.div>
                   </div>
                 </div>
