@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ShoppingBag, ChevronDown } from "lucide-react";
+import { Menu, X, ArrowRight, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
 import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
@@ -14,8 +14,9 @@ const navLinks = [
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
   { name: "À propos", href: "/about" },
-  { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
+  { name: "Boutique", href: "/boutique", icon: true },
+  { name: "Blog", href: "/blog" },
 ];
 
 export function Navigation() {
@@ -42,141 +43,101 @@ export function Navigation() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "py-3"
-            : "py-5"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "py-2" : "py-4"
         }`}
       >
         <div className="container-wide">
-          <div className={`flex items-center justify-between rounded-2xl transition-all duration-500 ${
+          <div className={`flex items-center justify-between rounded-full transition-all duration-300 ${
             isScrolled 
-              ? "glass-strong px-6 py-3" 
-              : "bg-transparent px-0 py-0"
+              ? "bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-4 py-2" 
+              : "bg-background/80 backdrop-blur-md shadow-md border border-border/30 px-6 py-3"
           }`}>
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
               <motion.div 
-                className="w-11 h-11 rounded-xl overflow-hidden shadow-glow"
-                whileHover={{ scale: 1.05, rotate: 3 }}
+                className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
                 <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
               </motion.div>
-              <div className="hidden sm:block">
-                <span className="font-display font-bold text-lg block leading-tight">
-                  Le Compagnon <span className="text-destructive">Virtuel.</span>
+              <div className="hidden xl:block">
+                <span className="font-display font-bold text-base leading-tight">
+                  Le <span className="text-primary">Compagnon</span>
                 </span>
-                <span className="text-xs text-muted-foreground">Agence Digitale</span>
+                <span className="font-display font-bold text-base leading-tight block">
+                  <span className="text-destructive">Virtuel.</span>
+                </span>
+                <span className="text-[10px] text-muted-foreground tracking-wide">Agence Digitale</span>
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {/* Accueil */}
-              <Link
-                to="/"
-                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  location.pathname === "/"
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Accueil
-                {location.pathname === "/" && (
-                  <motion.div
-                    layoutId="activeNavHome"
-                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </Link>
-
-              {/* Services Mega Menu */}
-              <ServicesDropdown isActive={location.pathname.startsWith("/services")} />
-
-              {/* Other links (except Blog) */}
-              {navLinks.filter(link => link.name !== "Accueil" && link.name !== "Blog").map((link) => (
+            {/* Desktop Navigation - Centered */}
+            <nav className="hidden lg:flex items-center justify-center flex-1 mx-4">
+              <div className="flex items-center gap-0.5">
+                {/* Accueil */}
                 <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                    location.pathname === link.href
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                  to="/"
+                  className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    location.pathname === "/"
+                      ? "text-foreground bg-secondary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                   }`}
                 >
-                  {link.name}
-                  {location.pathname === link.href && (
-                    <motion.div
-                      layoutId={`activeNav-${link.name}`}
-                      className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
+                  Accueil
                 </Link>
-              ))}
 
-              {/* Boutique Link - Highlighted */}
-              <Link
-                to="/boutique"
-                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                  location.pathname.startsWith("/boutique")
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ShoppingBag size={16} />
-                Boutique
-                {location.pathname.startsWith("/boutique") && (
-                  <motion.div
-                    layoutId="activeNav-boutique"
-                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </Link>
+                {/* Services Mega Menu */}
+                <ServicesDropdown isActive={location.pathname.startsWith("/services")} />
 
-              {/* Blog Link */}
-              <Link
-                to="/blog"
-                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  location.pathname === "/blog"
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Blog
-                {location.pathname === "/blog" && (
-                  <motion.div
-                    layoutId="activeNav-blog"
-                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </Link>
+                {/* Main nav links */}
+                {navLinks.filter(link => link.name !== "Accueil").map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
+                      location.pathname === link.href || (link.href !== "/" && location.pathname.startsWith(link.href))
+                        ? "text-foreground bg-secondary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    }`}
+                  >
+                    {link.icon && <ShoppingBag size={14} />}
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
             </nav>
 
             {/* CTA Buttons */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
               {/* Cart Button */}
               <CartDrawer>
-                <Button variant="ghost" size="icon" className="relative">
-                  <ShoppingBag size={20} />
+                <motion.button 
+                  className="relative p-2 rounded-full hover:bg-secondary/50 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ShoppingBag size={18} className="text-muted-foreground" />
                   {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
+                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">
                       {itemCount}
                     </span>
                   )}
-                </Button>
+                </motion.button>
               </CartDrawer>
-              <Button variant="heroGhost" size="sm" asChild>
-                <Link to="/audit-gratuit">Audit gratuit</Link>
-              </Button>
-              <Button variant="hero" size="sm" asChild>
-                <Link to="/demarrer-projet" className="group">
+              
+              <Link 
+                to="/audit-gratuit"
+                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Audit gratuit
+              </Link>
+              
+              <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md">
+                <Link to="/demarrer-projet" className="flex items-center gap-2">
                   Démarrer un projet
-                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight size={14} />
                 </Link>
               </Button>
             </div>
@@ -184,7 +145,7 @@ export function Navigation() {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-xl hover:bg-secondary transition-colors"
+              className="lg:hidden p-2.5 rounded-full hover:bg-secondary transition-colors"
               aria-label="Toggle menu"
               whileTap={{ scale: 0.95 }}
             >
