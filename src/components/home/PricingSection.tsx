@@ -165,7 +165,7 @@ export function PricingSection() {
                   className="w-full"
                   asChild
                 >
-                  <Link to={plan.href} className="group">
+                  <Link to={`/pack-pro#packs`} className="group">
                     Choisir ce pack
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
@@ -187,7 +187,7 @@ export function PricingSection() {
             Besoin d'une solution sur-mesure ?
           </p>
           <Button variant="heroGhost" size="lg" asChild>
-            <Link to="/contact" className="group">
+            <Link to="/devis-personnalise" className="group">
               <Sparkles size={18} className="mr-2" />
               Demander un devis personnalisé
               <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />

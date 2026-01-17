@@ -36,6 +36,8 @@ import StartProject from "./pages/StartProject";
 import FreeAudit from "./pages/FreeAudit";
 import StartAudit from "./pages/StartAudit";
 import TalkProject from "./pages/TalkProject";
+import PackPro from "./pages/PackPro";
+import DevisPersonnalise from "./pages/DevisPersonnalise";
 import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import Content from "./pages/admin/Content";
@@ -96,6 +98,8 @@ const App = () => (
             <Route path="/audit-gratuit" element={<FreeAudit />} />
             <Route path="/demarrer-audit" element={<StartAudit />} />
             <Route path="/parlons-projet" element={<TalkProject />} />
+            <Route path="/pack-pro" element={<PackPro />} />
+            <Route path="/devis-personnalise" element={<DevisPersonnalise />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/leads" element={<Leads />} />
             <Route path="/admin/content" element={<Content />} />
