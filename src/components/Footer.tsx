@@ -13,6 +13,12 @@ const footerLinks = {
     { name: "Automatisation IA", href: "/services/automatisation-ia" },
     { name: "SEO & Visibilité", href: "/services/seo" },
   ],
+  boutique: [
+    { name: "Formations", href: "/boutique?category=formations" },
+    { name: "Templates", href: "/boutique?category=templates" },
+    { name: "Ressources", href: "/boutique?category=ressources" },
+    { name: "Offres spéciales", href: "/boutique?promo=true" },
+  ],
   company: [
     { name: "À propos", href: "/about" },
     { name: "Portfolio", href: "/portfolio" },
@@ -66,9 +72,9 @@ export function Footer() {
       {/* Main Footer */}
       <div className="bg-foreground text-background">
         <div className="container-wide py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-6">
             {/* Brand Column */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-3">
               <Link to="/" className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-xl overflow-hidden shadow-glow">
                   <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
@@ -118,6 +124,23 @@ export function Footer() {
               </ul>
             </div>
 
+            {/* Boutique */}
+            <div className="lg:col-span-2">
+              <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Boutique</h4>
+              <ul className="space-y-3">
+                {footerLinks.boutique.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.href}
+                      className="text-sm text-background/60 hover:text-primary transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* Company */}
             <div className="lg:col-span-2">
               <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Entreprise</h4>
@@ -136,7 +159,7 @@ export function Footer() {
             </div>
 
             {/* Contact */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-3">
               <h4 className="font-display font-semibold text-background mb-6 text-sm uppercase tracking-wider">Contact</h4>
               <ul className="space-y-4">
                 <li>

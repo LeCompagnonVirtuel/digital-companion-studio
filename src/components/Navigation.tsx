@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, ShoppingBag, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
 import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
+import { CartDrawer } from "@/components/shop/CartDrawer";
+import { useCart } from "@/hooks/useCart";
 import logoImage from "@/assets/logo.png";
 
 const navLinks = [
@@ -20,6 +22,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,8 +95,8 @@ export function Navigation() {
               {/* Services Mega Menu */}
               <ServicesDropdown isActive={location.pathname.startsWith("/services")} />
 
-              {/* Other links */}
-              {navLinks.filter(link => link.name !== "Accueil").map((link) => (
+              {/* Other links (except Blog) */}
+              {navLinks.filter(link => link.name !== "Accueil" && link.name !== "Blog").map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -113,10 +116,60 @@ export function Navigation() {
                   )}
                 </Link>
               ))}
+
+              {/* Boutique Link - Highlighted */}
+              <Link
+                to="/boutique"
+                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                  location.pathname.startsWith("/boutique")
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <ShoppingBag size={16} />
+                Boutique
+                {location.pathname.startsWith("/boutique") && (
+                  <motion.div
+                    layoutId="activeNav-boutique"
+                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </Link>
+
+              {/* Blog Link */}
+              <Link
+                to="/blog"
+                className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === "/blog"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Blog
+                {location.pathname === "/blog" && (
+                  <motion.div
+                    layoutId="activeNav-blog"
+                    className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </Link>
             </nav>
 
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-3">
+              {/* Cart Button */}
+              <CartDrawer>
+                <Button variant="ghost" size="icon" className="relative">
+                  <ShoppingBag size={20} />
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
+                      {itemCount}
+                    </span>
+                  )}
+                </Button>
+              </CartDrawer>
               <Button variant="heroGhost" size="sm" asChild>
                 <Link to="/audit-gratuit">Audit gratuit</Link>
               </Button>
@@ -223,13 +276,37 @@ export function Navigation() {
                       <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
                     </motion.div>
 
+                    {/* Boutique Link - Highlighted */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <Link
+                        to="/boutique"
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
+                          location.pathname.startsWith("/boutique")
+                            ? "text-primary bg-primary/10"
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                        }`}
+                      >
+                        <ShoppingBag size={18} />
+                        Boutique
+                        {itemCount > 0 && (
+                          <span className="ml-auto px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
+                            {itemCount}
+                          </span>
+                        )}
+                      </Link>
+                    </motion.div>
+
                     {/* Other links */}
                     {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
                       <motion.div
                         key={link.name}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (index + 2) * 0.05 }}
+                        transition={{ delay: (index + 3) * 0.05 }}
                       >
                         <Link
                           to={link.href}
