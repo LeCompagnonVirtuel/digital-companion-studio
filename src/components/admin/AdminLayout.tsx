@@ -18,7 +18,8 @@ import {
   UserCog,
   Image as ImageIcon,
   FolderKanban,
-  RefreshCw
+  RefreshCw,
+  ShoppingBag
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
@@ -36,6 +37,7 @@ const navItems = [
   { path: '/admin/content', icon: FileText, label: 'Contenu' },
   { path: '/admin/blog', icon: BookOpen, label: 'Blog' },
   { path: '/admin/portfolio', icon: FolderKanban, label: 'Portfolio' },
+  { path: '/admin/shop', icon: ShoppingBag, label: 'Boutique' },
   { path: '/admin/media', icon: ImageIcon, label: 'Médias' },
   { path: '/admin/users', icon: UserCog, label: 'Utilisateurs' },
   { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
