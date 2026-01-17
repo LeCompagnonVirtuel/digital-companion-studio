@@ -47,8 +47,8 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Convert price to FCFA (assuming price is in EUR, 1 EUR ≈ 656 FCFA)
-    const priceInFCFA = Math.round(price * 656);
+    // Price is already in FCFA
+    const priceInFCFA = Math.round(price);
 
     // Build webhook URL
     const webhookUrl = `${supabaseUrl}/functions/v1/moneyfusion-webhook`;

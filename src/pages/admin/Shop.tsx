@@ -220,7 +220,7 @@ const AdminShop = () => {
                     <TrendingUp className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold">{stats.totalRevenue.toFixed(0)}€</p>
+                    <p className="text-2xl font-bold">{stats.totalRevenue.toLocaleString('fr-FR')} F CFA</p>
                     <p className="text-xs text-muted-foreground">Revenus estimés</p>
                   </div>
                 </div>
@@ -330,10 +330,10 @@ const AdminShop = () => {
                           </TableCell>
                           <TableCell>
                             <div>
-                              <p className="font-medium">{product.price.toFixed(2)}€</p>
+                              <p className="font-medium">{product.price.toLocaleString('fr-FR')} F CFA</p>
                               {product.original_price && product.original_price > product.price && (
                                 <p className="text-xs text-muted-foreground line-through">
-                                  {product.original_price.toFixed(2)}€
+                                  {product.original_price.toLocaleString('fr-FR')} F CFA
                                 </p>
                               )}
                             </div>
