@@ -22,6 +22,7 @@ const services = [
     gradient: "from-blue-500/10 to-indigo-500/10",
     iconBg: "bg-blue-500/10",
     iconColor: "text-blue-600",
+    href: "/services/marketing-digital",
   },
   {
     icon: Palette,
@@ -30,6 +31,7 @@ const services = [
     gradient: "from-pink-500/10 to-rose-500/10",
     iconBg: "bg-pink-500/10",
     iconColor: "text-pink-600",
+    href: "/services/creation-contenu",
   },
   {
     icon: Users,
@@ -38,6 +40,7 @@ const services = [
     gradient: "from-violet-500/10 to-purple-500/10",
     iconBg: "bg-violet-500/10",
     iconColor: "text-violet-600",
+    href: "/services/community-management",
   },
   {
     icon: Bot,
@@ -46,6 +49,7 @@ const services = [
     gradient: "from-cyan-500/10 to-teal-500/10",
     iconBg: "bg-cyan-500/10",
     iconColor: "text-cyan-600",
+    href: "/services/automatisation-ia",
   },
   {
     icon: Globe,
@@ -54,6 +58,7 @@ const services = [
     gradient: "from-emerald-500/10 to-green-500/10",
     iconBg: "bg-emerald-500/10",
     iconColor: "text-emerald-600",
+    href: "/services/developpement-web",
   },
   {
     icon: ShoppingCart,
@@ -62,14 +67,16 @@ const services = [
     gradient: "from-orange-500/10 to-amber-500/10",
     iconBg: "bg-orange-500/10",
     iconColor: "text-orange-600",
+    href: "/services/ecommerce",
   },
   {
     icon: Code,
-    title: "Applications Web",
-    description: "Solutions digitales complexes adaptées à vos besoins.",
+    title: "Applications Mobiles",
+    description: "Solutions digitales mobiles adaptées à vos besoins.",
     gradient: "from-slate-500/10 to-gray-500/10",
     iconBg: "bg-slate-500/10",
     iconColor: "text-slate-600",
+    href: "/services/applications-mobiles",
   },
   {
     icon: Fingerprint,
@@ -78,6 +85,7 @@ const services = [
     gradient: "from-fuchsia-500/10 to-pink-500/10",
     iconBg: "bg-fuchsia-500/10",
     iconColor: "text-fuchsia-600",
+    href: "/services/design-branding",
   },
 ];
 
@@ -144,7 +152,10 @@ export function ServicesSection() {
               variants={itemVariants}
               className="group relative"
             >
-              <div className="h-full p-6 rounded-2xl bg-background border border-border/50 hover:border-primary/20 transition-all duration-500 hover:shadow-elevated">
+              <Link 
+                to={service.href}
+                className="block h-full p-6 rounded-2xl bg-background border border-border/50 hover:border-primary/20 transition-all duration-500 hover:shadow-elevated"
+              >
                 {/* Gradient Background on Hover */}
                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 
@@ -161,7 +172,7 @@ export function ServicesSection() {
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
