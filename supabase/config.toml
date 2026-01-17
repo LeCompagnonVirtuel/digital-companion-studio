@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.send-appointment-notification]
 verify_jwt = false
+
+[functions.moneyfusion-payment]
+verify_jwt = false
+
+[functions.moneyfusion-webhook]
+verify_jwt = false

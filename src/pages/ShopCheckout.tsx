@@ -5,14 +5,13 @@ import {
   ArrowLeft,
   ShoppingBag,
   Lock,
-  CreditCard,
   Check,
   ChevronRight,
   Trash2,
   AlertCircle,
   Package,
   Mail,
-  User,
+  Loader2,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -26,6 +25,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useCart } from "@/hooks/useCart";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ShopCheckout = () => {
   const navigate = useNavigate();
@@ -64,35 +64,76 @@ const ShopCheckout = () => {
     setIsSubmitting(true);
 
     try {
-      // Create orders for each item
-      for (const item of items) {
-        await createOrder.mutateAsync({
-          customer_email: formData.email,
-          customer_name: formData.name,
-          product_id: item.product.id,
-          product_title: item.product.title,
-          price: item.product.price,
-          currency: item.product.currency || "EUR",
-          payment_method: "money_fusion", // Placeholder - will be integrated later
-          download_link: item.product.download_url || undefined,
-        });
-      }
-
-      // Clear cart and redirect
-      await clearCart();
+      // For multiple items, we'll create a combined order
+      // For now, we process the first item (most common case for digital products)
+      const item = items[0];
       
-      toast({
-        title: "Commande créée !",
-        description: "Vous allez être redirigé vers le paiement.",
+      // Generate order number
+      const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+      
+      // Create order first
+      const order = await createOrder.mutateAsync({
+        customer_email: formData.email,
+        customer_name: formData.name,
+        product_id: item.product.id,
+        product_title: item.product.title,
+        price: total,
+        currency: item.product.currency || "EUR",
+        payment_method: "money_fusion",
+        download_link: item.product.download_url || undefined,
+        order_number: orderNumber,
       });
 
-      // For now, redirect to a success page (payment integration coming later)
-      navigate("/boutique/confirmation");
-    } catch (error) {
+      console.log("Order created:", order);
+
+      // Get return URL for after payment
+      const returnUrl = `${window.location.origin}/boutique/confirmation?order=${order.id}`;
+
+      // Initiate Money Fusion payment
+      const { data: paymentData, error: paymentError } = await supabase.functions.invoke(
+        'moneyfusion-payment',
+        {
+          body: {
+            orderId: order.id,
+            customerEmail: formData.email,
+            customerName: formData.name || 'Client',
+            productTitle: items.length > 1 
+              ? `${item.product.title} + ${items.length - 1} autres` 
+              : item.product.title,
+            price: total,
+            returnUrl,
+          },
+        }
+      );
+
+      if (paymentError) {
+        console.error("Payment initiation error:", paymentError);
+        throw new Error(paymentError.message || "Erreur lors de l'initiation du paiement");
+      }
+
+      if (!paymentData?.paymentUrl) {
+        console.error("No payment URL received:", paymentData);
+        throw new Error("Impossible d'obtenir le lien de paiement");
+      }
+
+      console.log("Payment initiated:", paymentData);
+
+      // Clear cart
+      await clearCart();
+
+      toast({
+        title: "Redirection vers le paiement",
+        description: "Vous allez être redirigé vers Money Fusion...",
+      });
+
+      // Redirect to Money Fusion payment page
+      window.location.href = paymentData.paymentUrl;
+
+    } catch (error: any) {
       console.error("Checkout error:", error);
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue lors de la création de votre commande.",
+        description: error.message || "Une erreur est survenue lors de la création de votre commande.",
         variant: "destructive",
       });
     } finally {
@@ -212,12 +253,37 @@ const ShopCheckout = () => {
                   </CardContent>
                 </Card>
 
-                {/* Payment Notice */}
+                {/* Payment Method */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <Lock className="w-5 h-5 text-primary" />
+                      Mode de paiement
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4 p-4 border rounded-lg bg-muted/30">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm">
+                        MF
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium">Money Fusion</p>
+                        <p className="text-sm text-muted-foreground">
+                          Mobile Money, Carte bancaire, Wave, Orange Money
+                        </p>
+                      </div>
+                      <Check className="w-5 h-5 text-emerald-500" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Info Alert */}
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Le paiement sera traité via <strong>Money Fusion</strong>. 
-                    Vous recevrez vos produits immédiatement après confirmation du paiement.
+                    Après avoir cliqué sur "Payer", vous serez redirigé vers la plateforme sécurisée{" "}
+                    <strong>Money Fusion</strong> pour finaliser votre paiement. 
+                    Vous recevrez vos produits immédiatement après confirmation.
                   </AlertDescription>
                 </Alert>
 
@@ -254,20 +320,20 @@ const ShopCheckout = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Traitement en cours...
                     </>
                   ) : (
                     <>
                       <Lock className="w-5 h-5" />
-                      Payer {total.toFixed(2)}€
+                      Payer {total.toFixed(2)}€ via Money Fusion
                     </>
                   )}
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
                   <Lock className="w-3 h-3 inline mr-1" />
-                  Paiement 100% sécurisé et crypté
+                  Paiement 100% sécurisé via Money Fusion
                 </p>
               </form>
             </motion.div>
@@ -360,6 +426,17 @@ const ShopCheckout = () => {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="w-4 h-4 text-emerald-500" />
                     Support client réactif
+                  </div>
+                </div>
+
+                {/* Payment Methods */}
+                <div className="pt-4 border-t">
+                  <p className="text-xs text-muted-foreground mb-2">Moyens de paiement acceptés</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="text-xs px-2 py-1 bg-muted rounded">Mobile Money</span>
+                    <span className="text-xs px-2 py-1 bg-muted rounded">Wave</span>
+                    <span className="text-xs px-2 py-1 bg-muted rounded">Orange Money</span>
+                    <span className="text-xs px-2 py-1 bg-muted rounded">Carte bancaire</span>
                   </div>
                 </div>
               </CardContent>
