@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export interface Order {
   id: string;
@@ -23,30 +23,66 @@ export interface Order {
   updated_at: string;
 }
 
+// Global orders channel
+let globalOrdersChannel: ReturnType<typeof supabase.channel> | null = null;
+let ordersChannelSubscribers = 0;
+
+const setupGlobalOrdersChannel = (queryClient: ReturnType<typeof useQueryClient>) => {
+  if (globalOrdersChannel) {
+    ordersChannelSubscribers++;
+    return;
+  }
+
+  globalOrdersChannel = supabase
+    .channel('global_orders_realtime')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'orders',
+      },
+      (payload) => {
+        console.log('🔄 Real-time order update:', payload.eventType);
+        queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
+        // Also update customers data when orders change
+        queryClient.invalidateQueries({ queryKey: ["shop-customers"] });
+        queryClient.invalidateQueries({ queryKey: ["advanced-analytics"] });
+      }
+    )
+    .subscribe((status) => {
+      console.log('📡 Orders realtime channel status:', status);
+    });
+
+  ordersChannelSubscribers = 1;
+};
+
+const cleanupGlobalOrdersChannel = () => {
+  ordersChannelSubscribers--;
+  if (ordersChannelSubscribers <= 0 && globalOrdersChannel) {
+    supabase.removeChannel(globalOrdersChannel);
+    globalOrdersChannel = null;
+    ordersChannelSubscribers = 0;
+  }
+};
+
 // Admin hook with real-time updates
 export const useAdminOrders = () => {
   const queryClient = useQueryClient();
+  const isSubscribed = useRef(false);
 
   // Set up real-time subscription
   useEffect(() => {
-    const channel = supabase
-      .channel('orders_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'orders',
-        },
-        (payload) => {
-          console.log('Real-time order update:', payload);
-          queryClient.invalidateQueries({ queryKey: ["admin-orders"] });
-        }
-      )
-      .subscribe();
+    if (!isSubscribed.current) {
+      setupGlobalOrdersChannel(queryClient);
+      isSubscribed.current = true;
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (isSubscribed.current) {
+        cleanupGlobalOrdersChannel();
+        isSubscribed.current = false;
+      }
     };
   }, [queryClient]);
 
@@ -61,6 +97,8 @@ export const useAdminOrders = () => {
       if (error) throw error;
       return data as Order[];
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 };
 

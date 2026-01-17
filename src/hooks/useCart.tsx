@@ -88,7 +88,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Subscribe to realtime updates for cart synchronization across tabs
     const sessionId = getSessionId();
-    const channel = supabase
+    const cartChannel = supabase
       .channel(`cart-${sessionId}`)
       .on(
         'postgres_changes',
@@ -99,15 +99,44 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           filter: `session_id=eq.${sessionId}`,
         },
         (payload) => {
-          console.log('Real-time cart update:', payload);
-          // Refetch cart to get updated product data
+          console.log('🛒 Real-time cart update:', payload);
+          fetchCart();
+        }
+      )
+      .subscribe();
+
+    // Also listen for product updates to refresh cart with latest prices
+    const productsChannel = supabase
+      .channel('cart-products-sync')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'digital_products',
+        },
+        (payload) => {
+          console.log('🔄 Product updated, refreshing cart:', payload);
+          fetchCart();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'digital_products',
+        },
+        (payload) => {
+          console.log('🗑️ Product deleted, refreshing cart:', payload);
           fetchCart();
         }
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(cartChannel);
+      supabase.removeChannel(productsChannel);
     };
   }, [fetchCart]);
 
