@@ -108,13 +108,14 @@ Deno.serve(async (req) => {
       );
     }
 
-    // If payment successful, update product sales count
+    // If payment successful, update product sales count and send confirmation email
     if (newStatus === 'completed') {
       console.log('Payment successful, updating sales count for product:', order.product_id);
       
+      // Get product info including download link
       const { data: product } = await supabase
         .from('digital_products')
-        .select('sales_count')
+        .select('sales_count, download_url, title')
         .eq('id', order.product_id)
         .single();
 
@@ -125,12 +126,20 @@ Deno.serve(async (req) => {
           .eq('id', order.product_id);
       }
 
+      // Update order with download link from product
+      if (product?.download_url) {
+        await supabase
+          .from('orders')
+          .update({ download_link: product.download_url })
+          .eq('id', order.id);
+      }
+
       // Update shop_customers
       const { data: existingCustomer } = await supabase
         .from('shop_customers')
         .select('*')
         .eq('email', order.customer_email)
-        .single();
+        .maybeSingle();
 
       if (existingCustomer) {
         await supabase
@@ -161,6 +170,35 @@ Deno.serve(async (req) => {
         message: `Commande ${order.order_number} de ${order.customer_email} pour ${order.price}€`,
         data: { orderId: order.id, orderNumber: order.order_number }
       });
+
+      // Send confirmation email with download link
+      try {
+        console.log('Sending confirmation email to:', order.customer_email);
+        
+        const emailResponse = await fetch(`${supabaseUrl}/functions/v1/send-order-confirmation`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${supabaseServiceKey}`,
+          },
+          body: JSON.stringify({
+            customerEmail: order.customer_email,
+            customerName: order.customer_name,
+            orderNumber: order.order_number,
+            productTitle: order.product_title,
+            price: order.price,
+            currency: order.currency || 'XOF',
+            downloadLink: product?.download_url || order.download_link,
+            accessToken: order.access_token,
+          }),
+        });
+
+        const emailResult = await emailResponse.json();
+        console.log('Email sending result:', emailResult);
+      } catch (emailError) {
+        console.error('Error sending confirmation email:', emailError);
+        // Don't fail the webhook if email fails - order is still successful
+      }
 
       console.log('Order completed successfully:', order.order_number);
     }
