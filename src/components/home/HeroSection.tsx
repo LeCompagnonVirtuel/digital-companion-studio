@@ -85,7 +85,7 @@ export function HeroSection() {
   const currentSlideData = heroSlides[currentSlide];
 
   return (
-    <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Panorama Background with Parallax */}
       <motion.div className="absolute inset-0 -z-20" style={{ y: backgroundY }}>
         <AnimatePresence mode="wait">
@@ -94,13 +94,13 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0"
           >
-            {/* Ken Burns effect on background */}
+            {/* Ken Burns effect on background - smoother */}
             <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ scale: [1, 1.08, 1] }}
+              transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage: `url('${currentSlideData.image}')`,
@@ -109,21 +109,24 @@ export function HeroSection() {
           </motion.div>
         </AnimatePresence>
         
-        {/* Dynamic overlay based on scroll */}
+        {/* Premium overlay with better readability */}
         <motion.div 
-          className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background"
-          style={{ opacity: overlayOpacity }}
+          className="absolute inset-0"
+          style={{ 
+            background: "linear-gradient(180deg, hsl(var(--background) / 0.92) 0%, hsl(var(--background) / 0.88) 50%, hsl(var(--background) / 0.95) 100%)",
+            opacity: overlayOpacity 
+          }}
         />
         
-        {/* Colored gradient overlay that changes with slides */}
+        {/* Colored gradient overlay that changes with slides - more subtle */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`gradient-${currentSlide}`}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
+            animate={{ opacity: 0.4 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10"
+            transition={{ duration: 1.2 }}
+            className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-accent/8"
           />
         </AnimatePresence>
       </motion.div>
@@ -200,7 +203,7 @@ export function HeroSection() {
       </div>
 
       {/* Main Content with Parallax */}
-      <motion.div className="container-wide py-16 sm:py-20 pt-24 sm:pt-28" style={{ opacity, scale }}>
+      <motion.div className="container-wide py-20 sm:py-24 pt-28 sm:pt-32" style={{ opacity, scale }}>
         <div className="max-w-5xl mx-auto text-center">
           {/* Premium Badge - Animated with slide change */}
           <AnimatePresence mode="wait">
@@ -209,16 +212,17 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-primary/10 border border-primary/20 mb-5 sm:mb-6 backdrop-blur-sm"
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/8 border border-primary/15 mb-6 sm:mb-8 backdrop-blur-sm shadow-sm"
             >
               <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="text-primary"
               >
-                <currentSlideData.icon size={16} className="text-primary" />
+                <currentSlideData.icon size={18} />
               </motion.div>
-              <span className="text-xs sm:text-sm font-medium text-foreground/80">{currentSlideData.badge}</span>
+              <span className="text-sm font-medium text-foreground/90">{currentSlideData.badge}</span>
               <span className="flex items-center gap-1.5 text-xs font-medium text-accent">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 Disponible
@@ -230,98 +234,98 @@ export function HeroSection() {
           <AnimatePresence mode="wait">
             <motion.h1
               key={`headline-${currentSlide}`}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold leading-[1.1] mb-5 sm:mb-6 tracking-tight px-4"
+              exit={{ opacity: 0, y: -25 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-[1.08] mb-6 sm:mb-8 tracking-tight px-4"
             >
-              <span className="block">{currentSlideData.headline}</span>
-              <span className="gradient-text mt-1 sm:mt-2 block">{currentSlideData.highlight}</span>
+              <span className="block text-foreground">{currentSlideData.headline}</span>
+              <span className="gradient-text mt-2 sm:mt-3 block">{currentSlideData.highlight}</span>
             </motion.h1>
           </AnimatePresence>
 
-          {/* Subtitle - Animated with slide change */}
+          {/* Subtitle - Animated with slide change - improved readability */}
           <AnimatePresence mode="wait">
             <motion.p
               key={`subtitle-${currentSlide}`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed px-4"
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-4"
             >
               {currentSlideData.description}
             </motion.p>
           </AnimatePresence>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - Enhanced styling */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-10 px-4"
+            transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-10 sm:mb-12 px-4"
           >
-            <Button variant="hero" size="xl" asChild>
+            <Button variant="hero" size="xl" asChild className="shadow-premium">
               <Link to="/demarrer-projet" className="group">
                 Démarrer mon projet
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <Link to="/audit-gratuit" className="group">
-                <Play size={16} className="mr-1" />
+                <Play size={16} className="mr-1.5" />
                 Audit gratuit
               </Link>
             </Button>
           </motion.div>
 
-          {/* Trust Points */}
+          {/* Trust Points - Enhanced design */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 px-2"
+            transition={{ duration: 0.8, delay: 0.45 }}
+            className="flex flex-wrap justify-center gap-3 mb-10 sm:mb-12 px-2"
           >
             {["Sans engagement", "Devis sous 24h", "Accompagnement personnalisé"].map((item, i) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-card/80 backdrop-blur-sm border border-border/50"
+                transition={{ delay: 0.55 + i * 0.1 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-card/90 backdrop-blur-sm border border-border/60 shadow-sm hover:border-primary/30 hover:shadow-md transition-all duration-300"
               >
-                <CheckCircle size={14} className="sm:w-4 sm:h-4 text-accent shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-foreground">{item}</span>
+                <CheckCircle size={15} className="text-accent shrink-0" />
+                <span className="text-sm font-medium text-foreground">{item}</span>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Stats Cards */}
+          {/* Stats Cards - Enhanced design */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 max-w-2xl mx-auto px-2"
+            transition={{ duration: 0.8, delay: 0.55 }}
+            className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-2"
           >
             {[
-              { icon: Zap, value: "24h", label: "Réponse garantie", color: "text-primary" },
-              { icon: TrendingUp, value: "150+", label: "Projets livrés", color: "text-accent" },
-              { icon: Star, value: "100%", label: "Clients satisfaits", color: "text-gold" },
+              { icon: Zap, value: "24h", label: "Réponse garantie", color: "text-primary", bg: "bg-primary/10" },
+              { icon: TrendingUp, value: "150+", label: "Projets livrés", color: "text-accent", bg: "bg-accent/10" },
+              { icon: Star, value: "100%", label: "Clients satisfaits", color: "text-gold", bg: "bg-gold/10" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + i * 0.1 }}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className="group p-2 sm:p-3 md:p-4 rounded-xl bg-card/70 backdrop-blur-sm border border-border/50 hover:border-primary/20 hover:shadow-card transition-all duration-300"
+                transition={{ delay: 0.65 + i * 0.1 }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className="group p-3 sm:p-4 md:p-5 rounded-2xl bg-card/90 backdrop-blur-sm border border-border/60 hover:border-primary/25 shadow-sm hover:shadow-card transition-all duration-400"
               >
-                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-1.5 sm:mb-2 mx-auto group-hover:scale-110 transition-transform duration-300">
-                  <stat.icon size={14} className={`sm:w-4 sm:h-4 md:w-5 md:h-5 ${stat.color}`} />
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl ${stat.bg} flex items-center justify-center mb-2 sm:mb-3 mx-auto group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon size={16} className={`sm:w-5 sm:h-5 md:w-6 md:h-6 ${stat.color}`} />
                 </div>
-                <div className="font-display font-bold text-lg sm:text-xl md:text-2xl mb-0.5">{stat.value}</div>
-                <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground leading-tight">{stat.label}</div>
+                <div className="font-display font-bold text-xl sm:text-2xl md:text-3xl mb-0.5 sm:mb-1">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground leading-tight">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

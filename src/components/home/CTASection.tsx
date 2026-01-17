@@ -19,62 +19,62 @@ export function CTASection() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative rounded-3xl overflow-hidden"
         >
-          {/* Animated Background */}
+          {/* Enhanced Animated Background */}
           <div 
             className="absolute inset-0 -z-10"
             style={{ background: "var(--gradient-dark)" }}
           />
           <motion.div 
-            className="absolute inset-0 -z-10 opacity-40"
+            className="absolute inset-0 -z-10"
             animate={{ 
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
           >
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/50 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/50 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/30 rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/40 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/40 rounded-full blur-3xl" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/25 rounded-full blur-3xl" />
           </motion.div>
 
-          {/* Grid Pattern Overlay */}
+          {/* Grid Pattern Overlay - Enhanced */}
           <div 
-            className="absolute inset-0 -z-10 opacity-[0.03]"
+            className="absolute inset-0 -z-10 opacity-[0.04]"
             style={{
               backgroundImage: `linear-gradient(hsl(0 0% 100%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
+              backgroundSize: "50px 50px",
             }}
           />
 
-          <div className="relative px-8 py-16 md:px-16 md:py-24">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Content */}
+          <div className="relative px-6 py-14 md:px-12 lg:px-16 md:py-20 lg:py-24">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+              {/* Content - Enhanced */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-primary-foreground text-sm font-medium mb-6"
+                  animate={{ rotate: [0, 8, -8, 0] }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/25 text-primary-foreground text-sm font-medium mb-6 border border-primary/30"
                 >
                   <Sparkles size={16} />
                   <span>Offre limitée</span>
                 </motion.div>
                 
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-background mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-5 md:mb-6 leading-tight">
                   Prêt à transformer{" "}
                   <span className="text-primary">votre digital ?</span>
                 </h2>
-                <p className="text-lg text-background/70 mb-8">
+                <p className="text-base md:text-lg text-white/75 mb-8 leading-relaxed">
                   Discutons de votre projet. Audit gratuit et sans engagement pour identifier vos opportunités de croissance.
                 </p>
 
-                {/* Benefits List */}
+                {/* Benefits List - Enhanced */}
                 <ul className="space-y-3 mb-8">
                   {benefits.map((benefit, i) => (
                     <motion.li
@@ -83,32 +83,34 @@ export function CTASection() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.2 + i * 0.1 }}
-                      className="flex items-center gap-3 text-background/80"
+                      className="flex items-center gap-3 text-white/85"
                     >
-                      <CheckCircle size={18} className="text-accent flex-shrink-0" />
-                      <span>{benefit}</span>
+                      <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <CheckCircle size={14} className="text-accent" />
+                      </div>
+                      <span className="text-sm md:text-base">{benefit}</span>
                     </motion.li>
                   ))}
                 </ul>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button variant="hero" size="xl" asChild className="shadow-glow">
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                    <Button variant="hero" size="xl" asChild className="shadow-premium">
                       <Link to="/demarrer-audit" className="group">
                         Demander un audit gratuit
-                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
                       </Link>
                     </Button>
                   </motion.div>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       variant="glass" 
                       size="xl" 
                       asChild
-                      className="border-background/20 text-background hover:bg-background/10"
+                      className="border-white/20 text-white hover:bg-white/10 hover:border-white/30"
                     >
                       <Link to="/parlons-projet">
-                        <MessageCircle size={20} className="mr-2" />
+                        <MessageCircle size={18} className="mr-2" />
                         Nous contacter
                       </Link>
                     </Button>
