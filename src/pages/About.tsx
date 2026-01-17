@@ -30,27 +30,51 @@ const timeline = [
   {
     year: "2020",
     title: "Création",
-    description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité.",
+    description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité en Afrique.",
+    icon: "🚀",
+    highlight: false,
   },
   {
     year: "2021",
     title: "Croissance",
-    description: "50 premiers projets livrés, expansion de l'équipe et diversification des services.",
+    description: "50 premiers projets livrés, expansion de l'équipe et diversification des services offerts.",
+    icon: "📈",
+    highlight: false,
   },
   {
     year: "2022",
     title: "Innovation",
-    description: "Lancement de notre offre automatisation et IA pour accompagner la transformation digitale.",
+    description: "Lancement de notre offre automatisation et IA pour accompagner la transformation digitale des entreprises.",
+    icon: "💡",
+    highlight: false,
   },
   {
     year: "2023",
     title: "Expansion",
-    description: "100+ clients accompagnés, développement de notre méthodologie agile unique.",
+    description: "100+ clients accompagnés, développement de notre méthodologie agile unique et ouverture à l'international.",
+    icon: "🌍",
+    highlight: false,
   },
   {
     year: "2024",
     title: "Excellence",
-    description: "150+ projets livrés, 100% satisfaction client et nouvelles ambitions pour l'avenir.",
+    description: "150+ projets livrés, 100% satisfaction client, certifications et partenariats stratégiques.",
+    icon: "⭐",
+    highlight: false,
+  },
+  {
+    year: "2025",
+    title: "Accélération",
+    description: "Lancement de notre plateforme SaaS, expansion dans 5 nouveaux pays africains et +200 projets livrés.",
+    icon: "🎯",
+    highlight: true,
+  },
+  {
+    year: "2026",
+    title: "Leadership",
+    description: "Positionnement comme leader du digital en Afrique francophone, academy de formation et écosystème complet.",
+    icon: "👑",
+    highlight: true,
   },
 ];
 
@@ -154,7 +178,15 @@ const About = () => {
         </section>
 
         {/* Timeline */}
-        <section className="section-padding">
+        <section className="section-padding relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-mesh)" }} />
+          <motion.div 
+            className="absolute top-1/3 left-[10%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl -z-10"
+            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          
           <div className="container-narrow">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -162,42 +194,91 @@ const About = () => {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">Notre Histoire</h2>
-              <p className="text-muted-foreground">Une aventure entrepreneuriale guidée par la passion du digital.</p>
+              <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                Notre Parcours
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mb-4">
+                Notre <span className="gradient-text">Histoire</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Une aventure entrepreneuriale guidée par la passion du digital et l'ambition de transformer l'Afrique.
+              </p>
             </motion.div>
 
             <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-px bg-border lg:-translate-x-1/2" />
+              {/* Timeline line with gradient */}
+              <div className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-0.5 lg:-translate-x-1/2 bg-gradient-to-b from-primary/20 via-primary to-primary/20" />
 
               {timeline.map((item, index) => (
                 <motion.div
                   key={item.year}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className={`relative flex items-start gap-8 mb-12 ${
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className={`relative flex items-start gap-8 mb-12 last:mb-0 ${
                     index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
                   }`}
                 >
-                  {/* Dot */}
-                  <div className="absolute left-8 lg:left-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background -translate-x-1/2 lg:-translate-x-1/2 mt-1.5" />
-
-                  {/* Content */}
-                  <div className={`flex-1 pl-16 lg:pl-0 ${index % 2 === 0 ? "lg:pr-16 lg:text-right" : "lg:pl-16"}`}>
-                    <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-2">
-                      {item.year}
-                    </span>
-                    <h3 className="font-display font-semibold text-xl mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
+                  {/* Dot with icon */}
+                  <div className={`absolute left-8 lg:left-1/2 -translate-x-1/2 lg:-translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center text-xl z-10 transition-all duration-300 ${
+                    item.highlight 
+                      ? "bg-gradient-to-br from-primary to-accent shadow-glow" 
+                      : "bg-card border-2 border-primary"
+                  }`}>
+                    <span>{item.icon}</span>
                   </div>
+
+                  {/* Content Card */}
+                  <motion.div 
+                    className={`flex-1 pl-20 lg:pl-0 ${index % 2 === 0 ? "lg:pr-20 lg:text-right" : "lg:pl-20"}`}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <div className={`p-6 rounded-2xl transition-all duration-300 ${
+                      item.highlight 
+                        ? "bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/30 shadow-elevated" 
+                        : "bg-card/80 backdrop-blur-sm border border-border hover:border-primary/30"
+                    }`}>
+                      <div className={`flex items-center gap-3 mb-3 ${index % 2 === 0 ? "lg:justify-end" : ""}`}>
+                        <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${
+                          item.highlight 
+                            ? "bg-primary text-primary-foreground" 
+                            : "bg-primary/10 text-primary"
+                        }`}>
+                          {item.year}
+                        </span>
+                        {item.highlight && (
+                          <span className="px-2 py-1 rounded text-xs font-medium bg-accent/20 text-accent-foreground">
+                            En cours
+                          </span>
+                        )}
+                      </div>
+                      <h3 className={`font-display font-bold text-xl mb-2 ${item.highlight ? "gradient-text" : ""}`}>
+                        {item.title}
+                      </h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+                    </div>
+                  </motion.div>
 
                   {/* Spacer for alternating layout */}
                   <div className="hidden lg:block flex-1" />
                 </motion.div>
               ))}
             </div>
+
+            {/* Vision future */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-16 text-center"
+            >
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30">
+                <Rocket size={20} className="text-primary" />
+                <span className="font-medium">Et ce n'est que le début de notre aventure...</span>
+              </div>
+            </motion.div>
           </div>
         </section>
 

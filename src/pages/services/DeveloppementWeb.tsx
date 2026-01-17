@@ -125,67 +125,140 @@ const DeveloppementWeb = () => {
     <div className="min-h-screen">
       <Navigation />
       <main>
-        {/* Hero */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
+        {/* Hero Premium */}
+        <section className="pt-32 pb-24 relative overflow-hidden">
+          {/* Background premium */}
+          <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
+          <div className="absolute inset-0 -z-10 opacity-30" style={{ background: "var(--gradient-mesh)" }} />
+          
+          {/* Animated orbs */}
           <motion.div 
-            className="absolute top-1/4 left-[10%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-3xl -z-10"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-1/4 left-[5%] w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl -z-10"
+            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2], x: [0, 50, 0] }}
+            transition={{ duration: 12, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-[5%] w-[400px] h-[400px] rounded-full bg-accent/10 blur-3xl -z-10"
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 10, repeat: Infinity }}
           />
           
           <div className="container-wide">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.7 }}
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+                <motion.span 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6 shadow-sm"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
                   <Globe size={16} />
-                  Développement Web
-                </span>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-tight">
+                  Développement Web Premium
+                </motion.span>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6 leading-[1.1]">
                   Sites web{" "}
                   <span className="gradient-text">performants</span>{" "}
                   qui convertissent
                 </h1>
-                <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-                  Nous créons des expériences web modernes, rapides et optimisées pour le SEO. 
-                  Du site vitrine à l'application complexe, nous donnons vie à vos projets.
+                <p className="text-lg lg:text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
+                  Nous créons des expériences web modernes, ultra-rapides et optimisées pour le SEO. 
+                  Du site vitrine à l'application complexe, nous donnons vie à vos ambitions digitales.
                 </p>
+                
+                {/* Trust points */}
+                <div className="flex flex-wrap gap-4 mb-8">
+                  {["Score Lighthouse 95+", "SEO optimisé", "Support dédié"].map((point, i) => (
+                    <motion.div 
+                      key={point}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 + i * 0.1 }}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+                        <Check size={12} className="text-primary" />
+                      </div>
+                      <span>{point}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                
                 <div className="flex flex-wrap gap-4">
-                  <Button variant="hero" size="lg" asChild>
+                  <Button variant="hero" size="lg" className="shadow-premium" asChild>
                     <Link to="/demarrer-projet">
                       Démarrer mon projet
                       <ArrowRight size={18} className="ml-2" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild>
+                  <Button variant="outline" size="lg" className="backdrop-blur-sm" asChild>
                     <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
                 </div>
               </motion.div>
               
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
+                animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
                 className="relative hidden lg:block"
               >
-                <div className="relative aspect-square max-w-md mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
-                  <div className="relative bg-card border border-border rounded-3xl p-8 h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center">
-                        <Globe size={48} className="text-primary" />
+                <div className="relative aspect-square max-w-lg mx-auto">
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 rounded-3xl blur-3xl" />
+                  
+                  {/* Card */}
+                  <div className="relative bg-card/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-full flex flex-col items-center justify-center shadow-premium">
+                    {/* Browser mockup */}
+                    <div className="w-full">
+                      <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border">
+                        <div className="flex gap-1.5">
+                          <div className="w-3 h-3 rounded-full bg-destructive/60" />
+                          <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                          <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                        </div>
+                        <div className="flex-1 h-6 rounded-full bg-muted/50 mx-4" />
                       </div>
-                      <div className="space-y-2">
-                        <div className="h-3 bg-muted rounded-full w-3/4 mx-auto" />
-                        <div className="h-3 bg-muted rounded-full w-1/2 mx-auto" />
-                        <div className="h-3 bg-muted rounded-full w-2/3 mx-auto" />
+                      
+                      {/* Content mockup */}
+                      <div className="space-y-4">
+                        <motion.div 
+                          className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center shadow-glow"
+                          animate={{ rotate: [0, 5, -5, 0] }}
+                          transition={{ duration: 6, repeat: Infinity }}
+                        >
+                          <Globe size={40} className="text-primary-foreground" />
+                        </motion.div>
+                        <div className="space-y-2">
+                          <div className="h-4 bg-gradient-to-r from-primary/20 to-transparent rounded-full w-3/4 mx-auto" />
+                          <div className="h-3 bg-muted/50 rounded-full w-1/2 mx-auto" />
+                          <div className="h-3 bg-muted/30 rounded-full w-2/3 mx-auto" />
+                        </div>
+                        <div className="flex justify-center gap-3 pt-4">
+                          <div className="w-20 h-8 rounded-lg bg-primary/20" />
+                          <div className="w-20 h-8 rounded-lg bg-muted/40" />
+                        </div>
                       </div>
                     </div>
+                    
+                    {/* Floating badges */}
+                    <motion.div 
+                      className="absolute -top-4 -right-4 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/30 text-green-600 text-xs font-medium"
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    >
+                      100% Responsive
+                    </motion.div>
+                    <motion.div 
+                      className="absolute -bottom-4 -left-4 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-medium"
+                      animate={{ y: [0, 5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                    >
+                      Ultra rapide
+                    </motion.div>
                   </div>
                 </div>
               </motion.div>
