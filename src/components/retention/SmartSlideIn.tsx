@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, MessageCircle, ArrowRight, Phone, Mail, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation, Link } from 'react-router-dom';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 
 type SlideInType = 'help' | 'whatsapp' | 'callback' | 'newsletter';
 
@@ -13,47 +14,58 @@ interface SlideInConfig {
   cta: string;
   link: string;
   color: string;
+  isExternal?: boolean;
 }
-
-const slideInConfigs: Record<SlideInType, SlideInConfig> = {
-  help: {
-    icon: <MessageCircle size={20} />,
-    title: 'Besoin d\'aide ?',
-    description: 'Notre équipe est disponible pour répondre à vos questions',
-    cta: 'Discuter maintenant',
-    link: '#chatbot',
-    color: 'primary',
-  },
-  whatsapp: {
-    icon: <Phone size={20} />,
-    title: 'Préférez WhatsApp ?',
-    description: 'Recevez nos conseils directement sur votre téléphone',
-    cta: 'Rejoindre WhatsApp',
-    link: 'https://wa.me/yourphonenumber',
-    color: 'success',
-  },
-  callback: {
-    icon: <Calendar size={20} />,
-    title: 'On vous rappelle ?',
-    description: 'Planifiez un appel gratuit avec un expert',
-    cta: 'Réserver un créneau',
-    link: '/parlons-projet',
-    color: 'accent',
-  },
-  newsletter: {
-    icon: <Mail size={20} />,
-    title: 'Restez informé',
-    description: 'Recevez nos meilleures ressources gratuites',
-    cta: 'S\'inscrire',
-    link: '/contact',
-    color: 'primary',
-  },
-};
 
 export function SmartSlideIn() {
   const [isVisible, setIsVisible] = useState(false);
   const [slideType, setSlideType] = useState<SlideInType>('help');
   const location = useLocation();
+  const { settings } = useSiteSettings();
+
+  // Format phone number for WhatsApp (remove spaces and special chars)
+  const formatPhoneForWhatsApp = (phone: string) => {
+    return phone.replace(/[\s\-\(\)]/g, '').replace('+', '');
+  };
+
+  const whatsappNumber = formatPhoneForWhatsApp(settings.business_info.phone);
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Bonjour ! J\'aimerais en savoir plus sur vos services.')}`;
+
+  const slideInConfigs: Record<SlideInType, SlideInConfig> = {
+    help: {
+      icon: <MessageCircle size={20} />,
+      title: 'Besoin d\'aide ?',
+      description: 'Notre équipe est disponible pour répondre à vos questions',
+      cta: 'Discuter maintenant',
+      link: '#chatbot',
+      color: 'primary',
+    },
+    whatsapp: {
+      icon: <Phone size={20} />,
+      title: 'Préférez WhatsApp ?',
+      description: 'Recevez nos conseils directement sur votre téléphone',
+      cta: 'Rejoindre WhatsApp',
+      link: whatsappLink,
+      color: 'success',
+      isExternal: true,
+    },
+    callback: {
+      icon: <Calendar size={20} />,
+      title: 'On vous rappelle ?',
+      description: 'Planifiez un appel gratuit avec un expert',
+      cta: 'Réserver un créneau',
+      link: '/parlons-projet',
+      color: 'accent',
+    },
+    newsletter: {
+      icon: <Mail size={20} />,
+      title: 'Restez informé',
+      description: 'Recevez nos meilleures ressources gratuites',
+      cta: 'S\'inscrire',
+      link: '/contact',
+      color: 'primary',
+    },
+  };
 
   // Don't show on admin, auth, or checkout pages
   const shouldShow = !location.pathname.startsWith('/admin') && 
@@ -111,6 +123,9 @@ export function SmartSlideIn() {
       // Trigger chatbot
       const chatButton = document.querySelector('[data-chatbot-trigger]') as HTMLButtonElement;
       chatButton?.click();
+    } else if (config.isExternal) {
+      // Open external link in new tab
+      window.open(config.link, '_blank', 'noopener,noreferrer');
     }
     handleClose();
   };
