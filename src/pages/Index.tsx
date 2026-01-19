@@ -11,6 +11,7 @@ import { PricingSection } from "@/components/home/PricingSection";
 import { AboutSection } from "@/components/home/AboutSection";
 import { CTASection } from "@/components/home/CTASection";
 import { ShopSection } from "@/components/home/ShopSection";
+import { FAQSection } from "@/components/home/FAQSection";
 
 const Index = () => {
   return (
@@ -25,6 +26,7 @@ const Index = () => {
         <ProcessSection />
         <FeaturedProjectsSection />
         <TestimonialsSection />
+        <FAQSection />
         <AboutSection />
         <PricingSection />
         <CTASection />
