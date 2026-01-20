@@ -26,6 +26,8 @@ import { useCart } from "@/hooks/useCart";
 import { useCurrency } from "@/hooks/useCurrency";
 import { FeaturedProducts } from "@/components/shop/FeaturedProducts";
 import { TrustSection } from "@/components/shop/TrustSection";
+import { GuaranteeSection } from "@/components/shop/GuaranteeSection";
+import { ProductProblemSolution } from "@/components/shop/ProductProblemSolution";
 
 const ShopProduct = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -416,8 +418,22 @@ const ShopProduct = () => {
         )}
       </section>
 
+      {/* Problem-Solution Section */}
+      {product && (
+        <section className="container-wide px-4 sm:px-6 pb-12 sm:pb-20">
+          <ProductProblemSolution
+            problem={product.problem_solved || undefined}
+            benefits={product.benefits || undefined}
+            contentDetails={product.content_details || undefined}
+          />
+        </section>
+      )}
+
       {/* Related Products */}
       <FeaturedProducts />
+
+      {/* Guarantee Section */}
+      <GuaranteeSection />
 
       {/* Trust Section */}
       <TrustSection />

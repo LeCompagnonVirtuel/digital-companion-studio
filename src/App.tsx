@@ -75,10 +75,11 @@ function ChatbotWrapper() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AdminAuthProvider>
-      <CurrencyProvider>
-        <CartProvider>
-          <TooltipProvider>
+    <LanguageProvider>
+      <AdminAuthProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <TooltipProvider>
             <Toaster />
             <Sonner />
           <BrowserRouter>
@@ -122,6 +123,7 @@ const App = () => (
                 <Route path="/boutique/:slug" element={<ShopProduct />} />
                 <Route path="/boutique/checkout" element={<ShopCheckout />} />
                 <Route path="/boutique/confirmation" element={<ShopConfirmation />} />
+                <Route path="/ressources-gratuites" element={<FreeResources />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<Dashboard />} />
                 <Route path="/admin/leads" element={<Leads />} />
@@ -141,10 +143,11 @@ const App = () => (
               <ChatbotWrapper />
             </RetentionProvider>
           </BrowserRouter>
-          </TooltipProvider>
-        </CartProvider>
-      </CurrencyProvider>
-    </AdminAuthProvider>
+            </TooltipProvider>
+          </CartProvider>
+        </CurrencyProvider>
+      </AdminAuthProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
