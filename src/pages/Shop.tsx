@@ -10,6 +10,7 @@ import { useDigitalProducts } from "@/hooks/useDigitalProducts";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { TrustSection } from "@/components/shop/TrustSection";
+import { GuaranteeSection } from "@/components/shop/GuaranteeSection";
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { CurrencySelector } from "@/components/shop/CurrencySelector";
 import { useCart } from "@/hooks/useCart";
@@ -204,6 +205,9 @@ const Shop = () => {
           )}
         </div>
       </section>
+
+      {/* Guarantee Section */}
+      <GuaranteeSection />
 
       {/* Trust Section */}
       <TrustSection />
