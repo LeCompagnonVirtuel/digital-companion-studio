@@ -1,37 +1,7 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Rocket, Users, TrendingUp, Clock } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
-
-const stats = [
-  {
-    icon: Rocket,
-    value: 150,
-    suffix: "+",
-    label: "Projets livrés",
-    description: "avec succès",
-  },
-  {
-    icon: Users,
-    value: 80,
-    suffix: "+",
-    label: "Clients satisfaits",
-    description: "nous font confiance",
-  },
-  {
-    icon: TrendingUp,
-    value: 200,
-    suffix: "%",
-    label: "ROI moyen",
-    description: "de nos clients",
-  },
-  {
-    icon: Clock,
-    value: 24,
-    suffix: "h",
-    label: "Temps de réponse",
-    description: "garanti",
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 const panoramaSlides = [
   {
@@ -83,6 +53,38 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
 export function StatsSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t } = useLanguage();
+
+  const stats = [
+    {
+      icon: Rocket,
+      value: 150,
+      suffix: "+",
+      labelKey: 'stats.projects',
+      descKey: 'stats.projects_desc',
+    },
+    {
+      icon: Users,
+      value: 80,
+      suffix: "+",
+      labelKey: 'stats.clients',
+      descKey: 'stats.clients_desc',
+    },
+    {
+      icon: TrendingUp,
+      value: 200,
+      suffix: "%",
+      labelKey: 'stats.roi',
+      descKey: 'stats.roi_desc',
+    },
+    {
+      icon: Clock,
+      value: 24,
+      suffix: "h",
+      labelKey: 'stats.response',
+      descKey: 'stats.response_desc',
+    },
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -192,9 +194,9 @@ export function StatsSection() {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <span className="badge-premium mb-3 sm:mb-4 text-xs sm:text-sm">Nos résultats</span>
+          <span className="badge-premium mb-3 sm:mb-4 text-xs sm:text-sm">{t('stats.badge')}</span>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-display font-bold px-4">
-            Des chiffres qui <span className="gradient-text">parlent</span>
+            {t('stats.title')} <span className="gradient-text">{t('stats.title_highlight')}</span>
           </h2>
         </motion.div>
 
@@ -202,7 +204,7 @@ export function StatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-2 sm:px-0">
           {stats.map((stat, index) => (
             <motion.div
-              key={stat.label}
+              key={stat.labelKey}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -218,8 +220,8 @@ export function StatsSection() {
               <div className="mb-1 sm:mb-2">
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
               </div>
-              <div className="font-medium text-foreground text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1">{stat.label}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">{stat.description}</div>
+              <div className="font-medium text-foreground text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1">{t(stat.labelKey)}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground">{t(stat.descKey)}</div>
             </motion.div>
           ))}
         </div>

@@ -1,34 +1,37 @@
 import { motion } from "framer-motion";
 import { MessageSquare, Lightbulb, Code2, Rocket, ArrowRight } from "lucide-react";
-
-const steps = [
-  {
-    number: "01",
-    icon: MessageSquare,
-    title: "Échange & Découverte",
-    description: "Nous analysons vos besoins, objectifs et contraintes lors d'un premier échange approfondi.",
-  },
-  {
-    number: "02",
-    icon: Lightbulb,
-    title: "Stratégie & Conception",
-    description: "Nous élaborons une stratégie sur-mesure et concevons les solutions adaptées à vos enjeux.",
-  },
-  {
-    number: "03",
-    icon: Code2,
-    title: "Développement",
-    description: "Notre équipe donne vie à votre projet avec les technologies les plus performantes.",
-  },
-  {
-    number: "04",
-    icon: Rocket,
-    title: "Lancement & Suivi",
-    description: "Mise en production, formation et accompagnement continu pour garantir votre succès.",
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function ProcessSection() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      number: "01",
+      icon: MessageSquare,
+      titleKey: 'process.step1.title',
+      descKey: 'process.step1.desc',
+    },
+    {
+      number: "02",
+      icon: Lightbulb,
+      titleKey: 'process.step2.title',
+      descKey: 'process.step2.desc',
+    },
+    {
+      number: "03",
+      icon: Code2,
+      titleKey: 'process.step3.title',
+      descKey: 'process.step3.desc',
+    },
+    {
+      number: "04",
+      icon: Rocket,
+      titleKey: 'process.step4.title',
+      descKey: 'process.step4.desc',
+    },
+  ];
+
   return (
     <section className="section-padding relative overflow-hidden">
       {/* Enhanced Background */}
@@ -54,14 +57,14 @@ export function ProcessSection() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/8 text-primary text-sm font-medium mb-5 border border-primary/15 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Notre Méthode
+            {t('process.badge')}
           </motion.span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-5 md:mb-6 px-4">
-            Un processus{" "}
-            <span className="gradient-text">éprouvé</span>
+            {t('process.title')}{" "}
+            <span className="gradient-text">{t('process.title_highlight')}</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 leading-relaxed">
-            Une méthodologie claire et transparente pour des projets réussis.
+            {t('process.subtitle')}
           </p>
         </motion.div>
 
@@ -93,8 +96,8 @@ export function ProcessSection() {
                     <step.icon size={28} className="md:w-8 md:h-8" />
                   </div>
 
-                  <h3 className="font-display font-semibold text-lg md:text-xl mb-3">{step.title}</h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{step.description}</p>
+                  <h3 className="font-display font-semibold text-lg md:text-xl mb-3">{t(step.titleKey)}</h3>
+                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(step.descKey)}</p>
                 </div>
 
                 {/* Arrow - Desktop - Enhanced */}

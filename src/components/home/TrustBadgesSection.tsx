@@ -1,40 +1,43 @@
 import { motion } from "framer-motion";
 import { Shield, Award, Clock, Headphones, CheckCircle, Zap } from "lucide-react";
-
-const badges = [
-  {
-    icon: Shield,
-    title: "Garantie Satisfaction",
-    description: "100% satisfait ou remboursé",
-  },
-  {
-    icon: Clock,
-    title: "Livraison Rapide",
-    description: "Respect des délais garantis",
-  },
-  {
-    icon: Headphones,
-    title: "Support 24/7",
-    description: "Toujours à vos côtés",
-  },
-  {
-    icon: Award,
-    title: "Expertise Certifiée",
-    description: "Partenaires officiels",
-  },
-  {
-    icon: CheckCircle,
-    title: "Qualité Premium",
-    description: "Standards internationaux",
-  },
-  {
-    icon: Zap,
-    title: "Technologies Modernes",
-    description: "Dernières innovations",
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function TrustBadgesSection() {
+  const { t } = useLanguage();
+
+  const badges = [
+    {
+      icon: Shield,
+      titleKey: 'trust.satisfaction',
+      descKey: 'trust.satisfaction_desc',
+    },
+    {
+      icon: Clock,
+      titleKey: 'trust.delivery',
+      descKey: 'trust.delivery_desc',
+    },
+    {
+      icon: Headphones,
+      titleKey: 'trust.support',
+      descKey: 'trust.support_desc',
+    },
+    {
+      icon: Award,
+      titleKey: 'trust.expertise',
+      descKey: 'trust.expertise_desc',
+    },
+    {
+      icon: CheckCircle,
+      titleKey: 'trust.quality',
+      descKey: 'trust.quality_desc',
+    },
+    {
+      icon: Zap,
+      titleKey: 'trust.tech',
+      descKey: 'trust.tech_desc',
+    },
+  ];
+
   return (
     <section className="py-12 border-y border-border bg-gradient-to-r from-primary/5 via-transparent to-accent/5">
       <div className="container-wide">
@@ -47,7 +50,7 @@ export function TrustBadgesSection() {
         >
           {badges.map((badge, index) => (
             <motion.div
-              key={badge.title}
+              key={badge.titleKey}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -58,8 +61,8 @@ export function TrustBadgesSection() {
                 <badge.icon size={20} />
               </div>
               <div>
-                <div className="font-medium text-sm">{badge.title}</div>
-                <div className="text-xs text-muted-foreground">{badge.description}</div>
+                <div className="font-medium text-sm">{t(badge.titleKey)}</div>
+                <div className="text-xs text-muted-foreground">{t(badge.descKey)}</div>
               </div>
             </motion.div>
           ))}

@@ -3,64 +3,78 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Zap, TrendingUp, Play, CheckCircle, Star, Code, Palette, Megaphone, Bot, Globe, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState, useEffect } from "react";
-
-// Slides showcasing different services/domains
-const heroSlides = [
-  {
-    id: 1,
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
-    icon: Globe,
-    badge: "Développement Web",
-    headline: "Votre partenaire digital",
-    highlight: "intelligent",
-    description: "Nous concevons, automatisons et faisons croître des écosystèmes digitaux performants pour les entreprises ambitieuses.",
-    link: "/services/developpement-web",
-  },
-  {
-    id: 2,
-    image: "https://images.unsplash.com/photo-1555421689-d68471e189f2?q=80&w=2070&auto=format&fit=crop",
-    icon: Bot,
-    badge: "Automatisation & IA",
-    headline: "Automatisez vos",
-    highlight: "processus",
-    description: "Intégrez l'intelligence artificielle et l'automatisation pour optimiser vos opérations et gagner en productivité.",
-    link: "/services/automatisation-ia",
-  },
-  {
-    id: 3,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
-    icon: Megaphone,
-    badge: "Marketing Digital",
-    headline: "Accélérez votre",
-    highlight: "croissance",
-    description: "Stratégies de marketing digital sur-mesure pour attirer, convertir et fidéliser vos clients idéaux.",
-    link: "/services/marketing-digital",
-  },
-  {
-    id: 4,
-    image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?q=80&w=2064&auto=format&fit=crop",
-    icon: Palette,
-    badge: "Design & UX",
-    headline: "Des interfaces qui",
-    highlight: "convertissent",
-    description: "Design moderne et expérience utilisateur optimisée pour maximiser l'engagement et les conversions.",
-    link: "/services/design-branding",
-  },
-  {
-    id: 5,
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
-    icon: Smartphone,
-    badge: "Applications Mobiles",
-    headline: "Applications mobiles",
-    highlight: "performantes",
-    description: "Développement d'applications iOS et Android natives ou hybrides pour toucher vos utilisateurs où qu'ils soient.",
-    link: "/services/applications-mobiles",
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t, language } = useLanguage();
+  
+  // Slides showcasing different services/domains
+  const heroSlides = [
+    {
+      id: 1,
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+      icon: Globe,
+      badge: t('hero.badge.web_dev'),
+      headline: t('hero.headline.partner'),
+      highlight: t('hero.headline.intelligent'),
+      description: t('hero.description.web'),
+      link: "/services/developpement-web",
+    },
+    {
+      id: 2,
+      image: "https://images.unsplash.com/photo-1555421689-d68471e189f2?q=80&w=2070&auto=format&fit=crop",
+      icon: Bot,
+      badge: t('hero.badge.automation'),
+      headline: t('hero.headline.automate'),
+      highlight: t('hero.headline.processes'),
+      description: t('hero.description.ai'),
+      link: "/services/automatisation-ia",
+    },
+    {
+      id: 3,
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
+      icon: Megaphone,
+      badge: t('hero.badge.marketing'),
+      headline: t('hero.headline.accelerate'),
+      highlight: t('hero.headline.growth'),
+      description: t('hero.description.marketing'),
+      link: "/services/marketing-digital",
+    },
+    {
+      id: 4,
+      image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?q=80&w=2064&auto=format&fit=crop",
+      icon: Palette,
+      badge: t('hero.badge.design'),
+      headline: t('hero.headline.interfaces'),
+      highlight: t('hero.headline.convert'),
+      description: t('hero.description.design'),
+      link: "/services/design-branding",
+    },
+    {
+      id: 5,
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
+      icon: Smartphone,
+      badge: t('hero.badge.mobile'),
+      headline: t('hero.headline.mobile_apps'),
+      highlight: t('hero.headline.performant'),
+      description: t('hero.description.mobile'),
+      link: "/services/applications-mobiles",
+    },
+  ];
+
+  const trustPoints = [
+    t('hero.trust.no_commitment'),
+    t('hero.trust.quote_24h'),
+    t('hero.trust.personalized'),
+  ];
+
+  const stats = [
+    { icon: Zap, value: "24h", label: t('hero.stat.response'), color: "text-primary", bg: "bg-primary/10" },
+    { icon: TrendingUp, value: "150+", label: t('hero.stat.projects'), color: "text-accent", bg: "bg-accent/10" },
+    { icon: Star, value: "100%", label: t('hero.stat.satisfaction'), color: "text-gold", bg: "bg-gold/10" },
+  ];
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -80,7 +94,7 @@ export function HeroSection() {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 7000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroSlides.length]);
 
   const currentSlideData = heroSlides[currentSlide];
 
@@ -225,7 +239,7 @@ export function HeroSection() {
               <span className="text-sm font-medium text-foreground/90">{currentSlideData.badge}</span>
               <span className="flex items-center gap-1.5 text-xs font-medium text-accent">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                Disponible
+                {t('hero.badge.available')}
               </span>
             </motion.div>
           </AnimatePresence>
@@ -268,14 +282,14 @@ export function HeroSection() {
           >
             <Button variant="hero" size="xl" asChild className="shadow-premium">
               <Link to="/demarrer-projet" className="group">
-                Démarrer mon projet
+                {t('cta.start_project')}
                 <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <Link to="/audit-gratuit" className="group">
                 <Play size={16} className="mr-1.5" />
-                Audit gratuit
+                {t('cta.free_audit')}
               </Link>
             </Button>
           </motion.div>
@@ -287,7 +301,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.45 }}
             className="flex flex-wrap justify-center gap-3 mb-10 sm:mb-12 px-2"
           >
-            {["Sans engagement", "Devis sous 24h", "Accompagnement personnalisé"].map((item, i) => (
+            {trustPoints.map((item, i) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, y: 10 }}
@@ -308,11 +322,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.55 }}
             className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-2"
           >
-            {[
-              { icon: Zap, value: "24h", label: "Réponse garantie", color: "text-primary", bg: "bg-primary/10" },
-              { icon: TrendingUp, value: "150+", label: "Projets livrés", color: "text-accent", bg: "bg-accent/10" },
-              { icon: Star, value: "100%", label: "Clients satisfaits", color: "text-gold", bg: "bg-gold/10" },
-            ].map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
