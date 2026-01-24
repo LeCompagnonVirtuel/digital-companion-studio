@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle, Sparkles, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/logo.png";
-
-const benefits = [
-  "Audit complet de votre présence digitale",
-  "Recommandations personnalisées",
-  "Roadmap de croissance sur-mesure",
-  "Sans engagement",
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function CTASection() {
+  const { t } = useLanguage();
+
+  const benefits = [
+    t('cta.benefit.audit'),
+    t('cta.benefit.recommendations'),
+    t('cta.benefit.roadmap'),
+    t('cta.benefit.no_commitment'),
+  ];
+
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="container-wide">
@@ -63,15 +66,15 @@ export function CTASection() {
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/25 text-primary-foreground text-sm font-medium mb-6 border border-primary/30"
                 >
                   <Sparkles size={16} />
-                  <span>Offre limitée</span>
+                  <span>{t('cta.badge')}</span>
                 </motion.div>
                 
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-5 md:mb-6 leading-tight">
-                  Prêt à transformer{" "}
-                  <span className="text-primary">votre digital ?</span>
+                  {t('cta.title')}{" "}
+                  <span className="text-primary">{t('cta.title_highlight')}</span>
                 </h2>
                 <p className="text-base md:text-lg text-white/75 mb-8 leading-relaxed">
-                  Discutons de votre projet. Audit gratuit et sans engagement pour identifier vos opportunités de croissance.
+                  {t('cta.subtitle')}
                 </p>
 
                 {/* Benefits List - Enhanced */}
@@ -97,7 +100,7 @@ export function CTASection() {
                   <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                     <Button variant="hero" size="xl" asChild className="shadow-premium">
                       <Link to="/demarrer-audit" className="group">
-                        Demander un audit gratuit
+                        {t('cta.request_audit')}
                         <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
                       </Link>
                     </Button>
@@ -111,7 +114,7 @@ export function CTASection() {
                     >
                       <Link to="/parlons-projet">
                         <MessageCircle size={18} className="mr-2" />
-                        Nous contacter
+                        {t('cta.contact_us')}
                       </Link>
                     </Button>
                   </motion.div>
@@ -138,8 +141,8 @@ export function CTASection() {
                         +200%
                       </div>
                       <div className="text-foreground text-sm">
-                        <div className="font-semibold">Conversion</div>
-                        <div className="text-muted-foreground text-xs">Moyenne clients</div>
+                        <div className="font-semibold">{t('cta.conversion')}</div>
+                        <div className="text-muted-foreground text-xs">{t('cta.avg_clients')}</div>
                       </div>
                     </div>
                   </motion.div>
@@ -154,8 +157,8 @@ export function CTASection() {
                         24h
                       </div>
                       <div className="text-foreground text-sm">
-                        <div className="font-semibold">Réponse rapide</div>
-                        <div className="text-muted-foreground text-xs">Toujours disponible</div>
+                        <div className="font-semibold">{t('cta.fast_response')}</div>
+                        <div className="text-muted-foreground text-xs">{t('cta.always_available')}</div>
                       </div>
                     </div>
                   </motion.div>

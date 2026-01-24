@@ -1,31 +1,43 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const testimonials = [
   {
     name: "Marie Dupont",
     role: "CEO, TechStartup",
-    content: "Le Compagnon Virtuel a transformé notre présence digitale. Leur expertise et leur réactivité sont exceptionnelles. Notre taux de conversion a augmenté de 150% en 3 mois.",
+    content: {
+      fr: "Le Compagnon Virtuel a transformé notre présence digitale. Leur expertise et leur réactivité sont exceptionnelles. Notre taux de conversion a augmenté de 150% en 3 mois.",
+      en: "Le Compagnon Virtuel transformed our digital presence. Their expertise and responsiveness are exceptional. Our conversion rate increased by 150% in 3 months."
+    },
     rating: 5,
     avatar: "MD",
   },
   {
     name: "Jean-Pierre Martin",
-    role: "Directeur Commercial, InnovatePME",
-    content: "Une équipe à l'écoute qui comprend vraiment les enjeux business. Notre site e-commerce génère maintenant 40% de notre chiffre d'affaires.",
+    role: "Commercial Director, InnovatePME",
+    content: {
+      fr: "Une équipe à l'écoute qui comprend vraiment les enjeux business. Notre site e-commerce génère maintenant 40% de notre chiffre d'affaires.",
+      en: "A team that truly listens and understands business challenges. Our e-commerce site now generates 40% of our revenue."
+    },
     rating: 5,
     avatar: "JM",
   },
   {
     name: "Sophie Laurent",
-    role: "Fondatrice, BioCosmetics",
-    content: "Professionnalisme, créativité et résultats concrets. Ils ont su capturer l'essence de notre marque et la traduire en une expérience digitale unique.",
+    role: "Founder, BioCosmetics",
+    content: {
+      fr: "Professionnalisme, créativité et résultats concrets. Ils ont su capturer l'essence de notre marque et la traduire en une expérience digitale unique.",
+      en: "Professionalism, creativity and concrete results. They captured the essence of our brand and translated it into a unique digital experience."
+    },
     rating: 5,
     avatar: "SL",
   },
 ];
 
 export function TestimonialsSection() {
+  const { t, language } = useLanguage();
+
   return (
     <section className="section-padding bg-secondary/30 relative overflow-hidden">
       {/* Background Decoration - Enhanced */}
@@ -51,14 +63,14 @@ export function TestimonialsSection() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/8 text-primary text-sm font-medium mb-5 border border-primary/15 shadow-sm"
           >
             <Star size={14} className="fill-current" />
-            Témoignages
+            {t('testimonials.badge')}
           </motion.span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-5 md:mb-6 px-4">
-            Ils nous font{" "}
-            <span className="gradient-text">confiance</span>
+            {t('testimonials.title')}{" "}
+            <span className="gradient-text">{t('testimonials.title_highlight')}</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 leading-relaxed">
-            Découvrez ce que nos clients disent de notre collaboration.
+            {t('testimonials.subtitle')}
           </p>
         </motion.div>
 
@@ -88,7 +100,7 @@ export function TestimonialsSection() {
 
                 {/* Content */}
                 <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
-                  "{testimonial.content}"
+                  "{testimonial.content[language]}"
                 </p>
 
                 {/* Author - Enhanced */}

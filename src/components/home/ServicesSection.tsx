@@ -13,81 +13,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const services = [
-  {
-    icon: Megaphone,
-    title: "Marketing Digital",
-    description: "Stratégies sur-mesure pour maximiser votre visibilité et vos conversions.",
-    gradient: "from-blue-500/10 to-indigo-500/10",
-    iconBg: "bg-blue-500/10",
-    iconColor: "text-blue-600",
-    href: "/services/marketing-digital",
-  },
-  {
-    icon: Palette,
-    title: "Création de Contenu",
-    description: "Visuels, vidéos et rédaction qui captivent votre audience.",
-    gradient: "from-pink-500/10 to-rose-500/10",
-    iconBg: "bg-pink-500/10",
-    iconColor: "text-pink-600",
-    href: "/services/creation-contenu",
-  },
-  {
-    icon: Users,
-    title: "Community Management",
-    description: "Animation et croissance de vos communautés sur les réseaux sociaux.",
-    gradient: "from-violet-500/10 to-purple-500/10",
-    iconBg: "bg-violet-500/10",
-    iconColor: "text-violet-600",
-    href: "/services/community-management",
-  },
-  {
-    icon: Bot,
-    title: "Automatisation & IA",
-    description: "Optimisez vos process avec l'intelligence artificielle.",
-    gradient: "from-cyan-500/10 to-teal-500/10",
-    iconBg: "bg-cyan-500/10",
-    iconColor: "text-cyan-600",
-    href: "/services/automatisation-ia",
-  },
-  {
-    icon: Globe,
-    title: "Développement Web",
-    description: "Sites vitrines, landing pages et applications web sur-mesure.",
-    gradient: "from-emerald-500/10 to-green-500/10",
-    iconBg: "bg-emerald-500/10",
-    iconColor: "text-emerald-600",
-    href: "/services/developpement-web",
-  },
-  {
-    icon: ShoppingCart,
-    title: "E-commerce",
-    description: "Boutiques en ligne performantes et optimisées pour la conversion.",
-    gradient: "from-orange-500/10 to-amber-500/10",
-    iconBg: "bg-orange-500/10",
-    iconColor: "text-orange-600",
-    href: "/services/ecommerce",
-  },
-  {
-    icon: Code,
-    title: "Applications Mobiles",
-    description: "Solutions digitales mobiles adaptées à vos besoins.",
-    gradient: "from-slate-500/10 to-gray-500/10",
-    iconBg: "bg-slate-500/10",
-    iconColor: "text-slate-600",
-    href: "/services/applications-mobiles",
-  },
-  {
-    icon: Fingerprint,
-    title: "Branding & Identité",
-    description: "Création d'identités visuelles mémorables et cohérentes.",
-    gradient: "from-fuchsia-500/10 to-pink-500/10",
-    iconBg: "bg-fuchsia-500/10",
-    iconColor: "text-fuchsia-600",
-    href: "/services/design-branding",
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -109,6 +35,83 @@ const itemVariants = {
 };
 
 export function ServicesSection() {
+  const { t } = useLanguage();
+
+  const services = [
+    {
+      icon: Megaphone,
+      titleKey: 'services.marketing',
+      descKey: 'services.marketing_desc',
+      gradient: "from-blue-500/10 to-indigo-500/10",
+      iconBg: "bg-blue-500/10",
+      iconColor: "text-blue-600",
+      href: "/services/marketing-digital",
+    },
+    {
+      icon: Palette,
+      titleKey: 'services.content',
+      descKey: 'services.content_desc',
+      gradient: "from-pink-500/10 to-rose-500/10",
+      iconBg: "bg-pink-500/10",
+      iconColor: "text-pink-600",
+      href: "/services/creation-contenu",
+    },
+    {
+      icon: Users,
+      titleKey: 'services.community',
+      descKey: 'services.community_desc',
+      gradient: "from-violet-500/10 to-purple-500/10",
+      iconBg: "bg-violet-500/10",
+      iconColor: "text-violet-600",
+      href: "/services/community-management",
+    },
+    {
+      icon: Bot,
+      titleKey: 'services.automation',
+      descKey: 'services.automation_desc',
+      gradient: "from-cyan-500/10 to-teal-500/10",
+      iconBg: "bg-cyan-500/10",
+      iconColor: "text-cyan-600",
+      href: "/services/automatisation-ia",
+    },
+    {
+      icon: Globe,
+      titleKey: 'services.web_dev',
+      descKey: 'services.web_dev_desc',
+      gradient: "from-emerald-500/10 to-green-500/10",
+      iconBg: "bg-emerald-500/10",
+      iconColor: "text-emerald-600",
+      href: "/services/developpement-web",
+    },
+    {
+      icon: ShoppingCart,
+      titleKey: 'services.ecommerce',
+      descKey: 'services.ecommerce_desc',
+      gradient: "from-orange-500/10 to-amber-500/10",
+      iconBg: "bg-orange-500/10",
+      iconColor: "text-orange-600",
+      href: "/services/ecommerce",
+    },
+    {
+      icon: Code,
+      titleKey: 'services.mobile',
+      descKey: 'services.mobile_desc',
+      gradient: "from-slate-500/10 to-gray-500/10",
+      iconBg: "bg-slate-500/10",
+      iconColor: "text-slate-600",
+      href: "/services/applications-mobiles",
+    },
+    {
+      icon: Fingerprint,
+      titleKey: 'services.branding',
+      descKey: 'services.branding_desc',
+      gradient: "from-fuchsia-500/10 to-pink-500/10",
+      iconBg: "bg-fuchsia-500/10",
+      iconColor: "text-fuchsia-600",
+      href: "/services/design-branding",
+    },
+  ];
+
   return (
     <section className="section-padding relative overflow-hidden">
       {/* Enhanced Background */}
@@ -134,14 +137,14 @@ export function ServicesSection() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/8 text-primary text-sm font-medium mb-5 border border-primary/15 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Nos Services
+            {t('services.badge')}
           </motion.span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-5 md:mb-6 tracking-tight px-4">
-            Tout ce dont vous avez besoin{" "}
-            <span className="gradient-text block sm:inline mt-1 sm:mt-0">pour réussir</span>
+            {t('services.title')}{" "}
+            <span className="gradient-text block sm:inline mt-1 sm:mt-0">{t('services.title_highlight')}</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-4 leading-relaxed">
-            Une expertise complète pour créer, développer et automatiser votre présence digitale.
+            {t('services.subtitle')}
           </p>
         </motion.div>
 
@@ -155,7 +158,7 @@ export function ServicesSection() {
         >
           {services.map((service) => (
             <motion.div
-              key={service.title}
+              key={service.titleKey}
               variants={itemVariants}
               className="group relative"
             >
@@ -174,10 +177,10 @@ export function ServicesSection() {
                   
                   {/* Content */}
                   <h3 className="font-display font-semibold text-lg md:text-xl mb-2 flex items-center gap-2 group-hover:text-primary transition-colors duration-300">
-                    {service.title}
+                    {t(service.titleKey)}
                     <ArrowUpRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
                   </h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{service.description}</p>
+                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(service.descKey)}</p>
                 </div>
               </Link>
             </motion.div>
@@ -194,7 +197,7 @@ export function ServicesSection() {
         >
           <Button variant="hero" size="lg" asChild className="shadow-lg">
             <Link to="/services" className="group">
-              Découvrir tous nos services
+              {t('services.discover_all')}
               <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
             </Link>
           </Button>
