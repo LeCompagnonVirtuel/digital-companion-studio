@@ -12,7 +12,6 @@ import { ProductFilters } from "@/components/shop/ProductFilters";
 import { TrustSection } from "@/components/shop/TrustSection";
 import { GuaranteeSection } from "@/components/shop/GuaranteeSection";
 import { CartDrawer } from "@/components/shop/CartDrawer";
-import { CurrencySelector } from "@/components/shop/CurrencySelector";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 
@@ -99,8 +98,6 @@ const Shop = () => {
 
               {/* Right Controls */}
               <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-4">
-                <CurrencySelector />
-                
                 <div className="hidden sm:flex items-center gap-1 border-l pl-4 ml-2">
                   <Button
                     variant={viewMode === "grid" ? "secondary" : "ghost"}

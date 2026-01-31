@@ -6,12 +6,10 @@ import { Button } from "@/components/ui/button";
 import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
 import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
 import { CartDrawer } from "@/components/shop/CartDrawer";
-import { LanguageSelector } from "@/components/LanguageSelector";
 import { useCart } from "@/hooks/useCart";
-import { useLanguage } from "@/hooks/useLanguage";
 import logoImage from "@/assets/logo.png";
 
-const navLinksFr = [
+const navLinks = [
   { name: "Accueil", href: "/" },
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
@@ -22,25 +20,11 @@ const navLinksFr = [
   { name: "Ressources", href: "/ressources-gratuites" },
 ];
 
-const navLinksEn = [
-  { name: "Home", href: "/" },
-  { name: "Portfolio", href: "/portfolio" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-  { name: "Shop", href: "/boutique", icon: true },
-  { name: "Blog", href: "/blog" },
-  { name: "Resources", href: "/ressources-gratuites" },
-];
-
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { itemCount } = useCart();
-  const { language, t } = useLanguage();
-  
-  const navLinks = language === 'en' ? navLinksEn : navLinksFr;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,7 +86,7 @@ export function Navigation() {
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                   }`}
                 >
-                  {language === 'en' ? 'Home' : 'Accueil'}
+                  Accueil
                 </Link>
 
                 {/* Services Mega Menu */}
@@ -128,9 +112,6 @@ export function Navigation() {
 
             {/* CTA Buttons */}
             <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
-              {/* Language Selector */}
-              <LanguageSelector />
-              
               {/* Cart Button */}
               <CartDrawer>
                 <motion.button 
@@ -151,12 +132,12 @@ export function Navigation() {
                 to="/audit-gratuit"
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
-                {language === 'en' ? 'Free Audit' : 'Audit gratuit'}
+                Audit gratuit
               </Link>
               
               <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md">
                 <Link to="/demarrer-projet" className="flex items-center gap-2">
-                  {language === 'en' ? 'Start a Project' : 'Démarrer un projet'}
+                  Démarrer un projet
                   <ArrowRight size={14} />
                 </Link>
               </Button>
@@ -230,16 +211,6 @@ export function Navigation() {
                   }}
                 >
                   <nav className="flex flex-col gap-1">
-                    {/* Language Selector Mobile */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0 }}
-                      className="px-4 py-2"
-                    >
-                      <LanguageSelector />
-                    </motion.div>
-                    
                     {/* Home */}
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
@@ -254,7 +225,7 @@ export function Navigation() {
                             : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                         }`}
                       >
-                        {language === 'en' ? 'Home' : 'Accueil'}
+                        Accueil
                       </Link>
                     </motion.div>
 
@@ -304,10 +275,10 @@ export function Navigation() {
                   transition={{ delay: 0.3 }}
                 >
                   <Button variant="heroOutline" size="lg" asChild className="w-full">
-                    <Link to="/audit-gratuit">{language === 'en' ? 'Free Audit' : 'Audit gratuit'}</Link>
+                    <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
                   <Button variant="hero" size="lg" asChild className="w-full">
-                    <Link to="/demarrer-projet">{language === 'en' ? 'Start a Project' : 'Démarrer un projet'}</Link>
+                    <Link to="/demarrer-projet">Démarrer un projet</Link>
                   </Button>
                 </motion.div>
               </div>
