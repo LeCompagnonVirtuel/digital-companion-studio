@@ -145,10 +145,10 @@ export function ServicesDropdown({ isActive, className }: ServicesDropdownProps)
             >
               {/* Dropdown Container */}
               <div 
-                className="bg-background/98 backdrop-blur-xl rounded-2xl border border-border/50 shadow-2xl overflow-hidden"
+                className="bg-background rounded-2xl border border-border shadow-2xl overflow-hidden"
                 style={{
                   minWidth: 'min(720px, calc(100vw - 2rem))',
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <div className="p-6">
