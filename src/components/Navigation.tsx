@@ -75,12 +75,12 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation - Centered */}
-            <nav className="hidden lg:flex items-center justify-center flex-1 mx-4">
-              <div className="flex items-center gap-0.5">
+            <nav className="hidden lg:flex items-center justify-center flex-1 mx-4 overflow-hidden">
+              <div className="flex items-center gap-0.5 flex-nowrap">
                 {/* Home */}
                 <Link
                   to="/"
-                  className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`relative px-2.5 py-2 rounded-full text-[13px] font-medium transition-all duration-300 whitespace-nowrap ${
                     location.pathname === "/"
                       ? "text-foreground bg-secondary"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
@@ -97,13 +97,13 @@ export function Navigation() {
                   <Link
                     key={link.name}
                     to={link.href}
-                    className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
+                    className={`relative px-2.5 py-2 rounded-full text-[13px] font-medium transition-all duration-300 flex items-center gap-1 whitespace-nowrap ${
                       location.pathname === link.href || (link.href !== "/" && location.pathname.startsWith(link.href))
                         ? "text-foreground bg-secondary"
                         : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                     }`}
                   >
-                    {link.icon && <ShoppingBag size={14} />}
+                    {link.icon && <ShoppingBag size={13} />}
                     {link.name}
                   </Link>
                 ))}
