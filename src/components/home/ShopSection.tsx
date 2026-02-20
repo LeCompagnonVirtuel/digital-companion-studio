@@ -130,10 +130,10 @@ export function ShopSection() {
                     {/* Price badge */}
                     <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3">
                       <div className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-card/90 backdrop-blur-sm shadow-lg">
-                        <span className="font-bold text-sm sm:text-base text-primary">{product.price}€</span>
+                        <span className="font-bold text-sm sm:text-base text-primary">{Math.round(product.price).toLocaleString("fr-FR")} F CFA</span>
                         {product.original_price && product.original_price > product.price && (
                           <span className="text-xs sm:text-sm text-muted-foreground line-through ml-1 sm:ml-2">
-                            {product.original_price}€
+                            {Math.round(product.original_price).toLocaleString("fr-FR")} F CFA
                           </span>
                         )}
                       </div>
