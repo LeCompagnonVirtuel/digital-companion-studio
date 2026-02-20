@@ -2,7 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
 interface PaymentRequest {
@@ -87,9 +87,9 @@ Deno.serve(async (req) => {
 
     // Try multiple endpoints - Money Fusion API endpoints
     const endpoints = [
+      `https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/58ef45bf053676ab/pay/`,
+      `https://pay.moneyfusion.net/Le_Compagnon_Virtuel/58ef45bf053676ab/pay/`,
       `https://moneyfusion.net/api/v1/pay/${apiKey}`,
-      `https://www.moneyfusion.net/api/v1/pay/${apiKey}`,
-      `https://moneyfusion.net/MyApp/${apiKey}/pay/`
     ];
 
     let mfData: any = null;
