@@ -75,7 +75,7 @@ const ShopCheckout = () => {
         product_id: item.product.id,
         product_title: item.product.title,
         price: total,
-        currency: item.product.currency || "EUR",
+        currency: "XOF",
         payment_method: "money_fusion",
         download_link: item.product.download_url || undefined,
         order_number: orderNumber,

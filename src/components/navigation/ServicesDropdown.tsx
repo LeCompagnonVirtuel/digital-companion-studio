@@ -36,7 +36,7 @@ const serviceCategories = [
     services: [
       { name: "Développement Web", href: "/services/developpement-web", icon: Code, description: "Sites & applications" },
       { name: "Applications Mobiles", href: "/services/applications-mobiles", icon: Smartphone, description: "iOS & Android" },
-      { name: "E-commerce", href: "/services/e-commerce", icon: ShoppingCart, description: "Boutiques en ligne" },
+      { name: "E-commerce", href: "/services/ecommerce", icon: ShoppingCart, description: "Boutiques en ligne" },
       { name: "Automatisation IA", href: "/services/automatisation-ia", icon: Cpu, description: "Intelligence artificielle" },
     ],
   },
@@ -84,7 +84,7 @@ export function ServicesDropdown({ isActive, className }: ServicesDropdownProps)
   const handleMouseLeave = useCallback(() => {
     timeoutRef.current = setTimeout(() => {
       setIsOpen(false);
-    }, 150); // Small delay to allow moving to dropdown
+    }, 250); // Generous delay for smooth transition to dropdown
   }, []);
 
   // Close on link click
@@ -128,7 +128,7 @@ export function ServicesDropdown({ isActive, className }: ServicesDropdownProps)
         {isOpen && (
           <>
             {/* Invisible bridge to prevent gap issues */}
-            <div className="absolute left-0 right-0 h-3 top-full" />
+            <div className="absolute -left-10 -right-10 h-6 top-full" />
             
             <motion.div
               initial={{ opacity: 0, y: 8, scale: 0.98 }}
