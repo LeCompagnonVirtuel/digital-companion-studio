@@ -169,7 +169,7 @@ const ShopConfirmation = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Montant</span>
-                    <span className="font-semibold">{order.price.toFixed(2)}€</span>
+                    <span className="font-semibold">{Math.round(order.price).toLocaleString("fr-FR")} F CFA</span>
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-muted-foreground">Email</span>

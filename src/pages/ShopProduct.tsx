@@ -439,6 +439,26 @@ const ShopProduct = () => {
       <TrustSection />
 
       <Footer />
+
+      {/* Sticky Mobile CTA */}
+      {product && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden bg-background/95 backdrop-blur-lg border-t border-border/50 px-4 py-3 safe-area-bottom">
+          <div className="flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-muted-foreground truncate">{product.title}</p>
+              <p className="text-base font-bold">{formatPrice(product.price)}</p>
+            </div>
+            <Button
+              onClick={() => addItem(product)}
+              disabled={inCart}
+              className="h-11 px-5 rounded-xl font-semibold shrink-0"
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" />
+              {inCart ? "Ajouté" : "Ajouter"}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
