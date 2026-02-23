@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShoppingBag, Trash2, ArrowRight, Package, Sparkles, Shield, Zap } from "lucide-react";
+import { ShoppingBag, Trash2, ArrowRight, Package, Sparkles, Shield, Zap, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/hooks/useCart";
-import { useCurrency } from "@/hooks/useCurrency";
 import { Badge } from "@/components/ui/badge";
+
+const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
 interface CartDrawerProps {
   children: React.ReactNode;
@@ -14,7 +15,6 @@ interface CartDrawerProps {
 
 export const CartDrawer = ({ children }: CartDrawerProps) => {
   const { items, removeItem, total, itemCount, isLoading } = useCart();
-  const { formatPrice } = useCurrency();
 
   return (
     <Sheet>
@@ -41,7 +41,7 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
 
         <Separator />
 
-        {/* Cart Items */}
+        {/* Items */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
@@ -74,7 +74,6 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                   transition={{ duration: 0.25, delay: index * 0.03 }}
                   className="flex gap-3 p-3 hover:bg-muted/30 rounded-xl transition-colors mb-2"
                 >
-                  {/* Product Image */}
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-muted shrink-0">
                     {item.product.featured_image ? (
                       <img
@@ -89,7 +88,6 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                     )}
                   </div>
 
-                  {/* Product Info */}
                   <div className="flex-1 min-w-0">
                     <Link 
                       to={`/boutique/${item.product.slug}`}
@@ -100,12 +98,11 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                     <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-wider">
                       {item.product.category}
                     </p>
-                    <p className="font-bold text-sm mt-1.5">
-                      {formatPrice(item.product.price)}
+                    <p className="font-bold text-sm mt-1.5 text-primary">
+                      {formatFCFA(item.product.price)}
                     </p>
                   </div>
 
-                  {/* Remove Button */}
                   <Button
                     variant="ghost"
                     size="icon"
@@ -123,19 +120,19 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
         {/* Footer */}
         {items.length > 0 && (
           <div className="border-t bg-muted/20 px-5 py-5 space-y-4">
-            {/* Trust badges */}
+            {/* Trust */}
             <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
               <span className="flex items-center gap-1"><Shield className="w-3 h-3" /> Paiement sécurisé</span>
               <span className="flex items-center gap-1"><Zap className="w-3 h-3" /> Accès instantané</span>
+              <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Garantie 30j</span>
             </div>
 
             {/* Total */}
             <div className="flex items-center justify-between text-lg font-bold">
               <span>Total</span>
-              <span className="text-primary">{formatPrice(total)}</span>
+              <span className="text-primary">{formatFCFA(total)}</span>
             </div>
 
-            {/* Checkout Button */}
             <Button asChild className="w-full h-12 rounded-xl text-base font-semibold" size="lg">
               <Link to="/boutique/checkout">
                 Passer commande
@@ -143,7 +140,6 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
               </Link>
             </Button>
 
-            {/* Continue Shopping */}
             <Button asChild variant="ghost" className="w-full h-10 rounded-xl text-sm" size="sm">
               <Link to="/boutique">
                 Continuer mes achats

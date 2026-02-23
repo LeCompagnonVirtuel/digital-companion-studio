@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Sparkles, Search, Grid3X3, LayoutList, ArrowUpDown, TrendingUp, Clock, DollarSign, SlidersHorizontal } from "lucide-react";
+import { ShoppingBag, Sparkles, Search, ArrowUpDown, TrendingUp, Clock, DollarSign, Shield, Zap, Award, Star, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -8,9 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDigitalProducts } from "@/hooks/useDigitalProducts";
 import { ProductCard } from "@/components/shop/ProductCard";
-import { ProductFilters } from "@/components/shop/ProductFilters";
-import { TrustSection } from "@/components/shop/TrustSection";
-import { GuaranteeSection } from "@/components/shop/GuaranteeSection";
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
@@ -18,10 +16,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 type SortOption = "popular" | "newest" | "price-asc" | "price-desc";
 
+const categoryLabels: Record<string, string> = {
+  formation: "Formations",
+  ebook: "E-books",
+  template: "Templates",
+  outil: "Outils",
+  service: "Services",
+  pack: "Packs",
+  other: "Autres",
+};
+
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState<SortOption>("popular");
   const { data: products, isLoading } = useDigitalProducts();
   const { itemCount } = useCart();
@@ -42,7 +49,6 @@ const Shop = () => {
       return matchesCategory && matchesSearch;
     });
 
-    // Sort
     switch (sortBy) {
       case "popular":
         result = [...result].sort((a, b) => (b.sales_count || 0) - (a.sales_count || 0));
@@ -62,10 +68,10 @@ const Shop = () => {
   }, [products, selectedCategory, searchQuery, sortBy]);
 
   const stats = useMemo(() => {
-    if (!products) return { total: 0, bestsellers: 0 };
+    if (!products) return { total: 0, clients: 0 };
     return {
       total: products.length,
-      bestsellers: products.filter(p => p.is_bestseller).length,
+      clients: products.reduce((sum, p) => sum + (p.sales_count || 0), 0),
     };
   }, [products]);
 
@@ -73,21 +79,18 @@ const Shop = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Hero Section - Premium */}
-      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-mesh opacity-60" />
-          <div className="absolute top-20 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        </div>
+      {/* Hero Section */}
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
+        <div className="absolute inset-0 bg-mesh opacity-40" />
+        <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px]" />
         
-        <div className="container-wide relative px-4 sm:px-6">
+        <div className="container-wide relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center max-w-4xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -99,69 +102,79 @@ const Shop = () => {
               Boutique Digitale Premium
             </motion.div>
             
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-[1.1]">
-              Propulsez Votre Business{" "}
-              <span className="gradient-text block sm:inline">au Niveau Supérieur</span>
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold mb-5 leading-[1.1]">
+              Des Outils Pour{" "}
+              <span className="gradient-text">Réussir en Ligne</span>
             </h1>
             
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Formations, templates et outils conçus pour les entrepreneurs africains ambitieux. 
-              Résultats garantis ou remboursé.
+            <p className="text-muted-foreground text-base sm:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+              Formations, templates et ressources conçus pour les entrepreneurs africains ambitieux.
             </p>
 
-            {/* Stats bar */}
+            {/* Stats */}
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-6 sm:gap-8 px-6 py-3 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm"
+              className="inline-flex items-center gap-6 sm:gap-10 px-6 sm:px-8 py-4 rounded-2xl bg-card border border-border/50"
+              style={{ boxShadow: 'var(--shadow-card)' }}
             >
               <div className="text-center">
-                <p className="text-lg sm:text-2xl font-bold text-foreground">{stats.total}+</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">Produits</p>
+                <p className="text-xl sm:text-3xl font-bold text-foreground">{stats.total}+</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium mt-0.5">Produits</p>
               </div>
-              <div className="w-px h-8 bg-border" />
+              <div className="w-px h-10 bg-border" />
               <div className="text-center">
-                <p className="text-lg sm:text-2xl font-bold text-foreground">30j</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">Garantie</p>
+                <p className="text-xl sm:text-3xl font-bold text-foreground">{stats.clients}+</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium mt-0.5">Ventes</p>
               </div>
-              <div className="w-px h-8 bg-border" />
+              <div className="w-px h-10 bg-border" />
               <div className="text-center">
-                <p className="text-lg sm:text-2xl font-bold text-foreground">⚡</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground">Accès instantané</p>
+                <p className="text-xl sm:text-3xl font-bold text-foreground">30j</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground font-medium mt-0.5">Garantie</p>
               </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
+      {/* Trust Strip */}
+      <div className="border-y border-border/50 bg-muted/30">
+        <div className="container-wide py-4">
+          <div className="flex items-center justify-center gap-6 sm:gap-10 flex-wrap text-xs sm:text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-primary" /> Paiement sécurisé</span>
+            <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-primary" /> Accès instantané</span>
+            <span className="flex items-center gap-1.5"><Award className="w-4 h-4 text-primary" /> Qualité garantie</span>
+            <span className="flex items-center gap-1.5 hidden sm:flex"><Star className="w-4 h-4 text-primary" /> Satisfait ou remboursé</span>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <section className="pb-16 sm:pb-24">
-        <div className="container-wide px-4 sm:px-6">
+      <section className="py-10 sm:py-16">
+        <div className="container-wide">
           {/* Toolbar */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col gap-4 mb-8 p-4 sm:p-5 bg-card rounded-2xl border border-border/50 shadow-sm"
+            transition={{ delay: 0.15 }}
+            className="space-y-4 mb-8"
           >
-            {/* Top Row: Search + Sort + Cart */}
+            {/* Search + Sort + Cart */}
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-              {/* Search */}
-              <div className="relative flex-1">
+              <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Rechercher un produit..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-background/50 h-11 rounded-xl border-border/50"
+                  className="pl-10 h-11 rounded-xl border-border/60 bg-card"
                 />
               </div>
 
-              {/* Sort + View + Cart */}
               <div className="flex items-center gap-2">
                 <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
-                  <SelectTrigger className="w-[160px] h-11 rounded-xl bg-background/50 border-border/50">
+                  <SelectTrigger className="w-[155px] h-11 rounded-xl bg-card border-border/60">
                     <ArrowUpDown className="w-3.5 h-3.5 mr-2 text-muted-foreground" />
                     <SelectValue />
                   </SelectTrigger>
@@ -173,37 +186,18 @@ const Shop = () => {
                       <span className="flex items-center gap-2"><Clock className="w-3.5 h-3.5" /> Nouveautés</span>
                     </SelectItem>
                     <SelectItem value="price-asc">
-                      <span className="flex items-center gap-2"><DollarSign className="w-3.5 h-3.5" /> Prix croissant</span>
+                      <span className="flex items-center gap-2"><DollarSign className="w-3.5 h-3.5" /> Prix ↑</span>
                     </SelectItem>
                     <SelectItem value="price-desc">
-                      <span className="flex items-center gap-2"><DollarSign className="w-3.5 h-3.5" /> Prix décroissant</span>
+                      <span className="flex items-center gap-2"><DollarSign className="w-3.5 h-3.5" /> Prix ↓</span>
                     </SelectItem>
                   </SelectContent>
                 </Select>
 
-                <div className="hidden sm:flex items-center gap-1 border-l border-border/50 pl-2 ml-1">
-                  <Button
-                    variant={viewMode === "grid" ? "secondary" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("grid")}
-                    className="h-9 w-9 rounded-lg"
-                  >
-                    <Grid3X3 className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "list" ? "secondary" : "ghost"}
-                    size="icon"
-                    onClick={() => setViewMode("list")}
-                    className="h-9 w-9 rounded-lg"
-                  >
-                    <LayoutList className="w-4 h-4" />
-                  </Button>
-                </div>
-
                 <CartDrawer>
-                  <Button variant="outline" className="relative h-11 px-3 sm:px-4 rounded-xl border-border/50">
+                  <Button variant="outline" className="relative h-11 px-4 rounded-xl border-border/60">
                     <ShoppingBag className="w-4 h-4 sm:mr-2" />
-                    <span className="hidden sm:inline">Panier</span>
+                    <span className="hidden sm:inline text-sm">Panier</span>
                     {itemCount > 0 && (
                       <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full">
                         {itemCount}
@@ -214,30 +208,50 @@ const Shop = () => {
               </div>
             </div>
 
-            {/* Bottom Row: Filters */}
-            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-              <ProductFilters
-                categories={categories}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
-              />
+            {/* Category Filters */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              <Button
+                variant={selectedCategory === null ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(null)}
+                className="rounded-full h-8 px-4 text-xs shrink-0"
+              >
+                Tous
+              </Button>
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(category)}
+                  className="rounded-full h-8 px-4 text-xs whitespace-nowrap shrink-0"
+                >
+                  {categoryLabels[category] || category}
+                </Button>
+              ))}
             </div>
           </motion.div>
 
           {/* Results Count */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center justify-between mb-6"
-          >
+          <div className="flex items-center justify-between mb-6">
             <p className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{filteredProducts.length}</span> produit{filteredProducts.length !== 1 ? "s" : ""} trouvé{filteredProducts.length !== 1 ? "s" : ""}
+              <span className="font-semibold text-foreground">{filteredProducts.length}</span> produit{filteredProducts.length !== 1 ? "s" : ""}
             </p>
-          </motion.div>
+            {(searchQuery || selectedCategory) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => { setSelectedCategory(null); setSearchQuery(""); }}
+                className="text-xs h-7"
+              >
+                Réinitialiser
+              </Button>
+            )}
+          </div>
 
           {/* Products Grid */}
           {isLoading ? (
-            <div className={`grid gap-5 sm:gap-6 ${viewMode === "grid" ? "grid-cols-2 md:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}>
+            <div className="grid gap-5 sm:gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
               {[...Array(8)].map((_, i) => (
                 <div key={i} className="space-y-3">
                   <Skeleton className="aspect-[4/3] rounded-2xl" />
@@ -256,7 +270,7 @@ const Shop = () => {
           ) : filteredProducts.length > 0 ? (
             <motion.div 
               layout
-              className={`grid gap-5 sm:gap-6 ${viewMode === "grid" ? "grid-cols-2 md:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+              className="grid gap-5 sm:gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
             >
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product, index) => (
@@ -268,33 +282,57 @@ const Shop = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-16 sm:py-24 bg-muted/20 rounded-2xl border border-border/30"
+              className="text-center py-20 bg-muted/20 rounded-2xl border border-border/30"
             >
-              <div className="w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-8 h-8 text-muted-foreground/40" />
-              </div>
+              <Sparkles className="w-10 h-10 text-muted-foreground/30 mx-auto mb-4" />
               <h3 className="font-semibold text-lg mb-2">Aucun produit trouvé</h3>
-              <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
-                {searchQuery || selectedCategory 
-                  ? "Essayez de modifier vos filtres ou votre recherche"
-                  : "La boutique sera bientôt disponible avec des produits digitaux exclusifs !"}
+              <p className="text-sm text-muted-foreground mb-6">
+                Essayez de modifier vos filtres ou votre recherche
               </p>
-              {(searchQuery || selectedCategory) && (
-                <Button
-                  variant="outline"
-                  onClick={() => { setSelectedCategory(null); setSearchQuery(""); }}
-                  className="rounded-xl"
-                >
-                  Réinitialiser les filtres
-                </Button>
-              )}
+              <Button
+                variant="outline"
+                onClick={() => { setSelectedCategory(null); setSearchQuery(""); }}
+                className="rounded-xl"
+              >
+                Réinitialiser les filtres
+              </Button>
             </motion.div>
           )}
         </div>
       </section>
 
-      <GuaranteeSection />
-      <TrustSection />
+      {/* CTA Section */}
+      <section className="py-16 sm:py-24">
+        <div className="container-narrow">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative rounded-3xl overflow-hidden p-8 sm:p-14 text-center"
+            style={{ background: 'var(--gradient-dark)' }}
+          >
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-primary rounded-full blur-[100px]" />
+              <div className="absolute bottom-0 left-0 w-60 h-60 bg-accent rounded-full blur-[80px]" />
+            </div>
+            <div className="relative z-10">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white mb-4">
+                Besoin d'un Projet Sur Mesure ?
+              </h2>
+              <p className="text-white/70 max-w-lg mx-auto mb-8 text-sm sm:text-base">
+                Discutons de votre projet et trouvons la solution idéale pour votre business.
+              </p>
+              <Button asChild size="lg" className="h-12 px-8 rounded-xl text-base">
+                <Link to="/contact">
+                  Parlons de votre projet
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
