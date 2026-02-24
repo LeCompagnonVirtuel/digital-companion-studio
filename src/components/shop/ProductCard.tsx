@@ -12,31 +12,29 @@ interface ProductCardProps {
 }
 
 const badgeConfig: Record<string, { icon: React.ElementType; className: string; label: string }> = {
-  bestseller: { 
-    icon: Award, 
+  bestseller: {
+    icon: Award,
     className: "bg-amber-500 text-white border-0",
     label: "Best Seller"
   },
-  new: { 
-    icon: Sparkles, 
+  new: {
+    icon: Sparkles,
     className: "bg-emerald-500 text-white border-0",
     label: "Nouveau"
   },
-  limited: { 
-    icon: Clock, 
+  limited: {
+    icon: Clock,
     className: "bg-rose-500 text-white border-0",
     label: "Offre Limitée"
   },
-  promo: { 
-    icon: Zap, 
+  promo: {
+    icon: Zap,
     className: "bg-primary text-primary-foreground border-0",
     label: "Promo"
   },
 };
 
-const formatFCFA = (price: number) => {
-  return `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
-};
+const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
 export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const { addItem, isInCart } = useCart();
@@ -54,8 +52,8 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const badge = getBadge();
   const BadgeIcon = badge ? badgeConfig[badge]?.icon : null;
   const hasDiscount = product.original_price && product.original_price > product.price;
-  const discountPercent = hasDiscount 
-    ? Math.round((1 - product.price / product.original_price!) * 100) 
+  const discountPercent = hasDiscount
+    ? Math.round((1 - product.price / product.original_price!) * 100)
     : 0;
 
   return (
@@ -67,11 +65,11 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       transition={{ duration: 0.4, delay: index * 0.04 }}
       className="group"
     >
-      <div className="relative overflow-hidden h-full flex flex-col rounded-2xl bg-card border border-border/40 transition-all duration-500 hover:border-primary/20" style={{ boxShadow: 'var(--shadow-soft)' }}>
+      <div className="card-interactive h-full flex flex-col overflow-hidden">
         {/* Image */}
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <Link to={`/boutique/${product.slug}`} className="absolute inset-0 z-10" aria-label={`Voir ${product.title}`} />
-          
+
           {product.featured_image ? (
             <img
               src={product.featured_image}
@@ -80,14 +78,14 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5">
+            <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--accent) / 0.05))' }}>
               <Sparkles className="w-10 h-10 text-muted-foreground/20" />
             </div>
           )}
-          
+
           {/* Hover overlay — desktop */}
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden sm:block" />
-          
+
           {/* Desktop hover actions */}
           <div className="hidden sm:flex absolute bottom-0 left-0 right-0 p-3 gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-out z-20">
             <Button
@@ -157,7 +155,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center gap-1 mb-3 mt-auto">
             <div className="flex items-center gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" />
+                <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
               ))}
             </div>
             <span className="text-[10px] text-muted-foreground ml-0.5">
@@ -177,7 +175,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 </span>
               )}
             </div>
-            
+
             <Button
               size="sm"
               variant={inCart ? "secondary" : "default"}
