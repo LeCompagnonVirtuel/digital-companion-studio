@@ -15,9 +15,8 @@ const navLinks = [
   { name: "Tarifs", href: "/pricing" },
   { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
-  { name: "Boutique", href: "/boutique", icon: true },
+  { name: "Boutique", href: "/boutique" },
   { name: "Blog", href: "/blog" },
-  { name: "Ressources", href: "/ressources-gratuites" },
 ];
 
 export function Navigation() {
@@ -38,6 +37,11 @@ export function Navigation() {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
+
   return (
     <>
       <motion.header
@@ -55,67 +59,60 @@ export function Navigation() {
               : "bg-background/80 backdrop-blur-md shadow-md border border-border/30 px-6 py-3"
           }`}>
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
+            <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
               <motion.div 
-                className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300"
+                className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
                 <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
               </motion.div>
               <div className="hidden xl:block">
-                <span className="font-display font-bold text-base leading-tight">
-                  Le <span className="text-primary">Compagnon</span>
+                <span className="font-display font-bold text-sm leading-tight">
+                  Le <span className="text-primary">Compagnon</span>{" "}
+                  <span className="text-destructive">Virtuel</span>
                 </span>
-                <span className="font-display font-bold text-base leading-tight block">
-                  <span className="text-destructive">Virtuel.</span>
-                </span>
-                <span className="text-[10px] text-muted-foreground tracking-wide">Agence Digitale</span>
               </div>
             </Link>
 
-            {/* Desktop Navigation - Centered */}
-            <nav className="hidden lg:flex items-center justify-center flex-1 mx-4 overflow-hidden">
-              <div className="flex items-center gap-0.5 flex-nowrap">
-                {/* Home */}
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1 mx-4">
+              <Link
+                to="/"
+                className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  isActive("/")
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                }`}
+              >
+                Accueil
+              </Link>
+
+              <ServicesDropdown 
+                isActive={location.pathname.startsWith("/services")} 
+              />
+
+              {navLinks.filter(l => l.name !== "Accueil").map((link) => (
                 <Link
-                  to="/"
-                  className={`relative px-2.5 py-2 rounded-full text-[13px] font-medium transition-all duration-300 whitespace-nowrap ${
-                    location.pathname === "/"
-                      ? "text-foreground bg-secondary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                  key={link.name}
+                  to={link.href}
+                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                    isActive(link.href)
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}
                 >
-                  Accueil
+                  {link.name === "Boutique" && <ShoppingBag size={14} />}
+                  {link.name}
                 </Link>
-
-                {/* Services Mega Menu */}
-                <ServicesDropdown isActive={location.pathname.startsWith("/services")} />
-
-                {/* Main nav links */}
-                {navLinks.filter(link => link.name !== "Accueil").map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className={`relative px-2.5 py-2 rounded-full text-[13px] font-medium transition-all duration-300 flex items-center gap-1 whitespace-nowrap ${
-                      location.pathname === link.href || (link.href !== "/" && location.pathname.startsWith(link.href))
-                        ? "text-foreground bg-secondary"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                    }`}
-                  >
-                    {link.icon && <ShoppingBag size={13} />}
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+              ))}
             </nav>
 
-            {/* CTA Buttons */}
+            {/* Right Actions */}
             <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
-              {/* Cart Button */}
               <CartDrawer>
                 <motion.button 
-                  className="relative p-2 rounded-full hover:bg-secondary/50 transition-colors"
+                  className="relative p-2 rounded-full hover:bg-secondary transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -128,16 +125,9 @@ export function Navigation() {
                 </motion.button>
               </CartDrawer>
               
-              <Link 
-                to="/audit-gratuit"
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Audit gratuit
-              </Link>
-              
               <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md">
                 <Link to="/demarrer-projet" className="flex items-center gap-2">
-                  Démarrer un projet
+                  Démarrer
                   <ArrowRight size={14} />
                 </Link>
               </Button>
@@ -152,23 +142,11 @@ export function Navigation() {
             >
               <AnimatePresence mode="wait">
                 {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
                     <X size={24} />
                   </motion.div>
                 ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
                     <Menu size={24} />
                   </motion.div>
                 )}
@@ -182,7 +160,6 @@ export function Navigation() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -192,7 +169,6 @@ export function Navigation() {
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
-            {/* Menu Panel */}
             <motion.div
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -200,87 +176,55 @@ export function Navigation() {
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="fixed inset-x-4 top-[88px] bottom-4 z-50 lg:hidden flex flex-col"
             >
-              <div className="glass-strong rounded-2xl shadow-premium flex flex-col max-h-full overflow-hidden">
-                {/* Scrollable Content Area */}
+              <div className="bg-background rounded-2xl shadow-2xl border border-border flex flex-col max-h-full overflow-hidden">
                 <div 
                   className="flex-1 overflow-y-auto overscroll-contain p-6 pb-0"
-                  style={{
-                    WebkitOverflowScrolling: 'touch',
-                    scrollbarWidth: 'thin',
-                    scrollbarColor: 'hsl(var(--muted-foreground) / 0.3) transparent',
-                  }}
+                  style={{ WebkitOverflowScrolling: 'touch' }}
                 >
                   <nav className="flex flex-col gap-1">
-                    {/* Home */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.02 }}
+                    <Link
+                      to="/"
+                      className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                        isActive("/")
+                          ? "text-primary bg-primary/10"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                      }`}
                     >
+                      Accueil
+                    </Link>
+
+                    <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
+
+                    {navLinks.filter(l => l.name !== "Accueil").map((link) => (
                       <Link
-                        to="/"
-                        className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                          location.pathname === "/"
+                        key={link.name}
+                        to={link.href}
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
+                          isActive(link.href)
                             ? "text-primary bg-primary/10"
                             : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                         }`}
                       >
-                        Accueil
+                        {link.name === "Boutique" && <ShoppingBag size={18} />}
+                        {link.name}
+                        {link.name === "Boutique" && itemCount > 0 && (
+                          <span className="ml-auto px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
+                            {itemCount}
+                          </span>
+                        )}
                       </Link>
-                    </motion.div>
-
-                    {/* Services Accordion */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 }}
-                    >
-                      <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
-                    </motion.div>
-
-                    {/* Other links */}
-                    {navLinks.filter(link => link.name !== "Accueil").map((link, index) => (
-                      <motion.div
-                        key={link.name}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (index + 2) * 0.05 }}
-                      >
-                        <Link
-                          to={link.href}
-                          className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-300 ${
-                            location.pathname === link.href || (link.href !== "/" && location.pathname.startsWith(link.href))
-                              ? "text-primary bg-primary/10"
-                              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                          }`}
-                        >
-                          {link.icon && <ShoppingBag size={18} />}
-                          {link.name}
-                          {link.icon && itemCount > 0 && (
-                            <span className="ml-auto px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">
-                              {itemCount}
-                            </span>
-                          )}
-                        </Link>
-                      </motion.div>
                     ))}
                   </nav>
                 </div>
                 
-                {/* Fixed CTA Buttons at Bottom */}
-                <motion.div 
-                  className="flex-shrink-0 p-6 pt-4 border-t border-border bg-background/80 backdrop-blur-sm flex flex-col gap-3"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
+                <div className="flex-shrink-0 p-6 pt-4 border-t border-border flex flex-col gap-3">
                   <Button variant="heroOutline" size="lg" asChild className="w-full">
                     <Link to="/audit-gratuit">Audit gratuit</Link>
                   </Button>
                   <Button variant="hero" size="lg" asChild className="w-full">
                     <Link to="/demarrer-projet">Démarrer un projet</Link>
                   </Button>
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           </>
