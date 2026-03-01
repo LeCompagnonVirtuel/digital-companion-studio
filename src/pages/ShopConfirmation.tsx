@@ -20,6 +20,7 @@ import { supabase } from "@/integrations/supabase/client";
 interface OrderDetails {
   id: string;
   order_number: string;
+  access_token: string | null;
   status: string;
   product_title: string;
   price: number;
@@ -222,13 +223,30 @@ const ShopConfirmation = () => {
           </Card>
 
           {/* Download Button */}
-          {order?.status === "completed" && order?.download_link && (
+          {order && (order.status === "completed" || order.status === "paid") && (
             <div className="mb-6 sm:mb-8">
-              <Button asChild size="lg" className="gap-2 h-11 sm:h-12">
-                <a href={order.download_link} target="_blank" rel="noopener noreferrer">
-                  <Download className="w-4 h-4" />
-                  Télécharger votre produit
-                </a>
+              <Button
+                size="lg"
+                className="gap-2 h-11 sm:h-12"
+                onClick={async () => {
+                  try {
+                    const res = await fetch(
+                      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/secure-download?order=${order.order_number}&token=${order.access_token}`,
+                      { headers: { "Content-Type": "application/json" } }
+                    );
+                    const data = await res.json();
+                    if (data.url) {
+                      window.open(data.url, "_blank");
+                    } else {
+                      alert(data.error || "Impossible de télécharger le fichier.");
+                    }
+                  } catch {
+                    alert("Erreur lors du téléchargement.");
+                  }
+                }}
+              >
+                <Download className="w-4 h-4" />
+                Télécharger votre produit
               </Button>
             </div>
           )}

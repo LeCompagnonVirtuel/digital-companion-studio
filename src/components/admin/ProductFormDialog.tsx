@@ -39,6 +39,7 @@ import {
   useUpdateProduct,
 } from "@/hooks/useDigitalProducts";
 import { MediaSelector } from "@/components/admin/MediaSelector";
+import { PdfUploader } from "@/components/admin/PdfUploader";
 
 interface ProductFormDialogProps {
   open: boolean;
@@ -560,6 +561,36 @@ export const ProductFormDialog = ({
 
                 <Separator />
 
+                {/* PDF Upload Section */}
+                <div className="space-y-4">
+                  <Label className="text-base font-semibold">📄 Fichiers PDF du produit</Label>
+                  <p className="text-xs text-muted-foreground -mt-2">
+                    Uploadez les fichiers PDF que les clients pourront télécharger après achat.
+                  </p>
+                  <PdfUploader
+                    productId={product?.id || "new-product"}
+                    currentFiles={
+                      formData.download_url
+                        ? [{
+                            name: formData.download_url.split("/").pop() || "fichier.pdf",
+                            path: formData.download_url,
+                            size: 0,
+                            url: formData.download_url,
+                          }]
+                        : []
+                    }
+                    onFilesChange={(files) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        download_url: files.length > 0 ? files[files.length - 1].path : "",
+                        file_format: files.length > 0 ? "PDF" : prev.file_format,
+                      }));
+                    }}
+                  />
+                </div>
+
+                <Separator />
+
                 {/* File Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -584,18 +615,6 @@ export const ProductFormDialog = ({
                       placeholder="150 MB"
                     />
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="download_url">Lien de téléchargement</Label>
-                  <Input
-                    id="download_url"
-                    value={formData.download_url}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, download_url: e.target.value }))
-                    }
-                    placeholder="https://..."
-                  />
                 </div>
 
                 <div className="space-y-2">
