@@ -1,19 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
-  ShoppingBag,
-  Lock,
-  Check,
-  ChevronRight,
-  Trash2,
-  Package,
-  Mail,
-  Loader2,
-  Shield,
-  Zap,
-  HeadphonesIcon,
+  ArrowLeft, ShoppingBag, Lock, Check, ChevronRight, Trash2, Package,
+  Mail, Loader2, Shield, Zap, HeadphonesIcon, User, CreditCard,
+  Download, CheckCircle, AlertCircle, ArrowRight
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -22,8 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/hooks/useCart";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
@@ -31,7 +21,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
-const steps = ["Informations", "Paiement", "Confirmation"];
+const steps = [
+  { label: "Panier", icon: ShoppingBag },
+  { label: "Informations", icon: User },
+  { label: "Paiement", icon: CreditCard },
+  { label: "Accès", icon: Download },
+];
 
 const ShopCheckout = () => {
   const navigate = useNavigate();
@@ -45,7 +40,25 @@ const ShopCheckout = () => {
     acceptTerms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const currentStep = 1; // Always on step 1 (info + payment combined)
+  const [fieldTouched, setFieldTouched] = useState<Record<string, boolean>>({});
+
+  const currentStep = 2; // Step 2 = Informations + Paiement combined
+
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+  const isNameValid = formData.name.trim().length >= 2;
+
+  const savings = useMemo(() => {
+    return items.reduce((sum, item) => {
+      if (item.product.original_price && item.product.original_price > item.product.price) {
+        return sum + (item.product.original_price - item.product.price) * item.quantity;
+      }
+      return sum;
+    }, 0);
+  }, [items]);
+
+  const handleBlur = (field: string) => {
+    setFieldTouched(prev => ({ ...prev, [field]: true }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +78,7 @@ const ShopCheckout = () => {
     try {
       const item = items[0];
       const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-      
+
       const order = await createOrder.mutateAsync({
         customer_email: formData.email,
         customer_name: formData.name,
@@ -87,8 +100,8 @@ const ShopCheckout = () => {
             orderId: order.id,
             customerEmail: formData.email,
             customerName: formData.name || 'Client',
-            productTitle: items.length > 1 
-              ? `${item.product.title} + ${items.length - 1} autres` 
+            productTitle: items.length > 1
+              ? `${item.product.title} + ${items.length - 1} autres`
               : item.product.title,
             price: total,
             returnUrl,
@@ -103,7 +116,6 @@ const ShopCheckout = () => {
 
       toast({ title: "Redirection vers le paiement", description: "Vous allez être redirigé vers Money Fusion..." });
       window.location.href = paymentData.paymentUrl;
-
     } catch (error: any) {
       console.error("Checkout error:", error);
       toast({ title: "Erreur", description: error.message || "Une erreur est survenue.", variant: "destructive" });
@@ -112,17 +124,25 @@ const ShopCheckout = () => {
     }
   };
 
+  // Empty cart state
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container-wide pt-24 pb-20 text-center py-20 max-w-md mx-auto">
-          <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
-            <ShoppingBag className="w-10 h-10 text-muted-foreground" />
-          </div>
+        <div className="pt-24 pb-20 text-center max-w-md mx-auto px-4">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring" }}
+            className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto mb-6"
+          >
+            <ShoppingBag className="w-10 h-10 text-muted-foreground/30" />
+          </motion.div>
           <h1 className="text-2xl font-bold mb-2">Votre panier est vide</h1>
           <p className="text-muted-foreground mb-6">Ajoutez des produits digitaux pour commencer.</p>
-          <Button asChild><Link to="/boutique">Explorer la boutique</Link></Button>
+          <Button asChild className="rounded-xl">
+            <Link to="/boutique">Explorer la boutique</Link>
+          </Button>
         </div>
         <Footer />
       </div>
@@ -140,98 +160,214 @@ const ShopCheckout = () => {
           <ChevronRight className="w-3.5 h-3.5" />
           <Link to="/boutique" className="hover:text-foreground transition-colors">Boutique</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-foreground">Paiement</span>
+          <span className="text-foreground font-medium">Paiement</span>
         </nav>
       </div>
 
       <section className="container-wide pb-16 sm:pb-24">
-        {/* Progress Bar */}
-        <div className="max-w-2xl mx-auto mb-8 sm:mb-12 lg:mx-0 lg:max-w-none">
-          <div className="flex items-center justify-center gap-2 sm:gap-4">
-            {steps.map((step, i) => (
-              <div key={step} className="flex items-center gap-2 sm:gap-3">
-                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-colors ${
-                  i <= currentStep
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground"
-                }`}>
-                  {i < currentStep ? <Check className="w-3.5 h-3.5" /> : i + 1}
+        {/* Progress Steps */}
+        <div className="max-w-2xl mx-auto mb-10 sm:mb-14 lg:mx-0 lg:max-w-none">
+          <div className="flex items-center justify-center">
+            {steps.map((step, i) => {
+              const StepIcon = step.icon;
+              const isCompleted = i + 1 < currentStep;
+              const isCurrent = i + 1 === currentStep;
+              return (
+                <div key={step.label} className="flex items-center">
+                  <div className="flex flex-col items-center">
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        scale: isCurrent ? 1.1 : 1,
+                        backgroundColor: isCompleted || isCurrent
+                          ? 'hsl(var(--primary))'
+                          : 'hsl(var(--muted))',
+                      }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center ${
+                        isCompleted || isCurrent
+                          ? 'text-primary-foreground shadow-md'
+                          : 'text-muted-foreground'
+                      }`}
+                    >
+                      {isCompleted ? (
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                          <Check className="w-4 h-4" />
+                        </motion.div>
+                      ) : (
+                        <StepIcon className="w-4 h-4" />
+                      )}
+                    </motion.div>
+                    <span className={`text-[10px] sm:text-xs mt-1.5 font-medium ${
+                      isCurrent ? 'text-primary' : isCompleted ? 'text-foreground' : 'text-muted-foreground'
+                    }`}>
+                      {step.label}
+                    </span>
+                  </div>
+                  {i < steps.length - 1 && (
+                    <motion.div
+                      className="w-10 sm:w-20 h-0.5 mx-2 sm:mx-3 rounded-full"
+                      initial={false}
+                      animate={{
+                        backgroundColor: i + 1 < currentStep
+                          ? 'hsl(var(--primary))'
+                          : 'hsl(var(--border))'
+                      }}
+                    />
+                  )}
                 </div>
-                <span className={`text-xs sm:text-sm font-medium hidden sm:inline ${i <= currentStep ? "text-foreground" : "text-muted-foreground"}`}>
-                  {step}
-                </span>
-                {i < steps.length - 1 && (
-                  <div className={`w-8 sm:w-16 h-0.5 rounded ${i < currentStep ? "bg-primary" : "bg-border"}`} />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-          {/* Left: Form */}
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 max-w-6xl mx-auto">
+          {/* Left: Form — single column */}
           <div className="lg:col-span-3 order-2 lg:order-1">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-              <h1 className="text-2xl sm:text-3xl font-display font-bold mb-6">Finaliser votre commande</h1>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+              <h1 className="text-2xl sm:text-3xl font-display font-bold mb-2">Finaliser votre commande</h1>
+              <p className="text-sm text-muted-foreground mb-8">Remplissez vos informations pour recevoir votre produit instantanément.</p>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Contact */}
-                <Card className="rounded-2xl border-border/50" style={{ boxShadow: 'var(--shadow-soft)' }}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="flex items-center gap-2 text-base">
-                      <Mail className="w-4 h-4 text-primary" /> Informations de contact
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-sm">Email *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="votre@email.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                        required
-                        className="h-12 rounded-xl"
-                      />
-                      <p className="text-[10px] text-muted-foreground">Votre produit sera envoyé à cette adresse</p>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Contact Info */}
+                <Card className="rounded-2xl border-border/40 overflow-hidden" style={{ boxShadow: 'var(--shadow-soft)' }}>
+                  <CardContent className="p-5 sm:p-6 space-y-5">
+                    <div className="flex items-center gap-2.5 mb-1">
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <Mail className="w-4 h-4 text-primary" />
+                      </div>
+                      <h2 className="font-semibold text-base">Informations de contact</h2>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-sm">Nom complet</Label>
-                      <Input
-                        id="name"
-                        placeholder="Jean Dupont"
-                        value={formData.name}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                        className="h-12 rounded-xl"
-                      />
+                      <Label htmlFor="email" className="text-sm font-medium">
+                        Adresse email <span className="text-destructive">*</span>
+                      </Label>
+                      <div className="relative">
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="votre@email.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                          onBlur={() => handleBlur("email")}
+                          required
+                          className={`h-12 rounded-xl pr-10 transition-all ${
+                            fieldTouched.email
+                              ? isEmailValid
+                                ? "border-emerald-300 focus-visible:ring-emerald-200"
+                                : "border-destructive focus-visible:ring-destructive/20"
+                              : ""
+                          }`}
+                        />
+                        {fieldTouched.email && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2"
+                          >
+                            {isEmailValid ? (
+                              <CheckCircle className="w-4 h-4 text-emerald-500" />
+                            ) : (
+                              <AlertCircle className="w-4 h-4 text-destructive" />
+                            )}
+                          </motion.div>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                        <Lock className="w-2.5 h-2.5" />
+                        Votre produit sera envoyé à cette adresse
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-sm font-medium">Nom complet</Label>
+                      <div className="relative">
+                        <Input
+                          id="name"
+                          placeholder="Jean Dupont"
+                          value={formData.name}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                          onBlur={() => handleBlur("name")}
+                          className={`h-12 rounded-xl pr-10 transition-all ${
+                            fieldTouched.name && formData.name
+                              ? isNameValid
+                                ? "border-emerald-300 focus-visible:ring-emerald-200"
+                                : "border-destructive focus-visible:ring-destructive/20"
+                              : ""
+                          }`}
+                        />
+                        {fieldTouched.name && formData.name && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2"
+                          >
+                            {isNameValid ? (
+                              <CheckCircle className="w-4 h-4 text-emerald-500" />
+                            ) : (
+                              <AlertCircle className="w-4 h-4 text-destructive" />
+                            )}
+                          </motion.div>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Payment Method */}
-                <Card className="rounded-2xl border-border/50" style={{ boxShadow: 'var(--shadow-soft)' }}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="flex items-center gap-2 text-base">
-                      <Lock className="w-4 h-4 text-primary" /> Mode de paiement
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-3 p-4 border rounded-xl bg-muted/30 border-primary/20">
-                      <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                <Card className="rounded-2xl border-border/40 overflow-hidden" style={{ boxShadow: 'var(--shadow-soft)' }}>
+                  <CardContent className="p-5 sm:p-6">
+                    <div className="flex items-center gap-2.5 mb-4">
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <CreditCard className="w-4 h-4 text-primary" />
+                      </div>
+                      <h2 className="font-semibold text-base">Mode de paiement</h2>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-4 border-2 rounded-xl bg-muted/20 border-primary/30 relative">
+                      <div className="absolute -top-2.5 right-3">
+                        <span className="text-[10px] font-semibold bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
+                          Sélectionné
+                        </span>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-md">
                         MF
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm">Money Fusion</p>
-                        <p className="text-xs text-muted-foreground truncate">Mobile Money, Carte, Wave, Orange Money</p>
+                        <p className="font-semibold text-sm">Money Fusion</p>
+                        <p className="text-xs text-muted-foreground">Mobile Money • Wave • Orange Money • Carte bancaire</p>
                       </div>
-                      <Check className="w-5 h-5 text-emerald-500 shrink-0" />
+                      <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+                        <Check className="w-3.5 h-3.5 text-primary-foreground" />
+                      </div>
+                    </div>
+
+                    {/* Payment methods visual */}
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {["Mobile Money", "Wave", "Orange Money", "Moov Money", "Carte Visa/MC"].map((m) => (
+                        <span key={m} className="text-[10px] px-2.5 py-1 bg-muted rounded-lg text-muted-foreground font-medium">{m}</span>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
 
+                {/* Security strip */}
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { icon: Shield, label: "Paiement 100% sécurisé", color: "text-emerald-500" },
+                    { icon: Zap, label: "Accès instantané", color: "text-amber-500" },
+                    { icon: HeadphonesIcon, label: "Support 7j/7", color: "text-primary" },
+                  ].map(({ icon: Icon, label, color }) => (
+                    <div key={label} className="flex flex-col items-center text-center p-3 rounded-xl bg-muted/30 border border-border/30">
+                      <Icon className={`w-5 h-5 ${color} mb-1.5`} />
+                      <span className="text-[10px] text-muted-foreground font-medium leading-tight">{label}</span>
+                    </div>
+                  ))}
+                </div>
+
                 {/* Terms */}
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/20 border border-border/30">
                   <Checkbox
                     id="terms"
                     checked={formData.acceptTerms}
@@ -240,113 +376,161 @@ const ShopCheckout = () => {
                   />
                   <Label htmlFor="terms" className="text-xs sm:text-sm leading-relaxed cursor-pointer">
                     J'accepte les{" "}
-                    <Link to="/terms" className="text-primary hover:underline">conditions générales</Link>{" "}et la{" "}
-                    <Link to="/privacy" className="text-primary hover:underline">politique de confidentialité</Link>
+                    <Link to="/terms" className="text-primary hover:underline font-medium">conditions générales</Link>{" "}et la{" "}
+                    <Link to="/privacy" className="text-primary hover:underline font-medium">politique de confidentialité</Link>
                   </Label>
                 </div>
 
                 {/* Submit */}
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full h-14 text-base rounded-xl gap-2"
-                  disabled={isSubmitting || !formData.acceptTerms || !formData.email}
-                >
-                  {isSubmitting ? (
-                    <><Loader2 className="w-5 h-5 animate-spin" /> Traitement en cours...</>
-                  ) : (
-                    <><Lock className="w-5 h-5" /> Payer {formatFCFA(total)}</>
-                  )}
-                </Button>
+                <motion.div whileTap={{ scale: 0.98 }}>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full h-14 text-base rounded-xl gap-2 shadow-lg"
+                    disabled={isSubmitting || !formData.acceptTerms || !formData.email || !isEmailValid}
+                  >
+                    {isSubmitting ? (
+                      <><Loader2 className="w-5 h-5 animate-spin" /> Traitement en cours...</>
+                    ) : (
+                      <>
+                        <Lock className="w-5 h-5" />
+                        Payer {formatFCFA(total)}
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
 
-                <p className="text-center text-[10px] text-muted-foreground">
-                  <Lock className="w-3 h-3 inline mr-1" />
-                  Paiement 100% sécurisé via Money Fusion
+                <p className="text-center text-[10px] text-muted-foreground flex items-center justify-center gap-1.5">
+                  <Lock className="w-3 h-3" />
+                  Paiement chiffré et sécurisé via Money Fusion
                 </p>
               </form>
             </motion.div>
           </div>
 
-          {/* Right: Summary */}
+          {/* Right: Sticky Summary */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="lg:col-span-2 order-1 lg:order-2"
           >
-            <Card className="lg:sticky lg:top-24 rounded-2xl border-border/50" style={{ boxShadow: 'var(--shadow-card)' }}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center justify-between text-base">
-                  <span>Récapitulatif</span>
-                  <span className="text-xs font-normal text-muted-foreground">{itemCount} article{itemCount > 1 ? "s" : ""}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3 max-h-60 overflow-y-auto">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-3">
-                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-muted shrink-0">
-                        {item.product.featured_image ? (
-                          <img src={item.product.featured_image} alt={item.product.title} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center"><Package className="w-5 h-5 text-muted-foreground/50" /></div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-xs line-clamp-2">{item.product.title}</h4>
-                        <p className="text-sm font-semibold mt-0.5">{formatFCFA(item.product.price)}</p>
-                      </div>
-                      <Button variant="ghost" size="icon" className="shrink-0 h-7 w-7 text-muted-foreground hover:text-destructive" onClick={() => removeItem(item.product.id)}>
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
+            <div className="lg:sticky lg:top-24 space-y-4">
+              <Card className="rounded-2xl border-border/40 overflow-hidden" style={{ boxShadow: 'var(--shadow-card)' }}>
+                <CardContent className="p-5 sm:p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-semibold text-base">Récapitulatif</h2>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                      {itemCount} article{itemCount > 1 ? "s" : ""}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    <AnimatePresence>
+                      {items.map((item) => (
+                        <motion.div
+                          key={item.id}
+                          layout
+                          exit={{ opacity: 0, height: 0 }}
+                          className="flex gap-3 group/ci"
+                        >
+                          <div className="w-14 h-14 rounded-xl overflow-hidden bg-muted shrink-0 relative">
+                            {item.product.featured_image ? (
+                              <img src={item.product.featured_image} alt={item.product.title} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center"><Package className="w-5 h-5 text-muted-foreground/40" /></div>
+                            )}
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-[9px] font-bold">
+                              {item.quantity}
+                            </div>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-xs line-clamp-2 leading-snug">{item.product.title}</h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              <p className="text-sm font-bold text-primary">{formatFCFA(item.product.price)}</p>
+                              {item.product.original_price && item.product.original_price > item.product.price && (
+                                <p className="text-[10px] line-through text-muted-foreground">{formatFCFA(item.product.original_price)}</p>
+                              )}
+                            </div>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="shrink-0 h-7 w-7 text-muted-foreground hover:text-destructive opacity-0 group-hover/ci:opacity-100 transition-opacity"
+                            onClick={() => removeItem(item.product.id)}
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Sous-total</span>
+                      <span>{formatFCFA(total)}</span>
                     </div>
-                  ))}
-                </div>
-
-                <Separator />
-
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Sous-total</span>
-                    <span>{formatFCFA(total)}</span>
+                    {savings > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="flex justify-between text-sm"
+                      >
+                        <span className="text-emerald-600 font-medium">Économies</span>
+                        <span className="text-emerald-600 font-semibold">-{formatFCFA(savings)}</span>
+                      </motion.div>
+                    )}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">TVA</span>
+                      <span className="text-muted-foreground">Incluse</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">TVA</span>
-                    <span>Incluse</span>
+
+                  <Separator />
+
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold">Total</span>
+                    <motion.span
+                      key={total}
+                      initial={{ scale: 1.1 }}
+                      animate={{ scale: 1 }}
+                      className="text-xl font-bold text-primary"
+                    >
+                      {formatFCFA(total)}
+                    </motion.span>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <Separator />
-
-                <div className="flex justify-between text-lg font-bold">
-                  <span>Total</span>
-                  <span className="text-primary">{formatFCFA(total)}</span>
-                </div>
-
-                {/* Trust */}
-                <div className="pt-3 space-y-2.5">
+              {/* Guarantees card */}
+              <Card className="rounded-2xl border-border/40" style={{ boxShadow: 'var(--shadow-soft)' }}>
+                <CardContent className="p-4 space-y-3">
                   {[
-                    { icon: Zap, text: "Accès instantané après paiement" },
-                    { icon: Shield, text: "Garantie satisfait ou remboursé 30 jours" },
-                    { icon: HeadphonesIcon, text: "Support client réactif" },
-                  ].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Icon className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      {text}
+                    { icon: Zap, text: "Accès instantané après paiement", color: "text-amber-500" },
+                    { icon: Shield, text: "Garantie satisfait ou remboursé 30 jours", color: "text-emerald-500" },
+                    { icon: HeadphonesIcon, text: "Support client réactif 7j/7", color: "text-primary" },
+                    { icon: Lock, text: "Données personnelles protégées", color: "text-muted-foreground" },
+                  ].map(({ icon: Icon, text, color }) => (
+                    <div key={text} className="flex items-center gap-2.5 text-xs">
+                      <Icon className={`w-4 h-4 ${color} shrink-0`} />
+                      <span className="text-muted-foreground">{text}</span>
                     </div>
                   ))}
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="pt-3 border-t">
-                  <p className="text-[10px] text-muted-foreground mb-2">Moyens de paiement acceptés</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {["Mobile Money", "Wave", "Orange Money", "Carte"].map((m) => (
-                      <span key={m} className="text-[10px] px-2 py-0.5 bg-muted rounded text-muted-foreground">{m}</span>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Back to shop */}
+              <Button asChild variant="ghost" className="w-full rounded-xl text-sm h-10">
+                <Link to="/boutique">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Retour à la boutique
+                </Link>
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
