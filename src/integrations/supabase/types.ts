@@ -259,6 +259,61 @@ export type Database = {
         }
         Relationships: []
       }
+      downloads: {
+        Row: {
+          customer_email: string
+          downloaded_at: string
+          file_id: string | null
+          id: string
+          ip_address: string | null
+          order_id: string
+          product_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          customer_email: string
+          downloaded_at?: string
+          file_id?: string | null
+          id?: string
+          ip_address?: string | null
+          order_id: string
+          product_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          customer_email?: string
+          downloaded_at?: string
+          file_id?: string | null
+          id?: string
+          ip_address?: string | null
+          order_id?: string
+          product_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "downloads_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "product_files"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "downloads_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "downloads_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           company: string | null
@@ -366,6 +421,51 @@ export type Database = {
           type?: string
         }
         Relationships: []
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          price: number
+          product_id: string
+          product_title: string
+          quantity: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          price: number
+          product_id: string
+          product_title: string
+          quantity?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          price?: number
+          product_id?: string
+          product_title?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       orders: {
         Row: {
@@ -515,6 +615,50 @@ export type Database = {
           year?: string | null
         }
         Relationships: []
+      }
+      product_files: {
+        Row: {
+          created_at: string
+          display_order: number
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          product_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          file_name: string
+          file_path: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          product_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          product_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_files_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "digital_products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       product_testimonials: {
         Row: {
