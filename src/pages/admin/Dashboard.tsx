@@ -126,16 +126,36 @@ const Dashboard = () => {
   };
 
   // Sales statistics
+  const paidOrders = orders?.filter((o) => o.status === 'paid') || [];
   const salesStats = {
     totalOrders: orders?.length || 0,
-    paidOrders: orders?.filter((o) => o.status === 'paid').length || 0,
+    paidOrders: paidOrders.length,
     pendingOrders: orders?.filter((o) => o.status === 'pending').length || 0,
-    totalRevenue: orders?.filter((o) => o.status === 'paid').reduce((sum, o) => sum + o.price, 0) || 0,
-    todayRevenue: orders?.filter((o) => {
+    totalRevenue: paidOrders.reduce((sum, o) => sum + o.price, 0),
+    todayRevenue: paidOrders.filter((o) => {
       const today = new Date().toDateString();
-      return o.status === 'paid' && new Date(o.created_at).toDateString() === today;
-    }).reduce((sum, o) => sum + o.price, 0) || 0,
+      return new Date(o.created_at).toDateString() === today;
+    }).reduce((sum, o) => sum + o.price, 0),
+    avgCartValue: paidOrders.length > 0 
+      ? paidOrders.reduce((sum, o) => sum + o.price, 0) / paidOrders.length 
+      : 0,
   };
+
+  // Top selling products
+  const topProducts = (() => {
+    if (!orders) return [];
+    const productMap = new Map<string, { title: string; revenue: number; count: number }>();
+    paidOrders.forEach((o) => {
+      const existing = productMap.get(o.product_id) || { title: o.product_title, revenue: 0, count: 0 };
+      existing.revenue += o.price;
+      existing.count += 1;
+      productMap.set(o.product_id, existing);
+    });
+    return Array.from(productMap.entries())
+      .map(([id, data]) => ({ id, ...data }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 5);
+  })();
 
   // Revenue chart data (last 7 days)
   const revenueChartData = (() => {
@@ -213,8 +233,8 @@ const Dashboard = () => {
 
   const quickStats = [
     { label: 'Revenus aujourd\'hui', value: formatPrice(salesStats.todayRevenue), icon: CreditCard, color: 'green' },
+    { label: 'Panier moyen', value: formatPrice(salesStats.avgCartValue), icon: ShoppingBag, color: 'orange' },
     { label: 'Total Leads', value: stats.totalLeads, icon: Users, color: 'primary' },
-    { label: 'Nouveaux Leads', value: stats.newLeads, icon: Mail, color: 'purple' },
     { label: 'Formulaires soumis', value: analytics.totalFormSubmits, icon: FileText, color: 'pink' },
   ];
 
@@ -647,11 +667,68 @@ const Dashboard = () => {
             </motion.div>
           </div>
 
+          {/* Top Selling Products */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75 }}
+          >
+            <Card className="border-border/50">
+              <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <CardTitle className="text-lg lg:text-xl font-display flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  Top produits
+                </CardTitle>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/admin/shop">Voir tout →</Link>
+                </Button>
+              </CardHeader>
+              <CardContent>
+                {ordersLoading ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="animate-pulse flex items-center gap-4">
+                        <div className="w-8 h-8 bg-muted rounded-lg" />
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 bg-muted rounded w-1/3" />
+                          <div className="h-3 bg-muted rounded w-1/4" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : topProducts.length === 0 ? (
+                  <div className="text-center py-8">
+                    <Package className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">Aucune vente enregistrée</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {topProducts.map((product, index) => (
+                      <div
+                        key={product.id}
+                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <span className="text-sm font-bold text-primary">#{index + 1}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate">{product.title}</p>
+                          <p className="text-xs text-muted-foreground">{product.count} vente{product.count > 1 ? 's' : ''}</p>
+                        </div>
+                        <p className="font-semibold text-sm">{formatPrice(product.revenue)}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+
           {/* Recent Leads */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.8 }}
           >
             <Card className="border-border/50">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
