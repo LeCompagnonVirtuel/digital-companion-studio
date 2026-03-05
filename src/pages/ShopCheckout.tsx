@@ -18,6 +18,7 @@ import { useCart } from "@/hooks/useCart";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -75,6 +76,13 @@ const ShopCheckout = () => {
 
     setIsSubmitting(true);
 
+    // Track checkout event
+    trackEcommerceEvent('checkout', {
+      items: items.map(i => ({ product_id: i.product.id, title: i.product.title, price: i.product.price })),
+      total,
+      currency: 'XOF',
+    });
+
     try {
       const item = items[0];
       const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
@@ -89,6 +97,16 @@ const ShopCheckout = () => {
         payment_method: "money_fusion",
         download_link: item.product.download_url || undefined,
         order_number: orderNumber,
+      });
+
+      // Track purchase event
+      trackEcommerceEvent('purchase', {
+        order_id: order.id,
+        order_number: order.order_number,
+        items: items.map(i => ({ product_id: i.product.id, title: i.product.title, price: i.product.price })),
+        total,
+        currency: 'XOF',
+        payment_method: 'money_fusion',
       });
 
       const returnUrl = `${window.location.origin}/boutique/confirmation?order=${order.id}`;

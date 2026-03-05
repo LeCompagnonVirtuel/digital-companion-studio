@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -27,6 +27,7 @@ import { useDigitalProduct, useProductTestimonials } from "@/hooks/useDigitalPro
 import { useCart } from "@/hooks/useCart";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductRecommendations } from "@/components/retention/ProductRecommendations";
+import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -43,7 +44,29 @@ const ShopProduct = () => {
     : 0;
 
   const allImages = product ? [product.featured_image, ...(product.images || [])].filter(Boolean) as string[] : [];
-  
+
+  // Track view_product
+  useEffect(() => {
+    if (product) {
+      trackEcommerceEvent('view_product', {
+        product_id: product.id,
+        product_title: product.title,
+        price: product.price,
+        category: product.category,
+      });
+    }
+  }, [product?.id]);
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addItem(product);
+    trackEcommerceEvent('add_to_cart', {
+      product_id: product.id,
+      product_title: product.title,
+      price: product.price,
+      category: product.category,
+    });
+  };
 
   if (isLoading) {
     return (
@@ -187,7 +210,7 @@ const ShopProduct = () => {
                 size="lg"
                 variant="hero"
                 className="flex-1 h-13 sm:h-14 text-base sm:text-lg rounded-xl"
-                onClick={() => addItem(product)}
+                onClick={handleAddToCart}
                 disabled={inCart}
               >
                 {inCart ? (
@@ -410,7 +433,7 @@ const ShopProduct = () => {
             </div>
           </div>
           <Button
-            onClick={() => addItem(product)}
+            onClick={handleAddToCart}
             disabled={inCart}
             variant="hero"
             className="h-11 px-5 rounded-xl font-semibold shrink-0"

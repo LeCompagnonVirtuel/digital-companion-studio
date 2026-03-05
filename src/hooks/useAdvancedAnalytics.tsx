@@ -28,6 +28,12 @@ export interface CustomerTrends {
   customerLifetimeValue: number;
 }
 
+export interface TrafficSource {
+  source: string;
+  visits: number;
+  percentage: number;
+}
+
 export interface ProductPerformance {
   id: string;
   title: string;
@@ -98,7 +104,8 @@ export const useAdvancedAnalytics = (days: number = 30) => {
         supabase
           .from("analytics_events")
           .select("*")
-          .gte("created_at", startDateStr),
+          .gte("created_at", startDateStr)
+          .order("created_at", { ascending: false }),
         supabase
           .from("shop_customers")
           .select("*"),
@@ -206,11 +213,39 @@ export const useAdvancedAnalytics = (days: number = 30) => {
         ? ((periodOrders - previousOrderCount) / previousOrderCount) * 100 
         : periodOrders > 0 ? 100 : 0;
 
+      // Traffic sources from referrers
+      const referrerCounts = new Map<string, number>();
+      events.filter(e => e.event_type === 'session_start').forEach(e => {
+        const ref = (e as any).referrer;
+        let source = 'Direct';
+        if (ref) {
+          try {
+            const url = new URL(ref);
+            const host = url.hostname.replace('www.', '');
+            if (host.includes('google')) source = 'Google';
+            else if (host.includes('facebook') || host.includes('fb.')) source = 'Facebook';
+            else if (host.includes('instagram')) source = 'Instagram';
+            else if (host.includes('twitter') || host.includes('x.com')) source = 'X / Twitter';
+            else if (host.includes('linkedin')) source = 'LinkedIn';
+            else if (host.includes('tiktok')) source = 'TikTok';
+            else if (host.includes('whatsapp')) source = 'WhatsApp';
+            else source = host;
+          } catch { source = 'Autre'; }
+        }
+        referrerCounts.set(source, (referrerCounts.get(source) || 0) + 1);
+      });
+      const totalSessions = Array.from(referrerCounts.values()).reduce((a, b) => a + b, 0) || 1;
+      const trafficSources: TrafficSource[] = Array.from(referrerCounts.entries())
+        .map(([source, visits]) => ({ source, visits, percentage: (visits / totalSessions) * 100 }))
+        .sort((a, b) => b.visits - a.visits)
+        .slice(0, 8);
+
       return {
         revenueByDay,
         conversionMetrics,
         customerTrends,
         productPerformance,
+        trafficSources,
         summary: {
           totalRevenue: periodRevenue,
           totalOrders: periodOrders,

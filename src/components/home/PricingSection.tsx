@@ -7,7 +7,7 @@ const pricingPlans = [
   {
     name: "Starter",
     tagline: "Exister et être crédible",
-    price: "150 000",
+    price: "149 900",
     currency: "FCFA",
     description: "Idéal pour lancer votre présence digitale avec les bases essentielles.",
     features: [
@@ -25,7 +25,7 @@ const pricingPlans = [
   {
     name: "Croissance",
     tagline: "Attirer et convertir",
-    price: "350 000",
+    price: "349 900",
     currency: "FCFA",
     description: "Pour les entreprises prêtes à accélérer leur acquisition de clients.",
     features: [
@@ -44,7 +44,7 @@ const pricingPlans = [
   {
     name: "Scale",
     tagline: "Performer et automatiser",
-    price: "750 000",
+    price: "749 900",
     currency: "FCFA",
     description: "Automatisation avancée et IA pour maximiser votre ROI.",
     features: [
