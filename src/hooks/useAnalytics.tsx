@@ -154,6 +154,24 @@ export const trackFormSubmit = async (formName: string, pagePath: string) => {
   }
 };
 
+// Track e-commerce events
+export const trackEcommerceEvent = async (
+  eventType: 'view_product' | 'add_to_cart' | 'checkout' | 'purchase',
+  metadata: Record<string, any>
+) => {
+  try {
+    const sessionId = getOrCreateSessionId();
+    await supabase.from('analytics_events').insert({
+      event_type: eventType,
+      page_path: window.location.pathname,
+      session_id: sessionId,
+      metadata,
+    });
+  } catch (error) {
+    console.error(`Error tracking ${eventType}:`, error);
+  }
+};
+
 // Track session start
 export const trackSessionStart = async () => {
   try {

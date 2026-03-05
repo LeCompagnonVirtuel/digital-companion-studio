@@ -18,6 +18,7 @@ import {
   ArrowDownRight,
   Target,
   Percent,
+  Globe,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -492,6 +493,54 @@ const Analytics = () => {
                     <div className="text-center py-8 text-muted-foreground">
                       <Package className="w-10 h-10 mx-auto mb-2 opacity-50" />
                       <p>Aucune donnée de produit disponible</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Traffic Sources */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe className="w-5 h-5 text-primary" />
+                    Sources de trafic
+                  </CardTitle>
+                  <CardDescription>
+                    D'où viennent vos visiteurs
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {analytics.trafficSources && analytics.trafficSources.length > 0 ? (
+                    <div className="space-y-3">
+                      {analytics.trafficSources.map((source, index) => (
+                        <motion.div
+                          key={source.source}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="flex items-center gap-3"
+                        >
+                          <div className="w-24 text-sm font-medium truncate">{source.source}</div>
+                          <div className="flex-1">
+                            <div className="h-6 bg-secondary rounded-md overflow-hidden">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${source.percentage}%` }}
+                                transition={{ delay: 0.3 + index * 0.05, duration: 0.5 }}
+                                className="h-full rounded-md"
+                                style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                              />
+                            </div>
+                          </div>
+                          <div className="w-16 text-right text-sm font-medium">{source.visits}</div>
+                          <div className="w-14 text-right text-xs text-muted-foreground">{source.percentage.toFixed(1)}%</div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Globe className="w-10 h-10 mx-auto mb-2 opacity-50" />
+                      <p>Pas encore de données de trafic</p>
                     </div>
                   )}
                 </CardContent>
