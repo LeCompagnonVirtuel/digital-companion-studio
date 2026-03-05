@@ -23,10 +23,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useDigitalProduct, useDigitalProducts, useProductTestimonials } from "@/hooks/useDigitalProducts";
+import { useDigitalProduct, useProductTestimonials } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
-import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductGallery } from "@/components/shop/ProductGallery";
+import { ProductRecommendations } from "@/components/retention/ProductRecommendations";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -34,7 +34,6 @@ const ShopProduct = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: product, isLoading } = useDigitalProduct(slug || "");
   const { data: testimonials } = useProductTestimonials(product?.id || "");
-  const { data: relatedProducts } = useDigitalProducts({ category: product?.category, limit: 4 });
   const { addItem, isInCart } = useCart();
 
   const inCart = product ? isInCart(product.id) : false;
@@ -44,7 +43,7 @@ const ShopProduct = () => {
     : 0;
 
   const allImages = product ? [product.featured_image, ...(product.images || [])].filter(Boolean) as string[] : [];
-  const related = relatedProducts?.filter(p => p.id !== product?.id).slice(0, 4) || [];
+  
 
   if (isLoading) {
     return (
@@ -378,30 +377,22 @@ const ShopProduct = () => {
           </motion.div>
         )}
 
-        {/* Related Products */}
-        {related.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-16 sm:mt-24"
-          >
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <span className="w-1.5 h-7 bg-primary rounded-full" />
-                <h2 className="text-xl sm:text-2xl font-display font-bold">Produits similaires</h2>
-              </div>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/boutique">Voir tout <ChevronRight className="w-4 h-4 ml-1" /></Link>
-              </Button>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-              {related.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
-              ))}
-            </div>
-          </motion.div>
-        )}
+        {/* Upsell / Cross-sell Recommendations */}
+        <ProductRecommendations
+          currentProductId={product.id}
+          currentCategory={product.category}
+          title="Complétez votre achat"
+          variant="cross-sell"
+          maxProducts={3}
+        />
+
+        <ProductRecommendations
+          currentProductId={product.id}
+          currentCategory={product.category}
+          title="Les plus populaires"
+          variant="popular"
+          maxProducts={3}
+        />
       </section>
 
       <Footer />

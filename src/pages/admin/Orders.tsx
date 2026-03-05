@@ -19,6 +19,7 @@ import {
   Eye,
   Copy,
   ExternalLink,
+  FileDown,
 } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import ProtectedRoute from "@/components/admin/ProtectedRoute";
@@ -241,6 +242,36 @@ const AdminOrders = () => {
                 Gérez toutes les commandes de la boutique
               </p>
             </div>
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (!filteredOrders?.length) return;
+                const headers = ["Numéro", "Client", "Email", "Produit", "Montant", "Devise", "Statut", "Méthode", "Date"];
+                const rows = filteredOrders.map((o) => [
+                  o.order_number,
+                  o.customer_name || "",
+                  o.customer_email,
+                  o.product_title,
+                  o.price,
+                  o.currency || "XOF",
+                  o.status,
+                  o.payment_method || "",
+                  formatDate(o.created_at),
+                ]);
+                const csv = [headers.join(";"), ...rows.map((r) => r.join(";"))].join("\n");
+                const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `commandes-${new Date().toISOString().split("T")[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              disabled={!filteredOrders?.length}
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Export CSV
+            </Button>
           </div>
 
           {/* Stats */}
