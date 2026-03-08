@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts, BlogPost as BlogPostType } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const BlogPost = () => {
