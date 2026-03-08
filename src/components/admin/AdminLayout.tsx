@@ -61,6 +61,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { logout } = useAdminAuth();
   const { toast } = useToast();
   const { unreadCount } = useNotifications();
+  const { isMaintenanceActive } = useMaintenanceMode();
+
+  const handleToggleMaintenanceOff = async () => {
+    const { supabase } = await import('@/integrations/supabase/client');
+    await supabase
+      .from('admin_settings')
+      .update({ value: JSON.stringify(false) })
+      .eq('key', 'maintenance_mode');
+  };
 
   const handleSignOut = () => {
     logout();
