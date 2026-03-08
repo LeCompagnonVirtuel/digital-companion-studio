@@ -73,6 +73,10 @@ const Settings = () => {
       setNotifications(settings.notifications);
       setSocialLinks(settings.social_links);
       setBusinessInfo(settings.business_info);
+      setMaintenanceMode((settings as any).maintenance_mode === true);
+      setMaintenanceTitle((settings as any).maintenance_title || '🚧 Site en maintenance');
+      setMaintenanceMessage((settings as any).maintenance_message || '');
+      setMaintenanceReturn((settings as any).maintenance_estimated_return || '');
     }
   }, [settings, isLoading]);
 
