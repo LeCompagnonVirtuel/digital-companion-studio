@@ -102,16 +102,16 @@ const Settings = () => {
 
   const handleSaveMaintenance = async () => {
     await updateSettings({
-      maintenance_mode: maintenanceMode as any,
-      maintenance_title: maintenanceTitle as any,
-      maintenance_message: maintenanceMessage as any,
-      maintenance_estimated_return: (maintenanceReturn || null) as any,
+      maintenance_mode: maintenanceMode,
+      maintenance_title: maintenanceTitle,
+      maintenance_message: maintenanceMessage,
+      maintenance_estimated_return: maintenanceReturn || null,
     });
   };
 
   const handleToggleMaintenance = async (checked: boolean) => {
     setMaintenanceMode(checked);
-    await updateSetting('maintenance_mode' as any, checked as any);
+    await updateSetting('maintenance_mode', checked);
   };
 
   if (isLoading) {
