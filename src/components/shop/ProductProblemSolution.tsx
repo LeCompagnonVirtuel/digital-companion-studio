@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag, CheckCircle, Zap, Clock, Target, TrendingUp } from "lucide-react";
+import { SimpleMarkdown } from "@/components/ui/simple-markdown";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface ProductProblemSolutionProps {
