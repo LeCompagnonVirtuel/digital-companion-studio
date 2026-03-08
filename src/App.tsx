@@ -125,6 +125,7 @@ const App = () => (
                 <Route path="/boutique/:slug" element={<ShopProduct />} />
                 <Route path="/boutique/checkout" element={<ShopCheckout />} />
                 <Route path="/boutique/confirmation" element={<ShopConfirmation />} />
+                <Route path="/boutique/paiement-erreur" element={<ShopPaymentError />} />
                 <Route path="/ressources-gratuites" element={<FreeResources />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<Dashboard />} />
