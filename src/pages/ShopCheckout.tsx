@@ -444,7 +444,7 @@ const ShopCheckout = () => {
                     ) : (
                       <>
                         <Lock className="w-5 h-5" />
-                        Payer {formatFCFA(total)}
+                        Payer {formatFCFA(finalTotal)}
                         <ArrowRight className="w-4 h-4 ml-1" />
                       </>
                     )}
