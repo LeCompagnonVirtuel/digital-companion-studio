@@ -28,7 +28,9 @@ import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useMaintenanceMode } from '@/hooks/useMaintenanceMode';
 import NotificationsPanel from './NotificationsPanel';
+import { AlertTriangle, Construction } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: ReactNode;
