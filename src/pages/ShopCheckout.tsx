@@ -102,7 +102,7 @@ const ShopCheckout = () => {
         product_title: items.length > 1
           ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
           : mainItem.product.title,
-        price: total,
+        price: finalTotal,
         currency: "XOF",
         payment_method: "money_fusion",
         download_link: mainItem.product.download_url || undefined,
