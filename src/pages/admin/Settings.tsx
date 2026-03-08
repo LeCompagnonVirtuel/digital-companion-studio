@@ -59,6 +59,10 @@ const Settings = () => {
     address: '',
     hours: '',
   });
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [maintenanceTitle, setMaintenanceTitle] = useState('🚧 Site en maintenance');
+  const [maintenanceMessage, setMaintenanceMessage] = useState('');
+  const [maintenanceReturn, setMaintenanceReturn] = useState('');
 
   // Sync local state with settings from database
   useEffect(() => {
