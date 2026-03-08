@@ -17,7 +17,9 @@ import {
   Linkedin,
   Twitter,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  Construction,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
