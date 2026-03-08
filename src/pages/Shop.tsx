@@ -185,7 +185,7 @@ const Shop = () => {
       </div>
 
       {/* ─── MAIN CONTENT ─── */}
-      <section className="py-8 sm:py-14">
+      <section id="produits" className="py-8 sm:py-14">
         <div className="container-wide">
           {/* Toolbar */}
           <motion.div
