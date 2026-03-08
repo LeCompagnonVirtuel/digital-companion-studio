@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ShoppingBag } from "lucide-react";
+import { Menu, X, ArrowRight, ShoppingBag, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
 import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
