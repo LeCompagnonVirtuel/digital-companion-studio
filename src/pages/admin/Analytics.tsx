@@ -123,7 +123,6 @@ const Analytics = () => {
               </Select>
             </div>
           </motion.div>
-          </div>
 
           {isLoading ? (
             <div className="space-y-6">
