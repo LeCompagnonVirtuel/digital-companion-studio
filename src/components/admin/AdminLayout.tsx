@@ -52,6 +52,7 @@ const navItems = [
   { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
   { path: '/admin/seo', icon: Search, label: 'SEO' },
   { path: '/admin/backups', icon: Database, label: 'Sauvegardes' },
+  { path: '/admin/activity', icon: Shield, label: 'Activité admin' },
   { path: '/admin/settings', icon: Settings, label: 'Paramètres' },
 ];
 

@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_activity_logs: {
+        Row: {
+          action: string
+          action_type: string
+          admin_email: string
+          admin_user_id: string | null
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: string | null
+          page: string | null
+          resource_id: string | null
+          resource_type: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          action_type?: string
+          admin_email: string
+          admin_user_id?: string | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          page?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          action_type?: string
+          admin_email?: string
+          admin_user_id?: string | null
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          page?: string | null
+          resource_id?: string | null
+          resource_type?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       admin_settings: {
         Row: {
           created_at: string

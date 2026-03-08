@@ -66,6 +66,7 @@ import AdminCustomers from "./pages/admin/Customers";
 import AdminPromoCodes from "./pages/admin/PromoCodes";
 import Media from "./pages/admin/Media";
 import Backups from "./pages/admin/Backups";
+import ActivityLogs from "./pages/admin/ActivityLogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -167,6 +168,7 @@ const App = () => (
                 <Route path="/admin/media" element={<Media />} />
                 <Route path="/admin/seo" element={<SEO />} />
                 <Route path="/admin/backups" element={<Backups />} />
+                <Route path="/admin/activity" element={<ActivityLogs />} />
                 <Route path="/admin/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
