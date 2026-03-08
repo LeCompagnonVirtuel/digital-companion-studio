@@ -181,7 +181,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             <div className="flex items-center gap-1 mb-2 py-1 px-1.5 rounded-md bg-destructive/5 border border-destructive/10">
               <Flame className="w-2.5 h-2.5 text-destructive shrink-0" />
               <span className="text-[9px] font-semibold text-destructive">Fin dans</span>
-              <CountdownTimer variant="compact" className="ml-auto" />
+              <CountdownTimer variant="compact" endDate={product.limited_offer_end} className="ml-auto" />
             </div>
           )}
 

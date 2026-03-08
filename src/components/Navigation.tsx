@@ -109,23 +109,36 @@ export function Navigation() {
             </nav>
 
             {/* Right Actions */}
-            <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-1.5 flex-shrink-0">
+              <motion.button 
+                className="p-2 rounded-full hover:bg-secondary transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Rechercher"
+              >
+                <Search size={17} className="text-muted-foreground" />
+              </motion.button>
+
               <CartDrawer>
                 <motion.button 
                   className="relative p-2 rounded-full hover:bg-secondary transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <ShoppingBag size={18} className="text-muted-foreground" />
+                  <ShoppingBag size={17} className="text-muted-foreground" />
                   {itemCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold">
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] flex items-center justify-center font-bold"
+                    >
                       {itemCount}
-                    </span>
+                    </motion.span>
                   )}
                 </motion.button>
               </CartDrawer>
               
-              <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md">
+              <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md ml-1">
                 <Link to="/demarrer-projet" className="flex items-center gap-2">
                   Démarrer
                   <ArrowRight size={14} />
