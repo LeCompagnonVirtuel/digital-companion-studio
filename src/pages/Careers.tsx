@@ -19,6 +19,7 @@ import {
   ArrowRight,
   Send
 } from "lucide-react";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const benefits = [
   {
