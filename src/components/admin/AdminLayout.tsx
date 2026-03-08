@@ -68,6 +68,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { toast } = useToast();
   const { unreadCount } = useNotifications();
   const { isMaintenanceActive } = useMaintenanceMode();
+  const criticalAlerts = useCriticalAlertCount();
 
   const handleToggleMaintenanceOff = async () => {
     const { supabase } = await import('@/integrations/supabase/client');
