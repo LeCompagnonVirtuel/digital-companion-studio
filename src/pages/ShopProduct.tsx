@@ -28,6 +28,8 @@ import { useCart } from "@/hooks/useCart";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductRecommendations } from "@/components/retention/ProductRecommendations";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
+import { SocialShare } from "@/components/shop/SocialShare";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -44,6 +46,16 @@ const ShopProduct = () => {
     : 0;
 
   const allImages = product ? [product.featured_image, ...(product.images || [])].filter(Boolean) as string[] : [];
+
+  // SEO meta tags
+  const productUrl = typeof window !== "undefined" ? `${window.location.origin}/boutique/${slug}` : "";
+  useDocumentMeta({
+    title: product?.title || "Produit",
+    description: product?.short_description || product?.title || "Découvrez ce produit digital premium",
+    image: product?.featured_image || undefined,
+    url: productUrl,
+    type: "product",
+  });
 
   // Track view_product
   useEffect(() => {
@@ -165,16 +177,23 @@ const ShopProduct = () => {
               {product.title}
             </h1>
 
-            {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-amber-400 fill-amber-400" />
-                ))}
+            {/* Rating + Social Share */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-amber-400 fill-amber-400" />
+                  ))}
+                </div>
+                <span className="text-sm text-muted-foreground font-medium">
+                  5.0 · {product.sales_count || 0} ventes
+                </span>
               </div>
-              <span className="text-sm text-muted-foreground font-medium">
-                5.0 · {product.sales_count || 0} ventes
-              </span>
+              <SocialShare
+                url={productUrl}
+                title={product.title}
+                description={product.short_description || undefined}
+              />
             </div>
 
             {product.short_description && (
