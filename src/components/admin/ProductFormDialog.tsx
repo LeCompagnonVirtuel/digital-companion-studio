@@ -242,13 +242,20 @@ export const ProductFormDialog = ({
 
     setIsSaving(true);
     try {
+      const payload = {
+        ...formData,
+        limited_offer_end: formData.limited_offer_end
+          ? new Date(formData.limited_offer_end).toISOString()
+          : null,
+      };
+
       if (isEditing && product) {
         await updateProduct.mutateAsync({
           id: product.id,
-          ...formData,
+          ...payload,
         });
       } else {
-        await createProduct.mutateAsync(formData as any);
+        await createProduct.mutateAsync(payload as any);
       }
       onOpenChange(false);
     } catch (error) {

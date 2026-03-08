@@ -42,6 +42,7 @@ const navItems = [
   { path: '/admin/portfolio', icon: FolderKanban, label: 'Portfolio' },
   { path: '/admin/shop', icon: ShoppingBag, label: 'Boutique' },
   { path: '/admin/orders', icon: ClipboardList, label: 'Commandes' },
+  { path: '/admin/promo-codes', icon: Tag, label: 'Codes Promo' },
   { path: '/admin/customers', icon: UsersRound, label: 'Clients CRM' },
   { path: '/admin/media', icon: ImageIcon, label: 'Médias' },
   { path: '/admin/users', icon: UserCog, label: 'Utilisateurs' },
