@@ -21,7 +21,8 @@ import {
   RefreshCw,
   ShoppingBag,
   ClipboardList,
-  UsersRound
+  UsersRound,
+  Tag
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
