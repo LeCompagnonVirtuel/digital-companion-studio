@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag, Trash2, ArrowRight, Package, Sparkles, Shield, Zap,
-  CheckCircle, Plus, X, Gift, TrendingUp
+  CheckCircle, Plus, X, Gift, TrendingUp, Flame
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -12,6 +12,7 @@ import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 import { useDigitalProducts, DigitalProduct } from "@/hooks/useDigitalProducts";
 import { Progress } from "@/components/ui/progress";
+import { CountdownTimer } from "./CountdownTimer";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F`;
 
