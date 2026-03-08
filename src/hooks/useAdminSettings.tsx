@@ -161,8 +161,7 @@ export function useAdminSettings() {
         const promises = Object.entries(updates).map(([key, value]) =>
           supabase
             .from('admin_settings')
-            .update({ value: JSON.stringify(value) })
-            .eq('key', key)
+            .upsert({ key, value: JSON.stringify(value), updated_at: new Date().toISOString() }, { onConflict: 'key' })
         );
 
         const results = await Promise.all(promises);

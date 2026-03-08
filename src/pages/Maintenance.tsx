@@ -76,9 +76,9 @@ const Maintenance = ({
           transition={{ delay: 0.2 }}
         >
           <img
-            src="/favicon.png"
-            alt="Logo"
-            className="w-12 h-12 mx-auto mb-4 rounded-lg"
+            src={logo}
+            alt="LCV Digital"
+            className="w-16 h-16 mx-auto mb-4 rounded-lg object-contain"
           />
         </motion.div>
 

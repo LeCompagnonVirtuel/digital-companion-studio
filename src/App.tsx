@@ -80,6 +80,15 @@ function ChatbotWrapper() {
   return <Chatbot />;
 }
 
+function MaintenanceBanner() {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[9999] bg-destructive text-destructive-foreground text-center py-2 px-4 text-sm font-medium flex items-center justify-center gap-2">
+      <span>🚧 Mode maintenance actif — les visiteurs voient la page de maintenance.</span>
+      <a href="/admin/settings" className="underline font-bold hover:opacity-80">Paramètres</a>
+    </div>
+  );
+}
+
 function MaintenanceGuard({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { isMaintenanceActive, title, message, estimatedReturn, isLoading } = useMaintenanceMode();
@@ -96,6 +105,16 @@ function MaintenanceGuard({ children }: { children: React.ReactNode }) {
   // If maintenance active and not admin, show maintenance page
   if (isMaintenanceActive && !isAdmin) {
     return <Maintenance title={title} message={message} estimatedReturn={estimatedReturn} />;
+  }
+
+  // Admin sees the site normally but with a warning banner
+  if (isMaintenanceActive && isAdmin) {
+    return (
+      <>
+        <MaintenanceBanner />
+        <div className="pt-10">{children}</div>
+      </>
+    );
   }
 
   return <>{children}</>;
