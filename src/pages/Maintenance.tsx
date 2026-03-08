@@ -17,6 +17,7 @@ const Maintenance = ({
   estimatedReturn,
 }: MaintenanceProps) => {
   const [countdown, setCountdown] = useState('');
+  useDocumentMeta({ title: 'Maintenance - Site en cours de mise à jour', description: message });
 
   useEffect(() => {
     if (!estimatedReturn) return;
