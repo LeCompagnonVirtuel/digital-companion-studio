@@ -240,6 +240,13 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
             animate={{ y: 0, opacity: 1 }}
             className="border-t border-border/30 bg-card/80 backdrop-blur-sm px-4 sm:px-5 py-4 space-y-3"
           >
+            {/* Urgency timer */}
+            <div className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10">
+              <Flame className="w-3 h-3 text-destructive animate-pulse" />
+              <span className="text-[10px] font-semibold text-destructive">Offre expire dans</span>
+              <CountdownTimer variant="compact" />
+            </div>
+
             {/* Trust badges */}
             <div className="flex items-center justify-center gap-3 sm:gap-4 text-[9px] sm:text-[10px] text-muted-foreground">
               <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-500" /> Sécurisé</span>
