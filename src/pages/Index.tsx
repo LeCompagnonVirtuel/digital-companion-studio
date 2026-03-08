@@ -7,14 +7,15 @@ import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 // Lazy load below-the-fold sections for performance
 const ServicesSection = lazy(() => import("@/components/home/ServicesSection").then(m => ({ default: m.ServicesSection })));
+const WhyChooseUsSection = lazy(() => import("@/components/home/WhyChooseUsSection").then(m => ({ default: m.WhyChooseUsSection })));
 const StatsSection = lazy(() => import("@/components/home/StatsSection").then(m => ({ default: m.StatsSection })));
-const ShopSection = lazy(() => import("@/components/home/ShopSection").then(m => ({ default: m.ShopSection })));
-const ProcessSection = lazy(() => import("@/components/home/ProcessSection").then(m => ({ default: m.ProcessSection })));
 const FeaturedProjectsSection = lazy(() => import("@/components/home/FeaturedProjectsSection").then(m => ({ default: m.FeaturedProjectsSection })));
 const TestimonialsSection = lazy(() => import("@/components/home/TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
+const ShopSection = lazy(() => import("@/components/home/ShopSection").then(m => ({ default: m.ShopSection })));
+const PricingSection = lazy(() => import("@/components/home/PricingSection").then(m => ({ default: m.PricingSection })));
+const ProcessSection = lazy(() => import("@/components/home/ProcessSection").then(m => ({ default: m.ProcessSection })));
 const FAQSection = lazy(() => import("@/components/home/FAQSection").then(m => ({ default: m.FAQSection })));
 const AboutSection = lazy(() => import("@/components/home/AboutSection").then(m => ({ default: m.AboutSection })));
-const PricingSection = lazy(() => import("@/components/home/PricingSection").then(m => ({ default: m.PricingSection })));
 const CTASection = lazy(() => import("@/components/home/CTASection").then(m => ({ default: m.CTASection })));
 
 const SectionFallback = () => (
@@ -39,13 +40,10 @@ const Index = () => {
           <ServicesSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
+          <WhyChooseUsSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
           <StatsSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ShopSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ProcessSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <FeaturedProjectsSection />
@@ -54,13 +52,19 @@ const Index = () => {
           <TestimonialsSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
+          <ShopSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <PricingSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProcessSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
           <FAQSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <AboutSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <PricingSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <CTASection />
