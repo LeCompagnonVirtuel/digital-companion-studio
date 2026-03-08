@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Construction, RefreshCw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useDocumentMeta } from '@/hooks/useDocumentMeta';
+import logo from '@/assets/logo.png';
 
 interface MaintenanceProps {
   title?: string;
