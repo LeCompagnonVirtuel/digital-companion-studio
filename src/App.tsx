@@ -108,6 +108,7 @@ const App = () => (
             <Toaster />
             <Sonner />
           <BrowserRouter>
+            <MaintenanceGuard>
             <RetentionProvider>
               <ScrollToTop />
               <AnalyticsTracker />
