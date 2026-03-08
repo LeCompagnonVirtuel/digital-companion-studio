@@ -182,9 +182,8 @@ const ShopCheckout = () => {
       window.location.href = paymentData.paymentUrl;
     } catch (error: any) {
       console.error("Checkout error:", error);
-      // If we have an order ID, redirect to dedicated error page
-      if (order?.id) {
-        navigate(`/boutique/paiement-erreur?order=${order.id}`);
+      if (createdOrderId) {
+        navigate(`/boutique/paiement-erreur?order=${createdOrderId}`);
       } else {
         toast({ title: "Erreur", description: error.message || "Une erreur est survenue.", variant: "destructive" });
       }
