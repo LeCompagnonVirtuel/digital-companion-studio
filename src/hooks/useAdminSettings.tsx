@@ -48,6 +48,10 @@ const defaultSettings: AdminSettings = {
     address: '',
     hours: '',
   },
+  maintenance_mode: false,
+  maintenance_title: '🚧 Site en maintenance',
+  maintenance_message: 'Nous effectuons actuellement une mise à jour pour améliorer votre expérience.',
+  maintenance_estimated_return: null,
 };
 
 export function useAdminSettings() {
