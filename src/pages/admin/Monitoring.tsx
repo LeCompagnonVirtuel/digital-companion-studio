@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
-import { ProtectedRoute } from '@/components/admin/ProtectedRoute';
+import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import { useSystemHealth } from '@/hooks/useSystemHealth';
 import { useSystemAlerts } from '@/hooks/useSystemAlerts';
 import { Button } from '@/components/ui/button';
