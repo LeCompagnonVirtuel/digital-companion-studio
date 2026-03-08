@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 import { CountdownTimer } from "@/components/shop/CountdownTimer";
+import { PromoCodeInput } from "@/components/shop/PromoCodeInput";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -43,6 +44,11 @@ const ShopCheckout = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fieldTouched, setFieldTouched] = useState<Record<string, boolean>>({});
+  const [promoCode, setPromoCode] = useState<string | null>(null);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const finalTotal = total - discountAmount;
 
   const currentStep = 2; // Step 2 = Informations + Paiement combined
 
@@ -96,7 +102,7 @@ const ShopCheckout = () => {
         product_title: items.length > 1
           ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
           : mainItem.product.title,
-        price: total,
+        price: finalTotal,
         currency: "XOF",
         payment_method: "money_fusion",
         download_link: mainItem.product.download_url || undefined,
@@ -123,6 +129,18 @@ const ShopCheckout = () => {
         }
       }
 
+      // Update promo code usage and store on order
+      if (promoCode) {
+        await supabase.from("orders").update({
+          promo_code: promoCode,
+          discount_amount: discountAmount,
+          notes: `Code promo: ${promoCode} (-${discountPercent}%)`,
+        }).eq("id", order.id);
+
+        // Increment usage (fire-and-forget)
+        supabase.rpc("increment_promo_usage" as any, { promo_code_value: promoCode }).then(() => {});
+      }
+
       // Track purchase event
       trackEcommerceEvent('purchase', {
         order_id: order.id,
@@ -147,7 +165,7 @@ const ShopCheckout = () => {
             customerEmail: formData.email,
             customerName: formData.name || 'Client',
             productTitle,
-            price: total,
+            price: finalTotal,
             returnUrl,
           },
         }
@@ -438,7 +456,7 @@ const ShopCheckout = () => {
                     ) : (
                       <>
                         <Lock className="w-5 h-5" />
-                        Payer {formatFCFA(total)}
+                        Payer {formatFCFA(finalTotal)}
                         <ArrowRight className="w-4 h-4 ml-1" />
                       </>
                     )}
@@ -513,6 +531,24 @@ const ShopCheckout = () => {
 
                   <Separator />
 
+                  {/* Promo Code */}
+                  <PromoCodeInput
+                    orderTotal={total}
+                    appliedCode={promoCode}
+                    onApply={(result) => {
+                      setPromoCode(result.code || null);
+                      setDiscountAmount(result.discount_amount || 0);
+                      setDiscountPercent(result.discount_percent || 0);
+                    }}
+                    onClear={() => {
+                      setPromoCode(null);
+                      setDiscountAmount(0);
+                      setDiscountPercent(0);
+                    }}
+                  />
+
+                  <Separator />
+
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Sous-total</span>
@@ -524,8 +560,18 @@ const ShopCheckout = () => {
                         animate={{ opacity: 1, height: "auto" }}
                         className="flex justify-between text-sm"
                       >
-                        <span className="text-emerald-600 font-medium">Économies</span>
+                        <span className="text-emerald-600 font-medium">Économies produits</span>
                         <span className="text-emerald-600 font-semibold">-{formatFCFA(savings)}</span>
+                      </motion.div>
+                    )}
+                    {discountAmount > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="flex justify-between text-sm"
+                      >
+                        <span className="text-primary font-medium">Code promo (-{discountPercent}%)</span>
+                        <span className="text-primary font-semibold">-{formatFCFA(discountAmount)}</span>
                       </motion.div>
                     )}
                     <div className="flex justify-between text-sm">
@@ -539,12 +585,12 @@ const ShopCheckout = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold">Total</span>
                     <motion.span
-                      key={total}
+                      key={finalTotal}
                       initial={{ scale: 1.1 }}
                       animate={{ scale: 1 }}
                       className="text-xl font-bold text-primary"
                     >
-                      {formatFCFA(total)}
+                      {formatFCFA(finalTotal)}
                     </motion.span>
                   </div>
 
