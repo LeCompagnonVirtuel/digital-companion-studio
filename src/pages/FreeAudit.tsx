@@ -48,6 +48,11 @@ const benefits = [
 ];
 
 const FreeAudit = () => {
+  useDocumentMeta({
+    title: "Audit digital gratuit",
+    description: "Obtenez un audit complet et gratuit de votre présence digitale : site, SEO, réseaux sociaux et recommandations personnalisées.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />
