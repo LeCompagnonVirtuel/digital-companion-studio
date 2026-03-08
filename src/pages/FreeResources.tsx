@@ -196,6 +196,11 @@ const pageContent = {
 };
 
 const FreeResources = () => {
+  useDocumentMeta({
+    title: "Ressources gratuites",
+    description: "Templates, guides et outils gratuits pour entrepreneurs : checklist site web, guide réseaux sociaux, templates Canva et plus.",
+  });
+
   const [selectedResource, setSelectedResource] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);

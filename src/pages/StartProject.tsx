@@ -104,6 +104,11 @@ const processSteps = [
 ];
 
 const StartProject = () => {
+  useDocumentMeta({
+    title: "Démarrer un projet digital",
+    description: "Lancez votre projet web, e-commerce ou marketing digital avec Le Compagnon Virtuel. Devis gratuit et accompagnement personnalisé.",
+  });
+
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
