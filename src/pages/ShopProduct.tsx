@@ -28,6 +28,8 @@ import { useCart } from "@/hooks/useCart";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductRecommendations } from "@/components/retention/ProductRecommendations";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
+import { SocialShare } from "@/components/shop/SocialShare";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
