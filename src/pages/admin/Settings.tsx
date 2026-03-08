@@ -600,7 +600,59 @@ const Settings = () => {
                     </Button>
                   </CardContent>
                 </Card>
-              </motion.div>
+
+                {/* History Card */}
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <History className="w-5 h-5 text-primary" />
+                      Historique des activations
+                    </CardTitle>
+                    <CardDescription>
+                      Les 20 dernières activations/désactivations du mode maintenance
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {historyLoading ? (
+                      <div className="space-y-2">
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                      </div>
+                    ) : maintenanceHistory.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-8">Aucun historique pour le moment</p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Action</TableHead>
+                            <TableHead>Administrateur</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {maintenanceHistory.map((entry) => (
+                            <TableRow key={entry.id}>
+                              <TableCell className="text-sm">
+                                {new Date(entry.created_at).toLocaleString('fr-FR', {
+                                  day: '2-digit', month: '2-digit', year: 'numeric',
+                                  hour: '2-digit', minute: '2-digit'
+                                })}
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={entry.action === 'activated' ? 'destructive' : 'default'} className="text-xs">
+                                  {entry.action === 'activated' ? '🔴 Activé' : '🟢 Désactivé'}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-sm text-muted-foreground">
+                                {entry.performed_by_email}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </CardContent>
+                </Card>
             </TabsContent>
           </Tabs>
         </div>
