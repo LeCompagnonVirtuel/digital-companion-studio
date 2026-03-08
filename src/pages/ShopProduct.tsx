@@ -111,7 +111,7 @@ const ShopProduct = () => {
       <PromoBanner />
 
       {/* Breadcrumb */}
-      <div className="container-wide pt-20 sm:pt-24 pb-3">
+      <div className="container-wide pt-4 sm:pt-6 pb-3">
         <nav className="flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors">Accueil</Link>
           <ChevronRight className="w-3.5 h-3.5" />
