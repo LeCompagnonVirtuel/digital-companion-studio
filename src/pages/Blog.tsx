@@ -175,7 +175,7 @@ const Blog = () => {
                       <Link key={post.id} to={`/blog/${post.slug}`}>
                         <motion.article initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }} className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-500 cursor-pointer">
                           <div className="relative aspect-[16/10] overflow-hidden">
-                            <img src={post.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <OptimizedImage src={post.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                             <div className="absolute top-4 left-4">
                               <span className="px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium">{post.category}</span>
                             </div>

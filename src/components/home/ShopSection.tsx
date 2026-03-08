@@ -103,7 +103,7 @@ export function ShopSection() {
                   {/* Image */}
                   <div className="relative aspect-[16/10] bg-muted overflow-hidden">
                     {product.featured_image ? (
-                      <img
+                      <OptimizedImage
                         src={product.featured_image}
                         alt={product.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
