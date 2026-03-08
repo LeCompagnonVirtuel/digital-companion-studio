@@ -84,20 +84,43 @@ const ShopCheckout = () => {
     });
 
     try {
-      const item = items[0];
+      const mainItem = items[0];
       const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
+      // Create order with first product as primary (for legacy compatibility)
       const order = await createOrder.mutateAsync({
         customer_email: formData.email,
         customer_name: formData.name,
-        product_id: item.product.id,
-        product_title: item.product.title,
+        product_id: mainItem.product.id,
+        product_title: items.length > 1
+          ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
+          : mainItem.product.title,
         price: total,
         currency: "XOF",
         payment_method: "money_fusion",
-        download_link: item.product.download_url || undefined,
+        download_link: mainItem.product.download_url || undefined,
         order_number: orderNumber,
       });
+
+      // Create order_items for each product
+      if (items.length > 0) {
+        const orderItems = items.map(item => ({
+          order_id: order.id,
+          product_id: item.product.id,
+          product_title: item.product.title,
+          price: item.product.price,
+          quantity: item.quantity,
+        }));
+
+        const { error: itemsError } = await supabase
+          .from("order_items")
+          .insert(orderItems);
+
+        if (itemsError) {
+          console.error("Error creating order items:", itemsError);
+          // Non-blocking — order is already created
+        }
+      }
 
       // Track purchase event
       trackEcommerceEvent('purchase', {
