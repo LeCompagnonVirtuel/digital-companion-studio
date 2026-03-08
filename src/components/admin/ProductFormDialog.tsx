@@ -858,19 +858,35 @@ export const ProductFormDialog = ({
                           currentFiles={
                             formData.download_url
                               ? [{
-                                  name: formData.download_url.split("/").pop() || "fichier.pdf",
+                                  name: uploadedFileMeta?.name || formData.download_url.split("/").pop() || "fichier.pdf",
                                   path: formData.download_url,
-                                  size: 0,
+                                  size: uploadedFileMeta?.size || 0,
                                   url: formData.download_url,
                                 }]
                               : []
                           }
                           onFilesChange={(files) => {
-                            setFormData((prev) => ({
-                              ...prev,
-                              download_url: files.length > 0 ? files[files.length - 1].path : "",
-                              file_format: files.length > 0 ? "PDF" : prev.file_format,
-                            }));
+                            const lastFile = files.length > 0 ? files[files.length - 1] : null;
+                            if (lastFile) {
+                              setUploadedFileMeta({ name: lastFile.name, size: lastFile.size });
+                              const formatSize = (bytes: number) => {
+                                if (bytes < 1024) return `${bytes} B`;
+                                if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+                                return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+                              };
+                              setFormData((prev) => ({
+                                ...prev,
+                                download_url: lastFile.path,
+                                file_format: "PDF",
+                                file_size: prev.file_size || formatSize(lastFile.size),
+                              }));
+                            } else {
+                              setUploadedFileMeta(null);
+                              setFormData((prev) => ({
+                                ...prev,
+                                download_url: "",
+                              }));
+                            }
                           }}
                         />
 
