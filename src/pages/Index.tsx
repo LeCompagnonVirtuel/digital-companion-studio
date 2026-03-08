@@ -3,6 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { TrustBadgesSection } from "@/components/home/TrustBadgesSection";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 // Lazy load below-the-fold sections for performance
 const ServicesSection = lazy(() => import("@/components/home/ServicesSection").then(m => ({ default: m.ServicesSection })));
