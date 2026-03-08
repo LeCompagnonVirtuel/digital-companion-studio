@@ -40,6 +40,7 @@ import {
 } from "@/hooks/useDigitalProducts";
 import { MediaSelector } from "@/components/admin/MediaSelector";
 import { PdfUploader } from "@/components/admin/PdfUploader";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ProductFormDialogProps {
   open: boolean;
@@ -254,14 +255,75 @@ export const ProductFormDialog = ({
           id: product.id,
           ...payload,
         });
+
+        // Sync product_files table for existing product
+        if (formData.download_url) {
+          await syncProductFile(product.id, formData.download_url);
+        }
       } else {
-        await createProduct.mutateAsync(payload as any);
+        // Create product first
+        const created = await createProduct.mutateAsync(payload as any);
+        const newProductId = created?.id;
+
+        if (newProductId && formData.download_url?.startsWith("new-product/")) {
+          // Move file from new-product/ to {productId}/
+          const oldPath = formData.download_url;
+          const fileName = oldPath.split("/").pop() || "file.pdf";
+          const newPath = `${newProductId}/${fileName}`;
+
+          // Download then re-upload (Supabase doesn't have a move/copy API)
+          const { data: fileData, error: dlError } = await supabase.storage
+            .from("product-files")
+            .download(oldPath);
+
+          if (!dlError && fileData) {
+            const { error: upError } = await supabase.storage
+              .from("product-files")
+              .upload(newPath, fileData, { contentType: "application/pdf", upsert: false });
+
+            if (!upError) {
+              // Update product with new path
+              await updateProduct.mutateAsync({ id: newProductId, download_url: newPath });
+              // Delete old file
+              await supabase.storage.from("product-files").remove([oldPath]);
+              // Sync product_files table
+              await syncProductFile(newProductId, newPath);
+            }
+          }
+        } else if (newProductId && formData.download_url) {
+          await syncProductFile(newProductId, formData.download_url);
+        }
       }
       onOpenChange(false);
     } catch (error) {
       console.error("Save error:", error);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const syncProductFile = async (productId: string, filePath: string) => {
+    try {
+      // Check if entry already exists
+      const { data: existing } = await supabase
+        .from("product_files")
+        .select("id")
+        .eq("product_id", productId)
+        .eq("file_path", filePath)
+        .maybeSingle();
+
+      if (!existing) {
+        const fileName = filePath.split("/").pop() || "file.pdf";
+        await supabase.from("product_files").insert({
+          product_id: productId,
+          file_path: filePath,
+          file_name: fileName,
+          file_size: 0,
+          file_type: "application/pdf",
+        });
+      }
+    } catch (err) {
+      console.error("Sync product_files error:", err);
     }
   };
 
