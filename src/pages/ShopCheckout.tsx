@@ -519,6 +519,24 @@ const ShopCheckout = () => {
 
                   <Separator />
 
+                  {/* Promo Code */}
+                  <PromoCodeInput
+                    orderTotal={total}
+                    appliedCode={promoCode}
+                    onApply={(result) => {
+                      setPromoCode(result.code || null);
+                      setDiscountAmount(result.discount_amount || 0);
+                      setDiscountPercent(result.discount_percent || 0);
+                    }}
+                    onClear={() => {
+                      setPromoCode(null);
+                      setDiscountAmount(0);
+                      setDiscountPercent(0);
+                    }}
+                  />
+
+                  <Separator />
+
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Sous-total</span>
@@ -530,8 +548,18 @@ const ShopCheckout = () => {
                         animate={{ opacity: 1, height: "auto" }}
                         className="flex justify-between text-sm"
                       >
-                        <span className="text-emerald-600 font-medium">Économies</span>
+                        <span className="text-emerald-600 font-medium">Économies produits</span>
                         <span className="text-emerald-600 font-semibold">-{formatFCFA(savings)}</span>
+                      </motion.div>
+                    )}
+                    {discountAmount > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="flex justify-between text-sm"
+                      >
+                        <span className="text-primary font-medium">Code promo (-{discountPercent}%)</span>
+                        <span className="text-primary font-semibold">-{formatFCFA(discountAmount)}</span>
                       </motion.div>
                     )}
                     <div className="flex justify-between text-sm">
@@ -545,12 +573,12 @@ const ShopCheckout = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold">Total</span>
                     <motion.span
-                      key={total}
+                      key={finalTotal}
                       initial={{ scale: 1.1 }}
                       animate={{ scale: 1 }}
                       className="text-xl font-bold text-primary"
                     >
-                      {formatFCFA(total)}
+                      {formatFCFA(finalTotal)}
                     </motion.span>
                   </div>
 
