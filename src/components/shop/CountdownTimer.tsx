@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 interface CountdownTimerProps {
   variant?: "banner" | "inline" | "compact";
   className?: string;
+  endDate?: string | null;
 }
 
 const getEndOfDay = () => {
