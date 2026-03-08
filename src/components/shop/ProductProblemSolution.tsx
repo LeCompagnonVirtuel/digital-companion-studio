@@ -76,9 +76,11 @@ export function ProductProblemSolution({
           </div>
           <div>
             <h3 className="font-bold text-lg mb-2">{t.problemTitle}</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {displayProblem}
-            </p>
+            <div className="text-muted-foreground leading-relaxed space-y-2">
+              {displayProblem.split('\n').filter(line => line.trim()).map((line, index) => (
+                <p key={index} className="whitespace-pre-line">{line.trim()}</p>
+              ))}
+            </div>
           </div>
         </div>
       </motion.div>
