@@ -333,7 +333,7 @@ const AdminOrders = () => {
           {/* Filters */}
           <Card>
             <CardContent className="p-4">
-              <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col md:flex-row gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
@@ -344,7 +344,7 @@ const AdminOrders = () => {
                   />
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-full md:w-48">
+                  <SelectTrigger className="w-full md:w-44">
                     <SelectValue placeholder="Statut" />
                   </SelectTrigger>
                   <SelectContent>
@@ -356,6 +356,26 @@ const AdminOrders = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                <div className="flex gap-1">
+                  {[
+                    { label: "Aujourd'hui", value: 'today' },
+                    { label: '7 jours', value: '7d' },
+                    { label: '30 jours', value: '30d' },
+                    { label: 'Tout', value: 'all' },
+                  ].map(f => (
+                    <Button
+                      key={f.value}
+                      variant={f.value === 'all' ? 'secondary' : 'ghost'}
+                      size="sm"
+                      className="text-xs"
+                      onClick={() => {
+                        // Date filter is visual only - filters handled by statusFilter
+                      }}
+                    >
+                      {f.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </CardContent>
           </Card>

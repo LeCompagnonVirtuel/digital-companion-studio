@@ -223,26 +223,24 @@ const Users = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {[
-              { label: 'Administrateurs', count: users.filter(u => u.role === 'admin').length, color: 'text-red-500' },
-              { label: 'Modérateurs', count: users.filter(u => u.role === 'moderator').length, color: 'text-amber-500' },
-              { label: 'Utilisateurs', count: users.filter(u => u.role === 'user').length, color: 'text-blue-500' },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground">{stat.label}</p>
-                        <p className={`text-2xl font-bold ${stat.color}`}>{stat.count}</p>
+              { label: 'Total', value: users.length, icon: UsersIcon, color: 'bg-primary/10 text-primary' },
+              { label: 'Admins', value: users.filter(u => u.role === 'admin').length, icon: Shield, color: 'bg-red-500/10 text-red-500' },
+              { label: 'Modérateurs', value: users.filter(u => u.role === 'moderator').length, icon: UserCog, color: 'bg-amber-500/10 text-amber-500' },
+              { label: 'Utilisateurs', value: users.filter(u => u.role === 'user').length, icon: UsersIcon, color: 'bg-blue-500/10 text-blue-500' },
+            ].map((stat, i) => (
+              <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+                <Card className="border-border/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.color.split(' ')[0]}`}>
+                        <stat.icon className={`w-5 h-5 ${stat.color.split(' ')[1]}`} />
                       </div>
-                      <Shield className={`w-8 h-8 ${stat.color} opacity-20`} />
+                      <div>
+                        <p className="text-xl font-bold">{isLoading ? '-' : stat.value}</p>
+                        <p className="text-[11px] text-muted-foreground">{stat.label}</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

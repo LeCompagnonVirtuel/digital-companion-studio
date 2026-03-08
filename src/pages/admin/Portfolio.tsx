@@ -12,6 +12,7 @@ import {
   Upload,
   ExternalLink
 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

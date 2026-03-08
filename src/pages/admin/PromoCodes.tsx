@@ -261,9 +261,13 @@ const AdminPromoCodes = () => {
                               : "-"}
                           </TableCell>
                           <TableCell>
-                            <span className={isExpired(code) ? "text-red-500" : ""}>
-                              {formatDate(code.expires_at)}
-                            </span>
+                            <div>
+                              <span className={isExpired(code) ? "text-red-500" : ""}>{formatDate(code.expires_at)}</span>
+                              {code.expires_at && !isExpired(code) && (() => {
+                                const days = Math.ceil((new Date(code.expires_at).getTime() - Date.now()) / 86400000);
+                                return days <= 7 ? <p className="text-[10px] text-amber-500 mt-0.5">Expire dans {days}j</p> : null;
+                              })()}
+                            </div>
                           </TableCell>
                           <TableCell>
                             {isExpired(code) ? (
