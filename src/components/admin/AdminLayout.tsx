@@ -28,7 +28,9 @@ import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useMaintenanceMode } from '@/hooks/useMaintenanceMode';
 import NotificationsPanel from './NotificationsPanel';
+import { AlertTriangle, Construction } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -59,6 +61,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { logout } = useAdminAuth();
   const { toast } = useToast();
   const { unreadCount } = useNotifications();
+  const { isMaintenanceActive } = useMaintenanceMode();
+
+  const handleToggleMaintenanceOff = async () => {
+    const { supabase } = await import('@/integrations/supabase/client');
+    await supabase
+      .from('admin_settings')
+      .update({ value: JSON.stringify(false) })
+      .eq('key', 'maintenance_mode');
+  };
 
   const handleSignOut = () => {
     logout();
@@ -274,6 +285,25 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
       {/* Main Content */}
       <main className="lg:ml-64 xl:ml-72">
+        {/* Maintenance Banner */}
+        {isMaintenanceActive && (
+          <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+              <span className="text-sm font-medium text-destructive">
+                ⚠️ Mode maintenance actif — Le site est inaccessible aux visiteurs
+              </span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleToggleMaintenanceOff}
+              className="border-destructive/30 text-destructive hover:bg-destructive/10 shrink-0"
+            >
+              Désactiver
+            </Button>
+          </div>
+        )}
         <div className="p-4 lg:p-6 xl:p-8 max-w-7xl mx-auto">
           {children}
         </div>

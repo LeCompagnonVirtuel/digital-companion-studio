@@ -22,6 +22,10 @@ export interface AdminSettings {
     address: string;
     hours: string;
   };
+  maintenance_mode: boolean;
+  maintenance_title: string;
+  maintenance_message: string;
+  maintenance_estimated_return: string | null;
 }
 
 const defaultSettings: AdminSettings = {
@@ -44,6 +48,10 @@ const defaultSettings: AdminSettings = {
     address: '',
     hours: '',
   },
+  maintenance_mode: false,
+  maintenance_title: '🚧 Site en maintenance',
+  maintenance_message: 'Nous effectuons actuellement une mise à jour pour améliorer votre expérience.',
+  maintenance_estimated_return: null,
 };
 
 export function useAdminSettings() {
@@ -66,13 +74,12 @@ export function useAdminSettings() {
         data.forEach((row) => {
           const key = row.key as keyof AdminSettings;
           if (key in newSettings) {
-            // Parse JSON value if needed
             try {
-              newSettings[key] = typeof row.value === 'string' 
+              (newSettings as any)[key] = typeof row.value === 'string' 
                 ? JSON.parse(row.value) 
                 : row.value;
             } catch {
-              newSettings[key] = row.value as any;
+              (newSettings as any)[key] = row.value;
             }
           }
         });

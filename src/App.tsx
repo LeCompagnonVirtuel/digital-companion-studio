@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AdminAuthProvider } from "@/hooks/useAdminAuth";
+import { AdminAuthProvider, useAdminAuth } from "@/hooks/useAdminAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { CurrencyProvider } from "@/hooks/useCurrency";
 import { LanguageProvider } from "@/hooks/useLanguage";
@@ -11,6 +11,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { RetentionProvider } from "@/components/retention";
+import { useMaintenanceMode } from "@/hooks/useMaintenanceMode";
+import Maintenance from "./pages/Maintenance";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import DeveloppementWeb from "./pages/services/DeveloppementWeb";
@@ -75,6 +77,27 @@ function ChatbotWrapper() {
   return <Chatbot />;
 }
 
+function MaintenanceGuard({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const { isMaintenanceActive, title, message, estimatedReturn, isLoading } = useMaintenanceMode();
+  const { isAuthenticated: isAdmin, isLoading: isAdminLoading } = useAdminAuth();
+
+  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/auth";
+
+  // Always allow admin routes
+  if (isAdminRoute) return <>{children}</>;
+
+  // Wait for both checks
+  if (isLoading || isAdminLoading) return null;
+
+  // If maintenance active and not admin, show maintenance page
+  if (isMaintenanceActive && !isAdmin) {
+    return <Maintenance title={title} message={message} estimatedReturn={estimatedReturn} />;
+  }
+
+  return <>{children}</>;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
@@ -85,6 +108,7 @@ const App = () => (
             <Toaster />
             <Sonner />
           <BrowserRouter>
+            <MaintenanceGuard>
             <RetentionProvider>
               <ScrollToTop />
               <AnalyticsTracker />
@@ -146,6 +170,7 @@ const App = () => (
               </Routes>
               <ChatbotWrapper />
             </RetentionProvider>
+            </MaintenanceGuard>
           </BrowserRouter>
             </TooltipProvider>
           </CartProvider>

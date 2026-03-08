@@ -17,7 +17,9 @@ import {
   Linkedin,
   Twitter,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  Construction,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -57,6 +59,10 @@ const Settings = () => {
     address: '',
     hours: '',
   });
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [maintenanceTitle, setMaintenanceTitle] = useState('🚧 Site en maintenance');
+  const [maintenanceMessage, setMaintenanceMessage] = useState('');
+  const [maintenanceReturn, setMaintenanceReturn] = useState('');
 
   // Sync local state with settings from database
   useEffect(() => {
@@ -67,6 +73,10 @@ const Settings = () => {
       setNotifications(settings.notifications);
       setSocialLinks(settings.social_links);
       setBusinessInfo(settings.business_info);
+      setMaintenanceMode(settings.maintenance_mode === true);
+      setMaintenanceTitle(settings.maintenance_title || '🚧 Site en maintenance');
+      setMaintenanceMessage(settings.maintenance_message || '');
+      setMaintenanceReturn(settings.maintenance_estimated_return || '');
     }
   }, [settings, isLoading]);
 
@@ -88,6 +98,20 @@ const Settings = () => {
 
   const handleSaveBusiness = async () => {
     await updateSetting('business_info', businessInfo);
+  };
+
+  const handleSaveMaintenance = async () => {
+    await updateSettings({
+      maintenance_mode: maintenanceMode,
+      maintenance_title: maintenanceTitle,
+      maintenance_message: maintenanceMessage,
+      maintenance_estimated_return: maintenanceReturn || null,
+    });
+  };
+
+  const handleToggleMaintenance = async (checked: boolean) => {
+    setMaintenanceMode(checked);
+    await updateSetting('maintenance_mode', checked);
   };
 
   if (isLoading) {
@@ -132,7 +156,7 @@ const Settings = () => {
           </motion.div>
 
           <Tabs defaultValue="general" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:w-auto lg:inline-flex">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5 lg:w-auto lg:inline-flex">
               <TabsTrigger value="general" className="gap-2">
                 <Globe className="w-4 h-4" />
                 <span className="hidden sm:inline">Général</span>
@@ -148,6 +172,10 @@ const Settings = () => {
               <TabsTrigger value="social" className="gap-2">
                 <User className="w-4 h-4" />
                 <span className="hidden sm:inline">Réseaux sociaux</span>
+              </TabsTrigger>
+              <TabsTrigger value="maintenance" className="gap-2">
+                <Construction className="w-4 h-4" />
+                <span className="hidden sm:inline">Maintenance</span>
               </TabsTrigger>
             </TabsList>
 
@@ -450,6 +478,95 @@ const Settings = () => {
                     <Button onClick={handleSaveSocial} disabled={isSaving} className="gap-2">
                       <Save className="w-4 h-4" />
                       Sauvegarder
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </TabsContent>
+            {/* Maintenance Tab */}
+            <TabsContent value="maintenance">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-6"
+              >
+                {/* Quick Toggle Card */}
+                <Card className={`border-2 ${maintenanceMode ? 'border-destructive/50 bg-destructive/5' : 'border-border/50'}`}>
+                  <CardContent className="flex items-center justify-between p-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${maintenanceMode ? 'bg-destructive/10' : 'bg-secondary'}`}>
+                        <Construction className={`w-6 h-6 ${maintenanceMode ? 'text-destructive' : 'text-muted-foreground'}`} />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">Mode maintenance</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {maintenanceMode ? '🔴 Le site est actuellement inaccessible aux visiteurs' : '🟢 Le site est accessible normalement'}
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={maintenanceMode}
+                      onCheckedChange={handleToggleMaintenance}
+                    />
+                  </CardContent>
+                </Card>
+
+                {maintenanceMode && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                    <span>Le mode maintenance est actif. Les visiteurs voient la page de maintenance.</span>
+                  </div>
+                )}
+
+                {/* Customization Card */}
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Construction className="w-5 h-5 text-primary" />
+                      Personnalisation de la page
+                    </CardTitle>
+                    <CardDescription>
+                      Configurez le contenu affiché aux visiteurs pendant la maintenance
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceTitle">Titre de la page</Label>
+                      <Input
+                        id="maintenanceTitle"
+                        value={maintenanceTitle}
+                        onChange={(e) => setMaintenanceTitle(e.target.value)}
+                        placeholder="🚧 Site en maintenance"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceMessage">Message pour les visiteurs</Label>
+                      <Textarea
+                        id="maintenanceMessage"
+                        value={maintenanceMessage}
+                        onChange={(e) => setMaintenanceMessage(e.target.value)}
+                        placeholder="Nous effectuons actuellement une mise à jour..."
+                        rows={4}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceReturn">Date/heure estimée de retour</Label>
+                      <Input
+                        id="maintenanceReturn"
+                        type="datetime-local"
+                        value={maintenanceReturn}
+                        onChange={(e) => setMaintenanceReturn(e.target.value)}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Optionnel — un compteur à rebours sera affiché si renseigné
+                      </p>
+                    </div>
+
+                    <Button onClick={handleSaveMaintenance} disabled={isSaving} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      Sauvegarder les paramètres
                     </Button>
                   </CardContent>
                 </Card>
