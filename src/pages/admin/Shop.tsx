@@ -159,12 +159,10 @@ const AdminShop = () => {
       <AdminLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-display font-bold">Boutique</h1>
-              <p className="text-muted-foreground">
-                Gérez vos produits digitaux
-              </p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold">Boutique</h1>
+              <p className="text-muted-foreground text-sm">Gérez vos produits digitaux</p>
             </div>
             <Button onClick={() => { setEditingProduct(null); setIsFormOpen(true); }}>
               <Plus className="w-4 h-4 mr-2" />

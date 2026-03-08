@@ -152,12 +152,10 @@ const AdminCustomers = () => {
       <AdminLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-display font-bold">Clients CRM</h1>
-              <p className="text-muted-foreground">
-                Gérez vos clients et analysez leur comportement d'achat
-              </p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold">Clients CRM</h1>
+              <p className="text-muted-foreground text-sm">Gérez vos clients et analysez leur comportement d'achat</p>
             </div>
             <Button onClick={exportCustomers} variant="outline" className="gap-2">
               <Download className="w-4 h-4" />

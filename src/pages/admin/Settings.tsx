@@ -112,14 +112,10 @@ const Settings = () => {
       <AdminLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-display font-bold text-foreground">
-                Paramètres
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Gérez les paramètres généraux du site
-              </p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground">Paramètres</h1>
+              <p className="text-muted-foreground mt-1 text-sm">Gérez les paramètres généraux du site</p>
             </div>
             <div className="flex items-center gap-2">
               {isSaving && (

@@ -235,12 +235,10 @@ const AdminOrders = () => {
       <AdminLayout>
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-display font-bold">Commandes</h1>
-              <p className="text-muted-foreground">
-                Gérez toutes les commandes de la boutique
-              </p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold">Commandes</h1>
+              <p className="text-muted-foreground text-sm">Gérez toutes les commandes de la boutique</p>
             </div>
             <Button
               variant="outline"
