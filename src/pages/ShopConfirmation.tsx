@@ -30,6 +30,7 @@ interface OrderDetails {
 
 const ShopConfirmation = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const orderId = searchParams.get("order");
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
