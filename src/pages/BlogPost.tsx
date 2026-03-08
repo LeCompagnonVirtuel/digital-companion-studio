@@ -18,6 +18,13 @@ const BlogPost = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
+  useDocumentMeta({
+    title: post?.title || "Article",
+    description: post?.excerpt || undefined,
+    image: post?.cover_image || undefined,
+    type: "article",
+  });
+
   useEffect(() => {
     const fetchPost = async () => {
       if (!slug) return;
