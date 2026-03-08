@@ -6,6 +6,7 @@ import {
   Package, Award, HeadphonesIcon, Clock, RefreshCw, Lock, Eye, Flame,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import { SimpleMarkdown } from "@/components/ui/simple-markdown";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -186,11 +187,7 @@ const ShopProduct = () => {
             </div>
 
             {product.short_description && (
-              <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-2">
-                {product.short_description.split('\n').filter(line => line.trim()).map((line, index) => (
-                  <p key={index} className="whitespace-pre-line">{line.trim()}</p>
-                ))}
-              </div>
+              <SimpleMarkdown text={product.short_description} className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-2" />
             )}
 
             {/* =================== PRICE BLOCK =================== */}
@@ -349,11 +346,7 @@ const ShopProduct = () => {
               <span className="w-1.5 h-6 bg-accent rounded-full" />
               À propos de ce produit
             </h2>
-            <div className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-3xl space-y-2">
-              {product.description.split('\n').filter(line => line.trim()).map((line, index) => (
-                <p key={index} className="whitespace-pre-line">{line.trim()}</p>
-              ))}
-            </div>
+            <SimpleMarkdown text={product.description} className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-3xl space-y-2" />
           </motion.div>
         </section>
       )}

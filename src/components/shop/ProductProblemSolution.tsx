@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag, CheckCircle, Zap, Clock, Target, TrendingUp } from "lucide-react";
+import { SimpleMarkdown } from "@/components/ui/simple-markdown";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface ProductProblemSolutionProps {
@@ -76,11 +77,7 @@ export function ProductProblemSolution({
           </div>
           <div>
             <h3 className="font-bold text-lg mb-2">{t.problemTitle}</h3>
-            <div className="text-muted-foreground leading-relaxed space-y-2">
-              {displayProblem.split('\n').filter(line => line.trim()).map((line, index) => (
-                <p key={index} className="whitespace-pre-line">{line.trim()}</p>
-              ))}
-            </div>
+            <SimpleMarkdown text={displayProblem} className="text-muted-foreground leading-relaxed space-y-2" />
           </div>
         </div>
       </motion.div>
