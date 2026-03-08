@@ -96,6 +96,7 @@ export const ProductFormDialog = ({
     is_bestseller: false,
     is_new: false,
     is_limited_offer: false,
+    limited_offer_end: "",
     status: "draft",
     display_order: 0,
   });
@@ -132,6 +133,7 @@ export const ProductFormDialog = ({
         is_bestseller: product.is_bestseller || false,
         is_new: product.is_new || false,
         is_limited_offer: product.is_limited_offer || false,
+        limited_offer_end: product.limited_offer_end ? product.limited_offer_end.slice(0, 16) : "",
         status: product.status || "draft",
         display_order: product.display_order || 0,
       });
@@ -161,6 +163,7 @@ export const ProductFormDialog = ({
         is_bestseller: false,
         is_new: false,
         is_limited_offer: false,
+        limited_offer_end: "",
         status: "draft",
         display_order: 0,
       });
@@ -239,13 +242,20 @@ export const ProductFormDialog = ({
 
     setIsSaving(true);
     try {
+      const payload = {
+        ...formData,
+        limited_offer_end: formData.limited_offer_end
+          ? new Date(formData.limited_offer_end).toISOString()
+          : null,
+      };
+
       if (isEditing && product) {
         await updateProduct.mutateAsync({
           id: product.id,
-          ...formData,
+          ...payload,
         });
       } else {
-        await createProduct.mutateAsync(formData as any);
+        await createProduct.mutateAsync(payload as any);
       }
       onOpenChange(false);
     } catch (error) {
@@ -803,6 +813,23 @@ export const ProductFormDialog = ({
                       }
                     />
                   </div>
+
+                  {formData.is_limited_offer && (
+                    <div className="space-y-2 p-3 border rounded-lg bg-rose-500/5 border-rose-500/20">
+                      <Label htmlFor="limited_offer_end">Date de fin de l'offre</Label>
+                      <Input
+                        id="limited_offer_end"
+                        type="datetime-local"
+                        value={formData.limited_offer_end || ""}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, limited_offer_end: e.target.value }))
+                        }
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Le timer de compte à rebours sera affiché jusqu'à cette date
+                      </p>
+                    </div>
+                  )}
                 </div>
               </TabsContent>
             </ScrollArea>
