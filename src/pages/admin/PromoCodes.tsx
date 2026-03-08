@@ -351,8 +351,6 @@ const AdminPromoCodes = () => {
   );
 };
 
-import { useState, useEffect } from "react";
-// (keep rest of component as is, this is the inner component)
 
 const PromoCodeFormDialog = ({
   open,
