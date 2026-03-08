@@ -40,6 +40,7 @@ import {
 } from "@/hooks/useDigitalProducts";
 import { MediaSelector } from "@/components/admin/MediaSelector";
 import { PdfUploader } from "@/components/admin/PdfUploader";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ProductFormDialogProps {
   open: boolean;
