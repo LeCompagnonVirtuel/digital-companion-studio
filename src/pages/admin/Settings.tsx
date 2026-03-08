@@ -100,6 +100,20 @@ const Settings = () => {
     await updateSetting('business_info', businessInfo);
   };
 
+  const handleSaveMaintenance = async () => {
+    await updateSettings({
+      maintenance_mode: maintenanceMode as any,
+      maintenance_title: maintenanceTitle as any,
+      maintenance_message: maintenanceMessage as any,
+      maintenance_estimated_return: (maintenanceReturn || null) as any,
+    });
+  };
+
+  const handleToggleMaintenance = async (checked: boolean) => {
+    setMaintenanceMode(checked);
+    await updateSetting('maintenance_mode' as any, checked as any);
+  };
+
   if (isLoading) {
     return (
       <ProtectedRoute>
