@@ -109,6 +109,7 @@ const ShopCheckout = () => {
         download_link: mainItem.product.download_url || undefined,
         order_number: orderNumber,
       });
+      createdOrderId = order.id;
 
       // Create order_items for each product
       if (items.length > 0) {
