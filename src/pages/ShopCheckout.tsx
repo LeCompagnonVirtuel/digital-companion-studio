@@ -153,7 +153,7 @@ const ShopCheckout = () => {
             customerEmail: formData.email,
             customerName: formData.name || 'Client',
             productTitle,
-            price: total,
+            price: finalTotal,
             returnUrl,
           },
         }
