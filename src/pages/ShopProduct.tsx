@@ -187,11 +187,7 @@ const ShopProduct = () => {
             </div>
 
             {product.short_description && (
-              <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-2">
-                {product.short_description.split('\n').filter(line => line.trim()).map((line, index) => (
-                  <p key={index} className="whitespace-pre-line">{line.trim()}</p>
-                ))}
-              </div>
+              <SimpleMarkdown text={product.short_description} className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-2" />
             )}
 
             {/* =================== PRICE BLOCK =================== */}
