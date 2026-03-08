@@ -207,7 +207,7 @@ const BlogPost = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="rounded-3xl overflow-hidden"
               >
-                <img
+                <OptimizedImage
                   src={post.cover_image}
                   alt={post.title}
                   className="w-full h-[300px] md:h-[500px] object-cover"
