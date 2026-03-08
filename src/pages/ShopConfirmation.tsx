@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   CheckCircle,
@@ -30,6 +30,7 @@ interface OrderDetails {
 
 const ShopConfirmation = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const orderId = searchParams.get("order");
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -107,11 +108,13 @@ const ShopConfirmation = () => {
           description: `Merci pour votre achat ! Votre commande ${order.order_number} a été traitée avec succès.`,
         };
       case "failed":
+        // Redirect to dedicated error page
+        navigate(`/boutique/paiement-erreur?order=${orderId}`, { replace: true });
         return {
-          icon: <XCircle className="w-10 h-10 sm:w-12 sm:h-12 text-red-500" />,
-          iconBg: "bg-red-500/10",
-          title: "Paiement échoué",
-          description: "Le paiement n'a pas pu être traité. Veuillez réessayer ou contacter le support.",
+          icon: <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-primary animate-spin" />,
+          iconBg: "bg-primary/10",
+          title: "Redirection...",
+          description: "",
         };
       case "pending_payment":
       default:

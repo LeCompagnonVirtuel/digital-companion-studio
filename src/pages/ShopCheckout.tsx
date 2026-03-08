@@ -90,6 +90,7 @@ const ShopCheckout = () => {
       currency: 'XOF',
     });
 
+    let createdOrderId: string | null = null;
     try {
       const mainItem = items[0];
       const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
@@ -108,6 +109,7 @@ const ShopCheckout = () => {
         download_link: mainItem.product.download_url || undefined,
         order_number: orderNumber,
       });
+      createdOrderId = order.id;
 
       // Create order_items for each product
       if (items.length > 0) {
@@ -180,7 +182,11 @@ const ShopCheckout = () => {
       window.location.href = paymentData.paymentUrl;
     } catch (error: any) {
       console.error("Checkout error:", error);
-      toast({ title: "Erreur", description: error.message || "Une erreur est survenue.", variant: "destructive" });
+      if (createdOrderId) {
+        navigate(`/boutique/paiement-erreur?order=${createdOrderId}`);
+      } else {
+        toast({ title: "Erreur", description: error.message || "Une erreur est survenue.", variant: "destructive" });
+      }
     } finally {
       setIsSubmitting(false);
     }
