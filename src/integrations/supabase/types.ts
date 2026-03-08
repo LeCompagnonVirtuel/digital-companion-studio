@@ -157,6 +157,36 @@ export type Database = {
           },
         ]
       }
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          participant_1: string
+          participant_2: string
+          property_id: string | null
+          property_title: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          participant_1: string
+          participant_2: string
+          property_id?: string | null
+          property_title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          participant_1?: string
+          participant_2?: string
+          property_id?: string | null
+          property_title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       digital_products: {
         Row: {
           badge: string | null
@@ -314,6 +344,74 @@ export type Database = {
           },
         ]
       }
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          property_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      fraud_flags: {
+        Row: {
+          created_at: string
+          details: Json | null
+          flag_type: string
+          id: string
+          listing_id: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          details?: Json | null
+          flag_type: string
+          id?: string
+          listing_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          details?: Json | null
+          flag_type?: string
+          id?: string
+          listing_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fraud_flags_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           company: string | null
@@ -356,6 +454,125 @@ export type Database = {
         }
         Relationships: []
       }
+      listing_reports: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          description: string | null
+          id: string
+          listing_id: string
+          reason: string
+          reporter_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          listing_id: string
+          reason: string
+          reporter_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          listing_id?: string
+          reason?: string
+          reporter_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_reports_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listings: {
+        Row: {
+          amenities: string[] | null
+          area: number | null
+          bathrooms: number | null
+          city: string | null
+          contacts_count: number | null
+          created_at: string
+          description: string | null
+          id: string
+          images: string[] | null
+          latitude: number | null
+          location: string | null
+          longitude: number | null
+          neighborhood: string | null
+          owner_id: string
+          price: number
+          property_type: string
+          rooms: number | null
+          saves_count: number | null
+          status: string
+          title: string
+          updated_at: string
+          views_count: number | null
+        }
+        Insert: {
+          amenities?: string[] | null
+          area?: number | null
+          bathrooms?: number | null
+          city?: string | null
+          contacts_count?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          neighborhood?: string | null
+          owner_id: string
+          price?: number
+          property_type?: string
+          rooms?: number | null
+          saves_count?: number | null
+          status?: string
+          title: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Update: {
+          amenities?: string[] | null
+          area?: number | null
+          bathrooms?: number | null
+          city?: string | null
+          contacts_count?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          latitude?: number | null
+          location?: string | null
+          longitude?: number | null
+          neighborhood?: string | null
+          owner_id?: string
+          price?: number
+          property_type?: string
+          rooms?: number | null
+          saves_count?: number | null
+          status?: string
+          title?: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
@@ -389,6 +606,77 @@ export type Database = {
           name?: string
           updated_at?: string
           uploaded_by?: string | null
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          is_read: boolean
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      neighborhood_price_stats: {
+        Row: {
+          avg_price: number
+          city: string
+          id: string
+          listing_count: number
+          max_price: number
+          min_price: number
+          neighborhood: string
+          property_type: string
+          updated_at: string
+        }
+        Insert: {
+          avg_price?: number
+          city?: string
+          id?: string
+          listing_count?: number
+          max_price?: number
+          min_price?: number
+          neighborhood: string
+          property_type?: string
+          updated_at?: string
+        }
+        Update: {
+          avg_price?: number
+          city?: string
+          id?: string
+          listing_count?: number
+          max_price?: number
+          min_price?: number
+          neighborhood?: string
+          property_type?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -534,6 +822,77 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      owner_ratings: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string | null
+          owner_id: string
+          rating: number
+          review: string | null
+          reviewer_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          owner_id: string
+          rating: number
+          review?: string | null
+          reviewer_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          owner_id?: string
+          rating?: number
+          review?: string | null
+          reviewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "owner_ratings_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      owner_verifications: {
+        Row: {
+          document_type: string
+          document_url: string
+          id: string
+          reviewed_at: string | null
+          reviewer_notes: string | null
+          status: string
+          submitted_at: string
+          user_id: string
+        }
+        Insert: {
+          document_type?: string
+          document_url: string
+          id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          submitted_at?: string
+          user_id: string
+        }
+        Update: {
+          document_type?: string
+          document_url?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          submitted_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       portfolio_projects: {
         Row: {
@@ -708,7 +1067,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
-          email: string
+          email: string | null
           full_name: string | null
           id: string
           updated_at: string
@@ -717,7 +1076,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string
-          email: string
+          email?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string
@@ -726,10 +1085,37 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           created_at?: string
-          email?: string
+          email?: string | null
           full_name?: string | null
           id?: string
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          id: string
+          p256dh: string
+          user_id: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: string
+          p256dh: string
+          user_id: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: string
+          p256dh?: string
           user_id?: string
         }
         Relationships: []
@@ -815,6 +1201,71 @@ export type Database = {
         }
         Relationships: []
       }
+      user_suspensions: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          reason: string
+          suspended_by: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          reason: string
+          suspended_by?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          reason?: string
+          suspended_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      visit_confirmations: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          is_real: boolean
+          listing_id: string
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          is_real?: boolean
+          listing_id: string
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          is_real?: boolean
+          listing_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_confirmations_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -829,7 +1280,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "tenant" | "owner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -957,7 +1408,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "tenant", "owner"],
     },
   },
 } as const
