@@ -11,6 +11,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { RetentionProvider } from "@/components/retention";
+import { useMaintenanceMode } from "@/hooks/useMaintenanceMode";
+import Maintenance from "./pages/Maintenance";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
 import DeveloppementWeb from "./pages/services/DeveloppementWeb";
