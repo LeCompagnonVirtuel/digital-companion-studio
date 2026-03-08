@@ -803,6 +803,23 @@ export const ProductFormDialog = ({
                       }
                     />
                   </div>
+
+                  {formData.is_limited_offer && (
+                    <div className="space-y-2 p-3 border rounded-lg bg-rose-500/5 border-rose-500/20">
+                      <Label htmlFor="limited_offer_end">Date de fin de l'offre</Label>
+                      <Input
+                        id="limited_offer_end"
+                        type="datetime-local"
+                        value={formData.limited_offer_end || ""}
+                        onChange={(e) =>
+                          setFormData((prev) => ({ ...prev, limited_offer_end: e.target.value }))
+                        }
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Le timer de compte à rebours sera affiché jusqu'à cette date
+                      </p>
+                    </div>
+                  )}
                 </div>
               </TabsContent>
             </ScrollArea>
