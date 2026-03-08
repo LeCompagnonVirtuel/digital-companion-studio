@@ -214,7 +214,7 @@ const ShopProduct = () => {
             )}
 
             {/* Price Block */}
-            <div className="bg-muted/40 rounded-2xl p-5 border border-border/30">
+            <div className="bg-muted/40 rounded-2xl p-5 border border-border/30 space-y-3">
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl sm:text-4xl font-bold text-foreground">{formatFCFA(product.price)}</span>
                 {hasDiscount && (
@@ -222,10 +222,24 @@ const ShopProduct = () => {
                 )}
               </div>
               {hasDiscount && (
-                <Badge className="mt-2 bg-rose-500/10 text-rose-600 border-rose-500/20 text-xs">
-                  🎉 Économisez {formatFCFA(product.original_price! - product.price)}
+                <Badge className="bg-destructive/10 text-destructive border-destructive/20 text-xs">
+                  🎉 Économisez {formatFCFA(product.original_price! - product.price)} (-{discountPercent}%)
                 </Badge>
               )}
+
+              {/* Urgency timer */}
+              {(hasDiscount || product.is_limited_offer) && (
+                <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10">
+                  <Flame className="w-4 h-4 text-destructive shrink-0 animate-pulse" />
+                  <div className="flex-1">
+                    <p className="text-[10px] sm:text-xs font-semibold text-destructive">Offre se termine dans</p>
+                  </div>
+                  <CountdownTimer variant="compact" />
+                </div>
+              )}
+
+              {/* Social proof */}
+              <SocialProofBadge salesCount={product.sales_count} variant="viewers" />
             </div>
 
             {/* CTA Buttons */}
