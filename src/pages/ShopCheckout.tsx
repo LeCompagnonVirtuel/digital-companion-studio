@@ -20,6 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 import { CountdownTimer } from "@/components/shop/CountdownTimer";
+import { PromoCodeInput } from "@/components/shop/PromoCodeInput";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
