@@ -52,17 +52,20 @@ export const ProductGallery = ({
         >
           {images.length > 0 ? (
             <AnimatePresence mode="wait">
-              <motion.img
+              <motion.div
                 key={selectedImage}
-                src={images[selectedImage]}
-                alt={`${title} - Image ${selectedImage + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                loading="lazy"
-              />
+              >
+                <OptimizedImage
+                  src={images[selectedImage]}
+                  alt={`${title} - Image ${selectedImage + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
             </AnimatePresence>
           ) : (
             <div className="w-full h-full flex items-center justify-center">
