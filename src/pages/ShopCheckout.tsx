@@ -90,6 +90,7 @@ const ShopCheckout = () => {
       currency: 'XOF',
     });
 
+    let createdOrderId: string | null = null;
     try {
       const mainItem = items[0];
       const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
