@@ -145,7 +145,7 @@ export function ProductProblemSolution({
               className="flex items-center gap-2"
             >
               <Zap size={14} className="text-primary shrink-0" />
-              <span className="text-sm">{item}</span>
+              <span className="text-sm whitespace-pre-line">{item}</span>
             </motion.div>
           ))}
         </div>
