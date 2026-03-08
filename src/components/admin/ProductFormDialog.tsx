@@ -133,6 +133,7 @@ export const ProductFormDialog = ({
         is_bestseller: product.is_bestseller || false,
         is_new: product.is_new || false,
         is_limited_offer: product.is_limited_offer || false,
+        limited_offer_end: product.limited_offer_end ? product.limited_offer_end.slice(0, 16) : "",
         status: product.status || "draft",
         display_order: product.display_order || 0,
       });
