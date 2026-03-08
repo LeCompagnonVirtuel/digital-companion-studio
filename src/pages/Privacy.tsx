@@ -91,6 +91,8 @@ Vous pouvez gérer vos préférences cookies à tout moment via le bandeau de co
 ];
 
 const Privacy = () => {
+  useDocumentMeta({ title: "Politique de confidentialité", noindex: true });
+
   return (
     <div className="min-h-screen">
       <Navigation />

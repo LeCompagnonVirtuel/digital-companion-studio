@@ -5,6 +5,8 @@ import { ScrollText, FileCheck, CreditCard, Clock, Shield, AlertTriangle, Scale,
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Terms = () => {
+  useDocumentMeta({ title: "Conditions générales", noindex: true });
+
   return (
     <div className="min-h-screen">
       <Navigation />
