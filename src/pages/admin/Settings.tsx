@@ -133,6 +133,15 @@ const Settings = () => {
   const handleToggleMaintenance = async (checked: boolean) => {
     setMaintenanceMode(checked);
     await updateSetting('maintenance_mode', checked);
+    
+    // Log to history
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase.from('maintenance_history').insert({
+      action: checked ? 'activated' : 'deactivated',
+      performed_by: user?.id,
+      performed_by_email: user?.email || 'Admin',
+    });
+    fetchHistory();
   };
 
   if (isLoading) {
