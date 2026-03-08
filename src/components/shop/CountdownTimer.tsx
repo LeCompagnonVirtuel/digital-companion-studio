@@ -14,8 +14,14 @@ const getEndOfDay = () => {
   return end.getTime();
 };
 
-const useCountdown = () => {
-  const target = useMemo(() => getEndOfDay(), []);
+const useCountdown = (endDate?: string | null) => {
+  const target = useMemo(() => {
+    if (endDate) {
+      const d = new Date(endDate).getTime();
+      return isNaN(d) ? getEndOfDay() : d;
+    }
+    return getEndOfDay();
+  }, [endDate]);
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
@@ -24,11 +30,12 @@ const useCountdown = () => {
   }, []);
 
   const diff = Math.max(0, target - now);
-  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);
   const seconds = Math.floor((diff % 60000) / 1000);
 
-  return { hours, minutes, seconds, isExpired: diff === 0 };
+  return { days, hours, minutes, seconds, isExpired: diff === 0 };
 };
 
 const TimeUnit = ({ value, label, variant }: { value: number; label: string; variant: string }) => {
