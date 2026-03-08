@@ -96,6 +96,7 @@ export const ProductFormDialog = ({
     is_bestseller: false,
     is_new: false,
     is_limited_offer: false,
+    limited_offer_end: "",
     status: "draft",
     display_order: 0,
   });
