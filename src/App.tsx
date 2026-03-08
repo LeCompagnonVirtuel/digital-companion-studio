@@ -77,6 +77,27 @@ function ChatbotWrapper() {
   return <Chatbot />;
 }
 
+function MaintenanceGuard({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const { isMaintenanceActive, title, message, estimatedReturn, isLoading } = useMaintenanceMode();
+  const { isAuthenticated: isAdmin, isLoading: isAdminLoading } = useAdminAuth();
+
+  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/auth";
+
+  // Always allow admin routes
+  if (isAdminRoute) return <>{children}</>;
+
+  // Wait for both checks
+  if (isLoading || isAdminLoading) return null;
+
+  // If maintenance active and not admin, show maintenance page
+  if (isMaintenanceActive && !isAdmin) {
+    return <Maintenance title={title} message={message} estimatedReturn={estimatedReturn} />;
+  }
+
+  return <>{children}</>;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
