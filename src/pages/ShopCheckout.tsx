@@ -547,6 +547,13 @@ const ShopCheckout = () => {
                       {formatFCFA(total)}
                     </motion.span>
                   </div>
+
+                  {/* Urgency in checkout */}
+                  <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10 mt-2">
+                    <Flame className="w-3 h-3 text-destructive animate-pulse shrink-0" />
+                    <span className="text-[10px] font-semibold text-destructive">Prix garanti pendant</span>
+                    <CountdownTimer variant="compact" className="ml-auto" />
+                  </div>
                 </CardContent>
               </Card>
 

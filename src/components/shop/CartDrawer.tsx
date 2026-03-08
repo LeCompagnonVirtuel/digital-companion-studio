@@ -273,6 +273,13 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
               </div>
             </div>
 
+            {/* Upsell message */}
+            {itemCount === 1 && (
+              <p className="text-center text-[10px] text-amber-600 font-medium bg-amber-500/5 rounded-lg py-1.5 px-2 border border-amber-500/10">
+                🔥 Ajoutez encore 1 produit et économisez 20% !
+              </p>
+            )}
+
             <Button asChild className="w-full h-11 sm:h-12 rounded-xl text-sm sm:text-base font-semibold" size="lg">
               <Link to="/boutique/checkout">
                 Passer commande
