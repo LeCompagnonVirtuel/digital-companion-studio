@@ -394,14 +394,53 @@ const Shop = () => {
             >
               <Sparkles className="w-8 h-8 text-muted-foreground/20 mx-auto mb-3" />
               <h3 className="font-semibold text-base sm:text-lg mb-1.5">Aucun produit trouvé</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground mb-5">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-2">
                 Essayez de modifier vos filtres ou votre recherche
+              </p>
+              <p className="text-xs text-muted-foreground mb-5">
+                💡 Suggestions : explorez nos <button onClick={() => { setSelectedCategory("formation"); clearFilters(); }} className="text-primary underline">formations</button> ou <button onClick={() => { setSelectedCategory("template"); clearFilters(); }} className="text-primary underline">templates</button>
               </p>
               <Button variant="outline" onClick={clearFilters} className="rounded-xl text-sm">
                 Réinitialiser les filtres
               </Button>
             </motion.div>
           )}
+        </div>
+      </section>
+
+      {/* Guarantee section */}
+      <section className="py-12 border-t border-border/40">
+        <div className="container-wide">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 p-8 rounded-3xl bg-gradient-to-r from-green-500/5 via-card to-green-500/5 border border-green-500/20"
+          >
+            <div className="flex items-center gap-3">
+              <Shield className="w-10 h-10 text-green-500" />
+              <div>
+                <p className="font-display font-bold text-lg">Satisfait ou remboursé</p>
+                <p className="text-sm text-muted-foreground">30 jours pour tester, remboursement intégral</p>
+              </div>
+            </div>
+            <div className="hidden sm:block w-px h-12 bg-border" />
+            <div className="flex items-center gap-3">
+              <Zap className="w-10 h-10 text-amber-500" />
+              <div>
+                <p className="font-display font-bold text-lg">Accès instantané</p>
+                <p className="text-sm text-muted-foreground">Téléchargement immédiat après paiement</p>
+              </div>
+            </div>
+            <div className="hidden sm:block w-px h-12 bg-border" />
+            <div className="flex items-center gap-3">
+              <Award className="w-10 h-10 text-primary" />
+              <div>
+                <p className="font-display font-bold text-lg">Qualité premium</p>
+                <p className="text-sm text-muted-foreground">Créé par des experts du digital</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
