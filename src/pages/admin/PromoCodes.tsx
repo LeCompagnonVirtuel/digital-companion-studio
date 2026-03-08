@@ -246,8 +246,14 @@ const AdminPromoCodes = () => {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span>{code.current_uses}</span>
-                            {code.max_uses && <span className="text-muted-foreground">/{code.max_uses}</span>}
+                            <div className="space-y-1">
+                              <span className="text-sm">{code.current_uses}{code.max_uses ? `/${code.max_uses}` : ''}</span>
+                              {code.max_uses && (
+                                <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
+                                  <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${Math.min((code.current_uses / code.max_uses) * 100, 100)}%` }} />
+                                </div>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell>
                             {code.min_order_amount
