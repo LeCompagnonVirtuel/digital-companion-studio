@@ -213,7 +213,7 @@ const ShopProduct = () => {
                   <div className="flex-1">
                     <p className="text-[10px] sm:text-xs font-semibold text-destructive">⚡ Offre spéciale aujourd'hui seulement</p>
                   </div>
-                  <CountdownTimer variant="compact" />
+                  <CountdownTimer variant="compact" endDate={product.limited_offer_end} />
                 </div>
               )}
 

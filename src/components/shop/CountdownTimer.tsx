@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 interface CountdownTimerProps {
   variant?: "banner" | "inline" | "compact";
   className?: string;
+  endDate?: string | null;
 }
 
 const getEndOfDay = () => {
@@ -13,8 +14,14 @@ const getEndOfDay = () => {
   return end.getTime();
 };
 
-const useCountdown = () => {
-  const target = useMemo(() => getEndOfDay(), []);
+const useCountdown = (endDate?: string | null) => {
+  const target = useMemo(() => {
+    if (endDate) {
+      const d = new Date(endDate).getTime();
+      return isNaN(d) ? getEndOfDay() : d;
+    }
+    return getEndOfDay();
+  }, [endDate]);
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
@@ -23,11 +30,12 @@ const useCountdown = () => {
   }, []);
 
   const diff = Math.max(0, target - now);
-  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);
   const seconds = Math.floor((diff % 60000) / 1000);
 
-  return { hours, minutes, seconds, isExpired: diff === 0 };
+  return { days, hours, minutes, seconds, isExpired: diff === 0 };
 };
 
 const TimeUnit = ({ value, label, variant }: { value: number; label: string; variant: string }) => {
@@ -63,14 +71,20 @@ const TimeUnit = ({ value, label, variant }: { value: number; label: string; var
   );
 };
 
-export const CountdownTimer = ({ variant = "inline", className = "" }: CountdownTimerProps) => {
-  const { hours, minutes, seconds, isExpired } = useCountdown();
+export const CountdownTimer = ({ variant = "inline", className = "", endDate }: CountdownTimerProps) => {
+  const { days, hours, minutes, seconds, isExpired } = useCountdown(endDate);
 
   if (isExpired) return null;
 
   if (variant === "compact") {
     return (
       <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-bold ${className}`}>
+        {days > 0 && (
+          <>
+            <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{days}j</span>
+            <span className="text-muted-foreground"> </span>
+          </>
+        )}
         <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{String(hours).padStart(2, "0")}</span>
         <span className="text-muted-foreground">:</span>
         <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{String(minutes).padStart(2, "0")}</span>
