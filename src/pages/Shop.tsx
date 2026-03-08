@@ -37,6 +37,11 @@ const trustItems = [
 ];
 
 const Shop = () => {
+  useDocumentMeta({
+    title: "Boutique — Produits digitaux premium",
+    description: "Formations, templates et outils digitaux pour entrepreneurs africains. Accès instantané, paiement Mobile Money sécurisé.",
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("popular");

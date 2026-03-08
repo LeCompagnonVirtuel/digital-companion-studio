@@ -24,6 +24,11 @@ const SectionFallback = () => (
 );
 
 const Index = () => {
+  useDocumentMeta({
+    title: "Agence Digitale en Côte d'Ivoire",
+    description: "Le Compagnon Virtuel — Sites web, marketing digital, automatisation IA et e-commerce pour entrepreneurs africains. Audit gratuit.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />

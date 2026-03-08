@@ -141,6 +141,11 @@ const values = [
 ];
 
 const Careers = () => {
+  useDocumentMeta({
+    title: "Carrières — Rejoignez l'aventure",
+    description: "Rejoignez Le Compagnon Virtuel : postes en remote, projets stimulants et technologies de pointe. Consultez nos offres d'emploi.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />

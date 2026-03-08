@@ -29,6 +29,11 @@ const packInfo: Record<string, { name: string; price: string }> = {
 };
 
 const Contact = () => {
+  useDocumentMeta({
+    title: "Contact — Parlons de votre projet",
+    description: "Contactez Le Compagnon Virtuel pour un audit gratuit, un devis personnalisé ou discuter de votre projet digital. Réponse sous 24h.",
+  });
+
   const { toast } = useToast();
   const { settings } = useSiteSettings();
   const [searchParams] = useSearchParams();

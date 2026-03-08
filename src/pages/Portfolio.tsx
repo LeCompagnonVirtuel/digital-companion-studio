@@ -10,6 +10,11 @@ import { usePortfolioProjects, serviceCategories } from "@/hooks/usePortfolioPro
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Portfolio = () => {
+  useDocumentMeta({
+    title: "Portfolio — Nos réalisations",
+    description: "Découvrez nos projets web, marketing digital et e-commerce réalisés pour des entreprises en Afrique. Études de cas détaillées.",
+  });
+
   const { projects, isLoading } = usePortfolioProjects(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
 

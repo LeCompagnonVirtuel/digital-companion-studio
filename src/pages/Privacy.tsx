@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Shield, Eye, Lock, Database, Clock, UserCheck, Mail, Settings } from "lucide-react";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const sections = [
   {

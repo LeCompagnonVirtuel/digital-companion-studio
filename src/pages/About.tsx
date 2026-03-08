@@ -87,6 +87,11 @@ const timeline = [
 ];
 
 const About = () => {
+  useDocumentMeta({
+    title: "À propos — Notre équipe & histoire",
+    description: "Découvrez Le Compagnon Virtuel : une équipe passionnée du digital en Côte d'Ivoire, 150+ projets livrés et 100% de satisfaction client.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />

@@ -13,6 +13,11 @@ const AuthorName = ({ name }: { name: string }) => (
 );
 
 const Blog = () => {
+  useDocumentMeta({
+    title: "Blog — Conseils & actualités digitales",
+    description: "Guides, tendances et conseils pour booster votre présence digitale en Afrique. Marketing, SEO, IA et développement web.",
+  });
+
   const { posts, isLoading } = useBlogPosts(false);
 
   const formatDate = (dateString: string | null) => {

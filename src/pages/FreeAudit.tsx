@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Search, TrendingUp, Target, Zap, BarChart3, Sh
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const auditIncludes = [
   {

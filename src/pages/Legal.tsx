@@ -2,8 +2,11 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { FileText, Building, Mail, Phone, MapPin, Shield } from "lucide-react";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Legal = () => {
+  useDocumentMeta({ title: "Mentions légales", noindex: true });
+
   return (
     <div className="min-h-screen">
       <Navigation />
