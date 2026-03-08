@@ -6,6 +6,7 @@ import {
   Package, Award, HeadphonesIcon, Clock, RefreshCw, Lock, Eye, Flame,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import { SimpleMarkdown } from "@/components/ui/simple-markdown";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
