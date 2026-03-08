@@ -573,6 +573,33 @@ export type Database = {
         }
         Relationships: []
       }
+      maintenance_history: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          metadata: Json | null
+          performed_by: string | null
+          performed_by_email: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          performed_by?: string | null
+          performed_by_email?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          performed_by?: string | null
+          performed_by_email?: string | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
