@@ -79,6 +79,12 @@ export const CountdownTimer = ({ variant = "inline", className = "", endDate }: 
   if (variant === "compact") {
     return (
       <span className={`inline-flex items-center gap-0.5 font-mono text-xs font-bold ${className}`}>
+        {days > 0 && (
+          <>
+            <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{days}j</span>
+            <span className="text-muted-foreground"> </span>
+          </>
+        )}
         <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{String(hours).padStart(2, "0")}</span>
         <span className="text-muted-foreground">:</span>
         <span className="bg-primary/10 text-primary rounded px-1 py-0.5">{String(minutes).padStart(2, "0")}</span>
