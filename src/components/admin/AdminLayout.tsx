@@ -22,7 +22,8 @@ import {
   ShoppingBag,
   ClipboardList,
   UsersRound,
-  Tag
+  Tag,
+  Database
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
