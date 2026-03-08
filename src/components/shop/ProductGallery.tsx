@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Package, ZoomIn, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Award, Clock } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface ProductGalleryProps {
   images: string[];
