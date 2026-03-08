@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag, Trash2, ArrowRight, Package, Sparkles, Shield, Zap,
-  CheckCircle, Plus, Minus, X, Gift, TrendingUp
+  CheckCircle, Plus, X, Gift, TrendingUp
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { useDigitalProducts, DigitalProduct } from "@/hooks/useDigitalProducts";
 import { Progress } from "@/components/ui/progress";
 
-const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
+const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F`;
 
 const FREE_SHIPPING_THRESHOLD = 50000;
 
@@ -23,31 +23,30 @@ interface CartDrawerProps {
 
 const CrossSellItem = ({ product, onAdd }: { product: DigitalProduct; onAdd: () => void }) => (
   <motion.div
-    initial={{ opacity: 0, y: 8 }}
+    initial={{ opacity: 0, y: 6 }}
     animate={{ opacity: 1, y: 0 }}
-    className="flex items-center gap-3 p-2.5 rounded-xl border border-border/40 bg-card hover:border-primary/20 transition-all group/cs"
+    className="flex items-center gap-2.5 p-2 rounded-xl border border-border/30 bg-muted/20 hover:border-primary/15 transition-all duration-200"
   >
-    <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted shrink-0">
+    <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0">
       {product.featured_image ? (
-        <img src={product.featured_image} alt={product.title} className="w-full h-full object-cover" />
+        <img src={product.featured_image} alt={product.title} className="w-full h-full object-cover" loading="lazy" />
       ) : (
         <div className="w-full h-full flex items-center justify-center">
-          <Package className="w-4 h-4 text-muted-foreground/40" />
+          <Package className="w-3.5 h-3.5 text-muted-foreground/30" />
         </div>
       )}
     </div>
     <div className="flex-1 min-w-0">
-      <p className="text-xs font-medium line-clamp-1">{product.title}</p>
-      <p className="text-xs font-bold text-primary mt-0.5">{formatFCFA(product.price)}</p>
+      <p className="text-[11px] font-medium line-clamp-1 leading-tight">{product.title}</p>
+      <p className="text-[11px] font-bold text-primary mt-0.5">{formatFCFA(product.price)}</p>
     </div>
     <Button
       size="sm"
       variant="outline"
-      className="h-7 px-2.5 text-[10px] rounded-lg shrink-0 hover:bg-primary hover:text-primary-foreground transition-colors"
+      className="h-7 px-2 text-[10px] rounded-lg shrink-0 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
       onClick={onAdd}
     >
-      <Plus className="w-3 h-3 mr-1" />
-      Ajouter
+      <Plus className="w-3 h-3" />
     </Button>
   </motion.div>
 );
@@ -57,11 +56,10 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
   const { data: allProducts } = useDigitalProducts();
   const [justAdded, setJustAdded] = useState<string | null>(null);
 
-  // Cross-sell: products from same categories not in cart
   const crossSellProducts = allProducts
     ?.filter(p => !isInCart(p.id) && p.status === "published")
     .sort((a, b) => (b.sales_count || 0) - (a.sales_count || 0))
-    .slice(0, 3) || [];
+    .slice(0, 2) || [];
 
   const progressPercent = Math.min((total / FREE_SHIPPING_THRESHOLD) * 100, 100);
   const remaining = FREE_SHIPPING_THRESHOLD - total;
@@ -74,20 +72,15 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        {children}
-      </SheetTrigger>
-      <SheetContent className="w-full max-w-[92vw] sm:max-w-lg flex flex-col p-0 gap-0">
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent className="w-full max-w-[90vw] sm:max-w-md flex flex-col p-0 gap-0 border-border/30">
         {/* Header */}
-        <div className="px-5 pt-5 pb-4">
+        <div className="px-4 sm:px-5 pt-4 sm:pt-5 pb-3">
           <SheetHeader>
-            <SheetTitle className="flex items-center gap-2.5 text-lg">
-              <motion.div
-                className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <ShoppingBag className="w-4.5 h-4.5 text-primary" />
-              </motion.div>
+            <SheetTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <div className="w-8 h-8 rounded-xl bg-primary/8 flex items-center justify-center">
+                <ShoppingBag className="w-4 h-4 text-primary" />
+              </div>
               Votre Panier
               {itemCount > 0 && (
                 <motion.div
@@ -95,8 +88,8 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 25 }}
                 >
-                  <Badge variant="secondary" className="ml-1 text-xs rounded-full px-2.5">
-                    {itemCount} article{itemCount > 1 ? "s" : ""}
+                  <Badge variant="secondary" className="text-[10px] rounded-full px-2">
+                    {itemCount}
                   </Badge>
                 </motion.div>
               )}
@@ -104,45 +97,39 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
           </SheetHeader>
         </div>
 
-        {/* Progress bar to bonus */}
+        {/* Progress bar */}
         {items.length > 0 && (
-          <div className="px-5 pb-4">
-            <div className="p-3 rounded-xl bg-muted/40 border border-border/30">
+          <div className="px-4 sm:px-5 pb-3">
+            <div className="p-2.5 rounded-xl bg-muted/30 border border-border/20">
               {remaining > 0 ? (
                 <>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Gift className="w-3.5 h-3.5 text-primary" />
-                    <p className="text-[11px] text-muted-foreground">
-                      Plus que <span className="font-bold text-foreground">{formatFCFA(remaining)}</span> pour un bonus exclusif !
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <Gift className="w-3 h-3 text-primary shrink-0" />
+                    <p className="text-[10px] text-muted-foreground">
+                      Plus que <span className="font-bold text-foreground">{formatFCFA(remaining)}</span> pour un bonus !
                     </p>
                   </div>
-                  <Progress value={progressPercent} className="h-1.5" />
+                  <Progress value={progressPercent} className="h-1" />
                 </>
               ) : (
-                <div className="flex items-center gap-2">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring" }}
-                  >
-                    <CheckCircle className="w-4 h-4 text-emerald-500" />
+                <div className="flex items-center gap-1.5">
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}>
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
                   </motion.div>
-                  <p className="text-[11px] font-medium text-emerald-600">
-                    🎉 Bonus exclusif débloqué !
-                  </p>
+                  <p className="text-[10px] font-medium text-emerald-600">🎉 Bonus exclusif débloqué !</p>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        <Separator />
+        <Separator className="opacity-50" />
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto px-5 py-4">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-3 overscroll-contain">
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="animate-spin w-7 h-7 border-2 border-primary border-t-transparent rounded-full" />
+              <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full" />
             </div>
           ) : items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-4">
@@ -150,78 +137,70 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", delay: 0.1 }}
-                className="w-20 h-20 rounded-2xl bg-muted/50 flex items-center justify-center mb-4"
+                className="w-16 h-16 rounded-2xl bg-muted/30 flex items-center justify-center mb-3"
               >
-                <Package className="w-10 h-10 text-muted-foreground/30" />
+                <Package className="w-8 h-8 text-muted-foreground/20" />
               </motion.div>
-              <h3 className="font-semibold text-lg mb-2">Votre panier est vide</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Découvrez nos produits digitaux premium
-              </p>
-              <Button asChild className="rounded-xl">
+              <h3 className="font-semibold text-base mb-1">Votre panier est vide</h3>
+              <p className="text-xs text-muted-foreground mb-5">Découvrez nos produits premium</p>
+              <Button asChild className="rounded-xl text-sm h-10">
                 <Link to="/boutique">
-                  <Sparkles className="w-4 h-4 mr-2" />
+                  <Sparkles className="w-3.5 h-3.5 mr-1.5" />
                   Explorer la boutique
                 </Link>
               </Button>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <AnimatePresence mode="popLayout">
                 {items.map((item, index) => (
                   <motion.div
                     key={item.id}
                     layout
-                    initial={{ opacity: 0, x: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -30, scale: 0.9, height: 0, marginBottom: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.04 }}
-                    className="flex gap-3 p-3 hover:bg-muted/30 rounded-xl transition-all group/item"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20, height: 0 }}
+                    transition={{ duration: 0.25, delay: index * 0.03 }}
+                    className="flex gap-2.5 p-2.5 hover:bg-muted/20 rounded-xl transition-colors duration-200 group/item"
                   >
-                    <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-xl overflow-hidden bg-muted shrink-0 relative">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-muted/50 shrink-0 relative">
                       {item.product.featured_image ? (
-                        <img
-                          src={item.product.featured_image}
-                          alt={item.product.title}
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={item.product.featured_image} alt={item.product.title} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <Package className="w-6 h-6 text-muted-foreground/40" />
+                          <Package className="w-5 h-5 text-muted-foreground/30" />
                         </div>
                       )}
-                      {/* Quantity badge overlay */}
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-[10px] font-bold">
-                        {item.quantity}
-                      </div>
+                      {item.quantity > 1 && (
+                        <div className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-[9px] font-bold">
+                          {item.quantity}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <Link
                         to={`/boutique/${item.product.slug}`}
-                        className="font-medium text-sm hover:text-primary transition-colors line-clamp-2 leading-snug"
+                        className="font-medium text-xs sm:text-sm hover:text-primary transition-colors line-clamp-2 leading-snug"
                       >
                         {item.product.title}
                       </Link>
-                      <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-wider">
+                      <p className="text-[9px] text-muted-foreground/70 mt-0.5 uppercase tracking-wider">
                         {item.product.category}
                       </p>
-
-                      <div className="flex items-center justify-between mt-2">
-                        <p className="font-bold text-sm text-primary">
-                          {formatFCFA(item.product.price * item.quantity)}
-                        </p>
-                      </div>
+                      <p className="font-bold text-xs sm:text-sm text-primary mt-1">
+                        {formatFCFA(item.product.price * item.quantity)}
+                      </p>
                     </div>
 
-                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <motion.div whileTap={{ scale: 0.85 }}>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="shrink-0 h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg opacity-60 group-hover/item:opacity-100 transition-opacity"
+                        className="shrink-0 h-7 w-7 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/8 rounded-lg opacity-0 group-hover/item:opacity-100 transition-all duration-200"
                         onClick={() => removeItem(item.product.id)}
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-3 h-3" />
                       </Button>
                     </motion.div>
                   </motion.div>
@@ -233,22 +212,18 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="pt-4"
+                  transition={{ delay: 0.2 }}
+                  className="pt-3"
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <TrendingUp className="w-3.5 h-3.5 text-primary" />
-                    <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <TrendingUp className="w-3 h-3 text-primary" />
+                    <h4 className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
                       Complétez votre commande
                     </h4>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {crossSellProducts.map((product) => (
-                      <CrossSellItem
-                        key={product.id}
-                        product={product}
-                        onAdd={() => handleAddCrossSell(product)}
-                      />
+                      <CrossSellItem key={product.id} product={product} onAdd={() => handleAddCrossSell(product)} />
                     ))}
                   </div>
                 </motion.div>
@@ -260,28 +235,28 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
         {/* Footer */}
         {items.length > 0 && (
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="border-t bg-card px-5 py-5 space-y-4"
+            className="border-t border-border/30 bg-card/80 backdrop-blur-sm px-4 sm:px-5 py-4 space-y-3"
           >
             {/* Trust badges */}
-            <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground">
-              <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-500" /> Paiement sécurisé</span>
-              <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-amber-500" /> Accès instantané</span>
+            <div className="flex items-center justify-center gap-3 sm:gap-4 text-[9px] sm:text-[10px] text-muted-foreground">
+              <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-500" /> Sécurisé</span>
+              <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-amber-500" /> Instantané</span>
               <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-primary" /> Garantie 30j</span>
             </div>
 
-            {/* Subtotal & Total */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
+            {/* Total */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>Sous-total ({itemCount} article{itemCount > 1 ? "s" : ""})</span>
                 <span>{formatFCFA(total)}</span>
               </div>
-              <div className="flex items-center justify-between text-lg font-bold">
+              <div className="flex items-center justify-between text-base sm:text-lg font-bold">
                 <span>Total</span>
                 <motion.span
                   key={total}
-                  initial={{ scale: 1.15, color: "hsl(var(--primary))" }}
+                  initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
                   className="text-primary"
                 >
@@ -290,12 +265,12 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
               </div>
             </div>
 
-            <Button asChild className="w-full h-12 rounded-xl text-base font-semibold group/cta" size="lg">
+            <Button asChild className="w-full h-11 sm:h-12 rounded-xl text-sm sm:text-base font-semibold" size="lg">
               <Link to="/boutique/checkout">
                 Passer commande
                 <motion.span
-                  className="inline-flex ml-2"
-                  animate={{ x: [0, 4, 0] }}
+                  className="inline-flex ml-1.5"
+                  animate={{ x: [0, 3, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
                 >
                   <ArrowRight className="w-4 h-4" />
@@ -303,10 +278,8 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
               </Link>
             </Button>
 
-            <Button asChild variant="ghost" className="w-full h-10 rounded-xl text-sm" size="sm">
-              <Link to="/boutique">
-                Continuer mes achats
-              </Link>
+            <Button asChild variant="ghost" className="w-full h-9 rounded-xl text-xs text-muted-foreground" size="sm">
+              <Link to="/boutique">Continuer mes achats</Link>
             </Button>
           </motion.div>
         )}
