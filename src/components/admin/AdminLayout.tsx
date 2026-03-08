@@ -22,7 +22,8 @@ import {
   ShoppingBag,
   ClipboardList,
   UsersRound,
-  Tag
+  Tag,
+  Database
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
@@ -50,6 +51,7 @@ const navItems = [
   { path: '/admin/users', icon: UserCog, label: 'Utilisateurs' },
   { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
   { path: '/admin/seo', icon: Search, label: 'SEO' },
+  { path: '/admin/backups', icon: Database, label: 'Sauvegardes' },
   { path: '/admin/settings', icon: Settings, label: 'Paramètres' },
 ];
 
