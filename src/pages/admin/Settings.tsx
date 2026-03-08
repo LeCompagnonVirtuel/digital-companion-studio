@@ -156,7 +156,7 @@ const Settings = () => {
           </motion.div>
 
           <Tabs defaultValue="general" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:w-auto lg:inline-flex">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5 lg:w-auto lg:inline-flex">
               <TabsTrigger value="general" className="gap-2">
                 <Globe className="w-4 h-4" />
                 <span className="hidden sm:inline">Général</span>
@@ -172,6 +172,10 @@ const Settings = () => {
               <TabsTrigger value="social" className="gap-2">
                 <User className="w-4 h-4" />
                 <span className="hidden sm:inline">Réseaux sociaux</span>
+              </TabsTrigger>
+              <TabsTrigger value="maintenance" className="gap-2">
+                <Construction className="w-4 h-4" />
+                <span className="hidden sm:inline">Maintenance</span>
               </TabsTrigger>
             </TabsList>
 
