@@ -762,6 +762,7 @@ export type Database = {
           currency: string | null
           customer_email: string
           customer_name: string | null
+          discount_amount: number | null
           download_count: number | null
           download_link: string | null
           id: string
@@ -772,6 +773,7 @@ export type Database = {
           price: number
           product_id: string
           product_title: string
+          promo_code: string | null
           status: string
           updated_at: string
         }
@@ -781,6 +783,7 @@ export type Database = {
           currency?: string | null
           customer_email: string
           customer_name?: string | null
+          discount_amount?: number | null
           download_count?: number | null
           download_link?: string | null
           id?: string
@@ -791,6 +794,7 @@ export type Database = {
           price: number
           product_id: string
           product_title: string
+          promo_code?: string | null
           status?: string
           updated_at?: string
         }
@@ -800,6 +804,7 @@ export type Database = {
           currency?: string | null
           customer_email?: string
           customer_name?: string | null
+          discount_amount?: number | null
           download_count?: number | null
           download_link?: string | null
           id?: string
@@ -810,6 +815,7 @@ export type Database = {
           price?: number
           product_id?: string
           product_title?: string
+          promo_code?: string | null
           status?: string
           updated_at?: string
         }
@@ -1090,6 +1096,45 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      promo_codes: {
+        Row: {
+          code: string
+          created_at: string
+          current_uses: number
+          discount_percent: number
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          min_order_amount: number | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          current_uses?: number
+          discount_percent: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          min_order_amount?: number | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          current_uses?: number
+          discount_percent?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          min_order_amount?: number | null
+          updated_at?: string
         }
         Relationships: []
       }
