@@ -60,6 +60,7 @@ import AdminPortfolio from "./pages/admin/Portfolio";
 import AdminShop from "./pages/admin/Shop";
 import AdminOrders from "./pages/admin/Orders";
 import AdminCustomers from "./pages/admin/Customers";
+import AdminPromoCodes from "./pages/admin/PromoCodes";
 import Media from "./pages/admin/Media";
 import NotFound from "./pages/NotFound";
 
