@@ -404,7 +404,7 @@ const Dashboard = () => {
                           {stat.trend}
                         </span>
                         <span className="text-xs text-muted-foreground hidden sm:inline">
-                          vs mois dernier
+                          vs 7j précédents
                         </span>
                       </div>
                     </CardContent>
