@@ -186,7 +186,11 @@ const ShopProduct = () => {
             </div>
 
             {product.short_description && (
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{product.short_description}</p>
+              <div className="text-muted-foreground text-sm sm:text-base leading-relaxed space-y-2">
+                {product.short_description.split('\n').filter(line => line.trim()).map((line, index) => (
+                  <p key={index} className="whitespace-pre-line">{line.trim()}</p>
+                ))}
+              </div>
             )}
 
             {/* =================== PRICE BLOCK =================== */}
