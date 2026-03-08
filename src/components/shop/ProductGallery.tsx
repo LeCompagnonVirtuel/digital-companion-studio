@@ -155,7 +155,7 @@ export const ProductGallery = ({
                     : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                <OptimizedImage src={img} alt="" className="w-full h-full object-cover" />
               </motion.button>
             ))}
           </div>

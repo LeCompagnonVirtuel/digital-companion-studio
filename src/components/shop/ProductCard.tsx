@@ -84,12 +84,10 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <Link to={`/boutique/${product.slug}`} className="absolute inset-0 z-10" aria-label={`Voir ${product.title}`} />
 
           {product.featured_image ? (
-            <img
+            <OptimizedImage
               src={product.featured_image}
               alt={product.title}
               className="w-full h-full object-cover transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.04]"
-              loading="lazy"
-              decoding="async"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.04), hsl(var(--accent) / 0.04))' }}>
