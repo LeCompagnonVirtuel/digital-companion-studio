@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShoppingCart, Eye, Star, Zap, Award, Clock, Sparkles, Check } from "lucide-react";
+import { ShoppingCart, Eye, Star, Zap, Award, Clock, Sparkles, Check, Flame, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DigitalProduct } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
 import { useState, useCallback } from "react";
+import { CountdownTimer } from "./CountdownTimer";
 
 interface ProductCardProps {
   product: DigitalProduct;
