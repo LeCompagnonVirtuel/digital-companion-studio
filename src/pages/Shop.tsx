@@ -102,6 +102,7 @@ const Shop = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PromoBanner />
 
       {/* ─── HERO ─── */}
       <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
