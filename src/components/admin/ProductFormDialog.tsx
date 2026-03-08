@@ -162,6 +162,7 @@ export const ProductFormDialog = ({
   const [mediaSelectorOpen, setMediaSelectorOpen] = useState(false);
   const [mediaSelectorTarget, setMediaSelectorTarget] = useState<"featured" | "gallery">("featured");
   const [activeTab, setActiveTab] = useState("general");
+  const [uploadedFileMeta, setUploadedFileMeta] = useState<{ name: string; size: number } | null>(null);
 
   useEffect(() => {
     if (product) {
