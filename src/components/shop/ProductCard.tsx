@@ -7,6 +7,7 @@ import { DigitalProduct } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
 import { useState, useCallback } from "react";
 import { CountdownTimer } from "./CountdownTimer";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface ProductCardProps {
   product: DigitalProduct;
