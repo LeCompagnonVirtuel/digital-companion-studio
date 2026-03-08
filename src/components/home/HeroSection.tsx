@@ -343,38 +343,6 @@ export function HeroSection() {
       </motion.div>
 
 
-      {/* Service Icons - Vertical on side */}
-      <motion.div 
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1 }}
-        className="absolute right-4 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 sm:gap-3 z-10"
-      >
-        {heroSlides.map((slide, index) => {
-          const Icon = slide.icon;
-          return (
-            <Link
-              key={slide.id}
-              to={slide.link}
-              onMouseEnter={() => setCurrentSlide(index)}
-              className="block"
-            >
-              <motion.div
-                className={`p-2 sm:p-2.5 rounded-xl border backdrop-blur-sm transition-all duration-300 ${
-                  index === currentSlide 
-                    ? "bg-primary/20 border-primary/40 scale-110" 
-                    : "bg-card/50 border-border/50 hover:border-primary/30 hover:bg-card/80"
-                }`}
-                whileHover={{ scale: index === currentSlide ? 1.1 : 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={slide.badge}
-              >
-                <Icon size={16} className={`sm:w-5 sm:h-5 ${index === currentSlide ? "text-primary" : "text-muted-foreground"}`} />
-              </motion.div>
-            </Link>
-          );
-        })}
-      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
