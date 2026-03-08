@@ -170,6 +170,7 @@ const App = () => (
                 <Route path="/admin/seo" element={<SEO />} />
                 <Route path="/admin/backups" element={<Backups />} />
                 <Route path="/admin/activity" element={<ActivityLogs />} />
+                <Route path="/admin/monitoring" element={<Monitoring />} />
                 <Route path="/admin/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

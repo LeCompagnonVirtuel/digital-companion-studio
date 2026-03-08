@@ -311,6 +311,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             </Button>
           </div>
         )}
+        {criticalAlerts > 0 && (
+          <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3 flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+            <span className="text-sm font-medium text-destructive">
+              🚨 {criticalAlerts} alerte{criticalAlerts > 1 ? 's' : ''} critique{criticalAlerts > 1 ? 's' : ''} — 
+              <a href="/admin/monitoring" className="underline ml-1">Voir le monitoring</a>
+            </span>
+          </div>
+        )}
         <div className="p-4 lg:p-6 xl:p-8 max-w-7xl mx-auto">
           {children}
         </div>
