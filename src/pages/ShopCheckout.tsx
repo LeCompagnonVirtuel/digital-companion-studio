@@ -129,6 +129,18 @@ const ShopCheckout = () => {
         }
       }
 
+      // Update promo code usage and store on order
+      if (promoCode) {
+        await supabase.from("orders").update({
+          promo_code: promoCode,
+          discount_amount: discountAmount,
+          notes: `Code promo: ${promoCode} (-${discountPercent}%)`,
+        }).eq("id", order.id);
+
+        // Increment usage (fire-and-forget)
+        supabase.rpc("increment_promo_usage" as any, { promo_code_value: promoCode }).then(() => {});
+      }
+
       // Track purchase event
       trackEcommerceEvent('purchase', {
         order_id: order.id,
