@@ -23,7 +23,8 @@ import {
   ClipboardList,
   UsersRound,
   Tag,
-  Database
+  Database,
+  Activity
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
