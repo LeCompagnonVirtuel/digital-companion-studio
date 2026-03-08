@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { 
   User, 
@@ -19,7 +19,8 @@ import {
   Loader2,
   RefreshCw,
   Construction,
-  AlertTriangle
+  AlertTriangle,
+  History
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,11 +30,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/components/admin/AdminLayout';
 import ProtectedRoute from '@/components/admin/ProtectedRoute';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useAdminSettings } from '@/hooks/useAdminSettings';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Settings = () => {
   const { toast } = useToast();
@@ -63,6 +67,23 @@ const Settings = () => {
   const [maintenanceTitle, setMaintenanceTitle] = useState('🚧 Site en maintenance');
   const [maintenanceMessage, setMaintenanceMessage] = useState('');
   const [maintenanceReturn, setMaintenanceReturn] = useState('');
+  const [maintenanceHistory, setMaintenanceHistory] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+
+  const fetchHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    const { data } = await supabase
+      .from('maintenance_history')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    setMaintenanceHistory(data || []);
+    setHistoryLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
 
   // Sync local state with settings from database
   useEffect(() => {
@@ -112,6 +133,15 @@ const Settings = () => {
   const handleToggleMaintenance = async (checked: boolean) => {
     setMaintenanceMode(checked);
     await updateSetting('maintenance_mode', checked);
+    
+    // Log to history
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase.from('maintenance_history').insert({
+      action: checked ? 'activated' : 'deactivated',
+      performed_by: user?.id,
+      performed_by_email: user?.email || 'Admin',
+    });
+    fetchHistory();
   };
 
   if (isLoading) {
@@ -568,6 +598,59 @@ const Settings = () => {
                       <Save className="w-4 h-4" />
                       Sauvegarder les paramètres
                     </Button>
+                  </CardContent>
+                </Card>
+
+                {/* History Card */}
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <History className="w-5 h-5 text-primary" />
+                      Historique des activations
+                    </CardTitle>
+                    <CardDescription>
+                      Les 20 dernières activations/désactivations du mode maintenance
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {historyLoading ? (
+                      <div className="space-y-2">
+                        <Skeleton className="h-10 w-full" />
+                        <Skeleton className="h-10 w-full" />
+                      </div>
+                    ) : maintenanceHistory.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-8">Aucun historique pour le moment</p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead>Action</TableHead>
+                            <TableHead>Administrateur</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {maintenanceHistory.map((entry) => (
+                            <TableRow key={entry.id}>
+                              <TableCell className="text-sm">
+                                {new Date(entry.created_at).toLocaleString('fr-FR', {
+                                  day: '2-digit', month: '2-digit', year: 'numeric',
+                                  hour: '2-digit', minute: '2-digit'
+                                })}
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant={entry.action === 'activated' ? 'destructive' : 'default'} className="text-xs">
+                                  {entry.action === 'activated' ? '🔴 Activé' : '🟢 Désactivé'}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-sm text-muted-foreground">
+                                {entry.performed_by_email}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
