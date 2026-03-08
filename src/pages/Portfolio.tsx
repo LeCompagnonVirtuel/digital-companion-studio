@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { usePortfolioProjects, serviceCategories } from "@/hooks/usePortfolioProjects";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Portfolio = () => {
   const { projects, isLoading } = usePortfolioProjects(false);
