@@ -23,13 +23,15 @@ import {
   ClipboardList,
   UsersRound,
   Tag,
-  Database
+  Database,
+  Activity
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useNotifications } from '@/hooks/useNotifications';
 import { useMaintenanceMode } from '@/hooks/useMaintenanceMode';
+import { useCriticalAlertCount } from '@/hooks/useSystemAlerts';
 import NotificationsPanel from './NotificationsPanel';
 import { AlertTriangle, Construction } from 'lucide-react';
 
@@ -52,6 +54,7 @@ const navItems = [
   { path: '/admin/analytics', icon: BarChart3, label: 'Statistiques' },
   { path: '/admin/seo', icon: Search, label: 'SEO' },
   { path: '/admin/backups', icon: Database, label: 'Sauvegardes' },
+  { path: '/admin/monitoring', icon: Activity, label: 'Monitoring' },
   { path: '/admin/activity', icon: Shield, label: 'Activité admin' },
   { path: '/admin/settings', icon: Settings, label: 'Paramètres' },
 ];
@@ -65,6 +68,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { toast } = useToast();
   const { unreadCount } = useNotifications();
   const { isMaintenanceActive } = useMaintenanceMode();
+  const criticalAlerts = useCriticalAlertCount();
 
   const handleToggleMaintenanceOff = async () => {
     const { supabase } = await import('@/integrations/supabase/client');
@@ -305,6 +309,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             >
               Désactiver
             </Button>
+          </div>
+        )}
+        {criticalAlerts > 0 && (
+          <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3 flex items-center gap-3">
+            <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+            <span className="text-sm font-medium text-destructive">
+              🚨 {criticalAlerts} alerte{criticalAlerts > 1 ? 's' : ''} critique{criticalAlerts > 1 ? 's' : ''} — 
+              <a href="/admin/monitoring" className="underline ml-1">Voir le monitoring</a>
+            </span>
           </div>
         )}
         <div className="p-4 lg:p-6 xl:p-8 max-w-7xl mx-auto">
