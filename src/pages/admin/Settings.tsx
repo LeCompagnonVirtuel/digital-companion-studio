@@ -483,6 +483,95 @@ const Settings = () => {
                 </Card>
               </motion.div>
             </TabsContent>
+            {/* Maintenance Tab */}
+            <TabsContent value="maintenance">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-6"
+              >
+                {/* Quick Toggle Card */}
+                <Card className={`border-2 ${maintenanceMode ? 'border-destructive/50 bg-destructive/5' : 'border-border/50'}`}>
+                  <CardContent className="flex items-center justify-between p-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${maintenanceMode ? 'bg-destructive/10' : 'bg-secondary'}`}>
+                        <Construction className={`w-6 h-6 ${maintenanceMode ? 'text-destructive' : 'text-muted-foreground'}`} />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">Mode maintenance</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {maintenanceMode ? '🔴 Le site est actuellement inaccessible aux visiteurs' : '🟢 Le site est accessible normalement'}
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={maintenanceMode}
+                      onCheckedChange={handleToggleMaintenance}
+                    />
+                  </CardContent>
+                </Card>
+
+                {maintenanceMode && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                    <span>Le mode maintenance est actif. Les visiteurs voient la page de maintenance.</span>
+                  </div>
+                )}
+
+                {/* Customization Card */}
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Construction className="w-5 h-5 text-primary" />
+                      Personnalisation de la page
+                    </CardTitle>
+                    <CardDescription>
+                      Configurez le contenu affiché aux visiteurs pendant la maintenance
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceTitle">Titre de la page</Label>
+                      <Input
+                        id="maintenanceTitle"
+                        value={maintenanceTitle}
+                        onChange={(e) => setMaintenanceTitle(e.target.value)}
+                        placeholder="🚧 Site en maintenance"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceMessage">Message pour les visiteurs</Label>
+                      <Textarea
+                        id="maintenanceMessage"
+                        value={maintenanceMessage}
+                        onChange={(e) => setMaintenanceMessage(e.target.value)}
+                        placeholder="Nous effectuons actuellement une mise à jour..."
+                        rows={4}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="maintenanceReturn">Date/heure estimée de retour</Label>
+                      <Input
+                        id="maintenanceReturn"
+                        type="datetime-local"
+                        value={maintenanceReturn}
+                        onChange={(e) => setMaintenanceReturn(e.target.value)}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Optionnel — un compteur à rebours sera affiché si renseigné
+                      </p>
+                    </div>
+
+                    <Button onClick={handleSaveMaintenance} disabled={isSaving} className="gap-2">
+                      <Save className="w-4 h-4" />
+                      Sauvegarder les paramètres
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </TabsContent>
           </Tabs>
         </div>
       </AdminLayout>

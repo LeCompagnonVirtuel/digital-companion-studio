@@ -170,6 +170,7 @@ const App = () => (
               </Routes>
               <ChatbotWrapper />
             </RetentionProvider>
+            </MaintenanceGuard>
           </BrowserRouter>
             </TooltipProvider>
           </CartProvider>

@@ -285,6 +285,25 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
       {/* Main Content */}
       <main className="lg:ml-64 xl:ml-72">
+        {/* Maintenance Banner */}
+        {isMaintenanceActive && (
+          <div className="bg-destructive/10 border-b border-destructive/20 px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-destructive shrink-0" />
+              <span className="text-sm font-medium text-destructive">
+                ⚠️ Mode maintenance actif — Le site est inaccessible aux visiteurs
+              </span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleToggleMaintenanceOff}
+              className="border-destructive/30 text-destructive hover:bg-destructive/10 shrink-0"
+            >
+              Désactiver
+            </Button>
+          </div>
+        )}
         <div className="p-4 lg:p-6 xl:p-8 max-w-7xl mx-auto">
           {children}
         </div>
