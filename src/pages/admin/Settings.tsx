@@ -129,7 +129,7 @@ const Settings = () => {
                 Sync temps réel
               </div>
             </div>
-          </div>
+          </motion.div>
 
           <Tabs defaultValue="general" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:w-auto lg:inline-flex">

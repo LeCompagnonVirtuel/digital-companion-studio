@@ -159,7 +159,7 @@ const AdminPromoCodes = () => {
               <Plus className="w-4 h-4 mr-2" />
               Nouveau code
             </Button>
-          </div>
+          </motion.div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

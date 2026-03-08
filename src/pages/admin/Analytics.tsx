@@ -122,6 +122,7 @@ const Analytics = () => {
                 </SelectContent>
               </Select>
             </div>
+          </motion.div>
           </div>
 
           {isLoading ? (
