@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { PromoBanner } from "@/components/shop/PromoBanner";
 import { SocialProofToasts } from "@/components/shop/SocialProofToasts";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 type SortOption = "popular" | "newest" | "price-asc" | "price-desc";
 
