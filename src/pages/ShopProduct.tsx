@@ -125,6 +125,7 @@ const ShopProduct = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PromoBanner />
 
       {/* Breadcrumb */}
       <div className="container-wide pt-20 sm:pt-24 pb-3">
