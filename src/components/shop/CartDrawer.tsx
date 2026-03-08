@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag, Trash2, ArrowRight, Package, Sparkles, Shield, Zap,
-  CheckCircle, Plus, X, Gift, TrendingUp
+  CheckCircle, Plus, X, Gift, TrendingUp, Flame
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -12,6 +12,7 @@ import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 import { useDigitalProducts, DigitalProduct } from "@/hooks/useDigitalProducts";
 import { Progress } from "@/components/ui/progress";
+import { CountdownTimer } from "./CountdownTimer";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F`;
 
@@ -239,6 +240,13 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
             animate={{ y: 0, opacity: 1 }}
             className="border-t border-border/30 bg-card/80 backdrop-blur-sm px-4 sm:px-5 py-4 space-y-3"
           >
+            {/* Urgency timer */}
+            <div className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10">
+              <Flame className="w-3 h-3 text-destructive animate-pulse" />
+              <span className="text-[10px] font-semibold text-destructive">Offre expire dans</span>
+              <CountdownTimer variant="compact" />
+            </div>
+
             {/* Trust badges */}
             <div className="flex items-center justify-center gap-3 sm:gap-4 text-[9px] sm:text-[10px] text-muted-foreground">
               <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-500" /> Sécurisé</span>
@@ -264,6 +272,13 @@ export const CartDrawer = ({ children }: CartDrawerProps) => {
                 </motion.span>
               </div>
             </div>
+
+            {/* Upsell message */}
+            {itemCount === 1 && (
+              <p className="text-center text-[10px] text-amber-600 font-medium bg-amber-500/5 rounded-lg py-1.5 px-2 border border-amber-500/10">
+                🔥 Ajoutez encore 1 produit et économisez 20% !
+              </p>
+            )}
 
             <Button asChild className="w-full h-11 sm:h-12 rounded-xl text-sm sm:text-base font-semibold" size="lg">
               <Link to="/boutique/checkout">

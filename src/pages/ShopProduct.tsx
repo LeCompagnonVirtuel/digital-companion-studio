@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Lock,
   Eye,
+  Flame,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -30,6 +31,9 @@ import { ProductRecommendations } from "@/components/retention/ProductRecommenda
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { SocialShare } from "@/components/shop/SocialShare";
+import { CountdownTimer } from "@/components/shop/CountdownTimer";
+import { SocialProofBadge } from "@/components/shop/SocialProofBadge";
+import { PromoBanner } from "@/components/shop/PromoBanner";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -121,6 +125,7 @@ const ShopProduct = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PromoBanner />
 
       {/* Breadcrumb */}
       <div className="container-wide pt-20 sm:pt-24 pb-3">
@@ -209,7 +214,7 @@ const ShopProduct = () => {
             )}
 
             {/* Price Block */}
-            <div className="bg-muted/40 rounded-2xl p-5 border border-border/30">
+            <div className="bg-muted/40 rounded-2xl p-5 border border-border/30 space-y-3">
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl sm:text-4xl font-bold text-foreground">{formatFCFA(product.price)}</span>
                 {hasDiscount && (
@@ -217,10 +222,24 @@ const ShopProduct = () => {
                 )}
               </div>
               {hasDiscount && (
-                <Badge className="mt-2 bg-rose-500/10 text-rose-600 border-rose-500/20 text-xs">
-                  🎉 Économisez {formatFCFA(product.original_price! - product.price)}
+                <Badge className="bg-destructive/10 text-destructive border-destructive/20 text-xs">
+                  🎉 Économisez {formatFCFA(product.original_price! - product.price)} (-{discountPercent}%)
                 </Badge>
               )}
+
+              {/* Urgency timer */}
+              {(hasDiscount || product.is_limited_offer) && (
+                <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10">
+                  <Flame className="w-4 h-4 text-destructive shrink-0 animate-pulse" />
+                  <div className="flex-1">
+                    <p className="text-[10px] sm:text-xs font-semibold text-destructive">Offre se termine dans</p>
+                  </div>
+                  <CountdownTimer variant="compact" />
+                </div>
+              )}
+
+              {/* Social proof */}
+              <SocialProofBadge salesCount={product.sales_count} variant="viewers" />
             </div>
 
             {/* CTA Buttons */}
@@ -238,8 +257,11 @@ const ShopProduct = () => {
                   <><ShoppingCart className="w-5 h-5 mr-2" /> Ajouter au panier</>
                 )}
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-13 sm:h-14 text-base sm:text-lg rounded-xl">
-                <Link to="/boutique/checkout">Acheter maintenant</Link>
+              <Button asChild size="lg" className="h-13 sm:h-14 text-base sm:text-lg rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-0 shadow-lg">
+                <Link to="/boutique/checkout">
+                  <Flame className="w-5 h-5 mr-2" />
+                  Acheter maintenant
+                </Link>
               </Button>
             </div>
 

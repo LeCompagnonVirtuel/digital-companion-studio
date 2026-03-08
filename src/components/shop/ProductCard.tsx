@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShoppingCart, Eye, Star, Zap, Award, Clock, Sparkles, Check } from "lucide-react";
+import { ShoppingCart, Eye, Star, Zap, Award, Clock, Sparkles, Check, Flame, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DigitalProduct } from "@/hooks/useDigitalProducts";
 import { useCart } from "@/hooks/useCart";
 import { useState, useCallback } from "react";
+import { CountdownTimer } from "./CountdownTimer";
 
 interface ProductCardProps {
   product: DigitalProduct;
@@ -170,12 +171,21 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </Link>
 
           {product.short_description && (
-            <p className="hidden sm:block text-[11px] text-muted-foreground mb-2.5 line-clamp-2 flex-1 leading-relaxed">
+            <p className="hidden sm:block text-[11px] text-muted-foreground mb-2 line-clamp-2 flex-1 leading-relaxed">
               {product.short_description}
             </p>
           )}
 
-          {/* Rating */}
+          {/* Limited offer countdown */}
+          {product.is_limited_offer && (
+            <div className="flex items-center gap-1 mb-2 py-1 px-1.5 rounded-md bg-destructive/5 border border-destructive/10">
+              <Flame className="w-2.5 h-2.5 text-destructive shrink-0" />
+              <span className="text-[9px] font-semibold text-destructive">Fin dans</span>
+              <CountdownTimer variant="compact" className="ml-auto" />
+            </div>
+          )}
+
+          {/* Rating + Sales proof */}
           <div className="flex items-center gap-0.5 mb-2.5 mt-auto">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-2.5 sm:w-3 h-2.5 sm:h-3 fill-amber-400 text-amber-400" />
@@ -183,19 +193,25 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             <span className="text-[9px] sm:text-[10px] text-muted-foreground ml-1">
               ({product.sales_count || 0})
             </span>
+            {(product.sales_count || 0) > 5 && (
+              <span className="text-[8px] sm:text-[9px] text-emerald-600 font-medium ml-auto flex items-center gap-0.5">
+                <Users className="w-2.5 h-2.5" /> Populaire
+              </span>
+            )}
           </div>
 
           {/* Price + Mobile CTA */}
           <div className="flex items-center justify-between pt-2.5 border-t border-border/30 gap-1.5">
             <div className="flex flex-col min-w-0">
-              <span className="text-[13px] sm:text-sm font-bold text-foreground leading-tight truncate">
-                {formatFCFA(product.price)}
-              </span>
               {hasDiscount && (
                 <span className="text-[9px] sm:text-[10px] text-muted-foreground/70 line-through">
                   {formatFCFA(product.original_price!)}
                 </span>
               )}
+              <span className="text-[13px] sm:text-sm font-bold text-foreground leading-tight truncate flex items-center gap-1">
+                {hasDiscount && <Flame className="w-3 h-3 text-destructive shrink-0" />}
+                {formatFCFA(product.price)}
+              </span>
             </div>
 
             <motion.div

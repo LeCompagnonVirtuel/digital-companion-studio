@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ShoppingBag, Lock, Check, ChevronRight, Trash2, Package,
   Mail, Loader2, Shield, Zap, HeadphonesIcon, User, CreditCard,
-  Download, CheckCircle, AlertCircle, ArrowRight
+  Download, CheckCircle, AlertCircle, ArrowRight, Flame
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -19,6 +19,7 @@ import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
+import { CountdownTimer } from "@/components/shop/CountdownTimer";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
@@ -545,6 +546,13 @@ const ShopCheckout = () => {
                     >
                       {formatFCFA(total)}
                     </motion.span>
+                  </div>
+
+                  {/* Urgency in checkout */}
+                  <div className="flex items-center gap-2 py-2 px-3 rounded-xl bg-destructive/5 border border-destructive/10 mt-2">
+                    <Flame className="w-3 h-3 text-destructive animate-pulse shrink-0" />
+                    <span className="text-[10px] font-semibold text-destructive">Prix garanti pendant</span>
+                    <CountdownTimer variant="compact" className="ml-auto" />
                   </div>
                 </CardContent>
               </Card>

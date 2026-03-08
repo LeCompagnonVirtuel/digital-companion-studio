@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Search, ArrowUpDown, TrendingUp, Clock, DollarSign, Shield, Zap, Award, Star, SlidersHorizontal, X, ShoppingBag } from "lucide-react";
+import { Sparkles, Search, ArrowUpDown, TrendingUp, Clock, DollarSign, Shield, Zap, Award, Star, SlidersHorizontal, X, ShoppingBag, Flame } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { useCart } from "@/hooks/useCart";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { PromoBanner } from "@/components/shop/PromoBanner";
 
 type SortOption = "popular" | "newest" | "price-asc" | "price-desc";
 
@@ -101,6 +102,7 @@ const Shop = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <PromoBanner />
 
       {/* ─── HERO ─── */}
       <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
