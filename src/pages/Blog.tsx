@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AuthorName = ({ name }: { name: string }) => (
