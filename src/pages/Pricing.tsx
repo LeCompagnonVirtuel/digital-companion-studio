@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const pricingPlans = [
   {
