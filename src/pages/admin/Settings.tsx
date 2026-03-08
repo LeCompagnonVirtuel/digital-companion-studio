@@ -653,6 +653,7 @@ const Settings = () => {
                     )}
                   </CardContent>
                 </Card>
+              </motion.div>
             </TabsContent>
           </Tabs>
         </div>
