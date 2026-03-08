@@ -150,16 +150,16 @@ const AdminPromoCodes = () => {
     <ProtectedRoute>
       <AdminLayout>
         <div className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-display font-bold">Codes Promo</h1>
-              <p className="text-muted-foreground">Gérez vos offres promotionnelles</p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold">Codes Promo</h1>
+              <p className="text-muted-foreground text-sm">Gérez vos offres promotionnelles</p>
             </div>
             <Button onClick={() => { setEditingCode(null); setIsFormOpen(true); }}>
               <Plus className="w-4 h-4 mr-2" />
               Nouveau code
             </Button>
-          </div>
+          </motion.div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -246,8 +246,14 @@ const AdminPromoCodes = () => {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            <span>{code.current_uses}</span>
-                            {code.max_uses && <span className="text-muted-foreground">/{code.max_uses}</span>}
+                            <div className="space-y-1">
+                              <span className="text-sm">{code.current_uses}{code.max_uses ? `/${code.max_uses}` : ''}</span>
+                              {code.max_uses && (
+                                <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
+                                  <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${Math.min((code.current_uses / code.max_uses) * 100, 100)}%` }} />
+                                </div>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell>
                             {code.min_order_amount
@@ -255,9 +261,13 @@ const AdminPromoCodes = () => {
                               : "-"}
                           </TableCell>
                           <TableCell>
-                            <span className={isExpired(code) ? "text-red-500" : ""}>
-                              {formatDate(code.expires_at)}
-                            </span>
+                            <div>
+                              <span className={isExpired(code) ? "text-red-500" : ""}>{formatDate(code.expires_at)}</span>
+                              {code.expires_at && !isExpired(code) && (() => {
+                                const days = Math.ceil((new Date(code.expires_at).getTime() - Date.now()) / 86400000);
+                                return days <= 7 ? <p className="text-[10px] text-amber-500 mt-0.5">Expire dans {days}j</p> : null;
+                              })()}
+                            </div>
                           </TableCell>
                           <TableCell>
                             {isExpired(code) ? (

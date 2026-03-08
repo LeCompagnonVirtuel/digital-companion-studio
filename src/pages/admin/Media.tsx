@@ -303,36 +303,46 @@ const Media = () => {
   return (
     <ProtectedRoute>
       <AdminLayout>
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-display font-bold">
-                Médiathèque
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                {files.length} fichier{files.length > 1 ? 's' : ''} • {formatFileSize(totalSize)}
-              </p>
+              <h1 className="text-2xl lg:text-3xl font-display font-bold">Médiathèque</h1>
+              <p className="text-muted-foreground mt-1 text-sm">{files.length} fichier{files.length > 1 ? 's' : ''} • {formatFileSize(totalSize)}</p>
             </div>
             <div className="relative">
-              <input
-                type="file"
-                id="file-upload"
-                multiple
-                accept="image/*"
-                onChange={handleUpload}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                disabled={isUploading}
-              />
+              <input type="file" id="file-upload" multiple accept="image/*" onChange={handleUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" disabled={isUploading} />
               <Button disabled={isUploading}>
-                {isUploading ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Upload className="w-4 h-4 mr-2" />
-                )}
-                {isUploading ? 'Upload...' : 'Ajouter des fichiers'}
+                {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                {isUploading ? 'Upload...' : 'Ajouter'}
               </Button>
             </div>
+          </motion.div>
+
+          {/* KPIs */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { label: 'Total fichiers', value: files.length, icon: FileImage, color: 'bg-primary/10 text-primary' },
+              { label: 'Espace utilisé', value: formatFileSize(totalSize), icon: ImageIcon, color: 'bg-blue-500/10 text-blue-500' },
+              { label: 'Images', value: files.filter(f => f.mime_type.startsWith('image/')).length, icon: ImageIcon, color: 'bg-green-500/10 text-green-500' },
+              { label: 'Sans alt text', value: files.filter(f => !f.alt_text).length, icon: AlertCircle, color: 'bg-amber-500/10 text-amber-500' },
+            ].map((kpi, i) => (
+              <motion.div key={kpi.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+                <Card className="border-border/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${kpi.color.split(' ')[0]}`}>
+                        <kpi.icon className={`w-5 h-5 ${kpi.color.split(' ')[1]}`} />
+                      </div>
+                      <div>
+                        <p className="text-xl font-bold">{kpi.value}</p>
+                        <p className="text-[11px] text-muted-foreground">{kpi.label}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
 
           {/* Filters */}
