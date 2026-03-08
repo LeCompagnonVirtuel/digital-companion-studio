@@ -177,16 +177,23 @@ const ShopProduct = () => {
               {product.title}
             </h1>
 
-            {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-amber-400 fill-amber-400" />
-                ))}
+            {/* Rating + Social Share */}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-amber-400 fill-amber-400" />
+                  ))}
+                </div>
+                <span className="text-sm text-muted-foreground font-medium">
+                  5.0 · {product.sales_count || 0} ventes
+                </span>
               </div>
-              <span className="text-sm text-muted-foreground font-medium">
-                5.0 · {product.sales_count || 0} ventes
-              </span>
+              <SocialShare
+                url={productUrl}
+                title={product.title}
+                description={product.short_description || undefined}
+              />
             </div>
 
             {product.short_description && (
