@@ -349,7 +349,11 @@ const ShopProduct = () => {
               <span className="w-1.5 h-6 bg-accent rounded-full" />
               À propos de ce produit
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground whitespace-pre-line leading-relaxed max-w-3xl">{product.description}</p>
+            <div className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-3xl space-y-2">
+              {product.description.split('\n').filter(line => line.trim()).map((line, index) => (
+                <p key={index} className="whitespace-pre-line">{line.trim()}</p>
+              ))}
+            </div>
           </motion.div>
         </section>
       )}
