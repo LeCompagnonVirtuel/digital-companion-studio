@@ -74,6 +74,48 @@ export type Database = {
         }
         Relationships: []
       }
+      backups: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          file_path: string | null
+          id: string
+          metadata: Json | null
+          size_bytes: number | null
+          status: string
+          tables_included: string[] | null
+          type: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          file_path?: string | null
+          id?: string
+          metadata?: Json | null
+          size_bytes?: number | null
+          status?: string
+          tables_included?: string[] | null
+          type?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          file_path?: string | null
+          id?: string
+          metadata?: Json | null
+          size_bytes?: number | null
+          status?: string
+          tables_included?: string[] | null
+          type?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author_id: string | null
