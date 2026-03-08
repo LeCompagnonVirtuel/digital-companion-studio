@@ -47,6 +47,16 @@ const ShopProduct = () => {
 
   const allImages = product ? [product.featured_image, ...(product.images || [])].filter(Boolean) as string[] : [];
 
+  // SEO meta tags
+  const productUrl = typeof window !== "undefined" ? `${window.location.origin}/boutique/${slug}` : "";
+  useDocumentMeta({
+    title: product?.title || "Produit",
+    description: product?.short_description || product?.title || "Découvrez ce produit digital premium",
+    image: product?.featured_image || undefined,
+    url: productUrl,
+    type: "product",
+  });
+
   // Track view_product
   useEffect(() => {
     if (product) {
