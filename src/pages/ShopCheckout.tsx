@@ -44,6 +44,11 @@ const ShopCheckout = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fieldTouched, setFieldTouched] = useState<Record<string, boolean>>({});
+  const [promoCode, setPromoCode] = useState<string | null>(null);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const finalTotal = total - discountAmount;
 
   const currentStep = 2; // Step 2 = Informations + Paiement combined
 
