@@ -47,6 +47,7 @@ import Shop from "./pages/Shop";
 import ShopProduct from "./pages/ShopProduct";
 import ShopCheckout from "./pages/ShopCheckout";
 import ShopConfirmation from "./pages/ShopConfirmation";
+import ShopPaymentError from "./pages/ShopPaymentError";
 import FreeResources from "./pages/FreeResources";
 import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
