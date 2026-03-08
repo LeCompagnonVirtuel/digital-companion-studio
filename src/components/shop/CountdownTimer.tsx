@@ -71,8 +71,8 @@ const TimeUnit = ({ value, label, variant }: { value: number; label: string; var
   );
 };
 
-export const CountdownTimer = ({ variant = "inline", className = "" }: CountdownTimerProps) => {
-  const { hours, minutes, seconds, isExpired } = useCountdown();
+export const CountdownTimer = ({ variant = "inline", className = "", endDate }: CountdownTimerProps) => {
+  const { days, hours, minutes, seconds, isExpired } = useCountdown(endDate);
 
   if (isExpired) return null;
 
