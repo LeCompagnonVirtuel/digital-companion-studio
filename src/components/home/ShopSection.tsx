@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { useDigitalProducts } from '@/hooks/useDigitalProducts';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 
 const categories = [
   { icon: BookOpen, label: 'Formations', description: 'Développez vos compétences' },
