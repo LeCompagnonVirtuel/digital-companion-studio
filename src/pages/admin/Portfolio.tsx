@@ -221,27 +221,54 @@ const AdminPortfolio = () => {
     return serviceCategories.find(c => c.value === value)?.label || value;
   };
 
+  const kpis = [
+    { label: 'Total projets', value: projects.length, icon: ImageIcon, color: 'bg-primary/10 text-primary' },
+    { label: 'Publiés', value: projects.filter(p => p.status === 'published').length, icon: Eye, color: 'bg-green-500/10 text-green-500' },
+    { label: 'Brouillons', value: projects.filter(p => p.status === 'draft').length, icon: EyeOff, color: 'bg-amber-500/10 text-amber-500' },
+  ];
+
   return (
     <AdminLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-display font-bold">Portfolio</h1>
-            <p className="text-muted-foreground">Gérez vos réalisations et projets</p>
+            <h1 className="text-2xl lg:text-3xl font-display font-bold">Portfolio</h1>
+            <p className="text-muted-foreground text-sm">Gérez vos réalisations et projets</p>
           </div>
-          <div className="flex gap-3">
-            <Button variant="outline" asChild>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" asChild>
               <Link to="/portfolio" target="_blank">
-                <ExternalLink size={18} className="mr-2" />
+                <ExternalLink size={16} className="mr-2" />
                 Voir le site
               </Link>
             </Button>
             <Button onClick={openCreateDialog}>
-              <Plus size={18} className="mr-2" />
+              <Plus size={16} className="mr-2" />
               Nouveau projet
             </Button>
           </div>
+        </motion.div>
+
+        {/* KPIs */}
+        <div className="grid grid-cols-3 gap-3">
+          {kpis.map((kpi, i) => (
+            <motion.div key={kpi.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+              <Card className="border-border/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${kpi.color.split(' ')[0]}`}>
+                      <kpi.icon className={`w-5 h-5 ${kpi.color.split(' ')[1]}`} />
+                    </div>
+                    <div>
+                      <p className="text-xl font-bold">{kpi.value}</p>
+                      <p className="text-[11px] text-muted-foreground">{kpi.label}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
 
         {/* Projects Grid */}
