@@ -130,8 +130,7 @@ export function useAdminSettings() {
       try {
         const { error } = await supabase
           .from('admin_settings')
-          .update({ value: JSON.stringify(value) })
-          .eq('key', key);
+          .upsert({ key, value: JSON.stringify(value), updated_at: new Date().toISOString() }, { onConflict: 'key' });
 
         if (error) throw error;
 
