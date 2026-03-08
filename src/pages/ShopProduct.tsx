@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Lock,
   Eye,
+  Flame,
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -30,6 +31,9 @@ import { ProductRecommendations } from "@/components/retention/ProductRecommenda
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { SocialShare } from "@/components/shop/SocialShare";
+import { CountdownTimer } from "@/components/shop/CountdownTimer";
+import { SocialProofBadge } from "@/components/shop/SocialProofBadge";
+import { PromoBanner } from "@/components/shop/PromoBanner";
 
 const formatFCFA = (price: number) => `${Math.round(price).toLocaleString("fr-FR")} F CFA`;
 
