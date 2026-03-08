@@ -106,9 +106,32 @@ const ShopProduct = () => {
 
   const stockLeft = 5 + Math.floor((product.sales_count || 0) % 12);
 
+  const productJsonLd = product ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.short_description || product.description || "",
+    "image": product.featured_image || "",
+    "offers": {
+      "@type": "Offer",
+      "price": product.price,
+      "priceCurrency": "XOF",
+      "availability": "https://schema.org/InStock",
+      "url": productUrl,
+    },
+    "aggregateRating": product.sales_count ? {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": String(product.sales_count),
+    } : undefined,
+  } : null;
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      {productJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
+      )}
       <PromoBanner />
 
       {/* Breadcrumb */}

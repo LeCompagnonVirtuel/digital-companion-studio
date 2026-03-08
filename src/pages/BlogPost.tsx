@@ -116,9 +116,28 @@ const BlogPost = () => {
     );
   }
 
+  const blogPostJsonLd = post ? {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || "",
+    "image": post.cover_image || "",
+    "author": { "@type": "Person", "name": post.author_name },
+    "datePublished": post.published_at || post.created_at,
+    "dateModified": post.updated_at,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Le Compagnon Virtuel",
+      "logo": { "@type": "ImageObject", "url": "https://www.lecompagnonlabs.cloud/favicon.png" }
+    }
+  } : null;
+
   return (
     <div className="min-h-screen">
       <Navigation />
+      {blogPostJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostJsonLd) }} />
+      )}
       <main>
         {/* Hero */}
         <section className="pt-32 pb-12 relative overflow-hidden">
