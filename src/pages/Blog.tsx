@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AuthorName = ({ name }: { name: string }) => (
   <span>{name}<span className="text-destructive">.</span></span>
