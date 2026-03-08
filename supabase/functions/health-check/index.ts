@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
       error: error?.message || null,
     }
   } catch (e) {
-    results.services.database = { status: 'error', error: String(e) }
+    results.services.database = { status: 'error', response_time_ms: 0, error: String(e) }
   }
 
   // Test Storage
@@ -45,13 +45,12 @@ Deno.serve(async (req) => {
       error: error?.message || null,
     }
   } catch (e) {
-    results.services.storage = { status: 'error', error: String(e) }
+    results.services.storage = { status: 'error', response_time_ms: 0, error: String(e) }
   }
 
   // Test Auth service
   try {
     const authStart = Date.now()
-    // Simple check - list 0 users
     const { error } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1 })
     const authTime = Date.now() - authStart
     results.services.auth = {
@@ -60,19 +59,53 @@ Deno.serve(async (req) => {
       error: error?.message || null,
     }
   } catch (e) {
-    results.services.auth = { status: 'error', error: String(e) }
+    results.services.auth = { status: 'error', response_time_ms: 0, error: String(e) }
   }
 
-  // Recent visitors (last 5 min)
+  // Active visitors: count UNIQUE sessions in last 5 minutes
   try {
     const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+    const { data: recentEvents } = await supabase
+      .from('analytics_events')
+      .select('session_id')
+      .gte('created_at', fiveMinAgo)
+      .not('session_id', 'is', null)
+    
+    // Count unique session_ids
+    const uniqueSessions = new Set((recentEvents || []).map(e => e.session_id).filter(Boolean))
+    results.active_visitors = uniqueSessions.size
+  } catch {
+    results.active_visitors = 0
+  }
+
+  // Today's visitors (unique sessions today)
+  try {
+    const todayStart = new Date()
+    todayStart.setHours(0, 0, 0, 0)
+    const { data: todayEvents } = await supabase
+      .from('analytics_events')
+      .select('session_id')
+      .gte('created_at', todayStart.toISOString())
+      .eq('event_type', 'session_start')
+    
+    results.today_visitors = todayEvents?.length || 0
+  } catch {
+    results.today_visitors = 0
+  }
+
+  // Today's page views
+  try {
+    const todayStart = new Date()
+    todayStart.setHours(0, 0, 0, 0)
     const { count } = await supabase
       .from('analytics_events')
       .select('*', { count: 'exact', head: true })
-      .gte('created_at', fiveMinAgo)
-    results.active_visitors = count || 0
+      .gte('created_at', todayStart.toISOString())
+      .eq('event_type', 'page_view')
+    
+    results.today_page_views = count || 0
   } catch {
-    results.active_visitors = 0
+    results.today_page_views = 0
   }
 
   // Recent orders (last 24h)

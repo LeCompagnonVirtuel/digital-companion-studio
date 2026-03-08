@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Globe, ShoppingCart, Smartphone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePortfolioProjects, serviceCategories } from "@/hooks/usePortfolioProjects";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 // Fallback static projects if database is empty
 const fallbackProjects = [
@@ -147,7 +148,7 @@ export function FeaturedProjectsSection() {
                         : `bg-gradient-to-br ${getGradientColor(project.service_category)}`
                     }`}>
                       {project.featured_image ? (
-                        <img 
+                        <OptimizedImage 
                           src={project.featured_image}
                           alt={project.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

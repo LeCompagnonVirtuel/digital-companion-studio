@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts, BlogPost as BlogPostType } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const BlogPost = () => {
@@ -206,7 +207,7 @@ const BlogPost = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="rounded-3xl overflow-hidden"
               >
-                <img
+                <OptimizedImage
                   src={post.cover_image}
                   alt={post.title}
                   className="w-full h-[300px] md:h-[500px] object-cover"
@@ -254,7 +255,7 @@ const BlogPost = () => {
                       className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 transition-all duration-300"
                     >
                       <div className="relative aspect-[16/10] overflow-hidden">
-                        <img
+                        <OptimizedImage
                           src={relatedPost.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop"}
                           alt={relatedPost.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

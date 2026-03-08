@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { useDigitalProducts } from '@/hooks/useDigitalProducts';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 
 const categories = [
   { icon: BookOpen, label: 'Formations', description: 'Développez vos compétences' },
@@ -102,7 +103,7 @@ export function ShopSection() {
                   {/* Image */}
                   <div className="relative aspect-[16/10] bg-muted overflow-hidden">
                     {product.featured_image ? (
-                      <img
+                      <OptimizedImage
                         src={product.featured_image}
                         alt={product.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"

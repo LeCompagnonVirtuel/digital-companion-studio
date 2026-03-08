@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   Activity, Database, HardDrive, Shield, Users, ShoppingBag,
-  RefreshCw, CheckCircle, AlertTriangle, XCircle, Clock, Eye
+  RefreshCw, CheckCircle, AlertTriangle, XCircle, Clock, Eye, Globe, FileText
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -82,7 +82,14 @@ const Monitoring = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-display font-bold text-foreground">Monitoring</h1>
-              <p className="text-muted-foreground text-sm">État du système et alertes en temps réel</p>
+              <p className="text-muted-foreground text-sm">
+                État du système et alertes en temps réel
+                {health?.timestamp && (
+                  <span className="ml-2 text-xs">
+                    · Mis à jour {format(new Date(health.timestamp), 'HH:mm:ss', { locale: fr })}
+                  </span>
+                )}
+              </p>
             </div>
             <Button onClick={() => refetch()} disabled={isFetching} variant="outline">
               <RefreshCw className={`w-4 h-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
@@ -112,13 +119,30 @@ const Monitoring = () => {
             />
           </div>
 
-          {/* Stats Row */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {/* Stats Row - Real-time metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <Card>
               <CardContent className="p-4 text-center">
-                <Users className="w-5 h-5 mx-auto text-primary mb-1" />
+                <div className="relative">
+                  <Users className="w-5 h-5 mx-auto text-green-500 mb-1" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                </div>
                 <p className="text-2xl font-bold text-foreground">{health?.active_visitors ?? '—'}</p>
-                <p className="text-xs text-muted-foreground">Visiteurs (5 min)</p>
+                <p className="text-xs text-muted-foreground">En ligne (5 min)</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <Globe className="w-5 h-5 mx-auto text-primary mb-1" />
+                <p className="text-2xl font-bold text-foreground">{(health as any)?.today_visitors ?? '—'}</p>
+                <p className="text-xs text-muted-foreground">Visiteurs aujourd'hui</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <FileText className="w-5 h-5 mx-auto text-blue-500 mb-1" />
+                <p className="text-2xl font-bold text-foreground">{(health as any)?.today_page_views ?? '—'}</p>
+                <p className="text-xs text-muted-foreground">Pages vues aujourd'hui</p>
               </CardContent>
             </Card>
             <Card>

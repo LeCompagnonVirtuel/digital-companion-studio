@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AuthorName = ({ name }: { name: string }) => (
@@ -128,7 +129,7 @@ const Blog = () => {
                 <div className="container-wide">
                   <Link to={`/blog/${featuredPost.slug}`}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative rounded-3xl overflow-hidden group cursor-pointer">
-                      <img src={featuredPost.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={featuredPost.title} className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <OptimizedImage src={featuredPost.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={featuredPost.title} className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/50 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
                         <span className="inline-block px-3 py-1 rounded-full bg-primary text-primary-foreground text-sm font-medium mb-4">{featuredPost.category}</span>
@@ -174,7 +175,7 @@ const Blog = () => {
                       <Link key={post.id} to={`/blog/${post.slug}`}>
                         <motion.article initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }} className="group rounded-2xl overflow-hidden bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-500 cursor-pointer">
                           <div className="relative aspect-[16/10] overflow-hidden">
-                            <img src={post.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <OptimizedImage src={post.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                             <div className="absolute top-4 left-4">
                               <span className="px-3 py-1 rounded-full bg-card/90 backdrop-blur-sm text-xs font-medium">{post.category}</span>
                             </div>
