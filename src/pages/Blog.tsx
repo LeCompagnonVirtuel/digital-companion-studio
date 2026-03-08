@@ -129,7 +129,7 @@ const Blog = () => {
                 <div className="container-wide">
                   <Link to={`/blog/${featuredPost.slug}`}>
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative rounded-3xl overflow-hidden group cursor-pointer">
-                      <img src={featuredPost.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={featuredPost.title} className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <OptimizedImage src={featuredPost.cover_image || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"} alt={featuredPost.title} className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/50 to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
                         <span className="inline-block px-3 py-1 rounded-full bg-primary text-primary-foreground text-sm font-medium mb-4">{featuredPost.category}</span>
