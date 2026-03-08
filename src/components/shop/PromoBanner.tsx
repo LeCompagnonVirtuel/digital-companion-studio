@@ -17,7 +17,7 @@ export const PromoBanner = () => {
         animate={{ height: "auto", opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="relative overflow-hidden"
+        className="relative overflow-hidden mt-20 sm:mt-24"
         style={{ background: "linear-gradient(135deg, hsl(234 89% 50%), hsl(234 89% 40%), hsl(174 77% 35%))" }}
       >
         {/* Animated background dots */}

@@ -107,7 +107,7 @@ const Shop = () => {
       <PromoBanner />
 
       {/* ─── HERO ─── */}
-      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 overflow-hidden">
+      <section className="relative pt-8 sm:pt-12 pb-16 sm:pb-24 overflow-hidden">
         <div className="absolute inset-0 bg-mesh opacity-40" />
         <div className="absolute top-10 left-1/3 w-[500px] h-[500px] rounded-full blur-[160px] opacity-60" style={{ background: 'hsl(var(--primary) / 0.08)' }} />
         <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[140px] opacity-60" style={{ background: 'hsl(var(--accent) / 0.06)' }} />
