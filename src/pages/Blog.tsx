@@ -6,12 +6,18 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AuthorName = ({ name }: { name: string }) => (
   <span>{name}<span className="text-destructive">.</span></span>
 );
 
 const Blog = () => {
+  useDocumentMeta({
+    title: "Blog — Conseils & actualités digitales",
+    description: "Guides, tendances et conseils pour booster votre présence digitale en Afrique. Marketing, SEO, IA et développement web.",
+  });
+
   const { posts, isLoading } = useBlogPosts(false);
 
   const formatDate = (dateString: string | null) => {

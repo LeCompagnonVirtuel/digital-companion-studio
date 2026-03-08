@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const pricingPlans = [
   {
@@ -93,6 +94,11 @@ const faqs = [
 ];
 
 const Pricing = () => {
+  useDocumentMeta({
+    title: "Tarifs — Packs digitaux à partir de 149 900 FCFA",
+    description: "Découvrez nos packs Starter, Croissance et Scale. Des tarifs clairs et adaptés au marché africain, sans surprise.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Shield, Eye, Lock, Database, Clock, UserCheck, Mail, Settings } from "lucide-react";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const sections = [
   {
@@ -90,6 +91,8 @@ Vous pouvez gérer vos préférences cookies à tout moment via le bandeau de co
 ];
 
 const Privacy = () => {
+  useDocumentMeta({ title: "Politique de confidentialité", noindex: true });
+
   return (
     <div className="min-h-screen">
       <Navigation />

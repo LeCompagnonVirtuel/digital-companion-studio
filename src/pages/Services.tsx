@@ -18,6 +18,7 @@ import {
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const services = [
   {
@@ -124,6 +125,11 @@ const itemVariants = {
 };
 
 const Services = () => {
+  useDocumentMeta({
+    title: "Nos 11 Services Digitaux",
+    description: "Marketing digital, sites web, e-commerce, automatisation IA, branding, SEO et plus. Solutions complètes pour votre succès digital en Afrique.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />

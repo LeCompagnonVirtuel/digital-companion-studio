@@ -2,8 +2,11 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { ScrollText, FileCheck, CreditCard, Clock, Shield, AlertTriangle, Scale, HelpCircle } from "lucide-react";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Terms = () => {
+  useDocumentMeta({ title: "Conditions générales", noindex: true });
+
   return (
     <div className="min-h-screen">
       <Navigation />

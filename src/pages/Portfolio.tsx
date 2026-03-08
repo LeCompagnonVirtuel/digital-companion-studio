@@ -7,8 +7,14 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import { usePortfolioProjects, serviceCategories } from "@/hooks/usePortfolioProjects";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const Portfolio = () => {
+  useDocumentMeta({
+    title: "Portfolio — Nos réalisations",
+    description: "Découvrez nos projets web, marketing digital et e-commerce réalisés pour des entreprises en Afrique. Études de cas détaillées.",
+  });
+
   const { projects, isLoading } = usePortfolioProjects(false);
   const [activeCategory, setActiveCategory] = useState("Tous");
 

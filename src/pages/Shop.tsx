@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { PromoBanner } from "@/components/shop/PromoBanner";
 import { SocialProofToasts } from "@/components/shop/SocialProofToasts";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 type SortOption = "popular" | "newest" | "price-asc" | "price-desc";
 
@@ -36,6 +37,11 @@ const trustItems = [
 ];
 
 const Shop = () => {
+  useDocumentMeta({
+    title: "Boutique — Produits digitaux premium",
+    description: "Formations, templates et outils digitaux pour entrepreneurs africains. Accès instantané, paiement Mobile Money sécurisé.",
+  });
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("popular");

@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Search, TrendingUp, Target, Zap, BarChart3, Sh
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const auditIncludes = [
   {
@@ -47,6 +48,11 @@ const benefits = [
 ];
 
 const FreeAudit = () => {
+  useDocumentMeta({
+    title: "Audit digital gratuit",
+    description: "Obtenez un audit complet et gratuit de votre présence digitale : site, SEO, réseaux sociaux et recommandations personnalisées.",
+  });
+
   return (
     <div className="min-h-screen">
       <Navigation />
