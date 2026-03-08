@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ExternalLink, Globe, ShoppingCart, Smartphone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePortfolioProjects, serviceCategories } from "@/hooks/usePortfolioProjects";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 // Fallback static projects if database is empty
 const fallbackProjects = [
