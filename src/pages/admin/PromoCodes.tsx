@@ -351,7 +351,9 @@ const AdminPromoCodes = () => {
   );
 };
 
-// Form Dialog
+import { useState, useEffect } from "react";
+// (keep rest of component as is, this is the inner component)
+
 const PromoCodeFormDialog = ({
   open,
   onOpenChange,
@@ -375,22 +377,20 @@ const PromoCodeFormDialog = ({
   });
   const [isSaving, setIsSaving] = useState(false);
 
-  // Reset form on open
-  useState(() => {});
-  // Use useEffect-like pattern
-  if (open && promoCode && form.code !== promoCode.code) {
-    setForm({
-      code: promoCode.code,
-      discount_percent: promoCode.discount_percent,
-      max_uses: promoCode.max_uses,
-      min_order_amount: promoCode.min_order_amount,
-      is_active: promoCode.is_active,
-      expires_at: promoCode.expires_at ? promoCode.expires_at.split("T")[0] : "",
-    });
-  }
-  if (open && !promoCode && form.code !== "" && form.discount_percent !== 10) {
-    // This won't reliably reset. We'll handle it properly.
-  }
+  useEffect(() => {
+    if (open && promoCode) {
+      setForm({
+        code: promoCode.code,
+        discount_percent: promoCode.discount_percent,
+        max_uses: promoCode.max_uses,
+        min_order_amount: promoCode.min_order_amount,
+        is_active: promoCode.is_active,
+        expires_at: promoCode.expires_at ? promoCode.expires_at.split("T")[0] : "",
+      });
+    } else if (open && !promoCode) {
+      setForm({ code: "", discount_percent: 10, max_uses: null, min_order_amount: null, is_active: true, expires_at: "" });
+    }
+  }, [open, promoCode]);
 
   const handleSubmit = async () => {
     if (!form.code.trim()) return;
