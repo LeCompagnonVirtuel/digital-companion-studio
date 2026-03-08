@@ -160,6 +160,15 @@ export const PdfUploader = ({
 
       if (error) throw error;
 
+      // Also remove from product_files table if productId is a real UUID
+      if (productId && productId !== "new-product") {
+        await supabase
+          .from("product_files")
+          .delete()
+          .eq("product_id", productId)
+          .eq("file_path", file.path || file.url);
+      }
+
       onFilesChange(currentFiles.filter((f) => f.path !== file.path));
       toast({ title: "Fichier supprimé", description: `${file.name} a été supprimé.` });
     } catch (err: any) {
