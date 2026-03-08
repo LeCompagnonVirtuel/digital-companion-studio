@@ -112,7 +112,7 @@ export function ProductProblemSolution({
               className="flex items-start gap-3"
             >
               <CheckCircle size={18} className="text-emerald-500 shrink-0 mt-0.5" />
-              <span className="text-sm leading-relaxed">{benefit}</span>
+              <span className="text-sm leading-relaxed whitespace-pre-line">{benefit}</span>
             </motion.li>
           ))}
         </ul>
@@ -145,7 +145,7 @@ export function ProductProblemSolution({
               className="flex items-center gap-2"
             >
               <Zap size={14} className="text-primary shrink-0" />
-              <span className="text-sm">{item}</span>
+              <span className="text-sm whitespace-pre-line">{item}</span>
             </motion.div>
           ))}
         </div>
