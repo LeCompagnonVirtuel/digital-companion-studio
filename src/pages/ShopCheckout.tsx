@@ -134,6 +134,10 @@ const ShopCheckout = () => {
 
       const returnUrl = `${window.location.origin}/boutique/confirmation?order=${order.id}`;
 
+      const productTitle = items.length > 1
+        ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
+        : mainItem.product.title;
+
       const { data: paymentData, error: paymentError } = await supabase.functions.invoke(
         'moneyfusion-payment',
         {
@@ -141,9 +145,7 @@ const ShopCheckout = () => {
             orderId: order.id,
             customerEmail: formData.email,
             customerName: formData.name || 'Client',
-            productTitle: items.length > 1
-              ? `${item.product.title} + ${items.length - 1} autres`
-              : item.product.title,
+            productTitle,
             price: total,
             returnUrl,
           },
