@@ -67,6 +67,23 @@ const Settings = () => {
   const [maintenanceTitle, setMaintenanceTitle] = useState('🚧 Site en maintenance');
   const [maintenanceMessage, setMaintenanceMessage] = useState('');
   const [maintenanceReturn, setMaintenanceReturn] = useState('');
+  const [maintenanceHistory, setMaintenanceHistory] = useState<any[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+
+  const fetchHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    const { data } = await supabase
+      .from('maintenance_history')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    setMaintenanceHistory(data || []);
+    setHistoryLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
 
   // Sync local state with settings from database
   useEffect(() => {
