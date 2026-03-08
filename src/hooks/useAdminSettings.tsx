@@ -22,6 +22,10 @@ export interface AdminSettings {
     address: string;
     hours: string;
   };
+  maintenance_mode: boolean;
+  maintenance_title: string;
+  maintenance_message: string;
+  maintenance_estimated_return: string | null;
 }
 
 const defaultSettings: AdminSettings = {
