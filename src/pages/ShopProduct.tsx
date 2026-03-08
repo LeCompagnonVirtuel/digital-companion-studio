@@ -257,8 +257,11 @@ const ShopProduct = () => {
                   <><ShoppingCart className="w-5 h-5 mr-2" /> Ajouter au panier</>
                 )}
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-13 sm:h-14 text-base sm:text-lg rounded-xl">
-                <Link to="/boutique/checkout">Acheter maintenant</Link>
+              <Button asChild size="lg" className="h-13 sm:h-14 text-base sm:text-lg rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-0 shadow-lg">
+                <Link to="/boutique/checkout">
+                  <Flame className="w-5 h-5 mr-2" />
+                  Acheter maintenant
+                </Link>
               </Button>
             </div>
 
