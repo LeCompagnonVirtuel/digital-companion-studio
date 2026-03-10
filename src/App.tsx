@@ -12,6 +12,7 @@ import { Chatbot } from "@/components/Chatbot";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { RetentionProvider } from "@/components/retention";
 import { useMaintenanceMode } from "@/hooks/useMaintenanceMode";
+import { Analytics } from "@vercel/analytics/react";
 import Maintenance from "./pages/Maintenance";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
@@ -202,6 +203,7 @@ const App = () => (
         </CurrencyProvider>
       </AdminAuthProvider>
     </LanguageProvider>
+    <Analytics />
   </QueryClientProvider>
 );
 
