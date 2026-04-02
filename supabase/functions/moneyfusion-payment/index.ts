@@ -85,11 +85,10 @@ Deno.serve(async (req) => {
       webhook_url: webhookUrl
     });
 
-    // Try multiple endpoints - Money Fusion API endpoints
+    // Money Fusion API endpoint
     const endpoints = [
-      `https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/58ef45bf053676ab/pay/`,
-      `https://pay.moneyfusion.net/Le_Compagnon_Virtuel/58ef45bf053676ab/pay/`,
-      `https://moneyfusion.net/api/v1/pay/${apiKey}`,
+      `https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/`,
+      `https://pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/`,
     ];
 
     let mfData: any = null;
