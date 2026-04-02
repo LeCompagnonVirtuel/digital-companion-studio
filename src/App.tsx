@@ -11,6 +11,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { Chatbot } from "@/components/Chatbot";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { RetentionProvider } from "@/components/retention";
+import { FloatingCartButton } from "@/components/shop/FloatingCartButton";
 import { useMaintenanceMode } from "@/hooks/useMaintenanceMode";
 import Maintenance from "./pages/Maintenance";
 import Index from "./pages/Index";
