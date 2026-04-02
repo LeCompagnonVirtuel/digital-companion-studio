@@ -33,7 +33,7 @@ serve(async (req) => {
       .select("*, digital_products:product_id(download_url)")
       .eq("order_number", orderNumber)
       .eq("access_token", token)
-      .eq("status", "paid")
+      .in("status", ["completed", "paid"])
       .single();
 
     if (orderError || !order) {

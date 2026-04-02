@@ -40,31 +40,37 @@ const ShopPaymentError = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const orderId = searchParams.get("order");
+  const accessToken = searchParams.get("token");
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
-      if (!orderId) {
+      if (!orderId || !accessToken) {
         setLoading(false);
         return;
       }
+
       try {
-        const { data } = await supabase
-          .from("orders")
-          .select("id, order_number, product_title, price, customer_email, customer_name, status")
-          .eq("id", orderId)
-          .single();
-        if (data) setOrder(data);
+        const { data, error } = await supabase.functions.invoke("public-order-status", {
+          body: { orderId, token: accessToken },
+        });
+
+        if (error) {
+          console.error("Error fetching order:", error);
+        } else if (data?.order) {
+          setOrder(data.order);
+        }
       } catch (err) {
         console.error("Error fetching order:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchOrder();
-  }, [orderId]);
+  }, [orderId, accessToken]);
 
   const handleRetry = async () => {
     if (!order) return;

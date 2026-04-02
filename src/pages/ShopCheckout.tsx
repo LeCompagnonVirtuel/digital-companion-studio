@@ -15,7 +15,6 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/hooks/useCart";
-import { useCreateOrder } from "@/hooks/useOrders";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEcommerceEvent } from "@/hooks/useAnalytics";
@@ -34,7 +33,7 @@ const steps = [
 const ShopCheckout = () => {
   const navigate = useNavigate();
   const { items, removeItem, total, clearCart, itemCount } = useCart();
-  const createOrder = useCreateOrder();
+  
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -91,99 +90,62 @@ const ShopCheckout = () => {
     });
 
     let createdOrderId: string | null = null;
+    let createdAccessToken: string | null = null;
     try {
-      const mainItem = items[0];
-      const orderNumber = `LCV-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-      // Create order with first product as primary (for legacy compatibility)
-      const order = await createOrder.mutateAsync({
-        customer_email: formData.email,
-        customer_name: formData.name,
-        product_id: mainItem.product.id,
-        product_title: items.length > 1
-          ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
-          : mainItem.product.title,
-        price: finalTotal,
-        currency: "XOF",
-        payment_method: "money_fusion",
-        download_link: mainItem.product.download_url || undefined,
-        order_number: orderNumber,
-      });
-      createdOrderId = order.id;
-
-      // Create order_items for each product
-      if (items.length > 0) {
-        const orderItems = items.map(item => ({
-          order_id: order.id,
-          product_id: item.product.id,
-          product_title: item.product.title,
-          price: item.product.price,
-          quantity: item.quantity,
-        }));
-
-        const { error: itemsError } = await supabase
-          .from("order_items")
-          .insert(orderItems);
-
-        if (itemsError) {
-          console.error("Error creating order items:", itemsError);
-          // Non-blocking — order is already created
-        }
-      }
-
-      // Update promo code usage and store on order
-      if (promoCode) {
-        await supabase.from("orders").update({
-          promo_code: promoCode,
-          discount_amount: discountAmount,
-          notes: `Code promo: ${promoCode} (-${discountPercent}%)`,
-        }).eq("id", order.id);
-
-        // Increment usage (fire-and-forget)
-        supabase.rpc("increment_promo_usage" as any, { promo_code_value: promoCode }).then(() => {});
-      }
-
-      // Track purchase event
-      trackEcommerceEvent('purchase', {
-        order_id: order.id,
-        order_number: order.order_number,
-        items: items.map(i => ({ product_id: i.product.id, title: i.product.title, price: i.product.price })),
-        total,
-        currency: 'XOF',
-        payment_method: 'money_fusion',
-      });
-
-      const returnUrl = `${window.location.origin}/boutique/confirmation?order=${order.id}`;
-
-      const productTitle = items.length > 1
-        ? `${mainItem.product.title} + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`
-        : mainItem.product.title;
-
-      const { data: paymentData, error: paymentError } = await supabase.functions.invoke(
-        'moneyfusion-payment',
+      const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke(
+        "create-checkout-order",
         {
           body: {
-            orderId: order.id,
             customerEmail: formData.email,
-            customerName: formData.name || 'Client',
-            productTitle,
-            price: finalTotal,
-            returnUrl,
+            customerName: formData.name || null,
+            items: items.map((item) => ({
+              productId: item.product.id,
+              productTitle: item.product.title,
+              price: item.product.price,
+              quantity: item.quantity,
+              downloadLink: item.product.download_url || null,
+            })),
+            total: finalTotal,
+            promoCode,
+            discountAmount,
+            discountPercent,
+            returnBaseUrl: window.location.origin,
           },
         }
       );
 
-      if (paymentError) throw new Error(paymentError.message || "Erreur lors de l'initiation du paiement");
-      if (!paymentData?.paymentUrl) throw new Error("Impossible d'obtenir le lien de paiement");
+      if (checkoutError) {
+        throw new Error(checkoutError.message || "Erreur lors de la création de la commande");
+      }
+
+      createdOrderId = checkoutData?.orderId || null;
+      createdAccessToken = checkoutData?.accessToken || null;
+
+      if (!checkoutData?.success || !checkoutData?.paymentUrl) {
+        throw new Error(checkoutData?.message || "Impossible d'initialiser le paiement");
+      }
+
+      trackEcommerceEvent("purchase", {
+        order_id: checkoutData.orderId,
+        order_number: checkoutData.orderNumber,
+        items: items.map((i) => ({ product_id: i.product.id, title: i.product.title, price: i.product.price })),
+        total,
+        currency: "XOF",
+        payment_method: "money_fusion",
+      });
 
       await clearCart();
 
       toast({ title: "Redirection vers le paiement", description: "Vous allez être redirigé vers Money Fusion..." });
-      window.location.href = paymentData.paymentUrl;
+      window.location.href = checkoutData.paymentUrl;
     } catch (error: any) {
       console.error("Checkout error:", error);
       if (createdOrderId) {
-        navigate(`/boutique/paiement-erreur?order=${createdOrderId}`);
+        const params = new URLSearchParams({ order: createdOrderId });
+        const maybeToken = typeof createdAccessToken !== "undefined" ? createdAccessToken : null;
+        if (maybeToken) params.set("token", maybeToken);
+        navigate(`/boutique/paiement-erreur?${params.toString()}`);
       } else {
         toast({ title: "Erreur", description: error.message || "Une erreur est survenue.", variant: "destructive" });
       }
