@@ -105,7 +105,7 @@ const ShopConfirmation = () => {
         };
       case "failed":
         // Redirect to dedicated error page
-        navigate(`/boutique/paiement-erreur?order=${orderId}`, { replace: true });
+        navigate(`/boutique/paiement-erreur?order=${orderId}${accessToken ? `&token=${accessToken}` : ""}`, { replace: true });
         return {
           icon: <Loader2 className="w-10 h-10 sm:w-12 sm:h-12 text-primary animate-spin" />,
           iconBg: "bg-primary/10",
