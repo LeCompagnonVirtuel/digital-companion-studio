@@ -31,27 +31,26 @@ const ShopConfirmation = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const orderId = searchParams.get("order");
+  const accessToken = searchParams.get("token");
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrder = async () => {
-      if (!orderId) {
+      if (!orderId || !accessToken) {
         setLoading(false);
         return;
       }
 
       try {
-        const { data, error } = await supabase
-          .from("orders")
-          .select("*")
-          .eq("id", orderId)
-          .single();
+        const { data, error } = await supabase.functions.invoke("public-order-status", {
+          body: { orderId, token: accessToken },
+        });
 
         if (error) {
           console.error("Error fetching order:", error);
-        } else {
-          setOrder(data);
+        } else if (data?.order) {
+          setOrder(data.order);
         }
       } catch (err) {
         console.error("Error:", err);
@@ -63,21 +62,19 @@ const ShopConfirmation = () => {
     fetchOrder();
 
     const interval = setInterval(async () => {
-      if (orderId && order?.status === "pending_payment") {
-        const { data } = await supabase
-          .from("orders")
-          .select("*")
-          .eq("id", orderId)
-          .single();
-        
-        if (data && data.status !== order.status) {
-          setOrder(data);
+      if (orderId && accessToken && order?.status === "pending_payment") {
+        const { data } = await supabase.functions.invoke("public-order-status", {
+          body: { orderId, token: accessToken },
+        });
+
+        if (data?.order && data.order.status !== order.status) {
+          setOrder(data.order);
         }
       }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [orderId, order?.status]);
+  }, [orderId, accessToken, order?.status]);
 
   const getStatusContent = () => {
     if (loading) {
