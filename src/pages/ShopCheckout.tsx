@@ -33,7 +33,7 @@ const steps = [
 const ShopCheckout = () => {
   const navigate = useNavigate();
   const { items, removeItem, total, clearCart, itemCount } = useCart();
-  const createOrder = useCreateOrder();
+  
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
