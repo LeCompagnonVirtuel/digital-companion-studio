@@ -230,7 +230,7 @@ const ShopConfirmation = () => {
                 onClick={async () => {
                   try {
                     const res = await fetch(
-                      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/secure-download?order=${order.order_number}&token=${order.access_token}`,
+                      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/secure-download?order=${order.order_number}&token=${accessToken}`,
                       { headers: { "Content-Type": "application/json" } }
                     );
                     const data = await res.json();
