@@ -90,8 +90,8 @@ const ShopCheckout = () => {
     });
 
     let createdOrderId: string | null = null;
+    let createdAccessToken: string | null = null;
     try {
-      let createdAccessToken: string | null = null;
 
       const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke(
         "create-checkout-order",
