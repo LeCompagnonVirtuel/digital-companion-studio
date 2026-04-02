@@ -193,6 +193,7 @@ const App = () => (
                 <Route path="/admin/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <FloatingCartButton />
               <ChatbotWrapper />
             </RetentionProvider>
             </MaintenanceGuard>
