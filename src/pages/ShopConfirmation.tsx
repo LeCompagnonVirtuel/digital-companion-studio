@@ -20,7 +20,6 @@ import { supabase } from "@/integrations/supabase/client";
 interface OrderDetails {
   id: string;
   order_number: string;
-  access_token: string | null;
   status: string;
   product_title: string;
   price: number;
