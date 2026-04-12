@@ -15,164 +15,80 @@ interface PaymentRequest {
 }
 
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    let apiKey = Deno.env.get('MONEYFUSION_API_KEY');
-    if (!apiKey) {
-      console.error('MONEYFUSION_API_KEY not configured');
-      return new Response(
-        JSON.stringify({ error: 'Payment service not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Extract the actual API key if a full URL was provided
-    // Handle formats like: https://moneyfusion.net/links/ACTUAL_KEY or just ACTUAL_KEY
-    if (apiKey.includes('moneyfusion.net/links/')) {
-      const match = apiKey.match(/moneyfusion\.net\/links\/([a-zA-Z0-9]+)/);
-      if (match && match[1]) {
-        apiKey = match[1];
-        console.log('Extracted API key from URL format');
-      }
-    }
-
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { orderId, customerEmail, customerName, productTitle, price, returnUrl }: PaymentRequest = await req.json();
 
-    console.log('Processing payment request:', { orderId, customerEmail, productTitle, price });
-
-    // Validate required fields
     if (!orderId || !customerEmail || !productTitle || !price) {
-      console.error('Missing required fields');
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Price is already in FCFA
     const priceInFCFA = Math.round(price);
-
-    // Build webhook URL
     const webhookUrl = `${supabaseUrl}/functions/v1/moneyfusion-webhook`;
+    const apiUrl = 'https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/';
 
-    // Prepare articles array
-    const articles = [{
-      name: productTitle,
-      price: priceInFCFA.toString(),
-      quantity: 1
-    }];
-
-    // Prepare personal_Info for order tracking
-    const personalInfo = [
-      { orderId: orderId },
-      { customerEmail: customerEmail }
-    ];
-
-    console.log('Calling Money Fusion API with key:', apiKey.substring(0, 8) + '...');
-    console.log('Request payload:', {
+    const mfPayload = {
       totalPrice: priceInFCFA,
-      articles,
+      article: [{ [productTitle]: priceInFCFA }],
+      personal_Info: [{ orderId }, { customerEmail }],
+      numeroSend: "0000000000",
       nomclient: customerName || 'Client',
       return_url: returnUrl,
-      webhook_url: webhookUrl
+      webhook_url: webhookUrl,
+    };
+
+    console.log('Calling Money Fusion API:', JSON.stringify(mfPayload));
+
+    const mfResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(mfPayload),
     });
 
-    // Money Fusion API endpoint
-    const endpoints = [
-      `https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/`,
-      `https://pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/`,
-    ];
+    const responseText = await mfResponse.text();
+    console.log('Money Fusion response:', responseText);
 
     let mfData: any = null;
-    let lastError: string = '';
-
-    for (const apiUrl of endpoints) {
-      console.log('Trying API URL:', apiUrl);
-      
-      try {
-        const mfResponse = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'moneyfusion-private-key': apiKey
-          },
-          body: JSON.stringify({
-            totalPrice: priceInFCFA.toString(),
-            articles,
-            nomclient: customerName || 'Client',
-            return_url: returnUrl,
-            webhook_url: webhookUrl,
-            personal_Info: personalInfo
-          })
-        });
-
-        const responseText = await mfResponse.text();
-        console.log('Response status:', mfResponse.status, 'Response text (first 200 chars):', responseText.substring(0, 200));
-
-        // Check if response is JSON
-        if (responseText.startsWith('{') || responseText.startsWith('[')) {
-          mfData = JSON.parse(responseText);
-          console.log('Money Fusion response:', mfData);
-          
-          if (mfData.statut && mfData.url) {
-            console.log('Success with endpoint:', apiUrl);
-            break;
-          }
-        } else {
-          lastError = `Endpoint returned HTML instead of JSON: ${apiUrl}`;
-          console.log(lastError);
-        }
-      } catch (endpointError) {
-        lastError = endpointError instanceof Error ? endpointError.message : 'Unknown error';
-        console.log('Endpoint failed:', apiUrl, lastError);
-      }
+    try {
+      mfData = JSON.parse(responseText);
+    } catch {
+      console.error('Failed to parse response');
     }
 
     if (!mfData || !mfData.statut || !mfData.url) {
-      console.error('All Money Fusion endpoints failed. Last error:', lastError);
-      console.error('Last response:', mfData);
       return new Response(
-        JSON.stringify({ 
-          error: 'Payment initiation failed', 
-          details: mfData || { message: lastError },
-          message: 'La passerelle de paiement n\'a pas pu initialiser la transaction. Veuillez vérifier la clé API Money Fusion.'
+        JSON.stringify({
+          error: 'Payment initiation failed',
+          details: mfData,
+          message: "La passerelle de paiement n'a pas pu initialiser la transaction.",
         }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Update order with payment token
-    const { error: updateError } = await supabase
+    await supabase
       .from('orders')
-      .update({
-        payment_id: mfData.token,
-        status: 'pending_payment'
-      })
+      .update({ payment_id: mfData.token, status: 'pending_payment' })
       .eq('id', orderId);
-
-    if (updateError) {
-      console.error('Failed to update order with payment token:', updateError);
-    }
-
-    console.log('Payment initiated successfully:', { token: mfData.token, url: mfData.url });
 
     return new Response(
       JSON.stringify({
         success: true,
         paymentUrl: mfData.url,
-        token: mfData.token
+        token: mfData.token,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
-
   } catch (error: unknown) {
     console.error('Payment error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

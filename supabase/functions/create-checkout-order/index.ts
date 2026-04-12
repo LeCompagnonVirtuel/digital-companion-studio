@@ -101,40 +101,89 @@ Deno.serve(async (req) => {
       supabase.rpc("increment_promo_usage", { promo_code_value: promoCode }).then(() => {});
     }
 
+    // Build return URL
     const normalizedOrigin = returnBaseUrl.replace(/\/$/, "");
     const returnUrl = `${normalizedOrigin}/boutique/confirmation?order=${order.id}&token=${order.access_token}`;
 
-    const paymentResponse = await fetch(`${supabaseUrl}/functions/v1/moneyfusion-payment`, {
+    // Call Money Fusion API directly
+    const priceInFCFA = Math.round(order.price);
+    const webhookUrl = `${supabaseUrl}/functions/v1/moneyfusion-webhook`;
+    const apiUrl = "https://www.pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/";
+
+    const article = items.map((item) => ({ [item.productTitle]: Math.round(item.price * item.quantity) }));
+    const personalInfo = [
+      { orderId: order.id },
+      { customerEmail: customerEmail },
+    ];
+
+    const mfPayload = {
+      totalPrice: priceInFCFA,
+      article,
+      personal_Info: personalInfo,
+      numeroSend: "0000000000",
+      nomclient: customerName || "Client",
+      return_url: returnUrl,
+      webhook_url: webhookUrl,
+    };
+
+    console.log("Calling Money Fusion API:", JSON.stringify(mfPayload));
+
+    const mfResponse = await fetch(apiUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        orderId: order.id,
-        customerEmail: order.customer_email,
-        customerName: order.customer_name || "Client",
-        productTitle: order.product_title,
-        price: order.price,
-        returnUrl,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mfPayload),
     });
 
-    const paymentData = await paymentResponse.json();
+    const responseText = await mfResponse.text();
+    console.log("Money Fusion response:", responseText);
 
-    if (!paymentResponse.ok || !paymentData?.paymentUrl) {
-      console.error("Payment initiation failed:", paymentData);
+    let mfData: any = null;
+    try {
+      mfData = JSON.parse(responseText);
+    } catch {
+      console.error("Failed to parse Money Fusion response as JSON");
+    }
+
+    if (!mfData || !mfData.statut || !mfData.url) {
+      console.error("Money Fusion payment initiation failed:", mfData);
+
+      // Try alternate endpoint
+      try {
+        const altResponse = await fetch("https://pay.moneyfusion.net/Le_Compagnon_Virtuel/93d0fe45e303be18/pay/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mfPayload),
+        });
+        const altText = await altResponse.text();
+        console.log("Money Fusion alt response:", altText);
+        if (altText.startsWith("{")) {
+          mfData = JSON.parse(altText);
+        }
+      } catch (altErr) {
+        console.error("Alt endpoint also failed:", altErr);
+      }
+    }
+
+    if (!mfData || !mfData.statut || !mfData.url) {
       return new Response(
         JSON.stringify({
           success: false,
           orderId: order.id,
           orderNumber: order.order_number,
           accessToken: order.access_token,
-          message: paymentData?.message || paymentData?.error || "Impossible d'initialiser le paiement",
-          details: paymentData?.details || null,
+          message: mfData?.message || "Impossible d'initialiser le paiement",
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Update order with payment token
+    await supabase
+      .from("orders")
+      .update({ payment_id: mfData.token, status: "pending_payment" })
+      .eq("id", order.id);
+
+    console.log("Payment initiated successfully:", { token: mfData.token, url: mfData.url });
 
     return new Response(
       JSON.stringify({
@@ -142,7 +191,7 @@ Deno.serve(async (req) => {
         orderId: order.id,
         orderNumber: order.order_number,
         accessToken: order.access_token,
-        paymentUrl: paymentData.paymentUrl,
+        paymentUrl: mfData.url,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
