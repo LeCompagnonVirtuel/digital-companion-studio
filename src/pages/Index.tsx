@@ -8,6 +8,7 @@ import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 // Lazy load below-the-fold sections for performance
 const ServicesSection = lazy(() => import("@/components/home/ServicesSection").then(m => ({ default: m.ServicesSection })));
 const WhyChooseUsSection = lazy(() => import("@/components/home/WhyChooseUsSection").then(m => ({ default: m.WhyChooseUsSection })));
+const VideoShowcaseSection = lazy(() => import("@/components/home/VideoShowcaseSection").then(m => ({ default: m.VideoShowcaseSection })));
 const StatsSection = lazy(() => import("@/components/home/StatsSection").then(m => ({ default: m.StatsSection })));
 const FeaturedProjectsSection = lazy(() => import("@/components/home/FeaturedProjectsSection").then(m => ({ default: m.FeaturedProjectsSection })));
 const TestimonialsSection = lazy(() => import("@/components/home/TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
