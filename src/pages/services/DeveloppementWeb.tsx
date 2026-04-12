@@ -210,38 +210,30 @@ const DeveloppementWeb = () => {
                   {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 rounded-3xl blur-3xl" />
                   
-                  {/* Card */}
-                  <div className="relative bg-card/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 h-full flex flex-col items-center justify-center shadow-premium">
-                    {/* Browser mockup */}
-                    <div className="w-full">
-                      <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border">
-                        <div className="flex gap-1.5">
-                          <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                          <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                          <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                        </div>
-                        <div className="flex-1 h-6 rounded-full bg-muted/50 mx-4" />
+                  {/* Video in browser frame */}
+                  <div className="relative bg-card/90 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden h-full flex flex-col shadow-premium">
+                    {/* Browser bar */}
+                    <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
+                      <div className="flex gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-destructive/60" />
+                        <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                        <div className="w-3 h-3 rounded-full bg-green-500/60" />
                       </div>
-                      
-                      {/* Content mockup */}
-                      <div className="space-y-4">
-                        <motion.div 
-                          className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center shadow-glow"
-                          animate={{ rotate: [0, 5, -5, 0] }}
-                          transition={{ duration: 6, repeat: Infinity }}
-                        >
-                          <Globe size={40} className="text-primary-foreground" />
-                        </motion.div>
-                        <div className="space-y-2">
-                          <div className="h-4 bg-gradient-to-r from-primary/20 to-transparent rounded-full w-3/4 mx-auto" />
-                          <div className="h-3 bg-muted/50 rounded-full w-1/2 mx-auto" />
-                          <div className="h-3 bg-muted/30 rounded-full w-2/3 mx-auto" />
-                        </div>
-                        <div className="flex justify-center gap-3 pt-4">
-                          <div className="w-20 h-8 rounded-lg bg-primary/20" />
-                          <div className="w-20 h-8 rounded-lg bg-muted/40" />
-                        </div>
-                      </div>
+                      <div className="flex-1 h-6 rounded-full bg-muted/50 mx-4" />
+                    </div>
+                    
+                    {/* Video */}
+                    <div className="flex-1 relative">
+                      <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      >
+                        <source src="/videos/fullstack-demo.mp4" type="video/mp4" />
+                      </video>
                     </div>
                     
                     {/* Floating badges */}
