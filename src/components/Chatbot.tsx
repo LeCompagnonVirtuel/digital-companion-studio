@@ -120,6 +120,17 @@ export function Chatbot() {
     }
   }, [input]);
 
+  // Announce new messages to screen readers
+  const liveRegionRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (liveRegionRef.current && messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.role === "assistant") {
+        liveRegionRef.current.textContent = `Assistant: ${lastMessage.content.slice(0, 100)}${lastMessage.content.length > 100 ? '...' : ''}`;
+      }
+    }
+  }, [messages]);
+
   const sendMessage = async (messageText?: string) => {
     const text = messageText || input.trim();
     if (!text || isLoading) return;
@@ -272,6 +283,8 @@ export function Chatbot() {
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            aria-label="Ouvrir l'assistant conversationnel"
+            role="button"
           >
             {/* Pulse animation ring */}
             <motion.div
@@ -324,7 +337,17 @@ export function Chatbot() {
               transition={{ duration: 0.25, ease: "easeOut" }}
               layout
               className={`${chatWindowClasses} bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
+              role="dialog"
+              aria-label="Assistant conversation"
+              aria-modal="false"
             >
+              {/* Screen reader live region */}
+              <div
+                ref={liveRegionRef}
+                aria-live="polite"
+                aria-atomic="true"
+                className="sr-only"
+              />
               {/* Header */}
               <div className="relative flex items-center justify-between px-4 py-3 border-b border-border/50 bg-gradient-to-r from-primary/5 via-transparent to-primary/5">
                 {/* Animated background */}
