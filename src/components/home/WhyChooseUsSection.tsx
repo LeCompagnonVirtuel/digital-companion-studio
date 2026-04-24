@@ -1,11 +1,18 @@
 import { motion } from "framer-motion";
-import { MapPin, Headphones, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MapPin, Headphones, TrendingUp, Zap, Brain, Shield, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const reasons = [
   {
     icon: MapPin,
     title: "Expertise Locale",
     description: "Basés en Côte d'Ivoire, nous comprenons les réalités du marché africain et créons des solutions adaptées à votre contexte.",
+  },
+  {
+    icon: Zap,
+    title: "Livraison Rapide",
+    description: "Sites web livrés en 5 à 15 jours. Pas de délais interminables — votre business n'attend pas.",
   },
   {
     icon: Headphones,
@@ -16,6 +23,16 @@ const reasons = [
     icon: TrendingUp,
     title: "ROI Garanti",
     description: "Nos solutions sont orientées résultats. Nous mesurons et optimisons en continu pour maximiser votre retour sur investissement.",
+  },
+  {
+    icon: Brain,
+    title: "IA Intégrée",
+    description: "Chatbots, automatisations et outils IA intégrés dans chaque solution pour vous donner un avantage compétitif.",
+  },
+  {
+    icon: Shield,
+    title: "Accompagnement Total",
+    description: "Du diagnostic initial à la maintenance post-lancement, nous restons à vos côtés. Formation et transfert de compétences inclus.",
   },
 ];
 
@@ -40,14 +57,14 @@ export const WhyChooseUsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {reasons.map((reason, index) => (
             <motion.div
               key={reason.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative p-8 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-500 text-center"
             >
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -61,6 +78,22 @@ export const WhyChooseUsSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <p className="text-muted-foreground mb-4">Pas sûr de ce dont vous avez besoin ?</p>
+          <Button variant="heroGhost" size="lg" asChild>
+            <Link to="/diagnostic-gratuit" className="group">
+              Faire un diagnostic gratuit en 2 minutes
+              <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

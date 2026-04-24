@@ -6,6 +6,7 @@ import { TrustBadgesSection } from "@/components/home/TrustBadgesSection";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 // Lazy load below-the-fold sections for performance
+const WelcomeSection = lazy(() => import("@/components/home/WelcomeSection").then(m => ({ default: m.WelcomeSection })));
 const ServicesSection = lazy(() => import("@/components/home/ServicesSection").then(m => ({ default: m.ServicesSection })));
 const WhyChooseUsSection = lazy(() => import("@/components/home/WhyChooseUsSection").then(m => ({ default: m.WhyChooseUsSection })));
 const VideoShowcaseSection = lazy(() => import("@/components/home/VideoShowcaseSection").then(m => ({ default: m.VideoShowcaseSection })));
@@ -40,13 +41,13 @@ const Index = () => {
         <HeroSection />
         <TrustBadgesSection />
         <Suspense fallback={<SectionFallback />}>
+          <WelcomeSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
           <ServicesSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <WhyChooseUsSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <VideoShowcaseSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <StatsSection />
@@ -55,22 +56,25 @@ const Index = () => {
           <FeaturedProjectsSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
+          <VideoShowcaseSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
           <TestimonialsSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
-          <ShopSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <PricingSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ProcessSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <PhilosophySection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <EntrepreneurGuideSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ShopSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProcessSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <FAQSection />
