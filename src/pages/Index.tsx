@@ -16,6 +16,8 @@ const ShopSection = lazy(() => import("@/components/home/ShopSection").then(m =>
 const PricingSection = lazy(() => import("@/components/home/PricingSection").then(m => ({ default: m.PricingSection })));
 const ProcessSection = lazy(() => import("@/components/home/ProcessSection").then(m => ({ default: m.ProcessSection })));
 const FAQSection = lazy(() => import("@/components/home/FAQSection").then(m => ({ default: m.FAQSection })));
+const PhilosophySection = lazy(() => import("@/components/home/PhilosophySection").then(m => ({ default: m.PhilosophySection })));
+const EntrepreneurGuideSection = lazy(() => import("@/components/home/EntrepreneurGuideSection").then(m => ({ default: m.EntrepreneurGuideSection })));
 const AboutSection = lazy(() => import("@/components/home/AboutSection").then(m => ({ default: m.AboutSection })));
 const CTASection = lazy(() => import("@/components/home/CTASection").then(m => ({ default: m.CTASection })));
 
@@ -63,6 +65,12 @@ const Index = () => {
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <ProcessSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <PhilosophySection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <EntrepreneurGuideSection />
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <FAQSection />

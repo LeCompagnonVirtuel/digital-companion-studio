@@ -52,6 +52,8 @@ import ShopCheckout from "./pages/ShopCheckout";
 import ShopConfirmation from "./pages/ShopConfirmation";
 import ShopPaymentError from "./pages/ShopPaymentError";
 import FreeResources from "./pages/FreeResources";
+import GuideEntrepreneur from "./pages/GuideEntrepreneur";
+import DiagnosticGratuit from "./pages/DiagnosticGratuit";
 import Dashboard from "./pages/admin/Dashboard";
 import Leads from "./pages/admin/Leads";
 import Content from "./pages/admin/Content";
@@ -174,6 +176,8 @@ const App = () => (
                 <Route path="/boutique/confirmation" element={<ShopConfirmation />} />
                 <Route path="/boutique/paiement-erreur" element={<ShopPaymentError />} />
                 <Route path="/ressources-gratuites" element={<FreeResources />} />
+                <Route path="/guide-entrepreneur" element={<GuideEntrepreneur />} />
+                <Route path="/diagnostic-gratuit" element={<DiagnosticGratuit />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<Dashboard />} />
                 <Route path="/admin/leads" element={<Leads />} />

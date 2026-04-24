@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, ArrowRight, Sparkles, Star, Shield, Clock, Headphones, BadgePercent } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Star, Shield, Clock, Headphones, BadgePercent, Crown } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,20 @@ const pricingPlans = [
     features: ["Tout du pack Croissance", "Automatisation marketing IA", "Chatbot intelligent 24/7", "Intégrations CRM/outils", "Funnels de conversion avancés", "A/B testing continu", "Account manager dédié", "Audit trimestriel complet"],
     notIncluded: [],
     popular: false, href: "/contact?pack=scale", savings: "Économisez 35%",
+  },
+  {
+    name: "Business", tagline: "Dominer son marché", price: "900 000", currency: "FCFA",
+    description: "Solution complète pour les entreprises ambitieuses qui veulent dominer leur secteur digital.",
+    features: ["Tout du pack Scale", "Site web jusqu'à 15 pages", "Design premium sur-mesure", "Système de réservation/booking", "E-commerce intégré", "Formation équipe (2 sessions)", "Maintenance 6 mois incluse", "Reporting avancé bi-mensuel", "Stratégie de contenu complète"],
+    notIncluded: [],
+    popular: false, href: "/contact?pack=business", savings: null,
+  },
+  {
+    name: "VIP", tagline: "L'excellence digitale totale", price: "1 200 000", currency: "FCFA",
+    description: "Accompagnement premium 360° avec accès prioritaire et stratégie personnalisée à long terme.",
+    features: ["Tout du pack Business", "Site web illimité en pages", "Application mobile dédiée", "Branding & identité visuelle complète", "Campagnes publicitaires gérées", "Formation équipe illimitée", "Maintenance 12 mois incluse", "Account manager VIP dédié", "Audit mensuel + recommandations", "Accès prioritaire 24/7", "Paiement en 3 fois sans frais"],
+    notIncluded: [],
+    popular: false, href: "/contact?pack=vip", savings: "Pack Premium",
   },
 ];
 
@@ -74,7 +88,7 @@ const Pricing = () => {
         {/* Pricing Cards */}
         <section className="section-padding">
           <div className="container-wide">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
               {pricingPlans.map((plan, index) => (
                 <motion.div
                   key={plan.name}

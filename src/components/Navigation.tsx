@@ -13,6 +13,7 @@ const navLinks = [
   { name: "Accueil", href: "/" },
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
+  { name: "Guide Entrepreneur", href: "/guide-entrepreneur" },
   { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
   { name: "Boutique", href: "/boutique" },

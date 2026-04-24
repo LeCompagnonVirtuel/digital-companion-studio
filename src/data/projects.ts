@@ -305,6 +305,270 @@ export const projects: Project[] = [
     services: ["Direction Artistique", "Design de Logo", "Charte Graphique", "Brand Guidelines"],
     nextProject: "boutique-ecommerce-mode",
     prevProject: "chatbot-ia-service-client"
+  },
+  {
+    slug: "site-restaurant-abidjan",
+    title: "Site Restaurant — Saveurs d'Abidjan",
+    category: "Site Web",
+    description: "Site vitrine premium pour un restaurant haut de gamme à Abidjan avec réservation en ligne et menu interactif.",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
+    tags: ["Restaurant", "Réservation", "Menu Digital"],
+    client: "Saveurs d'Abidjan",
+    industry: "Restauration",
+    duration: "5 jours",
+    year: "2025",
+    challenge: "Le restaurant Saveurs d'Abidjan souhaitait se démarquer dans un marché concurrentiel en proposant une expérience digitale à la hauteur de sa cuisine gastronomique. Leur présence en ligne se limitait à une page Facebook avec des photos de mauvaise qualité, ne reflétant pas le standing de l'établissement.",
+    solution: "Nous avons créé un site vitrine immersif mettant en valeur l'ambiance et la cuisine du restaurant. Un système de réservation en ligne intégré, un menu digital interactif avec photos haute qualité et une section événements privés permettent de convertir les visiteurs en clients.",
+    approach: [
+      "Shooting photo professionnel des plats et de l'ambiance",
+      "Design immersif avec animations fluides",
+      "Menu digital interactif avec filtres allergènes",
+      "Système de réservation en ligne intégré",
+      "Optimisation SEO local pour Abidjan",
+      "Intégration Google Maps et avis clients"
+    ],
+    results: [
+      { value: "+280%", label: "Réservations en ligne", description: "Vs bouche-à-oreille seul" },
+      { value: "45%", label: "Taux de conversion", description: "Visiteurs → réservations" },
+      { value: "#1", label: "Google Local", description: "Restaurant gastronomique Abidjan" },
+      { value: "1.8s", label: "Temps de chargement", description: "Performance mobile optimale" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=800&fit=crop", alt: "Intérieur restaurant", caption: "Ambiance premium du restaurant" },
+      { url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&h=800&fit=crop", alt: "Plat gastronomique", caption: "Menu interactif avec photos HD" },
+      { url: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1200&h=800&fit=crop", alt: "Réservation mobile", caption: "Système de réservation responsive" },
+      { url: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&h=800&fit=crop", alt: "Événements", caption: "Section événements privés" }
+    ],
+    testimonial: {
+      quote: "Depuis le lancement du site, nos réservations ont explosé. Les clients nous disent qu'ils ont été séduits par les photos et la facilité de réservation. Un investissement qui s'est rentabilisé en 2 semaines.",
+      author: "Chef Kouamé",
+      role: "Chef & Propriétaire",
+      company: "Saveurs d'Abidjan"
+    },
+    technologies: ["React", "Tailwind CSS", "Supabase", "Google Maps API", "Framer Motion"],
+    services: ["Design Web Premium", "Développement Sur-Mesure", "SEO Local", "Photographie"],
+    nextProject: "site-spa-eclat-beaute",
+    prevProject: "identite-visuelle-startup"
+  },
+  {
+    slug: "site-spa-eclat-beaute",
+    title: "Site Spa & Bien-être — Éclat Beauté",
+    category: "Site Web",
+    description: "Plateforme élégante pour un spa premium avec système de réservation et catalogue de soins interactif.",
+    image: "https://images.unsplash.com/photo-1540555700478-4be289fbec6c?w=800&h=600&fit=crop",
+    tags: ["Spa", "Réservation", "Bien-être"],
+    client: "Éclat Beauté Spa",
+    industry: "Beauté & Bien-être",
+    duration: "7 jours",
+    year: "2025",
+    challenge: "Éclat Beauté, spa haut de gamme à Cocody, perdait des clients potentiels faute de visibilité en ligne. Les clientes cherchaient des soins et des tarifs avant de se déplacer, mais le spa n'avait aucune présence web professionnelle.",
+    solution: "Un site vitrine luxueux reflétant l'univers zen du spa avec catalogue de soins détaillé, tarifs transparents, galerie photo immersive et système de prise de rendez-vous en ligne relié directement au planning du spa.",
+    approach: [
+      "Immersion dans l'univers du spa pour capter l'ambiance",
+      "Design épuré et luxueux avec palette zen",
+      "Catalogue de soins interactif avec tarifs",
+      "Système de réservation avec créneaux en temps réel",
+      "Galerie avant/après pour preuves sociales",
+      "Optimisation mobile prioritaire"
+    ],
+    results: [
+      { value: "+200%", label: "Prises de RDV", description: "En 3 mois" },
+      { value: "60%", label: "Clients via le web", description: "Nouvelle source d'acquisition" },
+      { value: "4.9/5", label: "Satisfaction", description: "Note des clientes" },
+      { value: "+35%", label: "Panier moyen", description: "Grâce aux packages en ligne" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1540555700478-4be289fbec6c?w=1200&h=800&fit=crop", alt: "Ambiance spa", caption: "Design zen reflétant l'univers du spa" },
+      { url: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1200&h=800&fit=crop", alt: "Soins", caption: "Catalogue de soins interactif" },
+      { url: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=1200&h=800&fit=crop", alt: "Réservation", caption: "Réservation en ligne simplifiée" },
+      { url: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1200&h=800&fit=crop", alt: "Produits", caption: "Boutique de produits de soins" }
+    ],
+    testimonial: {
+      quote: "Le site a complètement changé notre façon de travailler. Nos clientes réservent en ligne à toute heure et découvrent des soins qu'elles n'auraient jamais demandés au comptoir.",
+      author: "Aminata Diallo",
+      role: "Directrice",
+      company: "Éclat Beauté Spa"
+    },
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Calendly API"],
+    services: ["Design UI/UX", "Développement Web", "SEO Local", "Stratégie Digitale"],
+    nextProject: "site-cabinet-dentaire",
+    prevProject: "site-restaurant-abidjan"
+  },
+  {
+    slug: "site-cabinet-dentaire",
+    title: "Site Cabinet Dentaire Excellence",
+    category: "Site Web",
+    description: "Site professionnel pour cabinet dentaire avec prise de rendez-vous et présentation des soins en détail.",
+    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop",
+    tags: ["Médical", "Rendez-vous", "Santé"],
+    client: "Cabinet Dentaire Excellence",
+    industry: "Santé / Médical",
+    duration: "10 jours",
+    year: "2025",
+    challenge: "Le cabinet dentaire avait du mal à attirer de nouveaux patients malgré un équipement moderne et des praticiens qualifiés. Les patients potentiels cherchaient des informations en ligne mais ne trouvaient que des annuaires génériques sans détails sur les soins proposés.",
+    solution: "Un site professionnel rassurant avec présentation détaillée de chaque soin, tarifs indicatifs, galerie de l'équipement moderne, profils des praticiens et système de prise de rendez-vous intégré avec rappels SMS automatiques.",
+    approach: [
+      "Étude des parcours patients en ligne",
+      "Design rassurant et professionnel",
+      "Pages détaillées par type de soin",
+      "Galerie équipement pour rassurer",
+      "Prise de RDV avec créneaux disponibles",
+      "Blog santé dentaire pour le SEO"
+    ],
+    results: [
+      { value: "+180%", label: "Nouveaux patients", description: "Via le canal digital" },
+      { value: "85%", label: "RDV en ligne", description: "Vs téléphone" },
+      { value: "#2", label: "Google Local", description: "Dentiste Cocody Abidjan" },
+      { value: "-50%", label: "No-shows", description: "Grâce aux rappels SMS" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=800&fit=crop", alt: "Cabinet", caption: "Présentation du cabinet moderne" },
+      { url: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1200&h=800&fit=crop", alt: "Équipement", caption: "Équipement de pointe" },
+      { url: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&h=800&fit=crop", alt: "Équipe", caption: "Équipe de praticiens" },
+      { url: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=800&fit=crop", alt: "Soins", caption: "Détail des soins proposés" }
+    ],
+    testimonial: {
+      quote: "Nos patients nous trouvent facilement sur Google maintenant et prennent rendez-vous en 2 clics. Le taux de no-show a chuté grâce aux rappels automatiques.",
+      author: "Dr. Yao Konan",
+      role: "Chirurgien-Dentiste",
+      company: "Cabinet Dentaire Excellence"
+    },
+    technologies: ["React", "TypeScript", "Supabase", "Twilio SMS", "Google Analytics"],
+    services: ["Design Web Médical", "Développement Full-Stack", "SEO Santé", "Automatisation"],
+    nextProject: "site-btp-bati-pro",
+    prevProject: "site-spa-eclat-beaute"
+  },
+  {
+    slug: "site-btp-bati-pro",
+    title: "Site BTP — Bâti Pro CI",
+    category: "Site Web",
+    description: "Vitrine professionnelle pour entreprise de construction avec portfolio de chantiers et demande de devis.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop",
+    tags: ["BTP", "Construction", "Devis"],
+    client: "Bâti Pro CI",
+    industry: "Construction / BTP",
+    duration: "8 jours",
+    year: "2025",
+    challenge: "Bâti Pro CI, entreprise de construction et rénovation, dépendait uniquement du bouche-à-oreille pour obtenir des contrats. Dans un secteur où la confiance est primordiale, ils n'avaient aucun moyen de montrer leurs réalisations passées aux prospects avant un rendez-vous.",
+    solution: "Un site vitrine robuste et professionnel présentant chaque type de prestation avec photos de chantiers réels, un portfolio filtrable par catégorie, des témoignages clients vérifiés et un formulaire de demande de devis détaillé avec estimation automatique.",
+    approach: [
+      "Reportages photo sur les chantiers en cours",
+      "Portfolio interactif filtrable par catégorie",
+      "Pages services détaillées avec processus",
+      "Formulaire de devis intelligent avec critères",
+      "Section certifications et assurances",
+      "Optimisation pour recherches locales BTP"
+    ],
+    results: [
+      { value: "+320%", label: "Demandes de devis", description: "Canal digital nouveau" },
+      { value: "3x", label: "Chiffre d'affaires", description: "En 6 mois" },
+      { value: "70%", label: "Taux de conversion", description: "Devis → signature" },
+      { value: "#1", label: "Google Local", description: "Construction Abidjan" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=800&fit=crop", alt: "Chantier", caption: "Portfolio de réalisations" },
+      { url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1200&h=800&fit=crop", alt: "Construction", caption: "Suivi de chantier détaillé" },
+      { url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&h=800&fit=crop", alt: "Plan", caption: "Présentation des services" },
+      { url: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&h=800&fit=crop", alt: "Équipe", caption: "L'équipe sur le terrain" }
+    ],
+    testimonial: {
+      quote: "Le portfolio en ligne nous a donné une crédibilité immédiate. Les prospects arrivent déjà convaincus par nos réalisations. Le formulaire de devis nous fait gagner un temps fou.",
+      author: "Ibrahim Touré",
+      role: "Directeur Général",
+      company: "Bâti Pro CI"
+    },
+    technologies: ["React", "Tailwind CSS", "Supabase", "Google Maps", "Cloudinary"],
+    services: ["Design Web", "Développement", "SEO Local", "Photographie Chantier"],
+    nextProject: "site-immobilier-ivoire-immo",
+    prevProject: "site-cabinet-dentaire"
+  },
+  {
+    slug: "site-immobilier-ivoire-immo",
+    title: "Plateforme Immobilière — Ivoire Immo",
+    category: "Application Web",
+    description: "Plateforme de listings immobiliers avec recherche avancée, visites virtuelles et mise en relation agent-client.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
+    tags: ["Immobilier", "Listings", "Plateforme"],
+    client: "Ivoire Immo",
+    industry: "Immobilier",
+    duration: "15 jours",
+    year: "2025",
+    challenge: "Ivoire Immo, agence immobilière en pleine croissance, gérait ses annonces manuellement via WhatsApp et Facebook. Les biens se perdaient dans les fils d'actualité, les clients ne pouvaient pas filtrer par critères, et le suivi des prospects était chaotique.",
+    solution: "Une plateforme immobilière complète avec listings structurés, recherche avancée multi-critères (localisation, budget, type de bien), galeries photos immersives, formulaire de contact par bien, et tableau de bord agent pour le suivi des prospects.",
+    approach: [
+      "Analyse des plateformes immobilières de référence",
+      "Système de recherche multi-critères avancé",
+      "Galeries photos immersives avec plans",
+      "Formulaire de contact contextualisé par bien",
+      "Dashboard agent pour suivi prospects",
+      "Intégration WhatsApp pour contact direct"
+    ],
+    results: [
+      { value: "500+", label: "Biens listés", description: "En 3 mois" },
+      { value: "+400%", label: "Leads qualifiés", description: "Vs WhatsApp seul" },
+      { value: "2.5x", label: "Ventes mensuelles", description: "Augmentation directe" },
+      { value: "24/7", label: "Disponibilité", description: "Les biens sont toujours visibles" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop", alt: "Plateforme", caption: "Listings immobiliers structurés" },
+      { url: "https://images.unsplash.com/photo-1560184897-ae75f418493e?w=1200&h=800&fit=crop", alt: "Recherche", caption: "Recherche avancée multi-critères" },
+      { url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&h=800&fit=crop", alt: "Détail bien", caption: "Fiche bien détaillée avec galerie" },
+      { url: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1200&h=800&fit=crop", alt: "Dashboard", caption: "Dashboard agent immobilier" }
+    ],
+    testimonial: {
+      quote: "On est passé du chaos WhatsApp à une plateforme professionnelle. Nos clients trouvent leurs biens en autonomie et nous contactent déjà informés. Nos ventes ont plus que doublé.",
+      author: "Awa Koné",
+      role: "Directrice Commerciale",
+      company: "Ivoire Immo"
+    },
+    technologies: ["React", "TypeScript", "Supabase", "Mapbox", "Cloudinary", "WhatsApp API"],
+    services: ["Conception Plateforme", "Développement Full-Stack", "UX/UI Design", "SEO Immobilier"],
+    nextProject: "site-opticien-vue-claire",
+    prevProject: "site-btp-bati-pro"
+  },
+  {
+    slug: "site-opticien-vue-claire",
+    title: "Site Opticien — Vue Claire",
+    category: "Site Web",
+    description: "Site e-commerce vitrine pour opticien avec catalogue de montures, prise de rendez-vous et essayage virtuel.",
+    image: "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&h=600&fit=crop",
+    tags: ["Optique", "E-commerce", "Santé"],
+    client: "Vue Claire Optique",
+    industry: "Optique / Santé",
+    duration: "10 jours",
+    year: "2025",
+    challenge: "Vue Claire, opticien indépendant, faisait face à la concurrence des chaînes nationales dotées de sites web modernes. Sans présence en ligne, ils ne captaient que la clientèle de passage alors que 80% des acheteurs de lunettes recherchent d'abord en ligne.",
+    solution: "Un site combinant vitrine et e-commerce avec catalogue de montures filtrable, système de prise de rendez-vous pour examens de vue, blog santé oculaire pour le SEO, et section promotions pour fidéliser la clientèle existante.",
+    approach: [
+      "Photographie professionnelle des montures",
+      "Catalogue filtrable (marque, style, prix)",
+      "Prise de RDV examen de vue en ligne",
+      "Blog santé oculaire pour référencement",
+      "Section assurances et mutuelles partenaires",
+      "Programme de fidélité intégré"
+    ],
+    results: [
+      { value: "+150%", label: "Visites en boutique", description: "Générées par le site" },
+      { value: "40%", label: "RDV en ligne", description: "Nouveaux patients" },
+      { value: "+90%", label: "Trafic organique", description: "Blog santé oculaire" },
+      { value: "4.8/5", label: "Avis Google", description: "Reputation en ligne" }
+    ],
+    gallery: [
+      { url: "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1200&h=800&fit=crop", alt: "Montures", caption: "Catalogue de montures interactif" },
+      { url: "https://images.unsplash.com/photo-1591076482161-42ce6da69f67?w=1200&h=800&fit=crop", alt: "Boutique", caption: "Présentation de la boutique" },
+      { url: "https://images.unsplash.com/photo-1577401239170-897942555fb3?w=1200&h=800&fit=crop", alt: "Examen", caption: "Prise de rendez-vous simplifiée" },
+      { url: "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=1200&h=800&fit=crop", alt: "Blog", caption: "Blog santé oculaire" }
+    ],
+    testimonial: {
+      quote: "Notre site nous a permis de rivaliser avec les grandes chaînes. Les patients prennent rendez-vous en ligne et arrivent en sachant déjà ce qu'ils veulent. Notre chiffre d'affaires a bondi.",
+      author: "Dr. Soro Mamadou",
+      role: "Optométriste & Gérant",
+      company: "Vue Claire Optique"
+    },
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe", "Calendly"],
+    services: ["Design E-commerce", "Développement Web", "SEO Santé", "Content Marketing"],
+    nextProject: "boutique-ecommerce-mode",
+    prevProject: "site-immobilier-ivoire-immo"
   }
 ];
 

@@ -2,20 +2,27 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
-import { 
-  Download, 
-  FileText, 
-  CheckCircle, 
-  ArrowRight, 
-  Mail, 
-  Gift, 
+import {
+  Download,
+  FileText,
+  CheckCircle,
+  ArrowRight,
+  Mail,
+  Gift,
   Sparkles,
   BookOpen,
   BarChart3,
   Palette,
   Target,
   Zap,
-  Users
+  Users,
+  ClipboardList,
+  MessageSquare,
+  DollarSign,
+  Calendar,
+  FileCheck,
+  Briefcase,
+  Brain
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -82,6 +89,72 @@ const leadMagnets = {
       benefits: ["Tableau d'analyse prêt", "Méthodologie complète", "Recommandations auto"],
       downloadUrl: "#",
       category: "Stratégie"
+    },
+    {
+      id: "contrat-prestation",
+      icon: FileCheck,
+      title: "Modèle de Contrat de Prestation",
+      description: "Contrat professionnel prêt à l'emploi pour vos services digitaux.",
+      benefits: ["Clauses essentielles incluses", "Conditions de paiement", "Protection juridique"],
+      downloadUrl: "#",
+      category: "Business Kit",
+      popular: true
+    },
+    {
+      id: "checklist-livraison",
+      icon: ClipboardList,
+      title: "Checklist de Livraison Projet",
+      description: "Ne ratez aucune étape avant de livrer un projet à votre client.",
+      benefits: ["Design & contenu", "Tests techniques", "SEO & performance"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "faq-client-template",
+      icon: MessageSquare,
+      title: "FAQ Client — Réponses Prêtes",
+      description: "12 réponses professionnelles aux questions les plus fréquentes de vos clients.",
+      benefits: ["Objections levées", "Réponses calibrées", "Gain de crédibilité"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "processus-client",
+      icon: Briefcase,
+      title: "Processus Client Complet",
+      description: "Du premier contact à la livraison : chaque étape documentée pour ne rien oublier.",
+      benefits: ["6 phases détaillées", "Scripts de conversation", "Templates de messages"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "gestion-finances",
+      icon: DollarSign,
+      title: "Template Gestion Financière",
+      description: "Suivez vos revenus, dépenses et conversions avec ce tableau simple.",
+      benefits: ["Suivi revenus/dépenses", "Calcul taux de conversion", "Objectifs par palier"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "calendrier-contenu",
+      icon: Calendar,
+      title: "Calendrier de Contenu 4 Semaines",
+      description: "Plan de publication Facebook/Instagram prêt avec 3 posts/semaine et templates.",
+      benefits: ["12 posts planifiés", "3 templates de posts", "Stratégie 2:1 valeur/vente"],
+      downloadUrl: "#",
+      category: "Marketing",
+      popular: true
+    },
+    {
+      id: "guide-30-problemes",
+      icon: Brain,
+      title: "Guide 30 Problèmes Entrepreneurs",
+      description: "Les 30 blocages les plus fréquents des entrepreneurs avec diagnostic et solutions.",
+      benefits: ["30 problèmes identifiés", "Signaux d'alerte", "Actions concrètes"],
+      downloadUrl: "/guide-entrepreneur",
+      category: "Entrepreneur",
+      popular: true
     }
   ],
   en: [
@@ -140,6 +213,72 @@ const leadMagnets = {
       benefits: ["Ready analysis table", "Complete methodology", "Auto recommendations"],
       downloadUrl: "#",
       category: "Strategy"
+    },
+    {
+      id: "contrat-prestation",
+      icon: FileCheck,
+      title: "Service Contract Template",
+      description: "Professional ready-to-use contract for your digital services.",
+      benefits: ["Essential clauses included", "Payment conditions", "Legal protection"],
+      downloadUrl: "#",
+      category: "Business Kit",
+      popular: true
+    },
+    {
+      id: "checklist-livraison",
+      icon: ClipboardList,
+      title: "Project Delivery Checklist",
+      description: "Don't miss any step before delivering a project to your client.",
+      benefits: ["Design & content", "Technical testing", "SEO & performance"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "faq-client-template",
+      icon: MessageSquare,
+      title: "Client FAQ — Ready Answers",
+      description: "12 professional answers to the most frequent client questions.",
+      benefits: ["Objections handled", "Calibrated responses", "Credibility boost"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "processus-client",
+      icon: Briefcase,
+      title: "Complete Client Process",
+      description: "From first contact to delivery: every step documented.",
+      benefits: ["6 detailed phases", "Conversation scripts", "Message templates"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "gestion-finances",
+      icon: DollarSign,
+      title: "Financial Management Template",
+      description: "Track your revenue, expenses and conversions with this simple template.",
+      benefits: ["Revenue/expense tracking", "Conversion rate calculator", "Milestone targets"],
+      downloadUrl: "#",
+      category: "Business Kit"
+    },
+    {
+      id: "calendrier-contenu",
+      icon: Calendar,
+      title: "4-Week Content Calendar",
+      description: "Facebook/Instagram publishing plan with 3 posts/week and templates.",
+      benefits: ["12 planned posts", "3 post templates", "2:1 value/sales strategy"],
+      downloadUrl: "#",
+      category: "Marketing",
+      popular: true
+    },
+    {
+      id: "guide-30-problemes",
+      icon: Brain,
+      title: "30 Entrepreneur Problems Guide",
+      description: "The 30 most common entrepreneur blocks with diagnosis and solutions.",
+      benefits: ["30 identified problems", "Warning signals", "Concrete actions"],
+      downloadUrl: "/guide-entrepreneur",
+      category: "Entrepreneur",
+      popular: true
     }
   ]
 };
