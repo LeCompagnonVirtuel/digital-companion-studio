@@ -4,6 +4,7 @@ import { ArrowRight, MessageCircle, Sparkles, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/logo.png";
 import { useLanguage } from "@/hooks/useLanguage";
+import { ParticleField } from "@/components/animations/ParticleField";
 
 export function CTASection() {
   const { t } = useLanguage();
@@ -42,14 +43,17 @@ export function CTASection() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/25 rounded-full blur-3xl" />
           </motion.div>
 
-          {/* Grid Pattern Overlay - Enhanced */}
-          <div 
+          {/* Grid Pattern Overlay */}
+          <div
             className="absolute inset-0 -z-10 opacity-[0.04]"
             style={{
               backgroundImage: `linear-gradient(hsl(0 0% 100%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)`,
               backgroundSize: "50px 50px",
             }}
           />
+
+          {/* Animated Particles */}
+          <ParticleField count={18} className="-z-5 opacity-60" />
 
           <div className="relative px-6 py-14 md:px-12 lg:px-16 md:py-20 lg:py-24">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">

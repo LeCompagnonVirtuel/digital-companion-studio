@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { TiltCard } from "@/components/animations/TiltCard";
 
 const testimonials = [
   {
@@ -85,35 +86,33 @@ export function TestimonialsSection() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group relative"
             >
-              <div className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/25 hover:shadow-elevated transition-all duration-500 h-full">
-                {/* Quote Icon - Enhanced */}
-                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/25">
-                  <Quote size={20} className="text-primary-foreground" />
-                </div>
-
-                {/* Rating */}
-                <div className="flex gap-1 mb-4 pt-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="fill-gold text-gold" />
-                  ))}
-                </div>
-
-                {/* Content */}
-                <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
-                  "{testimonial.content[language]}"
-                </p>
-
-                {/* Author - Enhanced */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-semibold shadow-md">
-                    {testimonial.avatar}
+              <TiltCard tiltAmount={5} className="h-full">
+                <div className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/25 hover:shadow-elevated transition-all duration-500 h-full">
+                  <div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/25">
+                    <Quote size={20} className="text-primary-foreground" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-foreground">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+
+                  <div className="flex gap-1 mb-4 pt-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} size={16} className="fill-gold text-gold" />
+                    ))}
+                  </div>
+
+                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm md:text-base">
+                    "{testimonial.content[language]}"
+                  </p>
+
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-semibold shadow-md">
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground">{testimonial.name}</div>
+                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

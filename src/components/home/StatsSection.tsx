@@ -2,6 +2,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Rocket, Users, TrendingUp, Clock } from "lucide-react";
 import { useRef, useEffect, useState } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { TiltCard } from "@/components/animations/TiltCard";
 
 const panoramaSlides = [
   {
@@ -209,19 +210,22 @@ export function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center group p-3 sm:p-4 md:p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-500"
             >
-              <motion.div 
-                className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:border-primary/40 group-hover:shadow-glow transition-all duration-500"
-                whileHover={{ scale: 1.05, rotate: 3 }}
-              >
-                <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-primary" />
-              </motion.div>
-              <div className="mb-1 sm:mb-2">
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              </div>
-              <div className="font-medium text-foreground text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1">{t(stat.labelKey)}</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">{t(stat.descKey)}</div>
+              <TiltCard tiltAmount={8} className="h-full">
+                <div className="text-center group p-3 sm:p-4 md:p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-500 h-full">
+                  <motion.div
+                    className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:border-primary/40 group-hover:shadow-glow transition-all duration-500"
+                    whileHover={{ scale: 1.05, rotate: 3 }}
+                  >
+                    <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-primary" />
+                  </motion.div>
+                  <div className="mb-1 sm:mb-2">
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <div className="font-medium text-foreground text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1">{t(stat.labelKey)}</div>
+                  <div className="text-[10px] sm:text-xs text-muted-foreground">{t(stat.descKey)}</div>
+                </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

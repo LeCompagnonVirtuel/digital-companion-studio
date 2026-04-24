@@ -4,6 +4,8 @@ import { ArrowRight, Sparkles, Zap, TrendingUp, Play, CheckCircle, Star, Code, P
 import { Button } from "@/components/ui/button";
 import { useRef, useState, useEffect } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { ParticleField } from "@/components/animations/ParticleField";
+import { GlowingOrb } from "@/components/animations/GlowingOrb";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -191,30 +193,12 @@ export function HeroSection() {
         />
       </motion.div>
 
-      {/* Floating Elements with enhanced animation */}
-      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-primary/50"
-            style={{
-              left: `${5 + i * 8}%`,
-              top: `${10 + (i % 5) * 18}%`,
-            }}
-            animate={{
-              y: [0, -50, 0],
-              opacity: [0.2, 0.7, 0.2],
-              scale: [1, 1.3, 1],
-            }}
-            transition={{
-              duration: 4 + i * 0.4,
-              repeat: Infinity,
-              delay: i * 0.2,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      {/* Particle Field */}
+      <ParticleField count={25} className="-z-10" />
+
+      {/* Enhanced Glowing Orbs */}
+      <GlowingOrb color="primary" size="200px" className="top-[20%] right-[10%] -z-10" duration={8} />
+      <GlowingOrb color="accent" size="150px" className="bottom-[20%] left-[5%] -z-10" duration={12} />
 
       {/* Main Content with Parallax */}
       <motion.div className="container-wide py-20 sm:py-24 pt-28 sm:pt-32" style={{ opacity, scale }}>

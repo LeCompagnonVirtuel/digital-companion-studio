@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Headphones, TrendingUp, Zap, Brain, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { TiltCard } from "@/components/animations/TiltCard";
 
 const reasons = [
   {
@@ -65,16 +66,19 @@ export const WhyChooseUsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative p-8 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-500 text-center"
             >
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative">
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:scale-110">
-                  <reason.icon size={28} />
+              <TiltCard tiltAmount={7} className="h-full">
+                <div className="group relative p-8 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-500 text-center h-full">
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:scale-110">
+                      <reason.icon size={28} />
+                    </div>
+                    <h3 className="font-display font-bold text-xl mb-3">{reason.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{reason.description}</p>
+                  </div>
                 </div>
-                <h3 className="font-display font-bold text-xl mb-3">{reason.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{reason.description}</p>
-              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

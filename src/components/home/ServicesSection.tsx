@@ -1,19 +1,21 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { 
-  Megaphone, 
-  Palette, 
-  Users, 
-  Bot, 
-  Globe, 
-  ShoppingCart, 
-  Code, 
+import {
+  Megaphone,
+  Palette,
+  Users,
+  Bot,
+  Globe,
+  ShoppingCart,
+  Code,
   Fingerprint,
   ArrowRight,
   ArrowUpRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
+import { TiltCard } from "@/components/animations/TiltCard";
+import { GlowingOrb } from "@/components/animations/GlowingOrb";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -114,11 +116,11 @@ export function ServicesSection() {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      {/* Enhanced Background */}
+      {/* Enhanced Background with Animated Orbs */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/30 to-background" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/4 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/4 rounded-full blur-3xl" />
+        <GlowingOrb color="primary" size="500px" className="top-0 right-0" duration={10} />
+        <GlowingOrb color="accent" size="400px" className="bottom-0 left-0" duration={14} />
       </div>
 
       <div className="container-wide">
@@ -162,27 +164,26 @@ export function ServicesSection() {
               variants={itemVariants}
               className="group relative"
             >
-              <Link 
-                to={service.href}
-                className="block h-full p-6 md:p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/25 transition-all duration-500 hover:shadow-elevated"
-              >
-                {/* Gradient Background on Hover */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                
-                <div className="relative">
-                  {/* Icon - Enhanced */}
-                  <div className={`w-13 h-13 md:w-14 md:h-14 rounded-xl ${service.iconBg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-400`}>
-                    <service.icon size={24} className={`md:w-6 md:h-6 ${service.iconColor}`} />
+              <TiltCard tiltAmount={6} className="h-full">
+                <Link
+                  to={service.href}
+                  className="block h-full p-6 md:p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/25 transition-all duration-500 hover:shadow-elevated"
+                >
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
+                  <div className="relative">
+                    <div className={`w-13 h-13 md:w-14 md:h-14 rounded-xl ${service.iconBg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-400`}>
+                      <service.icon size={24} className={`md:w-6 md:h-6 ${service.iconColor}`} />
+                    </div>
+
+                    <h3 className="font-display font-semibold text-lg md:text-xl mb-2 flex items-center gap-2 group-hover:text-primary transition-colors duration-300">
+                      {t(service.titleKey)}
+                      <ArrowUpRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
+                    </h3>
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(service.descKey)}</p>
                   </div>
-                  
-                  {/* Content */}
-                  <h3 className="font-display font-semibold text-lg md:text-xl mb-2 flex items-center gap-2 group-hover:text-primary transition-colors duration-300">
-                    {t(service.titleKey)}
-                    <ArrowUpRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(service.descKey)}</p>
-                </div>
-              </Link>
+                </Link>
+              </TiltCard>
             </motion.div>
           ))}
         </motion.div>

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { MessageSquare, Lightbulb, Code2, Rocket, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { TiltCard } from "@/components/animations/TiltCard";
+import { GlowingOrb } from "@/components/animations/GlowingOrb";
 
 export function ProcessSection() {
   const { t } = useLanguage();
@@ -34,11 +36,11 @@ export function ProcessSection() {
 
   return (
     <section className="section-padding relative overflow-hidden">
-      {/* Enhanced Background */}
+      {/* Enhanced Background with Animated Orbs */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
-        <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl -translate-y-1/2" />
+        <GlowingOrb color="primary" size="500px" className="top-1/2 left-1/4 -translate-y-1/2" duration={12} />
+        <GlowingOrb color="accent" size="400px" className="top-1/2 right-1/4 -translate-y-1/2" duration={15} />
       </div>
 
       <div className="container-wide">
@@ -85,22 +87,21 @@ export function ProcessSection() {
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="relative group"
               >
-                <div className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-elevated transition-all duration-500 text-center h-full">
-                  {/* Step Number - Enhanced */}
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-primary-foreground text-xs font-bold z-10 shadow-lg shadow-primary/30">
-                    {step.number}
+                <TiltCard tiltAmount={6} className="h-full">
+                  <div className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-elevated transition-all duration-500 text-center h-full">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-primary-foreground text-xs font-bold z-10 shadow-lg shadow-primary/30">
+                      {step.number}
+                    </div>
+
+                    <div className="w-16 h-16 md:w-18 md:h-18 rounded-2xl bg-primary/8 border border-primary/15 flex items-center justify-center mx-auto mb-5 md:mb-6 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary group-hover:scale-105 transition-all duration-400">
+                      <step.icon size={28} className="md:w-8 md:h-8" />
+                    </div>
+
+                    <h3 className="font-display font-semibold text-lg md:text-xl mb-3">{t(step.titleKey)}</h3>
+                    <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(step.descKey)}</p>
                   </div>
+                </TiltCard>
 
-                  {/* Icon - Enhanced */}
-                  <div className="w-16 h-16 md:w-18 md:h-18 rounded-2xl bg-primary/8 border border-primary/15 flex items-center justify-center mx-auto mb-5 md:mb-6 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary group-hover:scale-105 transition-all duration-400">
-                    <step.icon size={28} className="md:w-8 md:h-8" />
-                  </div>
-
-                  <h3 className="font-display font-semibold text-lg md:text-xl mb-3">{t(step.titleKey)}</h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{t(step.descKey)}</p>
-                </div>
-
-                {/* Arrow - Desktop - Enhanced */}
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-4 text-primary/60 z-10">
                     <ArrowRight size={24} />
