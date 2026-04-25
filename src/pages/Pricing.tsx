@@ -10,37 +10,37 @@ import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const pricingPlans = [
   {
-    name: "Starter", tagline: "Exister et être crédible", price: "149 900", currency: "FCFA",
+    name: "Lancement", tagline: "Exister et être crédible", price: "150 000", currency: "FCFA",
     description: "Idéal pour lancer votre présence digitale avec les bases essentielles.",
-    features: ["Site vitrine responsive (5 pages)", "Design moderne personnalisé", "Optimisation SEO de base", "Formulaire de contact", "Hébergement 1 an inclus", "Support par email"],
+    features: ["Site vitrine 3-4 pages", "Design professionnel", "Formulaire de contact", "SEO de base", "Hébergement 1 an inclus", "Responsive mobile"],
     notIncluded: ["Stratégie marketing", "Création de contenu", "Automatisation"],
-    popular: false, href: "/contact?pack=starter", savings: null,
+    popular: false, href: "/contact?pack=lancement", savings: null,
   },
   {
-    name: "Croissance", tagline: "Attirer et convertir", price: "349 900", currency: "FCFA",
+    name: "Standard", tagline: "Attirer et convertir", price: "350 000", currency: "FCFA",
     description: "Pour les entreprises prêtes à accélérer leur acquisition de clients.",
-    features: ["Tout du pack Starter", "Stratégie marketing digital", "Création de contenu (4/mois)", "Gestion réseaux sociaux", "Landing pages optimisées", "Analytics & reporting mensuel", "Support prioritaire"],
+    features: ["Site 5-7 pages", "Tout du pack Lancement", "SEO local avancé", "Blog intégré", "Google Analytics", "Stratégie marketing de base", "4 contenus/mois"],
     notIncluded: ["Automatisation IA", "Account manager dédié"],
-    popular: true, href: "/contact?pack=croissance", savings: null,
+    popular: true, href: "/contact?pack=standard", savings: null,
   },
   {
-    name: "Scale", tagline: "Performer et automatiser", price: "749 900", currency: "FCFA",
+    name: "Premium", tagline: "Performer et automatiser", price: "600 000", currency: "FCFA",
     description: "Automatisation avancée et IA pour maximiser votre ROI.",
-    features: ["Tout du pack Croissance", "Automatisation marketing IA", "Chatbot intelligent 24/7", "Intégrations CRM/outils", "Funnels de conversion avancés", "A/B testing continu", "Account manager dédié", "Audit trimestriel complet"],
+    features: ["Site 7-10 pages", "Tout du pack Standard", "E-commerce ou réservation", "Chatbot IA intégré", "Automatisations", "3 mois maintenance", "Formation incluse"],
     notIncluded: [],
-    popular: false, href: "/contact?pack=scale", savings: "Économisez 35%",
+    popular: false, href: "/contact?pack=premium", savings: null,
   },
   {
     name: "Business", tagline: "Dominer son marché", price: "900 000", currency: "FCFA",
     description: "Solution complète pour les entreprises ambitieuses qui veulent dominer leur secteur digital.",
-    features: ["Tout du pack Scale", "Site web jusqu'à 15 pages", "Design premium sur-mesure", "Système de réservation/booking", "E-commerce intégré", "Formation équipe (2 sessions)", "Maintenance 6 mois incluse", "Reporting avancé bi-mensuel", "Stratégie de contenu complète"],
+    features: ["Site 10-15 pages", "Tout du pack Premium", "SEO avancé complet", "Dashboard admin", "CRM intégré", "6 mois maintenance", "2 sessions de formation"],
     notIncluded: [],
     popular: false, href: "/contact?pack=business", savings: null,
   },
   {
     name: "VIP", tagline: "L'excellence digitale totale", price: "1 200 000", currency: "FCFA",
     description: "Accompagnement premium 360° avec accès prioritaire et stratégie personnalisée à long terme.",
-    features: ["Tout du pack Business", "Site web illimité en pages", "Application mobile dédiée", "Branding & identité visuelle complète", "Campagnes publicitaires gérées", "Formation équipe illimitée", "Maintenance 12 mois incluse", "Account manager VIP dédié", "Audit mensuel + recommandations", "Accès prioritaire 24/7", "Paiement en 3 fois sans frais"],
+    features: ["Site 15-20 pages", "Tout du pack Business", "E-commerce avancé", "Email marketing", "1 campagne Facebook Ads", "12 mois maintenance", "Account manager VIP", "Paiement en 3x"],
     notIncluded: [],
     popular: false, href: "/contact?pack=vip", savings: "Pack Premium",
   },
@@ -61,8 +61,8 @@ const faqs = [
 
 const Pricing = () => {
   useDocumentMeta({
-    title: "Tarifs — Packs digitaux à partir de 149 900 FCFA",
-    description: "Découvrez nos packs Starter, Croissance et Scale. Des tarifs clairs et adaptés au marché africain, sans surprise.",
+    title: "Tarifs — Packs digitaux à partir de 150 000 FCFA",
+    description: "Découvrez nos packs Lancement, Standard, Premium, Business et VIP. Des tarifs clairs et adaptés au marché africain, sans surprise.",
   });
 
   return (
@@ -88,7 +88,7 @@ const Pricing = () => {
         {/* Pricing Cards */}
         <section className="section-padding">
           <div className="container-wide">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
               {pricingPlans.map((plan, index) => (
                 <motion.div
                   key={plan.name}

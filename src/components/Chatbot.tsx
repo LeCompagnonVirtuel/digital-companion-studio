@@ -255,8 +255,8 @@ export function Chatbot() {
   };
 
   const chatWindowClasses = isExpanded
-    ? "fixed inset-4 md:inset-8 z-50"
-    : "fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-6rem)]";
+    ? "fixed inset-2 sm:inset-4 md:inset-8 z-50"
+    : "fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-1.5rem)] sm:w-[calc(100vw-3rem)] md:w-[420px] max-w-[420px] h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] md:h-[600px]";
 
   // Listen for external trigger to open chatbot
   useEffect(() => {

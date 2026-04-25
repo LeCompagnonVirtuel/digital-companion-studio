@@ -398,7 +398,7 @@ ${formData.description}
                         type="tel"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+33 6 12 34 56 78"
+                        placeholder="+225 07 06 69 30 38"
                       />
                     </div>
                     <div>

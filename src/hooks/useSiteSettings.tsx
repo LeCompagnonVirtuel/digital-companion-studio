@@ -29,7 +29,7 @@ const defaultSettings: SiteSettings = {
     twitter: '',
   },
   business_info: {
-    phone: '+225 0504292778',
+    phone: '+225 0706693038',
     address: 'Côte d\'Ivoire',
     hours: 'Lun-Ven 8h-18h',
   },

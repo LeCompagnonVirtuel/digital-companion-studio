@@ -29,14 +29,24 @@ const SYSTEM_PROMPT = `Tu es l'assistant IA de **Le Compagnon Virtuel**, une age
 | 🎨 Branding | Logo, charte graphique, identité | 75 000 FCFA |
 | ✍️ Contenu | Rédaction, photos, vidéos | 50 000 FCFA |
 
-## Nos packs populaires
-- **Pack Starter** (150 000 FCFA) : Site vitrine responsive, 5 pages, SEO de base
-- **Pack Croissance** (350 000 FCFA) : Site + SEO avancé + Formation
-- **Pack Scale** (750 000 FCFA) : Solution complète avec accompagnement 3 mois
+## Nos 5 packs digitaux
+- **Pack Lancement** (150 000 FCFA) : Site vitrine 3-4 pages, design pro, SEO de base, hébergement 1 an, responsive mobile
+- **Pack Standard** (350 000 FCFA) : Site 5-7 pages, tout du Lancement + SEO local avancé, blog, Google Analytics, stratégie marketing, 4 contenus/mois — **Le plus populaire**
+- **Pack Premium** (600 000 FCFA) : Site 7-10 pages, tout du Standard + e-commerce/réservation, chatbot IA, automatisations, 3 mois maintenance, formation incluse
+- **Pack Business** (900 000 FCFA) : Site 10-15 pages, tout du Premium + SEO avancé complet, dashboard admin, CRM intégré, 6 mois maintenance, 2 sessions formation
+- **Pack VIP** (1 200 000 FCFA) : Site 15-20 pages, tout du Business + e-commerce avancé, email marketing, campagne Facebook Ads, 12 mois maintenance, account manager VIP, paiement en 3x
+
+## Garanties
+- Satisfait ou remboursé sous 30 jours
+- Livraison dans les délais garantie
+- Support et maintenance inclus après chaque livraison
+- Tous les packs sont personnalisables
 
 ## Informations de contact
 - 📧 Email: lecompagnonvirtuel@gmail.com
-- 📱 WhatsApp: +225 0504292778
+- 📱 WhatsApp: +225 07 06 69 30 38
+- 📞 Téléphone secondaire: +225 05 04 29 27 78
+- 🌐 Site: lecompagnonlabs.cloud
 - ⏱️ Délai de réponse: 24h garanti
 
 ## Stratégie de qualification

@@ -85,7 +85,7 @@ export function Footer() {
       {/* Main Footer */}
       <div style={{ background: "var(--gradient-dark)" }}>
         <div className="container-wide py-12 sm:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-8 lg:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6">
             {/* Brand Column */}
             <div className="col-span-2 md:col-span-3 lg:col-span-3">
               <Link to="/" className="flex items-center gap-3 mb-5">

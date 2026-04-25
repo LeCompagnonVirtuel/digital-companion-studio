@@ -38,8 +38,8 @@ const CrossSellItem = ({ product, onAdd }: { product: DigitalProduct; onAdd: () 
       )}
     </div>
     <div className="flex-1 min-w-0">
-      <p className="text-[11px] font-medium line-clamp-1 leading-tight">{product.title}</p>
-      <p className="text-[11px] font-bold text-primary mt-0.5">{formatFCFA(product.price)}</p>
+      <p className="text-[11px] sm:text-xs font-medium line-clamp-1 leading-tight">{product.title}</p>
+      <p className="text-[11px] sm:text-xs font-bold text-primary mt-0.5">{formatFCFA(product.price)}</p>
     </div>
     <Button
       size="sm"

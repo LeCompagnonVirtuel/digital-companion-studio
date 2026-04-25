@@ -142,7 +142,7 @@ export const ProductGallery = ({
 
         {/* Thumbnails */}
         {images.length > 1 && (
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-4 sm:grid-cols-5 gap-1.5 sm:gap-2">
             {images.slice(0, 5).map((img, i) => (
               <motion.button
                 key={i}

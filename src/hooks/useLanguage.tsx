@@ -240,6 +240,60 @@ const translations: Record<string, string> = {
   // FAQ
   "faq.title": "Questions Fréquentes",
   "faq.subtitle": "Tout ce que vous devez savoir",
+  "faq.meta.title": "FAQ — Questions Fréquentes | Le Compagnon Virtuel",
+  "faq.meta.description": "Trouvez les réponses à vos questions sur nos services, tarifs, processus de travail et support technique.",
+  "faq.badge": "Centre d'aide",
+  "faq.hero.title": "Questions ",
+  "faq.hero.title_highlight": "Fréquentes",
+  "faq.hero.subtitle": "Retrouvez les réponses aux questions les plus posées par nos clients. Vous ne trouvez pas votre réponse ? Contactez-nous !",
+  "faq.search_placeholder": "Rechercher une question...",
+  "faq.no_results": "Aucun résultat trouvé",
+  "faq.no_results_hint": "Essayez d'autres mots-clés ou contactez-nous directement.",
+  "faq.cta.title": "Vous n'avez pas trouvé votre réponse ?",
+  "faq.cta.subtitle": "Notre équipe est disponible pour répondre à toutes vos questions et vous accompagner dans votre projet.",
+  "faq.cta.button": "Nous contacter",
+
+  // FAQ Categories
+  "faq.cat.general": "Général",
+  "faq.cat.pricing": "Tarifs & Paiement",
+  "faq.cat.technical": "Technique",
+  "faq.cat.support": "Support & Suivi",
+
+  // FAQ - Général
+  "faq.general.q1": "Qu'est-ce que Le Compagnon Virtuel ?",
+  "faq.general.a1": "Le Compagnon Virtuel est une agence digitale spécialisée dans la création de sites web, le marketing digital, le design et l'intégration de solutions IA. Nous accompagnons les entrepreneurs et entreprises africaines dans leur transformation numérique.",
+  "faq.general.q2": "Quels types de services proposez-vous ?",
+  "faq.general.a2": "Nous proposons 11 services : création de sites web, développement d'applications mobiles, marketing digital, design graphique, intégration IA, community management, création de contenu, e-commerce, audit digital, SEO et gadgets connectés.",
+  "faq.general.q3": "Dans quels pays intervenez-vous ?",
+  "faq.general.a3": "Nous intervenons principalement en Afrique de l'Ouest (Guinée, Sénégal, Côte d'Ivoire, Mali...) mais nous travaillons aussi avec des clients partout dans le monde grâce à notre fonctionnement 100% digital.",
+  "faq.general.q4": "Combien de temps prend la réalisation d'un projet ?",
+  "faq.general.a4": "Les délais varient selon la complexité du projet. Un site vitrine prend généralement 1 à 2 semaines, un site e-commerce 2 à 4 semaines, et une application sur-mesure 4 à 8 semaines. Nous vous donnons un planning précis dès le début du projet.",
+
+  // FAQ - Tarifs & Paiement
+  "faq.pricing.q1": "Comment sont structurés vos tarifs ?",
+  "faq.pricing.a1": "Nous proposons 5 packs adaptés à chaque besoin : Lancement (150 000 FCFA), Standard (350 000 FCFA), Premium (600 000 FCFA), Business (900 000 FCFA) et VIP (1 200 000 FCFA). Chaque pack inclut des prestations croissantes.",
+  "faq.pricing.q2": "Quels modes de paiement acceptez-vous ?",
+  "faq.pricing.a2": "Nous acceptons le paiement par Mobile Money (Orange Money, MTN Money, Wave), virement bancaire et espèces. Le paiement en plusieurs fois est possible sur les packs Business et VIP.",
+  "faq.pricing.q3": "Y a-t-il des frais cachés ?",
+  "faq.pricing.a3": "Non, nos tarifs sont transparents et tout est détaillé dans le devis. L'hébergement de la première année est inclus dans tous les packs. Seul le renouvellement annuel de l'hébergement et du nom de domaine est à votre charge par la suite.",
+  "faq.pricing.q4": "Proposez-vous un devis personnalisé ?",
+  "faq.pricing.a4": "Oui ! Si aucun de nos packs ne correspond exactement à votre besoin, nous réalisons un devis sur-mesure gratuit. Contactez-nous ou utilisez notre formulaire de devis personnalisé.",
+
+  // FAQ - Technique
+  "faq.technical.q1": "Quelles technologies utilisez-vous ?",
+  "faq.technical.a1": "Nous utilisons les technologies les plus modernes : React, TypeScript, Tailwind CSS, Supabase, Node.js et des solutions IA avancées. Nous choisissons toujours la meilleure technologie adaptée à votre projet.",
+  "faq.technical.q2": "Mon site sera-t-il responsive (adapté au mobile) ?",
+  "faq.technical.a2": "Absolument ! Tous nos sites sont conçus en mobile-first. Ils s'adaptent parfaitement à tous les écrans : smartphones, tablettes et ordinateurs. C'est inclus dans chaque pack.",
+  "faq.technical.q3": "Proposez-vous l'hébergement et la maintenance ?",
+  "faq.technical.a3": "Oui, l'hébergement de la première année est inclus dans tous les packs. La maintenance est incluse de 3 à 12 mois selon le pack choisi. Nous assurons les mises à jour, la sécurité et les sauvegardes de votre site.",
+
+  // FAQ - Support & Suivi
+  "faq.support.q1": "Comment se déroule le suivi de mon projet ?",
+  "faq.support.a1": "Vous avez un interlocuteur dédié tout au long du projet. Nous utilisons un processus en 4 étapes : découverte, conception, développement et lancement. Vous recevez des mises à jour régulières et validez chaque étape.",
+  "faq.support.q2": "Quel est votre délai de réponse ?",
+  "faq.support.a2": "Nous répondons sous 24h maximum en jours ouvrés. Les clients VIP bénéficient d'un support prioritaire avec un temps de réponse réduit et un account manager dédié.",
+  "faq.support.q3": "Que se passe-t-il après la livraison du projet ?",
+  "faq.support.a3": "Après la livraison, nous vous formons à l'utilisation de votre site. La maintenance est assurée selon votre pack (3 à 12 mois). Nous restons disponibles pour toute évolution future et proposons des contrats de maintenance annuels.",
   
   // Contact
   "contact.title": "Contactez-nous",

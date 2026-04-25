@@ -1,65 +1,100 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, ArrowRight, Sparkles, Star, Zap } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Star, Zap, Shield, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const pricingPlans = [
   {
-    name: "Starter",
+    name: "Lancement",
     tagline: "Exister et être crédible",
-    price: "149 900",
+    price: "150 000",
     currency: "FCFA",
     description: "Idéal pour lancer votre présence digitale avec les bases essentielles.",
     features: [
-      "Site vitrine responsive (5 pages)",
-      "Design moderne personnalisé",
-      "Optimisation SEO de base",
+      "Site vitrine 3-4 pages",
+      "Design professionnel",
       "Formulaire de contact",
+      "SEO de base",
       "Hébergement 1 an inclus",
-      "Support par email",
+      "Responsive mobile",
     ],
     popular: false,
-    href: "/contact?pack=starter",
+    href: "/contact?pack=lancement",
     icon: Zap,
   },
   {
-    name: "Croissance",
+    name: "Standard",
     tagline: "Attirer et convertir",
-    price: "349 900",
+    price: "350 000",
     currency: "FCFA",
     description: "Pour les entreprises prêtes à accélérer leur acquisition de clients.",
     features: [
-      "Tout du pack Starter",
-      "Stratégie marketing digital",
-      "Création de contenu (4/mois)",
-      "Gestion réseaux sociaux",
-      "Landing pages optimisées",
-      "Analytics & reporting mensuel",
-      "Support prioritaire",
+      "Site 5-7 pages",
+      "Tout du pack Lancement",
+      "SEO local avancé",
+      "Blog intégré",
+      "Google Analytics",
+      "Stratégie marketing de base",
+      "4 contenus/mois",
     ],
     popular: true,
-    href: "/contact?pack=croissance",
+    href: "/contact?pack=standard",
     icon: Star,
   },
   {
-    name: "Scale",
+    name: "Premium",
     tagline: "Performer et automatiser",
-    price: "749 900",
+    price: "600 000",
     currency: "FCFA",
     description: "Automatisation avancée et IA pour maximiser votre ROI.",
     features: [
-      "Tout du pack Croissance",
-      "Automatisation marketing IA",
-      "Chatbot intelligent 24/7",
-      "Intégrations CRM/outils",
-      "Funnels de conversion avancés",
-      "A/B testing continu",
-      "Account manager dédié",
-      "Audit trimestriel complet",
+      "Site 7-10 pages",
+      "Tout du pack Standard",
+      "E-commerce ou réservation",
+      "Chatbot IA intégré",
+      "Automatisations",
+      "3 mois maintenance",
+      "Formation incluse",
     ],
     popular: false,
-    href: "/contact?pack=scale",
+    href: "/contact?pack=premium",
     icon: Sparkles,
+  },
+  {
+    name: "Business",
+    tagline: "Dominer son marché",
+    price: "900 000",
+    currency: "FCFA",
+    description: "Solution complète pour dominer votre secteur digital.",
+    features: [
+      "Site 10-15 pages",
+      "Tout du pack Premium",
+      "SEO avancé complet",
+      "Dashboard admin",
+      "CRM intégré",
+      "6 mois maintenance",
+    ],
+    popular: false,
+    href: "/contact?pack=business",
+    icon: Shield,
+  },
+  {
+    name: "VIP",
+    tagline: "L'excellence digitale totale",
+    price: "1 200 000",
+    currency: "FCFA",
+    description: "Accompagnement premium 360° avec stratégie personnalisée.",
+    features: [
+      "Site 15-20 pages",
+      "Tout du pack Business",
+      "E-commerce avancé",
+      "Email marketing",
+      "12 mois maintenance",
+      "Account manager VIP",
+    ],
+    popular: false,
+    href: "/contact?pack=vip",
+    icon: Crown,
   },
 ];
 
@@ -91,7 +126,7 @@ export function PricingSection() {
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4 sm:gap-5 max-w-7xl mx-auto">
           {pricingPlans.map((plan, index) => (
             <motion.div
               key={plan.name}

@@ -121,8 +121,8 @@ const Legal = () => {
                     <Phone size={20} className="text-primary mt-1" />
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Téléphone</p>
-                      <a href="tel:+33123456789" className="font-medium hover:text-primary transition-colors">
-                        +33 1 23 45 67 89
+                      <a href="tel:+2250706693038" className="font-medium hover:text-primary transition-colors">
+                        +225 07 06 69 30 38
                       </a>
                     </div>
                   </div>

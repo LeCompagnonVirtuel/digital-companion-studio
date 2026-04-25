@@ -15,7 +15,7 @@ export const FloatingCartButton = () => {
   if (isHidden || itemCount === 0) return null;
 
   return (
-    <div className="fixed bottom-20 right-6 z-40 md:hidden">
+    <div className="fixed bottom-4 right-3 sm:right-4 z-40 md:hidden">
       <CartDrawer>
         <motion.button
           initial={{ scale: 0 }}

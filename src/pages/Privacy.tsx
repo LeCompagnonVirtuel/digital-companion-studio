@@ -144,7 +144,7 @@ const Privacy = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground">Email : <a href="mailto:dpo@lecompagnonvirtuel.fr" className="text-primary hover:underline">dpo@lecompagnonvirtuel.fr</a></p>
-                  <p className="text-muted-foreground">Téléphone : +33 1 23 45 67 89</p>
+                  <p className="text-muted-foreground">Téléphone : +225 07 06 69 30 38</p>
                 </div>
               </div>
             </motion.div>

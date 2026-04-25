@@ -23,9 +23,11 @@ const contactSchema = z.object({
 });
 
 const packInfo: Record<string, { name: string; price: string }> = {
-  starter: { name: "Pack Starter", price: "150 000 FCFA" },
-  croissance: { name: "Pack Croissance", price: "350 000 FCFA" },
-  scale: { name: "Pack Scale", price: "750 000 FCFA" },
+  lancement: { name: "Pack Lancement", price: "150 000 FCFA" },
+  standard: { name: "Pack Standard", price: "350 000 FCFA" },
+  premium: { name: "Pack Premium", price: "600 000 FCFA" },
+  business: { name: "Pack Business", price: "900 000 FCFA" },
+  vip: { name: "Pack VIP", price: "1 200 000 FCFA" },
 };
 
 const Contact = () => {
@@ -62,7 +64,7 @@ const Contact = () => {
 
   const contactInfo = [
     { icon: Mail, title: "Email", value: settings.contact_email, href: `mailto:${settings.contact_email}` },
-    { icon: Phone, title: "Téléphone / WhatsApp", value: settings.business_info.phone || "+225 0504292778", href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : "tel:+2250504292778" },
+    { icon: Phone, title: "Téléphone / WhatsApp", value: settings.business_info.phone || "+225 07 06 69 30 38", href: settings.business_info.phone ? `tel:${settings.business_info.phone.replace(/\s/g, '')}` : "tel:+2250706693038" },
     { icon: MapPin, title: "Adresse", value: settings.business_info.address || "Côte d'Ivoire", href: null },
     { icon: Clock, title: "Horaires", value: settings.business_info.hours || "Lun-Ven 8h-18h", href: null },
   ];
@@ -125,12 +127,12 @@ const Contact = () => {
           <div className="container-wide">
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <a href="https://wa.me/2250504292778" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/2250706693038" target="_blank" rel="noopener noreferrer">
                   <MessageCircle size={18} className="mr-2 text-green-500" /> WhatsApp
                 </a>
               </Button>
               <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <a href="tel:+2250504292778">
+                <a href="tel:+2250706693038">
                   <Phone size={18} className="mr-2 text-primary" /> Appeler
                 </a>
               </Button>
@@ -238,7 +240,7 @@ const Contact = () => {
                         </div>
                         <div>
                           <label htmlFor="phone" className="block text-sm font-medium mb-2">Téléphone</label>
-                          <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="+225 05 04 29 27 78" />
+                          <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="+225 07 06 69 30 38" />
                         </div>
                         <div>
                           <label htmlFor="company" className="block text-sm font-medium mb-2">Entreprise</label>

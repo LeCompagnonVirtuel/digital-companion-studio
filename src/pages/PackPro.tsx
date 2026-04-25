@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { 
   Check, 
   ArrowRight, 
-  Sparkles, 
-  Star, 
-  Zap, 
+  Sparkles,
+  Star,
+  Zap,
   Crown,
   Rocket,
   Shield,
@@ -58,51 +58,83 @@ const proFeatures = [
 
 const packs = [
   {
-    name: "Starter",
+    name: "Lancement",
     tagline: "Exister et être crédible",
     price: "150 000",
     icon: Zap,
     popular: false,
     features: [
-      "Site vitrine responsive (5 pages)",
-      "Design moderne personnalisé",
-      "Optimisation SEO de base",
+      "Site vitrine 3-4 pages",
+      "Design professionnel",
       "Formulaire de contact",
+      "SEO de base",
       "Hébergement 1 an inclus",
-      "Support par email"
+      "Responsive mobile"
     ]
   },
   {
-    name: "Croissance",
+    name: "Standard",
     tagline: "Attirer et convertir",
     price: "350 000",
     icon: Star,
     popular: true,
     features: [
-      "Tout du pack Starter",
-      "Stratégie marketing digital",
-      "Création de contenu (4/mois)",
-      "Gestion réseaux sociaux",
-      "Landing pages optimisées",
-      "Analytics & reporting mensuel",
-      "Support prioritaire"
+      "Site 5-7 pages",
+      "Tout du pack Lancement",
+      "SEO local avancé",
+      "Blog intégré",
+      "Google Analytics",
+      "Stratégie marketing de base",
+      "4 contenus/mois"
     ]
   },
   {
-    name: "Scale",
+    name: "Premium",
     tagline: "Performer et automatiser",
-    price: "750 000",
+    price: "600 000",
+    icon: Sparkles,
+    popular: false,
+    features: [
+      "Site 7-10 pages",
+      "Tout du pack Standard",
+      "E-commerce ou réservation",
+      "Chatbot IA intégré",
+      "Automatisations",
+      "3 mois maintenance",
+      "Formation incluse"
+    ]
+  },
+  {
+    name: "Business",
+    tagline: "Dominer son marché",
+    price: "900 000",
+    icon: Shield,
+    popular: false,
+    features: [
+      "Site 10-15 pages",
+      "Tout du pack Premium",
+      "SEO avancé complet",
+      "Dashboard admin",
+      "CRM intégré",
+      "6 mois maintenance",
+      "2 sessions de formation"
+    ]
+  },
+  {
+    name: "VIP",
+    tagline: "L'excellence digitale totale",
+    price: "1 200 000",
     icon: Crown,
     popular: false,
     features: [
-      "Tout du pack Croissance",
-      "Automatisation marketing IA",
-      "Chatbot intelligent 24/7",
-      "Intégrations CRM/outils",
-      "Funnels de conversion avancés",
-      "A/B testing continu",
-      "Account manager dédié",
-      "Audit trimestriel complet"
+      "Site 15-20 pages",
+      "Tout du pack Business",
+      "E-commerce avancé",
+      "Email marketing",
+      "1 campagne Facebook Ads",
+      "12 mois maintenance",
+      "Account manager VIP",
+      "Paiement en 3x"
     ]
   }
 ];
@@ -216,7 +248,7 @@ const PackPro = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-5 max-w-7xl mx-auto">
               {packs.map((pack, index) => (
                 <motion.div
                   key={pack.name}
@@ -280,7 +312,7 @@ const PackPro = () => {
                       className="w-full"
                       asChild
                     >
-                      <Link to={`/demarrer-projet?service=pack-${pack.name.toLowerCase()}&plan=${pack.name.toLowerCase()}`}>
+                      <Link to={`/contact?pack=${pack.name.toLowerCase()}`}>
                         Choisir ce pack
                         <ArrowRight size={18} className="ml-2" />
                       </Link>

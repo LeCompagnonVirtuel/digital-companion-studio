@@ -302,7 +302,7 @@ const Settings = () => {
                             id="phone"
                             value={businessInfo.phone}
                             onChange={(e) => setBusinessInfo({ ...businessInfo, phone: e.target.value })}
-                            placeholder="+33 1 23 45 67 89"
+                            placeholder="+225 07 06 69 30 38"
                             className="pl-10"
                           />
                         </div>

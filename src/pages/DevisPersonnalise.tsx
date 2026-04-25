@@ -46,8 +46,8 @@ const services = [
 const budgets = [
   { id: "moins-150k", label: "Moins de 150 000 FCFA" },
   { id: "150k-350k", label: "150 000 - 350 000 FCFA" },
-  { id: "350k-750k", label: "350 000 - 750 000 FCFA" },
-  { id: "750k-1500k", label: "750 000 - 1 500 000 FCFA" },
+  { id: "350k-600k", label: "350 000 - 600 000 FCFA" },
+  { id: "600k-1200k", label: "600 000 - 1 200 000 FCFA" },
   { id: "plus-1500k", label: "Plus de 1 500 000 FCFA" },
   { id: "a-definir", label: "À définir ensemble" },
 ];
@@ -231,7 +231,7 @@ ${formData.description}
                           id="phone"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+225 07 00 00 00 00"
+                          placeholder="+225 07 06 69 30 38"
                         />
                       </div>
                       <div className="space-y-2">
@@ -428,11 +428,11 @@ ${formData.description}
                   <h3 className="font-display font-semibold text-lg mb-4">Préférez nous appeler ?</h3>
                   <div className="space-y-3">
                     <a 
-                      href="tel:+2250504292778"
+                      href="tel:+2250706693038"
                       className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted transition-colors"
                     >
                       <Phone size={18} className="text-primary" />
-                      <span className="text-sm">+225 05 04 29 27 78</span>
+                      <span className="text-sm">+225 07 06 69 30 38</span>
                     </a>
                     <a 
                       href="mailto:lecompagnonvirtuel@gmail.com"

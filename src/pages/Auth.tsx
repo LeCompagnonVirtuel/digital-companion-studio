@@ -94,7 +94,7 @@ const Auth = () => {
               <span className="text-2xl font-display font-bold">Admin</span>
             </div>
 
-            <h1 className="text-5xl font-display font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 leading-tight">
               Accès<br />
               <span className="gradient-text">Sécurisé</span>
             </h1>

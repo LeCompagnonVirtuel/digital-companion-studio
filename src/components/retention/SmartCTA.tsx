@@ -24,7 +24,7 @@ const ctaOptions = {
       icon: Phone,
       label: 'WhatsApp',
       description: 'Échangez directement',
-      action: 'https://wa.me/yourphonenumber',
+      action: 'https://wa.me/2250706693038',
       color: 'success',
     },
     {
@@ -182,7 +182,7 @@ export function FloatingContactBar() {
           </Link>
         </Button>
         <Button variant="outline" asChild>
-          <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/2250706693038" target="_blank" rel="noopener noreferrer">
             <Send size={18} />
           </a>
         </Button>

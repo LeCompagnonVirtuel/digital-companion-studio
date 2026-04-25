@@ -8,12 +8,14 @@ import { MobileServicesAccordion } from "@/components/navigation/MobileServicesA
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { useCart } from "@/hooks/useCart";
 import logoImage from "@/assets/logo.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navLinks = [
   { name: "Accueil", href: "/" },
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
   { name: "Guide Entrepreneur", href: "/guide-entrepreneur" },
+  { name: "FAQ", href: "/faq" },
   { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
   { name: "Boutique", href: "/boutique" },
@@ -56,8 +58,8 @@ export function Navigation() {
         <div className="container-wide">
           <div className={`flex items-center justify-between rounded-full transition-all duration-300 ${
             isScrolled 
-              ? "bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-4 py-2" 
-              : "bg-background/80 backdrop-blur-md shadow-md border border-border/30 px-6 py-3"
+              ? "bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-3 sm:px-4 py-2"
+              : "bg-background/80 backdrop-blur-md shadow-md border border-border/30 px-3 sm:px-4 md:px-6 py-2 sm:py-3"
           }`}>
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
@@ -68,7 +70,7 @@ export function Navigation() {
               >
                 <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
               </motion.div>
-              <div className="hidden xl:block">
+              <div className="hidden 2xl:block">
                 <span className="font-display font-bold text-sm leading-tight">
                   Le <span className="text-primary">Compagnon</span>{" "}
                   <span className="text-destructive">Virtuel</span>
@@ -77,10 +79,10 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1 mx-4">
+            <nav className="hidden xl:flex items-center gap-0.5 mx-3">
               <Link
                 to="/"
-                className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`px-2.5 py-1.5 rounded-full text-[13px] font-medium transition-all duration-200 whitespace-nowrap ${
                   isActive("/")
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary"
@@ -89,29 +91,31 @@ export function Navigation() {
                 Accueil
               </Link>
 
-              <ServicesDropdown 
-                isActive={location.pathname.startsWith("/services")} 
+              <ServicesDropdown
+                isActive={location.pathname.startsWith("/services")}
               />
 
               {navLinks.filter(l => l.name !== "Accueil").map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1.5 rounded-full text-[13px] font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-1 ${
                     isActive(link.href)
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}
                 >
-                  {link.name === "Boutique" && <ShoppingBag size={14} />}
+                  {link.name === "Boutique" && <ShoppingBag size={13} />}
                   {link.name}
                 </Link>
               ))}
             </nav>
 
             {/* Right Actions */}
-            <div className="hidden lg:flex items-center gap-1.5 flex-shrink-0">
-              <motion.button 
+            <div className="hidden xl:flex items-center gap-1 flex-shrink-0">
+              <ThemeToggle />
+
+              <motion.button
                 className="p-2 rounded-full hover:bg-secondary transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -150,7 +154,7 @@ export function Navigation() {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-full hover:bg-secondary transition-colors"
+              className="xl:hidden p-2.5 rounded-full hover:bg-secondary transition-colors"
               aria-label="Toggle menu"
               whileTap={{ scale: 0.95 }}
             >
@@ -179,7 +183,7 @@ export function Navigation() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-foreground/20 backdrop-blur-sm z-40 xl:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -188,11 +192,11 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-4 top-[88px] bottom-4 z-50 lg:hidden flex flex-col"
+              className="fixed inset-x-3 sm:inset-x-4 top-[76px] sm:top-[88px] bottom-3 sm:bottom-4 z-50 xl:hidden flex flex-col"
             >
               <div className="bg-background rounded-2xl shadow-2xl border border-border flex flex-col max-h-full overflow-hidden">
                 <div 
-                  className="flex-1 overflow-y-auto overscroll-contain p-6 pb-0"
+                  className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 pb-0"
                   style={{ WebkitOverflowScrolling: 'touch' }}
                 >
                   <nav className="flex flex-col gap-1">

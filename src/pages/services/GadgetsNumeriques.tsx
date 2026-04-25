@@ -17,7 +17,8 @@ import {
   Sparkles,
   TrendingUp,
   Zap,
-  BarChart
+  BarChart,
+  Phone
 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -139,7 +140,7 @@ const deliverables = [
 
 const pricing = [
   {
-    name: "Starter",
+    name: "Lancement",
     price: "50 000",
     period: " FCFA",
     description: "Un gadget simple et efficace",
@@ -647,15 +648,22 @@ const GadgetsNumeriques = () => {
 
               <div className="flex flex-wrap justify-center gap-6 text-sm">
                 <a 
-                  href="https://wa.me/2250504292778" 
-                  target="_blank" 
+                  href="https://wa.me/2250706693038"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                 >
                   <MessageCircle size={16} />
+                  +225 07 06 69 30 38
+                </a>
+                <a
+                  href="tel:+2250504292778"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Phone size={16} />
                   +225 05 04 29 27 78
                 </a>
-                <a 
+                <a
                   href="mailto:lecompagnonvirtuel@gmail.com"
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                 >
