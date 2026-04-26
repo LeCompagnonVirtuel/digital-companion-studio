@@ -30,17 +30,14 @@ const AnimatedCounter = ({ target, suffix = "" }: { target: number; suffix?: str
 };
 
 const values = [
-  { title: "Excellence", description: "Nous visons l'excellence dans chaque projet, du détail technique à l'expérience utilisateur." },
-  { title: "Innovation", description: "Nous adoptons les dernières technologies et méthodologies pour rester à la pointe." },
+  { title: "Expertise Multi-domaines", description: "Développement web, mobile, IA, automatisation & marketing digital. Une expertise complète pour des solutions intégrées." },
+  { title: "Innovation", description: "Adoption des dernières technologies pour rester à la pointe et为您提供 des solutions modernes." },
   { title: "Transparence", description: "Communication claire, reporting régulier et pas de surprises. Vous savez toujours où en est votre projet." },
-  { title: "Résultats", description: "Notre succès se mesure au vôtre. Nous sommes orientés objectifs et ROI." },
+  { title: "Résultats concrets", description: "Mon succès se mesure au vôtre. Objectifs clairs, ROI démontré et satisfaction client garantie." },
 ];
 
 const team = [
-  { name: "Kouassi Kouakou Harouna", role: "Fondateur & CEO", icon: Rocket, description: "Développeur Full-Stack & Expert IA. Freelance passionné, j'accompagne les entreprises africaines dans leur transformation digitale avec des solutions innovantes et sur-mesures.", image: "founder" },
-  { name: "Lead Développeur", role: "Tech & Innovation", icon: Code, description: "Expert full-stack, architecture les solutions techniques les plus ambitieuses." },
-  { name: "Directrice Marketing", role: "Growth & Acquisition", icon: Megaphone, description: "Spécialiste en acquisition digitale, conçoit les stratégies de croissance." },
-  { name: "Directeur Créatif", role: "Design & Branding", icon: Palette, description: "Crée des identités visuelles mémorables et des expériences utilisateur premium." },
+  { name: "Kouassi Kouakou Harouna", role: "Fondateur & Développeur Full-Stack", icon: Rocket, description: "Freelance passionné, je conçois et développe des solutions digitales innovantes et sur-mesures pour transformer votre business. Expertise : React, Node.js, IA & Automatisation.", image: "founder" },
 ];
 
 const timeline = [
@@ -104,7 +101,7 @@ const About = () => {
               <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">Les talents derrière <span className="gradient-text">vos projets</span></h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">Une équipe pluridisciplinaire passionnée par l'innovation et l'excellence.</p>
             </motion.div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-2xl mx-auto">
               {team.map((member, index) => (
                 <motion.div
                   key={member.name}
