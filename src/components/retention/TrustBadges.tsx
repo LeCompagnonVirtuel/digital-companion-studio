@@ -52,7 +52,7 @@ const trustItems = [
 ];
 
 const stats = [
-  { icon: Users, value: '500+', label: 'Clients satisfaits' },
+  { icon: Users, value: '10+', label: 'Clients satisfaits' },
   { icon: Star, value: '4.9/5', label: 'Note moyenne' },
   { icon: Award, value: '100%', label: 'Taux de satisfaction' },
 ];

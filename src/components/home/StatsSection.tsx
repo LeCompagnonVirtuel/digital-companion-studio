@@ -59,14 +59,14 @@ export function StatsSection() {
   const stats = [
     {
       icon: Rocket,
-      value: 150,
+      value: 50,
       suffix: "+",
       labelKey: 'stats.projects',
       descKey: 'stats.projects_desc',
     },
     {
       icon: Users,
-      value: 80,
+      value: 10,
       suffix: "+",
       labelKey: 'stats.clients',
       descKey: 'stats.clients_desc',
