@@ -168,6 +168,11 @@ export function Navigation() {
                 )}
               </AnimatePresence>
             </motion.button>
+            
+            {/* Theme Toggle - Mobile (visible next to menu button) */}
+            <div className="xl:hidden">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </motion.header>
@@ -239,6 +244,10 @@ export function Navigation() {
                     <Button variant="hero" size="lg" asChild className="w-full">
                       <Link to="/demarrer-projet">Démarrer</Link>
                     </Button>
+                  </div>
+                  <div className="flex items-center justify-center pt-2">
+                    <span className="text-xs text-muted-foreground mr-2">Mode:</span>
+                    <ThemeToggle />
                   </div>
                 </div>
               </div>

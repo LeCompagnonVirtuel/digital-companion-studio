@@ -8,7 +8,7 @@ export function ThemeToggle() {
   return (
     <motion.button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-full hover:bg-secondary transition-colors"
+      className="p-2.5 sm:p-2 rounded-full hover:bg-secondary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
@@ -22,7 +22,7 @@ export function ThemeToggle() {
             exit={{ rotate: 90, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Sun size={17} className="text-muted-foreground" />
+            <Sun size={18} className="text-muted-foreground" />
           </motion.div>
         ) : (
           <motion.div
@@ -32,7 +32,7 @@ export function ThemeToggle() {
             exit={{ rotate: -90, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <Moon size={17} className="text-muted-foreground" />
+            <Moon size={18} className="text-muted-foreground" />
           </motion.div>
         )}
       </AnimatePresence>
