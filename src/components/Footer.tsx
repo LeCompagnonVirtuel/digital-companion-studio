@@ -222,7 +222,7 @@ export function Footer() {
               <p className="text-xs text-white/30">
                 © {new Date().getFullYear()} Le Compagnon <span className="text-destructive/70">Virtuel.</span> — Tous droits réservés.
               </p>
-              <div className="flex gap-5">
+              <div className="flex flex-wrap gap-3 sm:gap-5">
                 {footerLinks.legal.map((link) => (
                   <Link
                     key={link.name}

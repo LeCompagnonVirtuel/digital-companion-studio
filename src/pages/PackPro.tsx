@@ -210,7 +210,7 @@ const PackPro = () => {
         {/* Benefits */}
         <section className="py-16 bg-card border-y border-border">
           <div className="container-wide">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit.title}

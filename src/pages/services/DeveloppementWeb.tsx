@@ -293,7 +293,7 @@ const DeveloppementWeb = () => {
                   </div>
                   <h3 className="font-display font-semibold text-xl mb-3">{service.title}</h3>
                   <p className="text-muted-foreground mb-6">{service.description}</p>
-                  <ul className="grid grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2 text-sm">
                         <Check size={16} className="text-primary shrink-0" />

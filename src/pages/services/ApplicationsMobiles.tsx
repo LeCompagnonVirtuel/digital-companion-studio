@@ -227,7 +227,7 @@ const ApplicationsMobiles = () => {
         {/* Stats */}
         <section className="py-12 border-y border-border bg-muted/30">
           <div className="container-wide">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -280,7 +280,7 @@ const ApplicationsMobiles = () => {
                   </div>
                   <h3 className="font-display font-semibold text-xl mb-3">{service.title}</h3>
                   <p className="text-muted-foreground mb-6">{service.description}</p>
-                  <ul className="grid grid-cols-2 gap-3">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-2 text-sm">
                         <Check size={16} className="text-accent shrink-0" />

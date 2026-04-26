@@ -325,7 +325,7 @@ const Pricing = () => {
                 <table className="w-full text-sm border-collapse">
                   <thead>
                     <tr>
-                      <th className="text-left p-4 font-display font-semibold text-muted-foreground sticky left-0 bg-background z-10 min-w-[180px]">Fonctionnalité</th>
+                      <th className="text-left p-3 sm:p-4 font-display font-semibold text-muted-foreground sticky left-0 bg-background z-10 min-w-[120px] sm:min-w-[180px]">Fonctionnalité</th>
                       {pricingPlans.map((plan, i) => {
                         const Icon = planIcons[i];
                         return (

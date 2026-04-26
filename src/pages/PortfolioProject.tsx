@@ -420,7 +420,7 @@ const PortfolioProjectPage = () => {
                       </div>
                       Galerie du projet
                     </h2>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {project.images.map((img, index) => (
                         <motion.div
                           key={index}

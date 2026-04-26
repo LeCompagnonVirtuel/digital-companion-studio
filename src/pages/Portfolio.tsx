@@ -72,7 +72,7 @@ const Portfolio = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-6 sm:gap-10 px-6 py-4 rounded-2xl bg-card border border-border/50"
+                className="inline-flex items-center gap-4 sm:gap-10 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl bg-card border border-border/50"
               >
                 <div className="text-center">
                   <p className="text-2xl sm:text-3xl font-display font-bold gradient-text"><AnimatedCounter target={150} suffix="+" /></p>

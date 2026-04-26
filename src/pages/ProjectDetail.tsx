@@ -26,7 +26,7 @@ function ImageGallery({ images, projectTitle }: { images: { url: string; alt: st
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {images.map((image, index) => (
           <motion.div
             key={index}
@@ -162,7 +162,7 @@ const ProjectDetail = () => {
                   </p>
 
                   {/* Project Meta */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border">
                       <Building2 size={20} className="text-primary" />
                       <div>

@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,7 @@ import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { RetentionProvider } from "@/components/retention";
 import { FloatingCartButton } from "@/components/shop/FloatingCartButton";
 import { useMaintenanceMode } from "@/hooks/useMaintenanceMode";
+import { SplashScreen } from "@/components/SplashScreen";
 import Maintenance from "./pages/Maintenance";
 import Index from "./pages/Index";
 import Services from "./pages/Services";
@@ -125,7 +127,14 @@ function MaintenanceGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-const App = () => (
+const App = () => {
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem("lcv_visited"));
+  const handleSplashComplete = useCallback(() => {
+    sessionStorage.setItem("lcv_visited", "1");
+    setShowSplash(false);
+  }, []);
+
+  return (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <LanguageProvider>
@@ -135,6 +144,7 @@ const App = () => (
               <TooltipProvider>
                 <Toaster />
                 <Sonner />
+                {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
                 <BrowserRouter>
                   <MaintenanceGuard>
                     <RetentionProvider>
@@ -214,6 +224,7 @@ const App = () => (
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
