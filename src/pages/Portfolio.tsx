@@ -75,12 +75,12 @@ const Portfolio = () => {
                 className="inline-flex items-center gap-4 sm:gap-10 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl bg-card border border-border/50"
               >
                 <div className="text-center">
-                  <p className="text-2xl sm:text-3xl font-display font-bold gradient-text"><AnimatedCounter target={150} suffix="+" /></p>
+                  <p className="text-2xl sm:text-3xl font-display font-bold gradient-text"><AnimatedCounter target={50} suffix="+" /></p>
                   <p className="text-xs text-muted-foreground">Projets livrés</p>
                 </div>
                 <div className="w-px h-10 bg-border" />
                 <div className="text-center">
-                  <p className="text-2xl sm:text-3xl font-display font-bold gradient-text"><AnimatedCounter target={80} suffix="+" /></p>
+                  <p className="text-2xl sm:text-3xl font-display font-bold gradient-text"><AnimatedCounter target={10} suffix="+" /></p>
                   <p className="text-xs text-muted-foreground">Clients satisfaits</p>
                 </div>
                 <div className="w-px h-10 bg-border" />

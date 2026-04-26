@@ -42,7 +42,7 @@ const team = [
 
 const timeline = [
   { year: "2024", title: "Création", description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité en Afrique.", icon: "🚀", status: "completed" as const },
-  { year: "2025", title: "Croissance", description: "150+ projets livrés, expansion des services et diversification vers l'IA et l'automatisation.", icon: "📈", status: "completed" as const },
+  { year: "2025", title: "Croissance", description: "50+ projets livrés, expansion des services et diversification vers l'IA et l'automatisation.", icon: "📈", status: "completed" as const },
   { year: "2026", title: "Innovation", description: "Lancement de solutions IA avancées, partenariats stratégiques et expansion régionale.", icon: "💡", status: "current" as const },
   { year: "2027", title: "Leadership", description: "Positionnement comme leader du digital en Afrique francophone et academy de formation.", icon: "👑", status: "vision" as const },
 ];
@@ -50,7 +50,7 @@ const timeline = [
 const About = () => {
   useDocumentMeta({
     title: "À propos — Notre équipe & histoire",
-    description: "Découvrez Le Compagnon Virtuel : une équipe passionnée du digital en Côte d'Ivoire, 150+ projets livrés et 100% de satisfaction client.",
+    description: "Découvrez Le Compagnon Virtuel : une équipe passionnée du digital en Côte d'Ivoire, 50+ projets livrés et 100% de satisfaction client.",
   });
 
   return (
@@ -71,8 +71,8 @@ const About = () => {
                   Le Compagnon Virtuel, c'est avant tout une équipe de passionnés du digital qui croit en la puissance de la technologie pour transformer les entreprises.
                 </p>
                 <div className="flex flex-wrap gap-8">
-                  <div><AnimatedCounter target={150} suffix="+" /><div className="text-sm text-muted-foreground">Projets livrés</div></div>
-                  <div><AnimatedCounter target={80} suffix="+" /><div className="text-sm text-muted-foreground">Clients satisfaits</div></div>
+                  <div><AnimatedCounter target={50} suffix="+" /><div className="text-sm text-muted-foreground">Projets livrés</div></div>
+                  <div><AnimatedCounter target={10} suffix="+" /><div className="text-sm text-muted-foreground">Clients satisfaits</div></div>
                   <div><AnimatedCounter target={100} suffix="%" /><div className="text-sm text-muted-foreground">Satisfaction</div></div>
                 </div>
               </motion.div>

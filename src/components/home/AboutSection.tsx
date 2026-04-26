@@ -29,7 +29,7 @@ export function AboutSection() {
   const description = aboutData?.description || "Le Compagnon Virtuel, c'est une équipe passionnée qui accompagne les entreprises ambitieuses dans leur transformation digitale. Nous combinons expertise technique, créativité et vision stratégique pour créer des écosystèmes digitaux performants.";
   const dynamicStats = aboutData?.stats || [
     { value: "5+", label: "Ans" },
-    { value: "150+", label: "Projets" },
+    { value: "50+", label: "Projets" },
     { value: "100%", label: "Satisfaits" },
   ];
 
