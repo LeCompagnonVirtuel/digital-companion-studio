@@ -15,7 +15,8 @@ import {
   Globe,
   Code,
   Megaphone,
-  Palette
+  Palette,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -56,8 +57,10 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chatbot`;
 const quickReplies: QuickReply[] = [
   { icon: <Globe size={14} />, label: "Création de site", message: "Je souhaite créer un site web professionnel pour mon entreprise" },
   { icon: <Megaphone size={14} />, label: "Marketing digital", message: "Je veux améliorer ma visibilité en ligne et attirer plus de clients" },
+  { icon: <Zap size={14} />, label: "Voir les tarifs", message: "Quels sont vos tarifs et vos différents packs ?" },
   { icon: <Code size={14} />, label: "Application mobile", message: "J'ai besoin d'une application mobile pour mon business" },
   { icon: <Palette size={14} />, label: "Branding", message: "Je cherche à créer ou refaire mon identité visuelle" },
+  { icon: <Search size={14} />, label: "Audit gratuit", message: "Je voudrais bénéficier d'un audit gratuit de ma présence digitale" },
 ];
 
 const TypingIndicator = () => (
@@ -87,7 +90,7 @@ export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Bonjour ! 👋 Je suis l'assistant IA de **Le Compagnon Virtuel**. Je peux vous aider à :\n\n• Découvrir nos services\n• Obtenir un devis personnalisé\n• Répondre à vos questions\n\nComment puis-je vous aider aujourd'hui ?",
+      content: "Bonjour ! 👋 Je suis l'assistant IA de **Le Compagnon Virtuel**, agence digitale basée à Abidjan.\n\nJe peux vous aider à :\n• Trouver le **pack idéal** pour votre projet\n• Obtenir un **devis personnalisé**\n• Demander un **audit gratuit** de votre présence en ligne\n• Répondre à toutes vos questions sur nos services\n\nQu'est-ce qui vous intéresse ?",
       timestamp: new Date(),
     },
   ]);
@@ -242,7 +245,7 @@ export function Chatbot() {
     setMessages([
       {
         role: "assistant",
-        content: "Bonjour ! 👋 Je suis l'assistant IA de **Le Compagnon Virtuel**. Je peux vous aider à :\n\n• Découvrir nos services\n• Obtenir un devis personnalisé\n• Répondre à vos questions\n\nComment puis-je vous aider aujourd'hui ?",
+        content: "Bonjour ! 👋 Je suis l'assistant IA de **Le Compagnon Virtuel**, agence digitale basée à Abidjan.\n\nJe peux vous aider à :\n• Trouver le **pack idéal** pour votre projet\n• Obtenir un **devis personnalisé**\n• Demander un **audit gratuit** de votre présence en ligne\n• Répondre à toutes vos questions sur nos services\n\nQu'est-ce qui vous intéresse ?",
         timestamp: new Date(),
       },
     ]);
