@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Search, X, Filter, BookOpen, Lightbulb, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, Search, X, Filter, BookOpen, Lightbulb, CheckCircle, ChevronDown, ChevronUp, Rocket } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -229,18 +229,25 @@ const GuideEntrepreneur = () => {
               </div>
             )}
 
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16 p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10 border border-primary/20">
-              <h2 className="text-2xl sm:text-3xl font-display font-bold mb-4">Vous vous reconnaissez ?</h2>
-              <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mt-16 p-10 md:p-14 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border shadow-elevated">
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 6, repeat: Infinity }}
+                className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6"
+              >
+                <Rocket size={32} className="text-primary" />
+              </motion.div>
+              <h2 className="text-3xl sm:text-4xl font-display font-bold mb-4">Vous vous reconnaissez ?</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto mb-8 text-lg">
                 Ne restez pas bloqué. Notre équipe peut vous accompagner avec un diagnostic personnalisé et un plan d'action sur-mesure.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button asChild size="lg">
-                  <Link to="/diagnostic-gratuit">
-                    Faire mon diagnostic gratuit <ArrowRight size={18} className="ml-2" />
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button variant="hero" size="xl" asChild className="shadow-premium">
+                  <Link to="/diagnostic-gratuit" className="group">
+                    Faire mon diagnostic gratuit <ArrowRight size={18} className="ml-2 group-hover:translate-x-1.5 transition-transform" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button size="xl" variant="heroOutline" asChild>
                   <Link to="/parlons-projet">Parler à un expert</Link>
                 </Button>
               </div>
