@@ -104,32 +104,39 @@ const About = () => {
             </motion.div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-2xl mx-auto">
               {team.map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-300 text-center"
-                >
-                  {member.image === "founder" ? (
-                    <div className="relative w-20 h-20 mx-auto mb-4">
-                      <div className="w-20 h-20 rounded-2xl overflow-hidden">
-                        <img src={harounaImage} alt={member.name} className="w-full h-full object-cover" />
+                <Link key={member.name} to={member.image === "founder" ? "/about/fondateur" : "#"}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-300 text-center cursor-pointer"
+                  >
+                    {member.image === "founder" ? (
+                      <div className="relative w-20 h-20 mx-auto mb-4">
+                        <div className="w-20 h-20 rounded-2xl overflow-hidden">
+                          <img src={harounaImage} alt={member.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
+                          <Rocket size={12} className="text-white" />
+                        </div>
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
-                        <Rocket size={12} className="text-white" />
+                    ) : (
+                      <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                        <member.icon size={28} />
                       </div>
-                    </div>
-                  ) : (
-                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
-                      <member.icon size={28} />
-                    </div>
-                  )}
-                  <h3 className="font-display font-semibold text-lg mb-1">{member.name}</h3>
-                  <p className="text-xs font-medium text-primary mb-3">{member.role}</p>
-                  <p className="text-sm text-muted-foreground">{member.description}</p>
-                </motion.div>
+                    )}
+                    <h3 className="font-display font-semibold text-lg mb-1">{member.name}</h3>
+                    <p className="text-xs font-medium text-primary mb-3">{member.role}</p>
+                    <p className="text-sm text-muted-foreground">{member.description}</p>
+                    {member.image === "founder" && (
+                      <span className="inline-flex items-center gap-1 mt-4 text-sm font-medium text-primary group-hover:underline">
+                        Voir le profil complet
+                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    )}
+                  </motion.div>
+                </Link>
               ))}
             </div>
           </div>

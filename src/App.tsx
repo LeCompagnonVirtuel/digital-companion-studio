@@ -32,6 +32,7 @@ import AuditDigital from "./pages/services/AuditDigital";
 import SEOService from "./pages/services/SEO";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
+import Founder from "./pages/Founder";
 import Pricing from "./pages/Pricing";
 import Portfolio from "./pages/Portfolio";
 import PortfolioProject from "./pages/PortfolioProject";
@@ -166,6 +167,7 @@ const App = () => {
                         <Route path="/services/seo" element={<SEOService />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/about" element={<About />} />
+                        <Route path="/about/fondateur" element={<Founder />} />
                         <Route path="/pricing" element={<Pricing />} />
                         <Route path="/portfolio" element={<Portfolio />} />
                         <Route path="/portfolio/:slug" element={<PortfolioProject />} />
