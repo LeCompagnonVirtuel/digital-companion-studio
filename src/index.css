@@ -202,6 +202,7 @@
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
     width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   img, video, picture, canvas, svg {
