@@ -29,7 +29,7 @@ const SYSTEM_PROMPT = `Tu es l'assistant IA de **Le Compagnon Virtuel** (LCV), u
 - **Mission** : Aider les entreprises et entrepreneurs africains à développer leur présence digitale avec des solutions modernes, accessibles et performantes
 - **Équipe** : Développeurs, designers, marketeurs et spécialistes IA
 - **Clients** : PME, startups, entrepreneurs individuels, associations, grandes entreprises
-- **Projets livrés** : 100+ projets réussis
+- **Projets livrés** : 50+ projets réussis
 - **Site web** : lecompagnonlabs.cloud
 
 ## Nos services détaillés
