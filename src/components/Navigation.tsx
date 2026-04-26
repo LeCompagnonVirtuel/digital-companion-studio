@@ -32,18 +32,9 @@ const allMobileLinks = [
 ];
 
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { itemCount } = useCart();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -60,16 +51,10 @@ export function Navigation() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-2" : "py-4"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 py-2 sm:py-3 xl:py-2 transition-all duration-300"
       >
         <div className="container-wide">
-          <div className={`flex items-center justify-between rounded-full transition-all duration-300 ${
-            isScrolled 
-              ? "bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-3 sm:px-4 py-2"
-              : "bg-background/80 backdrop-blur-md shadow-md border border-border/30 px-3 sm:px-4 md:px-6 py-2 sm:py-3"
-          }`}>
+          <div className={`flex items-center justify-between rounded-full transition-all duration-300 bg-background/95 backdrop-blur-xl shadow-lg border border-border/50 px-3 sm:px-4 xl:px-6 py-2`}>
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
               <motion.div
@@ -205,7 +190,7 @@ export function Navigation() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-3 sm:inset-x-4 top-[76px] sm:top-[88px] bottom-3 sm:bottom-4 z-50 xl:hidden flex flex-col"
+              className="fixed inset-x-3 sm:inset-x-4 top-[60px] sm:top-[68px] bottom-3 sm:bottom-4 z-50 xl:hidden flex flex-col"
             >
               <div className="bg-background rounded-2xl shadow-2xl border border-border flex flex-col max-h-full overflow-hidden">
                 <div
