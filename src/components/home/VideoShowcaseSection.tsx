@@ -1,17 +1,31 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play, Code2 } from "lucide-react";
+import { Code2 } from "lucide-react";
 
 export const VideoShowcaseSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handlePlay = () => {
-    if (videoRef.current) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
-  };
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="section-padding overflow-hidden">
@@ -59,7 +73,7 @@ export const VideoShowcaseSection = () => {
             </div>
 
             {/* Video container */}
-            <div className="relative aspect-video bg-background">
+            <div ref={containerRef} className="relative aspect-video bg-background">
               <video
                 ref={videoRef}
                 className="w-full h-full object-cover"
@@ -72,24 +86,6 @@ export const VideoShowcaseSection = () => {
               >
                 <source src="/videos/fullstack-demo.mp4" type="video/mp4" />
               </video>
-
-              {/* Play overlay */}
-              {!isPlaying && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center cursor-pointer"
-                  onClick={handlePlay}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-glow"
-                  >
-                    <Play size={32} className="text-primary-foreground ml-1" />
-                  </motion.div>
-                </motion.div>
-              )}
             </div>
           </div>
 
