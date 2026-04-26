@@ -102,7 +102,7 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
       await checkAdminSession();
 
       if (!isAuthenticated) {
-        return { success: false, error: 'Accès refusé (rôle admin manquant).' };
+        return { success: false, error: 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.' };
       }
 
       return { success: true };
