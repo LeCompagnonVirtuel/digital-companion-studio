@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CTASection } from "@/components/home/CTASection";
 import logoImage from "@/assets/logo.png";
+import harounaImage from "@/assets/harouna.jpg";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 
 const AnimatedCounter = ({ target, suffix = "" }: { target: number; suffix?: string }) => {
@@ -112,9 +113,9 @@ const About = () => {
                   className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-300 text-center"
                 >
                   {member.image === "founder" ? (
-                    <div className="relative">
-                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
-                        <span className="text-3xl font-bold text-white">KH</span>
+                    <div className="relative w-20 h-20 mx-auto mb-4">
+                      <div className="w-20 h-20 rounded-2xl overflow-hidden">
+                        <img src={harounaImage} alt={member.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
                         <Rocket size={12} className="text-white" />
