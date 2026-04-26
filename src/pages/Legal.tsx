@@ -112,8 +112,8 @@ const Legal = () => {
                     <Mail size={20} className="text-primary mt-1" />
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Email</p>
-                      <a href="mailto:contact@lecompagnonvirtuel.fr" className="font-medium hover:text-primary transition-colors">
-                        contact@lecompagnonvirtuel.fr
+                      <a href="mailto:lecompagnonvirtuel@gmail.com" className="font-medium hover:text-primary transition-colors">
+                        lecompagnonvirtuel@gmail.com
                       </a>
                     </div>
                   </div>

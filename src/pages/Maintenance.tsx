@@ -317,11 +317,11 @@ const Maintenance = ({
                 className="overflow-hidden"
               >
                 <a
-                  href="mailto:contact@lecompagnonvirtuel.com"
+                  href="mailto:lecompagnonvirtuel@gmail.com"
                   className="inline-flex items-center gap-2 text-primary hover:underline text-sm"
                 >
                   <ExternalLink className="w-3 h-3" />
-                  contact@lecompagnonvirtuel.com
+                  lecompagnonvirtuel@gmail.com
                 </a>
               </motion.div>
             )}

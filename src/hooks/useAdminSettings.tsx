@@ -31,7 +31,7 @@ export interface AdminSettings {
 const defaultSettings: AdminSettings = {
   site_name: 'LCV Digital',
   site_description: 'Agence digitale full-stack',
-  contact_email: 'contact@lcvdigital.com',
+  contact_email: 'lecompagnonvirtuel@gmail.com',
   notifications: {
     newLeads: true,
     weeklyReport: true,

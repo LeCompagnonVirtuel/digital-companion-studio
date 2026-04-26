@@ -273,8 +273,8 @@ const ShopConfirmation = () => {
             </p>
             <p>
               Pour toute question, contactez-nous à{" "}
-              <a href="mailto:support@lecompagnonvirtuel.com" className="text-primary hover:underline break-all">
-                support@lecompagnonvirtuel.com
+              <a href="mailto:lecompagnonvirtuel@gmail.com" className="text-primary hover:underline break-all">
+                lecompagnonvirtuel@gmail.com
               </a>
             </p>
           </div>
