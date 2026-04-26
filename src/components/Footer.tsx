@@ -57,8 +57,8 @@ export function Footer() {
           >
             {/* Animated bg */}
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/20 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-[200px] sm:w-[300px] lg:w-[400px] h-[200px] sm:h-[300px] lg:h-[400px] bg-primary/20 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-[150px] sm:w-[200px] lg:w-[300px] h-[150px] sm:h-[200px] lg:h-[300px] bg-accent/20 rounded-full blur-3xl" />
             </div>
 
             <div className="relative flex flex-col lg:flex-row items-center justify-between gap-6 p-8 lg:p-12">

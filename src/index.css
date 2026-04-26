@@ -173,6 +173,15 @@
     scrollbar-color: hsl(var(--border)) transparent;
   }
 
+  *, *::before, *::after {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  html, body {
+    overflow-x: hidden;
+  }
+
   html::-webkit-scrollbar {
     width: 8px;
   }
@@ -191,6 +200,22 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "cv11", "ss01", "ss03";
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  img, video, picture, canvas, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  input, textarea, select, button {
+    max-width: 100%;
+  }
+
+  a {
+    word-break: break-word;
   }
 
   h1, h2, h3, h4, h5, h6 {

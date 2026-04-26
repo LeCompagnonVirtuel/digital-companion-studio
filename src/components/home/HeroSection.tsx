@@ -154,7 +154,7 @@ export function HeroSection() {
       <motion.div className="absolute inset-0 -z-10" style={{ y: contentY }}>
         {/* Animated Orbs with depth */}
         <motion.div 
-          className="absolute top-1/4 left-[15%] w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-full"
+          className="absolute top-1/4 left-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] rounded-full"
           style={{
             background: "radial-gradient(circle, hsl(234 89% 54% / 0.15) 0%, transparent 70%)",
           }}
@@ -166,7 +166,7 @@ export function HeroSection() {
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute bottom-1/4 right-[15%] w-[250px] sm:w-[350px] md:w-[400px] h-[250px] sm:h-[350px] md:h-[400px] rounded-full"
+          className="absolute bottom-1/4 right-0 w-[180px] sm:w-[250px] md:w-[350px] h-[180px] sm:h-[250px] md:h-[350px] rounded-full"
           style={{
             background: "radial-gradient(circle, hsl(174 77% 40% / 0.15) 0%, transparent 70%)",
           }}
@@ -178,7 +178,7 @@ export function HeroSection() {
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
         <motion.div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] md:w-[800px] h-[400px] sm:h-[600px] md:h-[800px] rounded-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] md:w-[600px] h-[300px] sm:h-[400px] md:h-[600px] rounded-full"
           style={{
             background: "radial-gradient(circle, hsl(234 89% 54% / 0.08) 0%, transparent 60%)",
           }}
