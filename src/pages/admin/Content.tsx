@@ -52,9 +52,9 @@ const defaultAboutContent: AboutContent = {
   title: "Une agence digitale passionnée",
   description: "Nous accompagnons les entreprises dans leur transformation digitale avec créativité et expertise technique.",
   stats: [
-    { value: "150+", label: "Projets réalisés" },
-    { value: "98%", label: "Clients satisfaits" },
-    { value: "10+", label: "Années d'expérience" },
+    { value: "50+", label: "Projets réalisés" },
+    { value: "10+", label: "Clients satisfaits" },
+    { value: "5+", label: "Années d'expérience" },
   ],
 };
 

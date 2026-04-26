@@ -30,7 +30,7 @@ export function AboutSection() {
   const dynamicStats = aboutData?.stats || [
     { value: "5+", label: "Ans" },
     { value: "50+", label: "Projets" },
-    { value: "100%", label: "Satisfaits" },
+    { value: "10+", label: "Clients" },
   ];
 
   return (
