@@ -257,7 +257,7 @@ const Blog = () => {
                       {/* Cover thumbnail */}
                       {post.cover_image ? (
                         <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-muted">
-                          <img src={post.cover_image} alt="" className="w-full h-full object-cover" loading="lazy" />
+                          <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       ) : (
                         <div className="w-16 h-16 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
