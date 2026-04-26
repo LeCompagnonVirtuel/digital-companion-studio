@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, ShoppingBag, Search } from "lucide-react";
+import { Menu, X, ArrowRight, ShoppingBag, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ServicesDropdown } from "@/components/navigation/ServicesDropdown";
 import { MobileServicesAccordion } from "@/components/navigation/MobileServicesAccordion";
@@ -10,16 +10,25 @@ import { useCart } from "@/hooks/useCart";
 import logoImage from "@/assets/logo.png";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const navLinks = [
-  { name: "Accueil", href: "/" },
+const primaryLinks = [
   { name: "Réalisations", href: "/portfolio" },
   { name: "Tarifs", href: "/pricing" },
-  { name: "Guide Entrepreneur", href: "/guide-entrepreneur" },
-  { name: "FAQ", href: "/faq" },
+  { name: "Blog", href: "/blog" },
   { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
   { name: "Boutique", href: "/boutique" },
+];
+
+const allMobileLinks = [
+  { name: "Accueil", href: "/" },
+  { name: "Réalisations", href: "/portfolio" },
+  { name: "Tarifs", href: "/pricing" },
   { name: "Blog", href: "/blog" },
+  { name: "À propos", href: "/about" },
+  { name: "Contact", href: "/contact" },
+  { name: "Boutique", href: "/boutique" },
+  { name: "Guide Entrepreneur", href: "/guide-entrepreneur" },
+  { name: "FAQ", href: "/faq" },
 ];
 
 export function Navigation() {
@@ -63,14 +72,14 @@ export function Navigation() {
           }`}>
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 group flex-shrink-0">
-              <motion.div 
+              <motion.div
                 className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
                 <img src={logoImage} alt="LCV Logo" className="w-full h-full object-cover" />
               </motion.div>
-              <div className="hidden 2xl:block">
+              <div className="hidden lg:block">
                 <span className="font-display font-bold text-sm leading-tight">
                   Le <span className="text-primary">Compagnon</span>{" "}
                   <span className="text-destructive">Virtuel</span>
@@ -95,7 +104,7 @@ export function Navigation() {
                 isActive={location.pathname.startsWith("/services")}
               />
 
-              {navLinks.filter(l => l.name !== "Accueil").map((link) => (
+              {primaryLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.href}
@@ -112,20 +121,11 @@ export function Navigation() {
             </nav>
 
             {/* Right Actions */}
-            <div className="hidden xl:flex items-center gap-1 flex-shrink-0">
+            <div className="hidden xl:flex items-center gap-1.5 flex-shrink-0">
               <ThemeToggle />
 
-              <motion.button
-                className="p-2 rounded-full hover:bg-secondary transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label="Rechercher"
-              >
-                <Search size={17} className="text-muted-foreground" />
-              </motion.button>
-
               <CartDrawer>
-                <motion.button 
+                <motion.button
                   className="relative p-2 rounded-full hover:bg-secondary transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -142,11 +142,24 @@ export function Navigation() {
                   )}
                 </motion.button>
               </CartDrawer>
-              
-              <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md ml-1">
+
+              <motion.a
+                href="https://wa.me/2250706693038"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full hover:bg-green-500/10 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Nous contacter sur WhatsApp"
+              >
+                <Phone size={17} className="text-green-600 dark:text-green-400" />
+              </motion.a>
+
+              <Button asChild size="sm" className="rounded-full px-5 bg-primary hover:bg-primary/90 shadow-md ml-1 group">
                 <Link to="/demarrer-projet" className="flex items-center gap-2">
+                  <Sparkles size={14} />
                   Démarrer
-                  <ArrowRight size={14} />
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </Button>
             </div>
@@ -195,25 +208,14 @@ export function Navigation() {
               className="fixed inset-x-3 sm:inset-x-4 top-[76px] sm:top-[88px] bottom-3 sm:bottom-4 z-50 xl:hidden flex flex-col"
             >
               <div className="bg-background rounded-2xl shadow-2xl border border-border flex flex-col max-h-full overflow-hidden">
-                <div 
+                <div
                   className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 pb-0"
                   style={{ WebkitOverflowScrolling: 'touch' }}
                 >
                   <nav className="flex flex-col gap-1">
-                    <Link
-                      to="/"
-                      className={`flex items-center px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
-                        isActive("/")
-                          ? "text-primary bg-primary/10"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                      }`}
-                    >
-                      Accueil
-                    </Link>
-
                     <MobileServicesAccordion isActive={location.pathname.startsWith("/services")} />
 
-                    {navLinks.filter(l => l.name !== "Accueil").map((link) => (
+                    {allMobileLinks.map((link) => (
                       <Link
                         key={link.name}
                         to={link.href}
@@ -234,14 +236,25 @@ export function Navigation() {
                     ))}
                   </nav>
                 </div>
-                
-                <div className="flex-shrink-0 p-6 pt-4 border-t border-border flex flex-col gap-3">
-                  <Button variant="heroOutline" size="lg" asChild className="w-full">
-                    <Link to="/audit-gratuit">Audit gratuit</Link>
-                  </Button>
-                  <Button variant="hero" size="lg" asChild className="w-full">
-                    <Link to="/demarrer-projet">Démarrer un projet</Link>
-                  </Button>
+
+                <div className="flex-shrink-0 p-6 pt-4 border-t border-border space-y-3">
+                  <a
+                    href="https://wa.me/2250706693038"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-green-500/10 text-green-600 dark:text-green-400 font-medium text-sm hover:bg-green-500/20 transition-colors"
+                  >
+                    <Phone size={16} />
+                    WhatsApp — Réponse rapide
+                  </a>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button variant="heroOutline" size="lg" asChild className="w-full">
+                      <Link to="/audit-gratuit">Audit gratuit</Link>
+                    </Button>
+                    <Button variant="hero" size="lg" asChild className="w-full">
+                      <Link to="/demarrer-projet">Démarrer</Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </motion.div>
