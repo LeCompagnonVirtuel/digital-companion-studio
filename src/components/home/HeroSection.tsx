@@ -6,11 +6,14 @@ import { useRef, useState, useEffect } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { ParticleField } from "@/components/animations/ParticleField";
 import { GlowingOrb } from "@/components/animations/GlowingOrb";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const { t, language } = useLanguage();
+  const { content } = useSiteContent();
+  const heroData = content.hero;
   
   // Slides showcasing different services/domains
   const heroSlides = [
@@ -266,14 +269,14 @@ export function HeroSection() {
           >
             <Button variant="hero" size="xl" asChild className="shadow-premium">
               <Link to="/demarrer-projet" className="group">
-                {t('cta.start_project')}
+                {heroData?.ctaPrimary || t('cta.start_project')}
                 <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <Link to="/audit-gratuit" className="group">
                 <Play size={16} className="mr-1.5" />
-                {t('cta.free_audit')}
+                {heroData?.ctaSecondary || t('cta.free_audit')}
               </Link>
             </Button>
           </motion.div>

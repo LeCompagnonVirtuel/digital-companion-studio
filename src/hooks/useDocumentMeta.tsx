@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useSEOSettings, getSEOForPath } from "./useSEOSettings";
 
 interface SEOProps {
   title: string;
@@ -11,13 +13,19 @@ interface SEOProps {
 
 const SITE_URL = "https://www.lecompagnonlabs.cloud";
 
-/**
- * Sets document title, meta tags, canonical link and robots for SEO and social sharing.
- */
 export function useDocumentMeta({ title, description, image, url, type = "website", noindex = false }: SEOProps) {
+  const seo = useSEOSettings();
+  const location = useLocation();
+
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = `${title} | Le Compagnon Virtuel`;
+
+    const pageSEO = getSEOForPath(seo, location.pathname);
+    const finalTitle = (pageSEO?.title) || title;
+    const finalDescription = (pageSEO?.metaDescription) || description;
+    const siteName = seo.siteName || "Le Compagnon Virtuel";
+
+    document.title = `${finalTitle} | ${siteName}`;
 
     const resolvedUrl = url || window.location.href.split("?")[0];
 
@@ -52,14 +60,14 @@ export function useDocumentMeta({ title, description, image, url, type = "websit
       if (robotsEl) robotsEl.remove();
     }
 
-    if (description) {
-      setMeta("description", description);
-      setMeta("og:description", description);
-      setMeta("twitter:description", description);
+    if (finalDescription) {
+      setMeta("description", finalDescription);
+      setMeta("og:description", finalDescription);
+      setMeta("twitter:description", finalDescription);
     }
 
-    setMeta("og:title", title);
-    setMeta("twitter:title", title);
+    setMeta("og:title", finalTitle);
+    setMeta("twitter:title", finalTitle);
     setMeta("og:type", type);
     setMeta("og:url", resolvedUrl);
 
@@ -73,5 +81,5 @@ export function useDocumentMeta({ title, description, image, url, type = "websit
     return () => {
       document.title = prevTitle;
     };
-  }, [title, description, image, url, type, noindex]);
+  }, [title, description, image, url, type, noindex, seo, location.pathname]);
 }

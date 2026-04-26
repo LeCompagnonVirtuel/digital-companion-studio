@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Award, Zap, Heart, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoImage from "@/assets/logo.png";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const benefits = [
   "Expertise full-stack complète",
@@ -21,6 +22,17 @@ const values = [
 ];
 
 export function AboutSection() {
+  const { content } = useSiteContent();
+  const aboutData = content.about;
+
+  const title = aboutData?.title || "Une agence digitale";
+  const description = aboutData?.description || "Le Compagnon Virtuel, c'est une équipe passionnée qui accompagne les entreprises ambitieuses dans leur transformation digitale. Nous combinons expertise technique, créativité et vision stratégique pour créer des écosystèmes digitaux performants.";
+  const dynamicStats = aboutData?.stats || [
+    { value: "5+", label: "Ans" },
+    { value: "150+", label: "Projets" },
+    { value: "100%", label: "Satisfaits" },
+  ];
+
   return (
     <section className="section-padding relative overflow-hidden">
       {/* Background Elements */}
@@ -42,11 +54,11 @@ export function AboutSection() {
               À propos
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-bold mb-6">
-              Une agence digitale{" "}
+              {title}{" "}
               <span className="gradient-text">à taille humaine</span>
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
-              Le Compagnon Virtuel, c'est une équipe passionnée qui accompagne les entreprises ambitieuses dans leur transformation digitale. Nous combinons expertise technique, créativité et vision stratégique pour créer des écosystèmes digitaux performants.
+              {description}
             </p>
             <p className="text-muted-foreground mb-8">
               Notre approche est simple : comprendre vos objectifs, concevoir des solutions sur-mesure et vous accompagner dans la durée. Chaque projet est unique, chaque client mérite une attention particulière.
@@ -142,11 +154,7 @@ export function AboutSection() {
                   
                   {/* Floating Stats */}
                   <div className="flex justify-center gap-6 mt-6">
-                    {[
-                      { value: "5+", label: "Ans" },
-                      { value: "150+", label: "Projets" },
-                      { value: "100%", label: "Satisfaits" },
-                    ].map((stat, i) => (
+                    {dynamicStats.map((stat, i) => (
                       <motion.div
                         key={stat.label}
                         initial={{ opacity: 0, y: 10 }}
