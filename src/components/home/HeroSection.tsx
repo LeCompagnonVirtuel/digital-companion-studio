@@ -77,7 +77,7 @@ export function HeroSection() {
 
   const stats = [
     { icon: Zap, value: "24h", label: t('hero.stat.response'), color: "text-primary", bg: "bg-primary/10" },
-    { icon: TrendingUp, value: "150+", label: t('hero.stat.projects'), color: "text-accent", bg: "bg-accent/10" },
+    { icon: TrendingUp, value: "50+", label: t('hero.stat.projects'), color: "text-accent", bg: "bg-accent/10" },
     { icon: Star, value: "100%", label: t('hero.stat.satisfaction'), color: "text-gold", bg: "bg-gold/10" },
   ];
   

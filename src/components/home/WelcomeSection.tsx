@@ -35,7 +35,7 @@ const highlights = [
 ];
 
 const proofs = [
-  { text: "150+ projets livrés", icon: Star },
+  { text: "50+ projets livrés", icon: Star },
   { text: "12 secteurs d'activité accompagnés", icon: Users },
   { text: "Sites livrés en 5 à 15 jours", icon: Globe },
   { text: "Paiement en 2x ou 3x sans frais", icon: CheckCircle },
