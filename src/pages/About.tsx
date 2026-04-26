@@ -37,21 +37,17 @@ const values = [
 ];
 
 const team = [
-  { name: "Fondateur & CEO", role: "Stratégie & Vision", icon: Rocket, description: "Entrepreneur passionné du digital, pilote la vision et la croissance de l'agence." },
+  { name: "Kouassi Kouakou Harouna", role: "Fondateur & CEO", icon: Rocket, description: "Développeur Full-Stack & Expert IA. Freelance passionné, j'accompagne les entreprises africaines dans leur transformation digitale avec des solutions innovantes et sur-mesures.", image: "founder" },
   { name: "Lead Développeur", role: "Tech & Innovation", icon: Code, description: "Expert full-stack, architecture les solutions techniques les plus ambitieuses." },
   { name: "Directrice Marketing", role: "Growth & Acquisition", icon: Megaphone, description: "Spécialiste en acquisition digitale, conçoit les stratégies de croissance." },
   { name: "Directeur Créatif", role: "Design & Branding", icon: Palette, description: "Crée des identités visuelles mémorables et des expériences utilisateur premium." },
 ];
 
 const timeline = [
-  { year: "2020", title: "Création", description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité en Afrique.", icon: "🚀", status: "completed" as const },
-  { year: "2021", title: "Croissance", description: "50 premiers projets livrés, expansion de l'équipe et diversification des services offerts.", icon: "📈", status: "completed" as const },
-  { year: "2022", title: "Innovation", description: "Lancement de notre offre automatisation et IA pour accompagner la transformation digitale des entreprises.", icon: "💡", status: "completed" as const },
-  { year: "2023", title: "Expansion", description: "100+ clients accompagnés, développement de notre méthodologie agile unique et ouverture à l'international.", icon: "🌍", status: "completed" as const },
-  { year: "2024", title: "Excellence", description: "150+ projets livrés, 100% satisfaction client, certifications et partenariats stratégiques.", icon: "⭐", status: "completed" as const },
-  { year: "2025", title: "Accélération", description: "Lancement de notre plateforme SaaS, expansion dans 5 nouveaux pays africains et +200 projets livrés.", icon: "🎯", status: "completed" as const },
-  { year: "2026", title: "Leadership", description: "Positionnement comme leader du digital en Afrique francophone, academy de formation et écosystème complet.", icon: "👑", status: "current" as const },
-  { year: "2027", title: "Expansion Mondiale", description: "Déploiement international, partenariats stratégiques globaux et impact sur +10 pays africains.", icon: "🌐", status: "vision" as const },
+  { year: "2024", title: "Création", description: "Fondation de Le Compagnon Virtuel avec une vision : démocratiser l'accès au digital de qualité en Afrique.", icon: "🚀", status: "completed" as const },
+  { year: "2025", title: "Croissance", description: "100+ projets livrés, expansion des services et diversification vers l'IA et l'automatisation.", icon: "📈", status: "completed" as const },
+  { year: "2026", title: "Innovation", description: "Lancement de solutions IA avancées, partenariats stratégiques et expansion régionale.", icon: "💡", status: "current" as const },
+  { year: "2027", title: "Leadership", description: "Positionnement comme leader du digital en Afrique francophone et academy de formation.", icon: "👑", status: "vision" as const },
 ];
 
 const About = () => {
@@ -118,9 +114,20 @@ const About = () => {
                   transition={{ delay: index * 0.1 }}
                   className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-300 text-center"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
-                    <member.icon size={28} />
-                  </div>
+                  {member.image === "founder" ? (
+                    <div className="relative">
+                      <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-4">
+                        <span className="text-3xl font-bold text-white">KH</span>
+                      </div>
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background flex items-center justify-center">
+                        <Rocket size={12} className="text-white" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                      <member.icon size={28} />
+                    </div>
+                  )}
                   <h3 className="font-display font-semibold text-lg mb-1">{member.name}</h3>
                   <p className="text-xs font-medium text-primary mb-3">{member.role}</p>
                   <p className="text-sm text-muted-foreground">{member.description}</p>
