@@ -27,13 +27,13 @@ export function CTASection() {
           className="relative rounded-3xl overflow-hidden"
         >
           {/* Enhanced Animated Background */}
-          <div 
-            className="absolute inset-0 -z-10"
+          <div
+            className="absolute inset-0 z-0"
             style={{ background: "var(--gradient-dark)" }}
           />
-          <motion.div 
-            className="absolute inset-0 -z-10"
-            animate={{ 
+          <motion.div
+            className="absolute inset-0 z-0"
+            animate={{
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
             }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -45,7 +45,7 @@ export function CTASection() {
 
           {/* Grid Pattern Overlay */}
           <div
-            className="absolute inset-0 -z-10 opacity-[0.04]"
+            className="absolute inset-0 z-0 opacity-[0.04]"
             style={{
               backgroundImage: `linear-gradient(hsl(0 0% 100%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)`,
               backgroundSize: "50px 50px",
@@ -53,9 +53,9 @@ export function CTASection() {
           />
 
           {/* Animated Particles */}
-          <ParticleField count={18} className="-z-5 opacity-60" />
+          <ParticleField count={18} className="z-0 opacity-60" />
 
-          <div className="relative px-6 py-14 md:px-12 lg:px-16 md:py-20 lg:py-24">
+          <div className="relative z-10 px-6 py-14 md:px-12 lg:px-16 md:py-20 lg:py-24">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               {/* Content - Enhanced */}
               <motion.div
