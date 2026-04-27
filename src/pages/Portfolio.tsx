@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Filter, Loader2, FolderOpen, Sparkles } from "lucide-react";
+import { ArrowRight, Filter, Loader2, FolderOpen, Sparkles, ExternalLink } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -166,12 +166,26 @@ const Portfolio = () => {
                           <h3 className="font-display font-semibold text-lg mt-2 mb-2 hover:text-primary transition-colors">{project.title}</h3>
                         </Link>
                         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.short_description || project.description}</p>
-                        {project.client && (
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <span>Client:</span>
-                            <span className="font-medium">{project.client}</span>
-                          </div>
-                        )}
+                        <div className="flex items-center justify-between gap-2">
+                          {project.client && (
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <span>Client:</span>
+                              <span className="font-medium">{project.client}</span>
+                            </div>
+                          )}
+                          {project.project_url && (
+                            <a
+                              href={project.project_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                            >
+                              <ExternalLink size={12} />
+                              Visiter le site
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   ))}

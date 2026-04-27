@@ -546,6 +546,137 @@ const AdminPortfolio = () => {
                 </label>
               </div>
             </div>
+
+            {/* Project URL */}
+            <div className="space-y-2">
+              <Label htmlFor="project_url">Lien du site web</Label>
+              <div className="flex items-center gap-2">
+                <ExternalLink size={16} className="text-muted-foreground flex-shrink-0" />
+                <Input
+                  id="project_url"
+                  value={formData.project_url || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, project_url: e.target.value }))}
+                  placeholder="https://www.exemple.com"
+                  type="url"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">Les visiteurs pourront cliquer pour visiter le site directement</p>
+            </div>
+
+            {/* Year & Duration */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="year">Année</Label>
+                <Input
+                  id="year"
+                  value={formData.year || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
+                  placeholder="2025"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="duration">Durée du projet</Label>
+                <Input
+                  id="duration"
+                  value={formData.duration || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, duration: e.target.value }))}
+                  placeholder="2 semaines, 1 mois..."
+                />
+              </div>
+            </div>
+
+            {/* Problem */}
+            <div className="space-y-2">
+              <Label htmlFor="problem">Problématique du client</Label>
+              <Textarea
+                id="problem"
+                value={formData.problem || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, problem: e.target.value }))}
+                placeholder="Quel défi le client rencontrait-il ?"
+                rows={3}
+              />
+            </div>
+
+            {/* Objectives */}
+            <div className="space-y-2">
+              <Label htmlFor="objectives">Objectifs</Label>
+              <Textarea
+                id="objectives"
+                value={formData.objectives || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, objectives: e.target.value }))}
+                placeholder="Quels étaient les objectifs du projet ?"
+                rows={3}
+              />
+            </div>
+
+            {/* Solution */}
+            <div className="space-y-2">
+              <Label htmlFor="solution">Solution apportée</Label>
+              <Textarea
+                id="solution"
+                value={formData.solution || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, solution: e.target.value }))}
+                placeholder="Quelle solution avez-vous mise en place ?"
+                rows={3}
+              />
+            </div>
+
+            {/* Results */}
+            <div className="space-y-2">
+              <Label htmlFor="results">Résultats obtenus</Label>
+              <Textarea
+                id="results"
+                value={formData.results || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, results: e.target.value }))}
+                placeholder="Quels résultats concrets ?"
+                rows={3}
+              />
+            </div>
+
+            {/* Technologies */}
+            <div className="space-y-2">
+              <Label htmlFor="technologies">Technologies (séparées par des virgules)</Label>
+              <Input
+                id="technologies"
+                value={(formData.technologies || []).join(', ')}
+                onChange={(e) => setFormData(prev => ({ ...prev, technologies: e.target.value.split(',').map(t => t.trim()).filter(Boolean) }))}
+                placeholder="React, Node.js, Supabase..."
+              />
+            </div>
+
+            {/* Services Provided */}
+            <div className="space-y-2">
+              <Label htmlFor="services_provided">Services fournis (séparés par des virgules)</Label>
+              <Input
+                id="services_provided"
+                value={(formData.services_provided || []).join(', ')}
+                onChange={(e) => setFormData(prev => ({ ...prev, services_provided: e.target.value.split(',').map(s => s.trim()).filter(Boolean) }))}
+                placeholder="Design, Développement, SEO..."
+              />
+            </div>
+
+            {/* Testimonial */}
+            <div className="space-y-2">
+              <Label htmlFor="testimonial">Témoignage client</Label>
+              <Textarea
+                id="testimonial"
+                value={formData.testimonial || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, testimonial: e.target.value }))}
+                placeholder="Citation du client..."
+                rows={3}
+              />
+            </div>
+
+            {/* Testimonial Author */}
+            <div className="space-y-2">
+              <Label htmlFor="testimonial_author">Auteur du témoignage</Label>
+              <Input
+                id="testimonial_author"
+                value={formData.testimonial_author || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, testimonial_author: e.target.value }))}
+                placeholder="Nom du client"
+              />
+            </div>
           </div>
 
           <DialogFooter>
