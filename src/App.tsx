@@ -75,6 +75,7 @@ import Media from "./pages/admin/Media";
 import Backups from "./pages/admin/Backups";
 import ActivityLogs from "./pages/admin/ActivityLogs";
 import Monitoring from "./pages/admin/Monitoring";
+import Growth from "./pages/admin/Growth";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
@@ -211,6 +212,7 @@ const App = () => {
                         <Route path="/admin/backups" element={<Backups />} />
                         <Route path="/admin/activity" element={<ActivityLogs />} />
                         <Route path="/admin/monitoring" element={<Monitoring />} />
+                        <Route path="/admin/growth" element={<Growth />} />
                         <Route path="/admin/settings" element={<Settings />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
