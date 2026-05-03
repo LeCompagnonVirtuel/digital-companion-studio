@@ -24,7 +24,8 @@ import {
   UsersRound,
   Tag,
   Database,
-  Activity
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
@@ -55,6 +56,7 @@ const navItems = [
   { path: '/admin/seo', icon: Search, label: 'SEO' },
   { path: '/admin/backups', icon: Database, label: 'Sauvegardes' },
   { path: '/admin/monitoring', icon: Activity, label: 'Monitoring' },
+  { path: '/admin/growth', icon: Sparkles, label: 'Growth IA' },
   { path: '/admin/activity', icon: Shield, label: 'Activité admin' },
   { path: '/admin/settings', icon: Settings, label: 'Paramètres' },
 ];

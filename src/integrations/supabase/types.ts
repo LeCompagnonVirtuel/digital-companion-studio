@@ -499,6 +499,206 @@ export type Database = {
           },
         ]
       }
+      gi_actions_log: {
+        Row: {
+          action_type: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          error: string | null
+          id: string
+          payload: Json | null
+          status: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          error?: string | null
+          id?: string
+          payload?: Json | null
+          status?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          error?: string | null
+          id?: string
+          payload?: Json | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      gi_competitors: {
+        Row: {
+          created_at: string
+          id: string
+          industry: string | null
+          last_scan_at: string | null
+          last_scan_summary: string | null
+          metadata: Json | null
+          name: string
+          notes: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          industry?: string | null
+          last_scan_at?: string | null
+          last_scan_summary?: string | null
+          metadata?: Json | null
+          name: string
+          notes?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          industry?: string | null
+          last_scan_at?: string | null
+          last_scan_summary?: string | null
+          metadata?: Json | null
+          name?: string
+          notes?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      gi_messages: {
+        Row: {
+          body: string
+          channel: string
+          created_at: string
+          generated_by: string | null
+          id: string
+          prospect_id: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          channel?: string
+          created_at?: string
+          generated_by?: string | null
+          id?: string
+          prospect_id?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          channel?: string
+          created_at?: string
+          generated_by?: string | null
+          id?: string
+          prospect_id?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gi_messages_prospect_id_fkey"
+            columns: ["prospect_id"]
+            isOneToOne: false
+            referencedRelation: "gi_prospects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gi_prospects: {
+        Row: {
+          company_name: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          digital_maturity: Json | null
+          id: string
+          industry: string | null
+          location: string | null
+          notes: string | null
+          score: number | null
+          signals: Json | null
+          source: string | null
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          digital_maturity?: Json | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          notes?: string | null
+          score?: number | null
+          signals?: Json | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          digital_maturity?: Json | null
+          id?: string
+          industry?: string | null
+          location?: string | null
+          notes?: string | null
+          score?: number | null
+          signals?: Json | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      gi_searches: {
+        Row: {
+          created_at: string
+          id: string
+          query: string
+          results: Json | null
+          results_count: number | null
+          search_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          query: string
+          results?: Json | null
+          results_count?: number | null
+          search_type?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          query?: string
+          results?: Json | null
+          results_count?: number | null
+          search_type?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           company: string | null
