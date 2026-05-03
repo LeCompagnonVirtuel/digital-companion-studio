@@ -209,8 +209,8 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-};
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
+} as const;
 
 const Services = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -539,7 +539,7 @@ const Services = () => {
 };
 
 const ServiceCard = ({ service }: { service: typeof services[0] }) => (
-  <motion.div variants={itemVariants} className="group relative">
+  <motion.div variants={itemVariants as any} className="group relative">
     <TiltCard tiltAmount={5} className="h-full">
       <Link to={service.link} className="block h-full">
         <div className="h-full p-6 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-elevated transition-all duration-500 relative overflow-hidden">
