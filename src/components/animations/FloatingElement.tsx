@@ -42,7 +42,7 @@ export function FloatingElement({
   return (
     <motion.div
       className={className}
-      animate={variants.animate}
+      animate={variants.animate as any}
       transition={{ duration, repeat: Infinity, ease: "easeInOut", delay }}
     >
       {children}
